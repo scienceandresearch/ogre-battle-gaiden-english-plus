@@ -54,9 +54,20 @@ each round.
    (`docs/localization.md`); the label descender option; a harness check that
    refuses states from another ROM (ROM SHA-1 in `.state`, like the player's).
 4. Housekeeping: the original ROM archive `Densetsu no Ogre Battle (Japan).zip`
-   sits in the repository root (git-ignored by `*.zip`); moving it into `rom/`
-   or out of the repository is safer. Nothing has been committed yet; commit
-   only when the owner asks.
+   sits in the working folder's root (git-ignored by `*.zip`, never
+   committed); moving it into `rom/` or out of the folder is safer.
+
+**Repository and sharing (2026-10-10):** private GitHub repository
+`https://github.com/scienceandresearch/open-ogre-battle-gaiden-zenobia`
+(branch `main`), with the pre-release `v0.1.0-dev` carrying the package zip.
+Sharing model: "bring your own game" — the repository and the package hold
+only original code, translation, fonts and lettering plus the audited BPS
+patch; players supply their own cartridge dump. A fresh clone builds the
+identical English ROM (`4fe9c5ff...`) and passes every test suite; `build.bat`
+builds the player and harness from the clone. Line endings: `.gitattributes`
+stores LF; Windows checkouts get CRLF, which every tool accepts. Share access
+by inviting collaborators (repository settings) or, later, by making the
+repository public after the manual release checks.
 
 **Handoff artifacts** (machine-local, never committed): `build/handoff/` holds
 the agents' briefing (`briefing.md`), every round's raw results
