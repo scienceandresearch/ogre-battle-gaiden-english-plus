@@ -1,0 +1,29 @@
+# Title screen: the logo and the warning window (graphics target 'title',
+# tools/gfx/title.py; notes: docs/workstreams/gfx-title-logo.md).
+#
+# One '@KEY TEXT' per line; '#' starts a comment.
+#   @kicker    the small line above the main title (empty: none)
+#   @logo      the main title: the fire part, '|', the white part
+#   @subtitle  the line under the main title
+#   @window    the warning window's sentence: line 1, then line 2 (18 cells, 144 px each)
+#   @yes @no   its answers, at columns 6 (up to 40 px) and 12 (up to 56 px), right of the cursor
+#
+# The logo is drawn as text-art in assets/gfx/title/ and the build checks
+# that it shows the wording below. After changing @kicker, @logo or
+# @subtitle, run "python -m tools.gfx.title draft", review the new layers and
+# replace assets/gfx/title/logo_front.txt and logo_back.txt.
+#
+# The original title translates as "Legend of Ogre Battle, side story" with
+# the subtitle "Prince of Zenobia": every element is kept, "Ogre Battle" in
+# the fire colours and "Gaiden" (side story) in white, as in the original.
+
+@kicker THE LEGEND OF
+@logo OGRE BATTLE|GAIDEN
+@subtitle PRINCE OF ZENOBIA
+
+# The window opens when NewGame or Load is chosen while suspend data exists
+# (same wording as the suspend notes in ui.txt).
+@window The suspend data will be erased.
+@window Is that OK?
+@yes Yes
+@no No

@@ -1,0 +1,4806 @@
+# English script — Ogre Battle Gaiden: Prince of Zenobia
+#
+# Format: "@ADDR" (ROM address of the original message instruction), then the
+# English text. A blank line ends the entry. Each text line starts a new line
+# on screen; long lines wrap automatically (144 px per line) and every three
+# lines start a new page. A line "---" forces a page break.
+# [NAME] inserts the hero's name, [NUM] inserts a number.
+#
+# The Japanese source is extracted from your ROM with
+#   python -m tools.text.dump rom/baserom.ngc build/script_ja.txt
+
+# --- Opening: Warren's tarot reading ---------------------------------------
+
+@2995C8
+My name is Warren.
+
+@2995D9
+In the countless stars adrift in the heavens, I read the fates of men. I am an astrologer...
+
+@299607
+Now, let these tarot cards tell whether you are worthy to be our leader.
+
+@29963A
+But first, tell me your name...
+
+@299659
+Then let the reading begin.
+
+@29966C
+Lastly, draw a single tarot card with your own hand.
+
+@299698
+O holy gods, grant our leader courage and justice...
+
+@2996BF
+...and grant us glory and victory!!
+
+@29971A
+The king has ordered you to brew a magic potion. What kind of potion will you make?
+
+@29978E
+Of all the things one must never do, which do you think matters most?
+
+@2997F8
+To rule and govern the world, what do you think you still lack as a sovereign?
+
+@299858
+What quality do you think a ruler needs above all else?
+
+@2998B3
+Leading those whose beliefs differ from yours is hard. What do you look for in a leader?
+
+@299911
+An ideal lover is hard to find. What do you want most from a lover?
+
+@299977
+To unite peoples of differing beliefs, by what means is it best to rule?
+
+@2999E0
+To you, what does living by the code of chivalry demand above all?
+
+@299A31
+After a fierce battle, your army has sadly been defeated. What was the cause?
+
+@299A94
+They say victory is a matter of luck. What do you believe about fate?
+
+@299AFE
+There is a great mirror that reveals a person's strengths. What does it show of you?
+
+@299B57
+Because of your mistake, your army must retreat. What goes through your mind?
+
+@299BCB
+There is a traitor among the comrades you trust. What will you do?
+
+@299C33
+Someone claiming to be a messenger of the gods appears. What is this person like?
+
+@299C97
+The demon you summoned will grant your wish, but demands something precious. What?
+
+@299CF5
+Heretics have risen in revolt within your kingdom. What will you do?
+
+@299D65
+On the eve of battle, a shower of shooting stars falls toward the east. What do you wish for?
+
+@299DD2
+On the eve of battle, the full moon in the sky eases your heart. What are you thinking of?
+
+@299E35
+After a long battle, victory is finally yours. To what do you give thanks?
+
+@299E9F
+In the flames of war, you can save only one of your family. Whom do you save?
+
+@299F02
+You have ordered your knights to avoid foolish conduct. What do you warn them of most?
+
+@299F71
+On the eve of battle, you share farewell wine with your knights. How full is your glass?
+
+
+@295357
+Choose where to save.
+
+# --- Stage 0: Estoa -------------------------------------------------------------
+
+@263B1D
+Kain: [NAME]!
+Sir Estrada is calling for you.
+
+@263B35
+Looks like we're finally setting out to put down the bandits. And we're going too!
+
+@263B66
+Well, we'll leave it to Sir Estrada. We just have to stay out of his way.
+
+@263B94
+Come on, let's go. If we dawdle, we'll get chewed out again.
+
+@263BBF
+Estrada: [NAME].
+I take it Kain has told you?
+
+@263BDA
+As a volunteer army, we now march to put down the bandits.
+
+@263BFF
+[NAME]: What? We're going to take on the bandits all by ourselves?
+
+@263C1E
+Estrada: We will gather allies in time. For now, what matters is that we act.
+
+@263C50
+First we stop at the church to the west, then head for the town of Gring to the south.
+
+@263C86
+Hear "Game System Tips 1"?
+
+@263CA6
+Everything happens in real time. Time flows from morning to night and from night to morning.
+
+@263CD9
+When you want to think over your next move, press the Option button.
+
+@263D04
+That stops the flow of time. Press it again to start time again.
+
+@263D31
+Hear it again?
+
+@263D6D
+Villager: [NAME], is that you? Something terrible has happened!
+
+@263D8A
+[NAME]: ?
+
+@263D8F
+Villager: The other day officials from Zeteginea came and tried to take Banya away.
+
+@263DC0
+Kain: What?!
+
+@263DD1
+Villager: Don't worry, Banya got away safely.
+
+@263DED
+Oh, that's right, she asked me to give you this letter.
+
+@263E09
+[NAME]... I don't know what's going on, but be careful.
+
+@263E2E
+[NAME]: ......
+
+@263E3A
+Kain: ...Anyway, let's read that letter.
+
+@263E5D
+[NAME], by the time you read this letter, I will have left Estoa.
+
+@263E87
+The hounds of Zeteginea are already close upon us.
+
+@263EA8
+What they seek is the "Key of Glory"... and, [NAME], your life...
+
+@263ECE
+[NAME], your father's name was Gran Zenobia.
+
+@263EEA
+And your true name is... Fix Trishtram... Zenobia.
+
+@263F11
+Yes. You are the prince of Zenobia.
+
+@263F29
+[NAME]... no, my prince. You alone can save and guide the people of Zenobia.
+
+@263F53
+Until the day you may stand openly as the prince of Zenobia...
+
+@263F7B
+...I, Banya, will live for that day alone.
+
+@263F9D
+My prince... [NAME]. I pray that we will surely, surely meet again.
+
+@263FC4
+[NAME]: ...It can't be...
+
+@263FD1
+Kain: A prince? ...[NAME]'s a prince?!
+
+@264014
+Bandit: What's this? Volunteers? Ha! Go home before you get hurt.
+
+@26405C
+Bandit: Who are you people?! You think you can stand up to us?
+
+@26407E
+Hm? Are you the ones who took down our pals in Gring? Right, we'll settle the score here!
+
+@2640B5
+Estrada: Bandits avenging their friends? Don't make me laugh! I'll send you all to hell together.
+
+@2640FA
+Villager: Thank you so much. Things should calm down around here now.
+
+@264127
+This is just a small token of thanks. Please accept it.
+
+@26414D
+Hear "Game System Tips 4"?
+
+@26416D
+Liberating a stronghold can earn you information, items or tarot cards.
+
+@26419C
+And liberated strongholds pay you a reward every day.
+
+@2641CA
+Without money you can't deploy units, so be sure to liberate strongholds.
+
+@2641FB
+Hear it again?
+
+@26420F
+Sir knight, thank you so very much.
+
+@264231
+Estrada: Mm. If you are ever in trouble, send word to us.
+
+@264252
+What is it, [NAME]? ...Are you trembling?
+
+@26426A
+[NAME]: .........
+
+@264271
+Estrada: ...I am a knight. To save people, I will not hesitate to draw my sword.
+
+@2642A4
+...Listen, [NAME]. Peace is something that must be built.
+
+@2642C1
+It never comes about on its own.
+
+@2642D9
+And the hands that build that peace are always stained with blood. ...But if no one does it...
+
+@26430C
+...the weak will be trampled forever. ...Never forget that.
+
+@264354
+Oh, it's been a while! Please stay and rest.
+
+@264376
+What? The Silver Doll? That's our village's treasure...
+
+@26439B
+Well, since it's you who's asking... Please, take it.
+
+@2643CE
+I'm sorry, I just can't part with that. Please forgive me.
+
+@2643FD
+Bandit: Who are you people?! You think you can stand up to us?
+
+@264423
+Estrada: Mere bandits! I'll teach you your place!
+
+@264462
+Villager: You saved us. Thank you so much. ...Even so...
+
+@26448A
+Since the King of Zenobia died fifteen years ago, the bandits have only multiplied.
+
+@2644B9
+They used to rob travelers, but now they raid towns and villages too...
+
+@2644E9
+Rumor has it the bandits attacked the town of Balzac as well.
+
+@26450E
+Please, help the people of Balzac too.
+
+@264530
+Hear "Game System Tips 3"?
+
+@264550
+Towns and churches are called "strongholds".
+
+@26456B
+At strongholds you can hear all kinds of information.
+
+@26458A
+If you visit again and again, you may sometimes hear something new.
+
+@2645B2
+Units hurt in battle also slowly recover HP while staying at a stronghold.
+
+@2645E5
+Hear it again?
+
+@2645FB
+Good luck to you.
+
+@264609
+Oh, it's you. Thanks to you, we haven't seen a single bandit around here since.
+
+@264648
+We've been hiding here like this ever since Highland invaded.
+
+@264673
+These are dangerous times. I'm sure there are other hidden towns out there.
+
+@2646A8
+...Would you take us under your protection?
+
+@2646CC
+...I see... What a pity. We thought you were people we could rely on...
+
+@2646FD
+Thank you. This is our gift to you. Please use it to fund your army.
+
+@264728
+You obtained
+10000 goth.
+
+@26474C
+Please don't come near here too often. We don't want the bandits to notice us.
+
+@26477B
+If you're hurt, please rest here.
+
+@2647AC
+Even bandits are human beings in the eyes of the gods.
+
+@2647CB
+But is it right to take their lives so needlessly...?
+
+@2647ED
+A. They must be punished.
+B. You're right... I understand.
+
+@264820
+...I see. But for people to judge people is a frightening thought...
+
+@264857
+You have a kind heart, I see. That makes me glad.
+
+@264882
+Hear "Game System Tips 2"?
+
+@2648A2
+A character whose HP falls to 0 can no longer fight.
+
+@2648C2
+At churches you can revive characters who can no longer fight.
+
+@2648EF
+To do so, select the icon "Rite of revival".
+
+@264915
+Hear it again?
+
+@264931
+If you head east from here, there should be a hidden town called Hind. Try looking for it.
+
+# --- Stage 1 ----------------------------------------------------------------------
+
+@264971
+Kain: Sir Estrada? Who are these people...?
+
+@26498E
+Estrada: ...The bandits around here have built three forts and holed up inside.
+
+@2649BD
+We cannot handle them alone, so we called for volunteers.
+
+@2649E3
+Kain: Wow, it's starting to look like a real army.
+
+@2649FF
+Estrada: And so...
+[NAME]!
+
+@264A16
+[NAME]: Yes?
+
+@264A1D
+Estrada: In the name of Estrada, I hereby make you a knight of Zenobia.
+
+@264A50
+[NAME]: A knight... of Zenobia?
+
+@264A5E
+Estrada: Yes. And from now on, I will entrust a unit to you as its leader.
+
+@264A8E
+...And Kain. You will always fight at [NAME]'s side. Understood?
+
+@264ABC
+Kain: Understood.
+
+@264ACD
+Hear "Game System Tips 5"?
+
+@264AED
+Select the "Deploy unit" icon to send a waiting unit into the field.
+
+@264B1E
+You must give each unit you call out its next orders.
+
+@264B42
+Move the cursor to the unit you want to command and press the A button.
+
+@264B6C
+Icons for choosing its next action will appear.
+
+@264B8B
+Hear it again?
+
+@264B9F
+Estrada: First, we will liberate the towns of Dakatsu and Hoinheim.
+
+@264BC5
+I will head for Hoinheim. [NAME], your unit takes Dakatsu. Now, let's go!
+
+@264E21
+Bandit: Who the hell are you? You'd take us on with that few?
+
+@264E4E
+Heh! I'll make you regret it in hell!
+
+@264E6B
+Bandit: Who the hell are you? You'd take us on with that few?
+
+@264E98
+Hm? Th-that crest...?
+
+@264EAF
+Estrada: ...So the rumors were true. You are survivors of the Zenobian army...
+
+@264EDC
+If you were once soldiers of Zenobia, stop this foolishness and surrender quietly!
+
+@264F0A
+Bandit: ...You're a knight of Zenobia... A knight could never understand how we feel...
+
+@264F3C
+How it felt to be dragged off to war against Highland whether we liked it or not!
+
+@264F76
+Bandit: ...How did it... ever come to this...
+
+@264FA8
+Villager: Our village used to stand here.
+
+@264FC8
+The bandits took it over and turned it into a fort.
+
+@264FE8
+But thanks to you, it looks like we can get our old lives back.
+
+@26500D
+There are still more forts. Please be careful.
+
+@26502B
+Oh, you're the ones from that day...
+
+@26503B
+Our village is at peace again now. Thank you so much.
+
+@265078
+Bandit: Hm? Who are you? This is no place for the likes of you.
+
+@2650B7
+Bandit: Hmph. Zenobian leftovers. Should've kept your heads down.
+
+@2650E9
+We'll put you out of your misery for Highland.
+
+@26512E
+Bandit: Huh? Who are you? We've already got enough gatekeepers. Get lost!
+
+@26516D
+Bandit: Looks like you lot can handle yourselves a bit.
+
+@265187
+How about it? Want to join us?
+
+@2651A0
+Fools. Then we'll just take your lives.
+
+@2651BC
+Bandit: You idiot! If you're going to lie, at least do it better!!
+
+@2651EC
+Villager: Our village used to stand here.
+
+@26520C
+The bandits took it over and turned it into a fort.
+
+@26522C
+But thanks to you, it looks like we can get our old lives back.
+
+@265255
+Hear "Game System Tips 7"?
+
+@265275
+Once you clear Chapter 3, you can enjoy link-cable battles.
+
+@26529B
+You can also trade characters and items.
+
+@2652BB
+Hear it again?
+
+@2652CF
+[NAME]: ...? What's wrong, Kain?
+
+@2652E6
+Kain: ...[NAME]... I'm scared. I don't want to kill, and I don't want to be killed!
+
+@265310
+Why do we have to do this? Defending Estoa is one thing, but...
+
+@265342
+Why not leave bandit-hunting to the officials?! Why does it have to be us...
+
+@265370
+[NAME]: ...Kain...
+
+@265395
+Villager: Taking out all three bandit forts at once? That's just not possible.
+
+@2653C0
+You have to beat them one at a time, in order. ...Overreaching is how people get hurt.
+
+@2653EA
+There are several hidden towns in this region. Even on the island in the lake...
+
+@265416
+Hello. How are things going?
+
+@265438
+Those three forts went up about four years ago.
+
+@265457
+They may be bandits, but they're no ordinary ones. Take them lightly and you'll regret it.
+
+@265485
+After all, rumor has it they're survivors of the Zenobian army...
+
+@2654AF
+Good luck to you.
+
+@2654C2
+Oh, it's you. It's been quiet around here lately.
+
+@2654F8
+Past the mountains to the south there's a bandit fort... Be careful.
+
+@265528
+Hear "Game System Tips 6"?
+
+@265548
+The Chaos Frame shows how much the people support what you do.
+
+@265576
+For example... liberating a town with a unit of low alignment lowers the Frame.
+
+@2655A4
+Remember that many people are always watching what you do.
+
+@2655D4
+Hear it again?
+
+@2655E8
+There's a shop in this town, you know. You can buy items there.
+
+@265610
+There are shops in other towns too. Go and look for them.
+
+@265634
+Hello. How are things going?
+
+@26565A
+How did you ever find this town? We live here quietly, in hiding.
+
+@265685
+We can't fight the bandits, but paying them tribute is...
+
+@2656B5
+Won't you please just leave us in peace?
+
+@2656D5
+What? You'd like the Goddess Statue? Well, since it's you asking...
+
+@265727
+I can let you have it for [NUM] goth. Is that all right?
+
+@265749
+...It seems you don't have enough money.
+
+@26575B
+We have to make a living too. Please forgive us.
+
+@2657AC
+Was the Goddess Statue of any use?
+
+@2657D0
+This town uses magic to stay hidden from ordinary people's eyes...
+
+@2657FF
+Yet you found it. Perhaps you have some mysterious power.
+
+@26582C
+Please take this Thunder Stone. I'm sure you will use it rightly.
+
+@26586D
+Was the Thunder Stone of any use to you?
+
+@265898
+...We are being tested by the gods now.
+
+@2658B5
+Do you believe that quarrels can always be avoided by talking things through?
+
+@2658DE
+A. I believe so.
+B. People are savage beasts.
+
+@26590E
+I agree. What we need is a heart that believes.
+
+@265935
+...How sad.
+
+@26594A
+Please offer a prayer... for the people who cannot be saved.
+
+# --- Stage 2 ----------------------------------------------------------------------
+
+@26597B
+Estrada: ...Beyond the cape lies a town called Lard. The bandits have made it their base.
+
+@2659B0
+Kain: Then let's storm it in one go before they notice us.
+
+@2659D6
+Estrada: No. It sits on an island, so crossing over will take some doing...
+
+@265A06
+...Very well, [NAME].
+
+@265A13
+[NAME]: Yes.
+
+@265A1A
+You and I, with one or two more units, will form the main force...
+
+@265A43
+...and make for Lard from the town of Yoshi to the west, by way of Colomban.
+
+@265A68
+Meanwhile, the remaining units will liberate Kaf and the other towns to the northeast.
+
+@265A98
+You will decide which units form the detachment. Understood?
+
+@265ABE
+[NAME]: ...Yes.
+
+@265AE7
+Kazuma: Welcome, friends of the volunteer army. I have heard much about you.
+
+@265B12
+Truly worthy of the ones who broke those three forts. You have the look of true warriors.
+
+@265B3F
+What do you say? Won't you join us?
+
+@265B5B
+...I see. You say you won't keep company with bandits.
+
+@265B7E
+But look around you. You hardly see any monsters or beasts in these parts, do you?
+
+@265BAC
+We hunt them down at the risk of our lives. That the towns around here live in peace...
+
+@265BDF
+...is thanks to our work. And yet you call us mere bandits...
+
+@265C12
+Even so, are you still reluctant to join us?
+
+@265C36
+Kazuma: Is that so? We are honored to welcome such brave men as you.
+
+@265C69
+Would you go and patrol the towns around here right away?
+
+@265CA2
+Kazuma: Oh, what's the matter? Such a grim look on your faces...
+
+@265CC2
+...Ah, I see. You mean to fight us no matter what.
+
+@265CEA
+...Breaking an oath is the basest of deeds... You traitors!
+
+@265D1B
+Kazuma: ...Hmm. You are greater fools than I thought...
+
+@265D3B
+You seemed to have ties to Zenobia, so I made you an offer...
+
+@265D62
+...Now pay for underestimating me.
+
+@265D8E
+Kazuma: ...Master Jenga... more men... this isn't... what we agreed...
+
+@265DD1
+Estrada: ...That man Kazuma spoke with an accent from Lichtfloss...
+
+@265E03
+Kain: Lichtfloss? That's a country up north, isn't it?
+
+@265E22
+Estrada: ...It seems we will have to go to Lichtfloss and see for ourselves...
+
+@265E4E
+Aquarius: ...Was it you who killed that samurai?
+
+@265E6F
+Kain: You must be the captive sister. It's all right now.
+
+@265E98
+Aquarius: Captive? I chose to stay. I was waiting for this man to repent.
+
+@265ECA
+All are equal before the gods... True sincerity must always reach the heart. ...And yet this...
+
+@265EFE
+You are no different from the bandits. You settle everything by force.
+
+@265F25
+And when someone won't do as you say, you kill them like this. You smell of blood.
+
+@265F5D
+[NAME]: !!
+
+@265F68
+Kain: ...That's harsh. Then what have you done, Sister Aquarius?
+
+@265F98
+What can you do for the people the bandits torment?
+
+@265FC2
+You think we took up the sword because we wanted to?!
+
+@265FE5
+Aquarius: .........
+
+@265FF6
+[NAME]: What do you say, Sister? Won't you come with us?
+
+@266017
+Aquarius: What! You want me to fight? Me, a servant of the gods?!
+
+@266043
+[NAME]: I just thought it would be good to have someone like you beside us.
+
+@26606F
+...I want you to watch... this world... and see whether people can truly forgive each other...
+
+@2660C1
+Aquarius: ...Very well. I will go with you.
+
+@2660E2
+Aquarius joined
+your army.
+
+@2660FC
+Aquarius: ...I understand. But I still feel you are far too violent.
+
+@266129
+I will go alone, and think about what you have said.
+
+@266157
+Perhaps we will meet again someday, somewhere.
+
+@266192
+No one is here...
+At least we can rest a while.
+
+@2661BE
+You're the volunteer army, aren't you? So the rumors were true. Oh, thank heavens.
+
+@2661EE
+The town of Lard, where the bandits are based, lies past this cape.
+
+@266215
+It all started when that samurai Kazuma became their boss...
+
+@26622F
+...that the bandits began acting as one.
+
+@26624F
+That boss Kazuma is usually quiet, even rather gentle...
+
+@26627A
+...but once you get on his bad side, he's terrifying...
+
+@26629B
+You liberated us. Please, stay and rest.
+
+@2662C5
+Thank you for everything the other day. It's peaceful around here now.
+
+@2662FA
+There are hidden towns all over. Most of them are hidden by magic, though.
+
+@266327
+But if you keep your eyes open, sometimes you just get a hunch, you know?
+
+@26634C
+Like an island of just the right size...
+
+@266368
+...or a mountain road that suddenly comes to a dead end.
+
+@266384
+Actually, there's another hidden town north of here.
+
+@2663B2
+The one in the town of Lard is the bandits' boss around here. A samurai named Kazuma.
+
+@2663E0
+It's just a rumor, but they say a sister went to preach to that Kazuma.
+
+@26640A
+If it's true, that's something. Brave or reckless, I can't tell...
+
+@266438
+So you're the volunteer army? Best of luck to you.
+
+@266469
+Huh, so you're the volunteer army? You've sure got a fine look in your eyes.
+
+@266491
+Huh, so you're the volunteer army? Try not to cause trouble, will you?
+
+@2664B5
+I fished this out of the sea the other day, and I'm looking for someone to buy it.
+
+@2664E4
+It's a bronze maiden statue. I had it looked at, and it turns out it's rare.
+
+@266519
+How about it? I'll knock it down to 1000 goth. Won't you buy it?
+
+@26654A
+I'll knock it down to 2000 goth. Won't you buy it?
+
+@26656C
+Hmm. Well, can't be helped. I'll try someone else.
+
+@2665B7
+Looks like you can't afford it. Well, can't be helped. I'll try someone else.
+
+@2665DF
+You want the bronze maiden statue now? Too bad. I already sold it to someone else.
+
+@26660F
+That bronze maiden statue was one of a kind. I only picked it up, but it's a rare piece.
+
+@26664C
+We've lived on this land since long ago. But lately the bandits have been causing trouble.
+
+@26667F
+So we've had no choice but to live in hiding like this.
+
+@2666A0
+But I don't understand it. Bandits are normally a disorderly lot...
+
+@2666C7
+And that Kazuma they call boss doesn't have it in him to hold such a band together.
+
+@2666F8
+Perhaps someone powerful is backing them...
+
+@266716
+It's a quiet place around here. Peaceful, with no trouble at all.
+
+@26677C
+Lancelot: Are you the one who has been seeking strong warriors?
+
+@26679F
+I see. You seem to have spent your days in battle.
+
+@2667BC
+If I am with you, perhaps I can train myself anew.
+
+@2667E4
+Lancelot joined
+your army.
+
+@266809
+Oh, please keep your voice down. Living hidden from the patrols is hard enough.
+
+@266836
+What? The bandits' boss? A samurai named Kazuma, quite handy with a sword... I believe.
+
+@266866
+Though they say he's even better at lying than at swordplay.
+
+@266897
+We like this quiet. Please don't make a fuss.
+
+@2668CF
+I see. You are fighting the bandits. ...Then I have a favor to ask.
+
+@2668FA
+A sister named Aquarius is being held captive by Kazuma in Lard.
+
+@266923
+Please, rescue her. ...Take this Iron Rosary with you.
+
+@266948
+This is all that we can do...
+
+@266978
+May the gods protect you.
+
+@266995
+What? The mayor of Netobi asked you?
+
+@2669AF
+I see. I understand. Please take this.
+
+@2669EA
+Please see that he gets it.
+
+@266A0C
+Ah, so you are the volunteer army. I have heard about you.
+
+@266A38
+Please rescue the sister held in Lard... Aquarius.
+
+@266A5F
+She said even Kazuma must have a human heart, and went in spite of our pleas...
+
+@266A92
+We have heard no terrible rumors about her so far, so I think she is safe...
+
+@266AC6
+But Kazuma could change his mind any time. Please hurry.
+
+@266AFD
+Sister Aquarius, are you keeping well?
+
+@266B28
+Aquarius: Yes. I am quite all right.
+
+# --- Stage 3: Lichtfloss --------------------------------------------------------
+
+@266B57
+King of Lichtfloss: ...I see... So this Kazuma was from our own country...
+
+@266B86
+...It cannot be helped. To my shame, I have next to no power in Lichtfloss now.
+
+@266BB9
+Everyone bows to a man named Galan, who sits in the town of Fulda to the north...
+
+@266BEE
+Estrada: ...Galan?
+
+@266BFC
+King of Lichtfloss: Yes. And I hear that Galan serves someone named Jenga.
+
+@266C28
+Estrada: What! Then Kazuma and Galan are birds of a feather...
+
+@266C54
+...Could this Jenga be the one who rules the bandits...!
+
+@266C75
+Your Majesty, first order us to put down Galan.
+
+@266C97
+King of Lichtfloss: What?! I am told your forces are few. Such recklessness...
+
+@266CC7
+Nana: Father. I will go with these people.
+
+@266CEB
+King of Lichtfloss: Nana... no, Princess! Do not say such reckless things!
+
+@266D14
+Nana: It isn't reckless! The ones suffering are the people of our own country!
+
+@266D49
+Guard: Your Majesty!
+
+@266D59
+King of Lichtfloss: What is it?!
+
+@266D6B
+Guard: Terrible news! Galan's men are swarming toward the castle in force!!
+
+@266D99
+King of Lichtfloss: What?!
+
+@266DA9
+Guard: I fear the castle's soldiers alone cannot hold them off...
+
+@266DC8
+King of Lichtfloss: .........
+
+@266DDF
+Estrada: [NAME]! Kain! Are you ready?
+
+@266DFD
+[NAME]: Yes.
+
+@266E08
+Kain: Any time.
+
+@266E17
+King of Lichtfloss: N-no, you...
+
+@266E2E
+Estrada: Leave it to us. Our volunteers won't flinch even at three times their number.
+
+@266E70
+[NAME]: Huh? Aren't you...?
+
+@266E80
+Nana: Oh. You found me.
+
+@266E96
+Kain: Wh-what are you doing?! You're the princess, aren't you? Why are you here?!
+
+@266EC4
+Nana: Oh, I won't slow you down. I'm pretty confident with a sword.
+
+@266EF3
+Kain: Hey, hey, what are you saying? You'll be cutting people down. You get that?
+
+@266F23
+Nana: ...I know that. But what kind of royal can't protect her own people?!
+
+@266F54
+Kain: ...You're serious. What do we do, [NAME]?
+
+@266F6F
+[NAME]: Can't be helped. We'll just cover her. Let's do our best, Kain.
+
+@267009
+King of Lichtfloss: ...I have heard the news. Do not lose heart...
+
+@267031
+Estrada, who saved our country, will be remembered here as a hero.
+
+@267066
+[NAME]: ...Thank you, Your Majesty.
+
+@26707F
+Nana: Father. I'm sure they would help us. Why not ask them about that matter...?
+
+@2670B5
+[NAME]: What is it?
+
+@2670C0
+King of Lichtfloss: Well... several villages have been attacked by violent giants...
+
+@2670EE
+I am ashamed to say it... but our soldiers are no match for them.
+
+@267110
+You may think it a selfish request... but I would ask you to deal with the giants...
+
+@26713F
+...What do you say?
+A. Leave it to us.
+B. We must hurry on...
+
+@26717D
+King of Lichtfloss: I see. That cannot be helped.
+
+@267199
+We will manage to settle it ourselves somehow. ...No, think nothing of it.
+
+@2671C3
+That you defeated Galan and the other bandits is more than enough...
+
+@2671EC
+Now, you had best head for Estoa before the snow starts to fall.
+
+@26720E
+Thank you. And farewell, heroes of Estoa.
+
+@267237
+[NAME]: Your Majesty, a knight of Zenobia never ignores the people's suffering.
+
+@26725E
+King of Lichtfloss: ...I am grateful. The place is called the Ein Peninsula.
+
+@267287
+On behalf of all the people of this country, I thank you.
+
+@2672DD
+Galan: Heh... So you're the bunch Master Jenga was talking about.
+
+@267306
+Kazuma blew it, but you won't get off so easy with me.
+
+@267328
+Heh heh heh, I can't wait. Master Jenga's gonna reward me plenty for this.
+
+@26735A
+Galan: You're the volunteer army? ...Hmph, I'm in a real foul mood right now...
+
+@267389
+...Maybe watching your blood spray and your bodies fall to pieces will cheer me up!
+
+@2673CC
+Galan: Ugh... th-this can't be... M-Master Jenga... have mercy... not undead... anything but that...
+
+@267406
+Kain: For a guy like Galan to be that scared... Who is this Jenga?
+
+@267439
+Estrada: What an eerie thing to say at the end... Something about becoming undead...
+
+@26746E
+Kain: Nana... I mean, Princess. You did really well.
+
+@26748D
+Galan's beaten... You should head back to the castle soon or the king will worry.
+
+@2674BE
+Nana: No way. Unless we beat this Jenga, someone else like Galan will just show up.
+
+@2674EF
+We have to finish this properly or it's pointless. Get it?
+
+@26750B
+Kain: Ugh... Hey, [NAME]. Say something, will you?!
+
+@267529
+...What? What are you grinning about? Oh, even Sir Estrada... What, all of you?!
+
+@26756B
+Thanks to you, it's become peaceful around here. Thank you so much.
+
+@2675A1
+Galan's an arrogant, moody brute. He kills people depending on his mood that day.
+
+@2675CD
+The only one who can stop Galan when he's on a rampage... is that Jenga, in his weird robe.
+
+@2675FC
+...Maybe he uses magic or something. Galan's a quivering wreck in front of Jenga...
+
+@26762F
+Winters here are very cold. Be careful.
+
+@26765E
+...Galan's a nasty piece of work. He's a beast tamer, so he uses beasts to scare people.
+
+@267690
+Cross him, and you'll end up as food for his hellhounds in no time.
+
+@2676B9
+And yet he bows and scrapes to that robed fellow, Jenga.
+
+@2676E0
+Hey, you lot. Hurry up and give Galan a beating, will you?
+
+@267704
+Good luck out there.
+
+@267711
+Oh, it's you. Keeping well?
+
+@267737
+There's a hidden town southwest of Lichtfloss too. It's dangerous around here.
+
+@267762
+People hide away to keep clear of the bandits, see.
+
+@267784
+There are quite a few towns that aren't on any map, you know.
+
+@2677AF
+Highland... it's called Zeteginea now, isn't it? They haven't come this far yet...
+
+@2677DF
+Back when King Gran ruled, there was none of this bandit trouble.
+
+@267806
+Come to think of it, the king had two sons... I suppose they were killed...
+
+@26783A
+The King of Zenobia's two princes... They were so young... That Rashidi, the cruel devil...
+
+@267884
+Oh, you came from the south? Then this snow must be hard on you.
+
+@2678A7
+Let me give you this. Good luck to you.
+
+@2678C9
+You're the volunteer army, right? Heh heh... I've got just the thing for you.
+
+@2678F0
+Thanks to all the trouble you're stirring up, business is booming for me.
+
+@267922
+...Use your head, and war is the best moneymaker there is.
+
+@267956
+There are always rumors of ghosts around the old battlefields.
+
+@267983
+Can you believe it? Bandits coming right up near the castle...
+
+@2679AA
+This is the year-round bazaar. Buy something, won't you?
+
+@2679D8
+So you are the volunteer army. Some of you are quite young.
+
+@267A07
+Please take this. It is a White Cross. It will surely be of use someday.
+
+@267A40
+May the gods protect you...
+
+@267A6A
+You have been through many battles, I see. ...Please answer me one question.
+
+@267A96
+In the heat of battle, a soldier let an enemy boy soldier escape.
+
+@267AC1
+If you were his commander, how would you punish him?
+
+@267AE6
+A. No punishment is needed.
+B. Severely, as an example...
+
+@267B19
+...If it is an army that you lead, perhaps the people will support it.
+
+@267B44
+...So you think so too. I wonder, to whom is a sin really committed...
+
+@267B7D
+...Peace to the wandering souls...
+
+# --- Stage 4 ----------------------------------------------------------------------
+
+@267BAC
+Nana: There are towns scattered on the three capes you can see from here.
+
+@267BCF
+From the east: Helmut, Zigrama and Porluck.
+
+@267BF2
+Estrada: Mm... If we cross the shallows, we make for Zigrama, then...
+
+@267C2F
+The ruby's light dispelled the darkness that shrouded the town!
+
+@267C57
+Kain: ...What? No one's here?
+
+@267C73
+Aquarius: This is... A truly evil presence still lingers faintly...
+
+@267CA2
+Nana: Did he run away? Jenga...?
+
+@267CBE
+[NAME]: ...He was testing us... Testing our strength...
+
+@267CDC
+Estrada: Jenga... a fearsome foe...
+
+@267CFC
+A barrier has been raised here!
+
+@267D22
+There seems to be no one here...
+
+@267D3F
+You're the volunteer army from the south, right? Then I'll tell you a secret.
+
+@267D6E
+This area used to be rich, you see... so they say treasure's buried all over the place.
+
+@267DA1
+Well, go and look for it.
+
+@267DB4
+Found any treasure?
+
+@267DC6
+Lately I haven't heard anyone say they've seen walking corpses.
+
+@267DFC
+The undead... pitiful corpses robbed of their right to eternal rest.
+
+@267E2A
+To lay them to rest, we must borrow the power of the gods, I think.
+
+@267E56
+Swords and spells can do nothing for them.
+
+@267E70
+To destroy the undead with holy power... that is the true mercy.
+
+@267E9C
+I've had enough of walking corpses. I wish they'd fight their wars somewhere else.
+
+@267EDB
+Jenga's a greedy one. He's using the bandits to rake in money and jewels.
+
+@267F0B
+...The bandits don't dare cross Jenga, scared he'll turn them into undead.
+
+@267F3D
+What kind of magic could possibly let someone control corpses...?
+
+@267F75
+They say a sorcerer called Jenga controls the dead... Well, it's just a rumor.
+
+@267FA7
+It's frightening... Being killed is scary enough, but having your body controlled after death...
+
+@267FD6
+Just thinking about it gives me the chills...
+
+@267FEE
+You be careful too.
+
+@26800B
+It's run-down now, but this Isrand was once a town that thrived on trade.
+
+@268038
+It's all that Jenga fellow's fault. With undead wandering about...
+
+@26806B
+...who would think of going out shopping...?
+
+@268086
+...You are our first customers in a very long time.
+
+@2680AA
+...Now, shop to your heart's content!
+
+@2680D5
+Who on earth is Jenga?
+
+@2680EF
+Ordinary magic should not be able to create undead or raise barriers.
+
+@26811F
+Where could he have learned such arts...?
+
+@268147
+Ordinary people cannot get near Brunn, which Jenga has taken over.
+
+@268176
+A barrier has been raised there by some mysterious power.
+
+@268191
+Please use this. It is a ruby purified with holy water.
+
+@2681C0
+Please rest your weary bodies.
+
+# --- Stage 5: Jenga -----------------------------------------------------------------
+
+@2681EA
+Kain: ...Looks like Jenga's hiding in the town of Destart, to the northeast of here.
+
+@268221
+Estrada: Mm! Jenga must be the one who has been pulling the bandits' strings.
+
+@26824F
+Defeat him, and the bandits will lose their leader and scatter to the winds.
+
+@26827A
+Now! Just one more push!
+
+@268298
+[NAME]: ...What's wrong, Sister Aquarius?
+
+@2682B7
+Aquarius: ...That barrier in Brunn... It was like nothing I have ever seen.
+
+@2682E3
+I have a bad feeling about this...
+
+@268316
+Jenga: So it's you... the ones who defeated Kazuma and Galan...
+
+@26833C
+Kain: That's right! And now we beat you, and that's the end of it!
+
+@26835E
+Jenga: Beat me? You... mere humans...? ...Heh heh heh... How amusing.
+
+@26838D
+As a special favor, I shall kill you... without letting you die.
+
+@2683AC
+Become undead... Your flesh will rot, your bones crumble, yet heaven will never take you...
+
+@2683E1
+[NAME]: !!
+
+@2683EF
+Jenga: ...I shall praise the courage that brought you this far. ...Now, take your reward.
+
+@268422
+...A terror such as you have never known... Don't run away now... Heh heh heh...
+
+@26845E
+Jenga: ...Curse you... How dare... ...Don't think... this is over... ...Humans...
+
+@268492
+Kain: ...It's over... It's over, right, Sir Estrada?
+
+@2684B7
+Estrada: ...Mm... Yes... ...Now the world... should be a little... calmer...
+
+@2684EC
+Aquarius: Sir Estrada? You look so pale...
+
+@268510
+[NAME]: ?!
+
+@26851A
+Kain: Sir Estrada?!
+
+@26852B
+Estrada: ...That Jenga... at the very last... he laid a curse...
+
+@268557
+[NAME]: Hold on... Please hold on, Sir Estrada!
+
+@268575
+Estrada: ...[NAME]... ...Are you there...?
+
+@26858A
+Go back to Estoa... and tell Banya... that the time... has come...
+
+@2685AE
+[NAME]: ...The time has come?
+
+@2685BA
+Estrada: ...[NAME]... Banya... will answer... everything...
+
+@2685DA
+...You... you have... something you must do.
+
+@2685F5
+...You must not run... from what you must do... Understand... [NAME]...
+
+@268616
+...Kain... In my place... you will go... with [NAME]...
+
+@268638
+...You can... do it...
+
+@268646
+...Farewell... Glory... and blessings... upon Zenobia...
+
+@268667
+[NAME]: !!
+
+@268671
+Kain: Sir Estrada!! We're going home to Estoa, aren't we? Why, after coming all this way?!
+
+@2686A5
+Aquarius: ............
+
+@2686B7
+Nana: Let's go back to the castle... [NAME], Kain... We have to tell my father...
+
+@2686E2
+[NAME]: ...Come on, Kain. Let's go to Lichtfloss... ...And then to Estoa.
+
+@268706
+Sir Estrada's words... We have to honor them...
+
+@268739
+You actually beat Jenga! You saved us. Thank you, truly.
+
+@26876F
+Does Jenga want to be king or something? What's he going to do with all that money?
+
+@2687A2
+Money's meant to be spent, after all... Come on, buy, buy, buy!
+
+@2687C8
+Plenty of good stuff here! Take a look.
+
+@2687DF
+Better safe than sorry, you know.
+
+@268802
+If you think Jenga's just a wizard, you'll get hurt bad. Watch yourselves.
+
+@268834
+...Can someone who controls corpses really be beaten with ordinary swords and spells...?
+
+@26885E
+...Was Jenga even human, I wonder? It bothers me.
+
+@268891
+I'm researching immortality. With eternal life, a person could do anything.
+
+@2688C5
+Eternal life...
+Don't you think it's wonderful?
+
+@2688E1
+You're a stubborn one, aren't you.
+
+@2688F5
+Yes, yes. You understand, don't you.
+
+@268910
+Someday I'll surpass even Jenga!
+
+@26892E
+The guy researching immortality? Seems he hit a dead end and gave it up.
+
+@268978
+Princess! Oh, it really is Princess Nana!
+
+@26899C
+Nana: ?
+
+@2689A3
+Pardon my sudden intrusion... I am the craftsman who makes equipment for His Majesty...
+
+@2689D5
+Nana: Oh, now I remember. You're so skilled, my father is always pleased with your work.
+
+@268A05
+You honor me. ...But to think Princess Nana herself would ride out against Jenga...
+
+@268A41
+So you are the ones fighting for our sake.
+
+@268A63
+Please take this Silver Rod. It's quite usable as it is, but...
+
+@268A90
+...Yes, if it were purified, it would become something even better.
+
+@268AC2
+Has the Silver Rod been of use to you?
+
+@268AEF
+Oh? That White Cross? That cross originally belonged to our church.
+
+@268B20
+I don't know how you came by it, but would you return it?
+
+@268B44
+I see. That cannot be helped.
+
+@268B5D
+What do you say? Will you return the White Cross to us?
+
+@268B80
+I see. What a pity.
+
+@268B94
+Thank you very much. In exchange, if I may, please take this sword.
+
+@268BCB
+May the gods protect you...
+
+@268BF6
+Oh? May I have a look at that? Hmm... a Silver Rod...
+
+@268C19
+We can offer prayers over it here and purify it into a holy weapon...
+
+@268C48
+Will you leave it with us?
+
+@268C5F
+Very well. Please wait a moment.
+
+@268C78
+…
+
+@268C7B
+It is done. Let's call it a Holy Rod.
+
+@268C98
+This rod purges wicked powers. Use it with a righteous heart.
+
+@268CD4
+This is a church. Peace to the wandering souls...
+
+# --- Stage 6: Nessa ---------------------------------------------------------------
+
+@268D00
+Three years after Estrada's death...
+
+@268D10
+[NAME], who had learned the truth from Banya's letter...
+
+@268D2D
+...was here in the Nessa region with Kain and the comrades of the volunteer army.
+
+@268D56
+What does it mean to lead the people of Zenobia...
+
+@268D72
+What must he do as the prince of Zenobia...
+
+@268D8B
+[NAME]'s journey begins...
+
+@268D9D
+Kain: ...The ones occupying the towns around here aren't ordinary bandits, it seems.
+
+@268DCD
+They're the lackeys of someone called Baldur... or rather, his believers, it seems.
+
+@268E04
+Aquarius: Believers? Believers in what?
+
+@268E21
+Kain: That's just it... nobody really knows. ...Anyway, people are suffering, that's for sure.
+
+@268E55
+Nana: My prince, what shall we do? Give the order and Lichtfloss's soldiers are yours...
+
+@268E8B
+[NAME]: ...Let's liberate the towns without being too rough about it... All right?
+
+@268EC8
+Are you the ones pursuing the Dark Knight? I am the elder of this town.
+
+@268EF9
+Past Nessa lie the Norodom region and the road to Megaholten.
+
+@268F25
+In Norodom lies Sict Prison, where they say the kidnapped are gathered.
+
+@268F59
+In Megaholten, they say, is Baldur's forward base.
+
+@268F7D
+Which way you go is up to you...
+
+@268F9F
+Kain: Norodom or Megaholten... Either way we'll run into this Baldur...
+
+@268FD2
+Nana: Shouldn't we start by liberating Baldur's stronghold in Megaholten?
+
+@269005
+We never found out what Baldur wants... but from what I hear, he sounds like Jenga.
+
+@269037
+When Jenga first appeared, he said the same sort of thing... that he'd end all strife...
+
+@26906A
+Baldur and Jenga must be connected somehow.
+
+@269099
+Aquarius: ...I think we should go to the Norodom region first.
+
+@2690C0
+Innocent people are imprisoned in this Sict Prison, aren't they?
+
+@2690E8
+Isn't rescuing them first what the people want from us?
+
+@26911E
+[NAME]: Hmm... What should we do...
+
+@269131
+Kain: Where we go, [NAME], I'll leave up to you.
+
+@26915E
+Good luck to you.
+
+@269178
+They say there's a place called Sict Prison in the Norodom region.
+
+@269198
+It's just a rumor, but the people who were kidnapped are locked up there.
+
+@2691D2
+Whatever the world's like, it doesn't matter as long as you've got money.
+
+@2691F2
+With money, you can manage just about anything. Don't you think so?
+
+@26921F
+A. ...Maybe you're right.
+B. What a shameful thought.
+
+@269250
+Right? It has to be!
+
+@269267
+Is that so? You're naive.
+
+@269286
+Hang in there.
+
+@2692A2
+Did you come to see our village festival too? It's lively, isn't it?
+
+@2692CD
+We've had good harvest after good harvest. We can't stop smiling.
+
+@2692F8
+Life is meant to be enjoyed. Don't you think so?
+
+@26931A
+A. You're absolutely right.
+B. You can't always be merry...
+
+@269345
+Ha ha ha, you enjoy yourselves too.
+
+@269364
+What? You're a stiff one...
+
+@269382
+Ha ha ha, you enjoy yourselves too.
+
+@2693AD
+They say there's a famous drunken knight over Megaholten way.
+
+@2693D2
+Supposedly he used to be a knight of Zenobia. How awful, a knight fallen so low.
+
+@2693FC
+I suppose that's what happens when you lose a war...
+
+@269420
+Have you heard about the drunkard who was once a knight of Zenobia?
+
+@26944F
+How do you like this town? Orderly and pleasant, isn't it?
+
+@269470
+Here, strict discipline is upheld.
+
+@26948C
+People do need discipline to restrain themselves. Don't you think so?
+
+@2694BD
+A. You're absolutely right.
+B. People should live freely.
+
+@2694EC
+You truly understand how things are.
+
+@26950C
+With thinking like that, the world will never settle down.
+
+@269567
+Discipline is important.
+
+@269586
+Baldur? You mean the Dark Knight. They say he's an envoy from the world of darkness.
+
+@2695B6
+Baldur's believers are growing in number around here.
+
+@2695D7
+Where is this world of darkness, I wonder...?
+
+@2695F2
+Well, do your best.
+
+@269612
+...You are the volunteer army? Hmm... You seem to have fought hard battles.
+
+@26963F
+What have you gained through fighting? Would you tell me?
+
+@26966D
+A. Confidence in strength.
+B. Fear of strength.
+
+@26969C
+You are still young. It's only natural to think that way...
+
+@2696CB
+Oh... young as you are, you show good sense.
+
+@2696F5
+Keep at it.
+
+@269714
+Last year this place was hit by a flood. My son was swept away by the water...
+
+@269742
+Just as we were finally recovering from the flood, now come the kidnappers...
+
+@269765
+Say... is life nothing but one hardship after another...?
+
+@269790
+A. ...Maybe so.
+B. Good things will come in time.
+
+@2697BF
+You think so? But still, you have to live. I've got to carry on for my dead son too...
+
+@2697F9
+...Just words of comfort? You're still young... You can't know how I feel...
+
+@269836
+In this town, just staying alive takes all we've got.
+
+@269864
+Baldur is an invader leading a huge army.
+
+@269887
+He isn't too harsh, so people seem to think he's better than Zeteginea, but...
+
+@2698BF
+Take this with you. It should be of some use.
+
+@2698E7
+Wouldn't it be better not to get involved...?
+
+@269910
+Be careful.
+
+@26992E
+Oh, the kidnappings are the talk of this town too.
+
+@269950
+They say the people are locked up in Sict Prison in Norodom?
+
+@269974
+You're the volunteer army, right? Will you rescue everyone in Sict Prison?
+
+@26999F
+A. Yes, I promise.
+B. No, I can't promise that.
+
+@2699CF
+Really? You're brave... They say a skilled samurai guards Sict Prison.
+
+@269A07
+That's understandable. It's frightening.
+
+@269A53
+Goldie: Hey, you lot! I've got a favor to ask! You'll do it, right?
+
+@269A79
+Please, just say you'll do it.
+
+@269A9A
+Goldie: D-don't say that. Come on, please?
+
+@269AC0
+Goldie: Aww. Tch. Fine... I'll find someone else.
+
+@269AE7
+Goldie: Thank goodness. Truth is, I ate way too much at that shop over there.
+
+@269B0E
+Cover the bill for me. It's only 10000 goth...
+
+@269B4A
+You paid 10000 goth.
+
+@269B5B
+Goldie: Phew, you saved me. As thanks, I'll protect you guys.
+
+@269B85
+I may not look it, but I'm a super first-class wizard...
+
+@269BA4
+...in training, that is. The big rookie everyone's got high hopes for.
+
+@269BCD
+So relax, you're in good hands!
+
+@269BEC
+Goldie joined
+your army.
+
+@269C2B
+Goldie: Huh? What? You don't have enough money?! Tch! Getting my hopes up like that!
+
+@269C5B
+Forget it! Go away!
+
+@269C76
+Good luck out there.
+
+@269C93
+Oh, welcome. A gift for travelers.
+
+@269CC7
+Good luck out there.
+
+@269D00
+Gilbert: I must protect the people of this land. I can't simply...
+
+@269D2C
+Th-that's Yuria's letter...
+
+@269D3E
+Strive not for the peace before your eyes, but for true peace, she says...
+
+@269D5A
+...
+
+@269D5E
+Very well. For a while, I will lend you my strength.
+
+@269D7D
+Gilbert joined
+your army.
+
+@269DA5
+Baldur says he's going to make a world without strife. That's what he tells everyone.
+
+@269DD6
+It's hard to believe right away, but in times like these...
+
+@269DFE
+Maybe it can't be helped that people clutch at straws and join his followers.
+
+@269E45
+There are lots of kidnappings around here... That's why we live in hiding.
+
+@269E6B
+You be careful too.
+
+@269E85
+Be careful out there, you lot.
+
+@269EA2
+May the gods protect you.
+
+@269ED8
+This land is cursed. Please, we ask for a donation.
+
+@269EFA
+Will you make a donation?
+
+@269F0C
+I see... That can't be helped.
+
+@269F20
+You paid 200 goth.
+
+@269F2F
+Thank you very much. Now the wandering souls will surely be saved.
+
+@269F6F
+Baldur... he is a heretic. I sense a bottomless surge of darkness from him.
+
+@269FA2
+You must not be deceived by him. The peace he speaks of must be the world of death.
+
+@269FE2
+The Dark Knight... Baldur. Since he appeared here, people have been disappearing often.
+
+@26A015
+I've even heard a rumor that Baldur brought the kidnappers with him.
+
+@26A04C
+Far to the west, in the village of Balzac, there is said to be a figurine, the Silver Doll.
+
+@26A07D
+It seems someone in a town near Megaholten has been looking for it...
+
+@26A0A4
+Did you find the Silver Doll?
+
+# --- Stage 7: Norodom / Sict Prison -----------------------------------------------
+
+@26A0CF
+Aquarius: ...My prince, so you will save the people of Sict Prison after all.
+
+@26A0F8
+Spoken like the prince of Zenobia... like our leader!
+
+@26A11D
+Kain: Aquarius, stop calling him "prince." ...Zeteginea's men could be anywhere...
+
+@26A14F
+Aquarius: Oh... yes. I'm sorry, I forgot myself...
+
+@26A171
+Kain: Come on, [NAME]. Forward, to Sict Prison!
+
+@26A1B2
+Gross: ...Who are you lot? Hm? ...Oho, looks like you want to fight me.
+
+@26A1DE
+You gonna kill me? I'm just hired for the money, you know.
+
+@26A205
+Kain: ...What a joker... Free the people inside quietly, and we'll let you go.
+
+@26A236
+Gross: Ah... can't do that. They'd carve me up. Those guys in black robes are scary.
+
+@26A26E
+[NAME]: Don't worry. We'll take care of Baldur's men too.
+
+@26A291
+All you have to do is keep quiet and hand over the keys to the cells.
+
+@26A2B0
+Gross: Hmm... Then give me money. I'm in this for business, see.
+
+@26A2DC
+If you pay me more than they do, I'll do as you say.
+
+@26A305
+Kain: Tch! ...How much?
+
+@26A315
+Gross: Heh heh... let's see... All the cash you've got, for starters... and the women.
+
+@26A348
+Kain: ?! You bastard! Don't push your luck!
+
+@26A362
+Gross: Oho, interesting. I like swordplay too. Second only to money, that is.
+
+@26A39C
+Gross: Who are you lot? We've already got enough gatekeepers.
+
+@26A3BC
+...Aha... so it's you... the ones they call the volunteer army... ...You gonna kill me?
+
+@26A3E7
+I'm just hired for the money... Oh well... I suppose this is for the money too.
+
+@26A448
+Kain: What a strange guy... Come on, [NAME]. Let's free everyone.
+
+@26A47B
+Orosov: Lord [NAME]... ...My name is Orosov. Thank you so much.
+
+@26A49F
+Thanks to you, I was able to save my friend.
+
+@26A4BF
+[NAME]: Oh, uh, yes. ...I'm glad to hear it.
+
+@26A4D5
+Orosov: To repay you, if I may... would you let me come along from now on?
+
+@26A500
+I'll work as hard as I can... so please...
+
+@26A526
+Kain: He's Goldie's childhood friend, isn't he? Why not... right, [NAME]?
+
+@26A555
+[NAME]: It's a very dangerous journey. Are you sure?
+
+@26A570
+Orosov: Yes! Thank you very much, my prince!
+
+@26A58E
+Kain: .........?
+
+@26A5A0
+Gross: Hmph. Y-you're strong... I give, I give. I'll free the prisoners.
+
+@26A5CE
+Kain: Huh, you're a good sport.
+
+@26A5DF
+Gross: Well... More to the point... sticking with you lot looks like it'd pay well.
+
+@26A60F
+I'm coming along.
+
+@26A61E
+Kain: What?! What do we do, [NAME]...?
+
+@26A638
+[NAME]: ...We fight to help people.
+
+@26A658
+Gross: Ha ha! Fine by me. Then it's settled. ...Helping people, making money, same thing.
+
+@26A68C
+Well, you're still young. You wouldn't understand...
+
+@26A6A9
+Gross joined
+your army.
+
+@26A6ED
+This is where Sict Prison stood. Now there's no one here...
+
+@26A73D
+Orosov: Goldie? Isn't that Goldie?
+
+@26A75D
+Goldie: ...Orosov? Wow... how many years has it been? You look well.
+
+@26A782
+Orosov: Yes, well... Could it be that the volunteer army going to free Sict Prison is...
+
+@26A7B0
+Goldie: Yep, that's us. But how'd you know about it?
+
+@26A7D2
+Orosov: I heard the rumors. What do you say? Could I join the volunteer army too?
+
+@26A804
+It seems a friend of mine is in Sict Prison. I want to help him somehow...
+
+@26A82F
+Goldie, could you put in a word for me?
+
+@26A84C
+Goldie: Hmm... okay. Well, if I put in a word, he'll surely say yes.
+
+@26A87C
+Orosov: 'He'?
+
+@26A887
+Goldie: Yeah, [NAME], the leader of the volunteer army.
+
+@26A8A4
+He's quiet and good-natured. I'm sure you'll like him too.
+
+@26A8C5
+Orosov: ...I see. That's a relief. Then, I'm in your hands.
+
+@26A8F5
+Orosov: Are you the volunteer army? You're going to free Sict Prison, aren't you?
+
+@26A927
+Then why don't we go together? A friend of mine is being held there.
+
+@26A956
+I was just thinking of going to rescue him somehow.
+
+@26A97A
+Orosov joined
+your army.
+
+@26A9A3
+Someone saw those black-robed men around here too. How frightening.
+
+@26A9F6
+The black-robed lot are all Baldur's lackeys.
+
+@26AA19
+They're strong... Like they're not even human. They're the ones kidnapping people, too.
+
+@26AA4C
+...If you're going to Sict Prison, steel yourself first.
+
+@26AA6D
+You be careful too.
+
+@26AA8E
+Ever since that prison was built, nothing but creepy things have happened.
+
+@26AAAB
+Weird robed men wander around...
+
+@26AAC4
+Everyone who's kidnapped seems to get taken there. ...Can't anything be done?
+
+@26AAF8
+I wish that prison would just disappear.
+
+@26AB16
+What a relief that the prison is gone.
+
+@26AB3F
+The one guarding Sict Prison is a skilled samurai named Gross.
+
+@26AB65
+He's not so much a believer in Baldur... he just took the warden job for the money.
+
+@26AB99
+Oh, what turbulent times...
+
+@26ABB4
+The Church of Truth... Is knowing the truth really happiness...?
+
+@26ABE5
+Everyone is weak. Sometimes it's easier to live by deceiving yourself.
+
+@26AC19
+Perhaps the truth is like peering into the darkness within your heart...
+
+@26AC52
+The church to the north is called the Church of Truth.
+
+@26AC79
+But it's protected by a barrier... Ordinary people can't even get near it.
+
+@26ACAA
+I hear that in a town called Orata in the Gross region...
+
+@26ACC7
+...there is something called the Goddess Statue that breaks the barrier.
+
+@26ACEC
+Have you got the Goddess Statue? It seems to be in Orata, in the Gross region.
+
+@26AD23
+Hiding like this, business has really dried up. Well, buy something, won't you?
+
+@26AD6E
+...O descendant of the heroes of old... What do you desire, and what will you do...?
+
+@26ADA6
+[NAME]: That voice...? Kain! Where's that voice coming from...?
+
+@26ADC7
+Kain: What are you talking about? I hear no voice. ...Are you the only one hearing it...?
+
+@26ADFD
+You will build mountains of corpses... and betray countless people...
+
+@26AE2D
+[NAME]: !! I... I would never... never do such a thing!
+
+@26AE51
+...He who comes from the darkness... Baldur... meeting him... will decide your path...
+
+@26AE86
+[NAME]: Show yourself! Someone's there, I know it! Show yourself!
+
+@26AEA5
+Kain: Hey, [NAME]! Get a grip! There's no one here! No one at all!
+
+@26AECD
+[NAME]: !......... ...Let's go, Kain. This place leads people's hearts astray...
+
+@26AEF6
+Kain: Y-yeah.
+
+@26AF1E
+...O seeker of the path of a true king... hear the people's voice, and do as they wish...
+
+@26AF52
+...O you who seek the path of conquest... take the world into your hands as you see fit...
+
+@26AF8B
+A barrier has been raised here!
+
+@26AFB9
+The black-robed men occupying the towns around here are all Baldur's underlings.
+
+@26AFEA
+It seems they kidnap people and lock them up in Sict Prison.
+
+@26B015
+Someone who escaped told me... they're hunting for Zenobia's royal family.
+
+@26B049
+Does that mean Baldur is an agent of Zeteginea?
+
+@26B069
+...But the royal family of Zenobia was supposed to have been wiped out by Zeteginea...
+
+@26B09B
+May the gods protect you...
+
+# --- Stage 8: Megaholten ----------------------------------------------------------
+
+@26B0C6
+Nana: Truly worthy of King Gran Zenobia's blood. A splendid strategic eye.
+
+@26B0F5
+Taking his strongholds is the quickest way to get hold of Baldur's tail.
+
+@26B127
+[NAME]: Mm... I suppose so.
+
+@26B139
+Kain: ...Nana, stop calling [NAME] "prince."
+
+@26B157
+You never know where Zeteginea's spies might be.
+
+@26B178
+Nana: Oh... I'm sorry. I'll be careful from now on.
+
+@26B194
+Kain: Come on, [NAME]. On to take Megaholten!
+
+@26B1CC
+Dalam: So it's you. The fools who talk of defeating Lord Baldur.
+
+@26B1F2
+Hmph... You don't understand Lord Baldur's greatness, it seems.
+
+@26B219
+He is the savior. He came from the world of darkness to set this chaotic world right...
+
+@26B24D
+Fools! Receive the judgment of darkness!
+
+@26B279
+Kain: Baldur came from the world of darkness... that's what he said. Could that mean...
+
+@26B2AA
+Nana: ...a being from the world of darkness, sealed away by the Ogre Battle of old...?
+
+@26B2DC
+Kain: ...[NAME]... This is serious. Can we really handle this alone...?
+
+@26B30A
+[NAME]: Kain, we have to do it.
+
+@26B31F
+If Baldur is from the world of darkness, all the more...
+
+@26B33A
+All the more reason. Unless we defeat him, we'll never truly save the people of Zenobia.
+
+@26B36E
+Kain: .........................
+
+@26B395
+Thanks to you, it's become peaceful around here.
+
+@26B3C3
+Baldur's believers are swarming around here. Well, I can see how they feel.
+
+@26B3F3
+...I mean, in times like these, someone says he'll make a world without strife...
+
+@26B41E
+...and then shows off that incredible magic and power, you'd believe him in a heartbeat.
+
+@26B452
+Around here, folks calling themselves the Army of Darkness run wild.
+
+@26B480
+About twenty years ago... they say Zenobia's royal family was wiped out.
+
+@26B4B0
+But it's also said that a few of them escaped.
+
+@26B4D3
+Well, both stories are only rumors... Which one is true, I wonder?
+
+@26B503
+...Rumors are sometimes spread to hide the truth, you know.
+
+@26B55B
+Yorkleif: My prince! Is that not my prince!!
+
+@26B57A
+[NAME]: ?!
+
+@26B584
+Kain: Who's there?! Who are you?!
+
+@26B597
+Yorkleif: Ah... those eyes! That bearing! The very image of young King Gran... hic...
+
+@26B5C9
+My prince! Now is the time to rise! ...hic... Now...
+
+@26B5EC
+...against Zeteginea... hic...
+
+@26B5FA
+Kain: What... he's just a drunk. Let's go, [NAME].
+
+@26B61C
+[NAME]: ?... Did you want something with me?
+
+@26B635
+Yorkleif: ...You are the leader of the volunteer army that fights Baldur, the Dark Knight.
+
+@26B666
+[NAME], they call you... but your true name... could it be Fix Trishtram...
+
+@26B696
+Kain: ...Who are you?
+
+@26B6A7
+Yorkleif: Rest easy. I am Yorkleif, once of the Knights of Zenobia.
+
+@26B6D9
+My prince, if you are going to fight Baldur, please take me with you.
+
+@26B6FF
+...I do not want to be a whipped dog until the day I die!
+
+@26B71D
+Kain: ...What do we do, [NAME]?
+
+@26B730
+[NAME]: Yorkleif, let's go together. ...Lend me your strength.
+
+@26B762
+Yorkleif: So you are the famous volunteer army. ...Fine, disciplined soldiers.
+
+@26B795
+I hear you will strike down Baldur the Dark Knight. You can never have too many soldiers.
+
+@26B7C2
+I do not want to be a whipped dog until the day I die!
+
+@26B7DD
+I want to remain a knight of Zenobia who knows shame!
+
+@26B7FF
+...Please take this defeated soldier with you...
+
+@26B81E
+...I see... Even drunk, my skill has not dulled, you know...
+
+@26B846
+Yorkleif: I am in your debt! ...I, Yorkleif, will surely be of use.
+
+@26B86F
+Yorkleif joined
+your army.
+
+@26B8B6
+Huh? You're that... I barely recognized you.
+
+@26B8D5
+Hey, have you seen the biggest drunk in this town?
+
+@26B8FE
+In the town of Wanick, a little west of here, there's a famous drunken knight.
+
+@26B92C
+They say he used to be a skilled knight of Zenobia... What a shame, a beaten dog...
+
+@26B95D
+Oh! Right... I almost forgot about business. Go on, buy whatever you like.
+
+@26B990
+Come on, buy, buy, buy!
+
+@26B9BD
+Ohh! Could that be the Silver Doll?
+
+@26B9DF
+My family has sought it since my father's day. I'd very much like you to sell it to me...
+
+@26BA0C
+How about it? Would you let me have it for 50000 goth?
+
+@26BA30
+Then how about trading it for the Mail of Earth?
+
+@26BA51
+I see... It can't be helped. But I won't give up.
+
+@26BA6E
+If you change your mind, please come back to this town.
+
+@26BA8F
+Thank you so very much.
+
+@26BAA1
+You received
+50000 goth.
+
+@26BABC
+Then please take this.
+
+@26BAE3
+I am the lord of this town. You see, I'm searching for a certain treasure.
+
+@26BB16
+It's a silver statue of an angel called the Silver Doll.
+
+@26BB33
+Ah... I see. You don't have it...
+
+@26BB51
+Thank you so much. It shall be this town's treasure.
+
+@26BBC0
+Ryan: Wa ha ha ha! I'm Ryan, the greatest beast tamer on the continent!
+
+@26BBEC
+Oh? Well, you've got plenty of money, haven't you? I know, hand over 100000 goth.
+
+@26BC1E
+And I'll join your side. Wa ha ha ha!
+
+@26BC3B
+Ryan joined
+your army.
+
+@26BC62
+Uncover Baldur's true identity...? My, that's quite an undertaking.
+
+@26BC8B
+Please take this with you. It should be of some help.
+
+@26BCB9
+Good luck to you.
+
+@26BCF9
+Ashe: I am Ashe. Once, they called me the Berserker.
+
+@26BD20
+They say I assassinated King Gran. A false charge, yet I cannot deny it.
+
+@26BD53
+For it is true that I failed to protect King Gran.
+
+@26BD6E
+I'm an old man looking for a place to die, but I'll be of use in a fight. Let me join you.
+
+@26BD9B
+Ashe joined
+your army.
+
+@26BDBA
+Where Baldur came from and what he wants... no one knows.
+
+@26BDE4
+They call him the Dark Knight because he's clad in jet-black armor...
+
+@26BE17
+...or so the rumor goes. His strength, his magic, his charisma... all beyond human.
+
+@26BE54
+...I hear the King of Zenobia had two sons.
+
+@26BE74
+...But they are most likely no longer of this world...
+
+# --- Stage 9: Shagall marshes -------------------------------------------------------
+
+@26BEAC
+Yorkleif: Please visit the town of Estedale, Lord [NAME]!
+
+@26BED0
+Lord Grant, who once served as strategist of the Zenobian army, should be waiting for you.
+
+@26BEFF
+Kain: What kind of person is he?
+
+@26BF0F
+Yorkleif: ...Well, Lord Grant can wield tremendous magical power at will.
+
+@26BF41
+And he is a great man who uses that power with restraint.
+
+@26BF6A
+Kain: Hmm... It'd be reassuring to have someone that amazing on our side...
+
+@26BF95
+Yorkleif: No need to worry! ...I have already gone ahead and sent word.
+
+@26BFC3
+Kain: You've got it all arranged, huh... Well then, [NAME]. Shall we try Estedale?
+
+@26BFF2
+[NAME]: Yes. Let's.
+
+@26C007
+Kain: This area is marshland, so moving will be slow... Everyone, be careful.
+
+@26C03D
+[NAME]: ...Anything about Baldur, anything at all. Let me know.
+
+@26C066
+Kain: ...Right... All units, move out!
+
+@26C096
+Kiros: So you're the ones yapping about taking down Baldur?
+
+@26C0B8
+...You smell of blood. You've killed a lot of people, haven't you?
+
+@26C0E2
+Heh heh heh... The smell of blood makes my heart race... You know what I mean, right?
+
+@26C106
+I wonder what your blood smells like...!
+
+@26C11D
+I'll tell you this much... coming by day won't help. This castle has special magic...
+
+@26C14E
+...that can make it night whenever I like.
+
+@26C196
+Kiros: ...So I lost... Go on, do as you like.
+
+@26C1C5
+A. Prepare yourself.
+B. I'll spare your life.
+
+@26C1F2
+Kiros: Hmph... soft... But you're strong... How about it? Take me on as one of you.
+
+@26C221
+Heh... If I follow you, I'll get to smell plenty more blood.
+
+@26C27A
+Kiros: Heh... Never thought I'd end up smelling my own blood...!
+
+@26C29D
+Kiros breathed his last.
+
+@26C2E8
+Baldur: Humans... My name is Baldur... the envoy of salvation who came from the darkness...
+
+@26C320
+[NAME]: !!
+
+@26C32A
+Kain: !!
+
+@26C336
+Baldur: ...The day when strife ends is near...
+
+@26C34E
+You need not fear. The darkness accepts all things...
+
+@26C36E
+Praise my name, praise the darkness... if you desire the reign of eternal stillness...
+
+@26C3A3
+[NAME]: ..................
+
+@26C3B2
+Kain: .........................
+
+@26C3C4
+[NAME]: Baldur... So that is... Baldur, the Dark Knight...
+
+@26C3EA
+These marshlands are called Shagall.
+
+@26C417
+...I don't think Lord Baldur really trusts Kiros.
+
+@26C43D
+Kiros executes townspeople behind Lord Baldur's back, you know.
+
+@26C489
+Kiros is sort of one of Baldur's underlings, I guess.
+
+@26C4A7
+But he's not like the other believers. He kills way too many people.
+
+@26C4D2
+The other believers don't go that far.
+
+@26C4F5
+Lately lots of creepy things have been happening, haven't they?
+
+@26C522
+Oh! That's the Rainbow Choker. Thank you so much. Please accept this.
+
+@26C553
+You received
+30000 goth.
+
+@26C58F
+Also, this is just a rumor... but there's a place where a golem has settled at the town gate.
+
+@26C5C3
+It's around the Wind Dunes, past these Shagall marshes.
+
+@26C5F7
+I am the mayor of this town of Netobi.
+
+@26C614
+I'm sorry to ask, but could you do me a favor?
+
+@26C636
+I ordered a Rainbow Choker from a craftsman living at the church on the Satsu Peninsula.
+
+@26C668
+Could you pick it up for me? I will be sure to reward you.
+
+@26C696
+These days, with the Army of Darkness about, I can't travel far...
+
+@26C6C2
+Could you go fetch the Rainbow Choker from the church on the Satsu Peninsula?
+
+@26C6EE
+I will surely reward you.
+
+@26C700
+Thank you very much.
+
+@26C71C
+Baldur the Dark Knight... He looks fearsome, but he doesn't do anything violent.
+
+@26C746
+It's just that when you listen to him, for some reason you can't think about anything.
+
+@26C771
+I wonder if that's what they call charisma.
+
+@26C799
+With Baldur's believers camped here, it's hard to do business.
+
+@26C7C0
+This town's bazaar is famous. Do some shopping, won't you? I'll give you a good price!
+
+@26C7FD
+Won't you buy something too? I'll give you a good price.
+
+@26C825
+Zeteginea's nothing much. We've got Lord Baldur on our side.
+
+@26C853
+He's the one who'll make the world peaceful!
+
+@26C878
+Have you ever heard Lord Baldur's voice? It's wonderful.
+
+@26C89C
+It feels like all the painful things, all the sad things, just vanish into the dark...
+
+@26C8D0
+My heart becomes so still. For a while I don't even feel like doing anything.
+
+@26C908
+Rumor has it Baldur means to find someone of Zenobia's royal house and make him king again.
+
+@26C93B
+And then overthrow the Zeteginean Empire, they say. ...Is that true, I wonder?
+
+@26C98F
+Grant: ...I have been waiting for you, Lord Trishtram.
+
+@26C9B0
+[NAME]: Please... [NAME] will do, Lord Grant.
+
+@26C9C8
+...Strategist Grant. Will you help me... no, help us?
+
+@26C9ED
+Grant: My prince... May I ask you one thing?
+
+@26CA07
+What do you intend to do from here on?
+
+@26CA24
+[NAME]: ...I want to save the people. From Baldur... and from Zeteginea as well...
+
+@26CA4E
+In this chaotic world, people live lost and afraid.
+
+@26CA73
+To let people live trusting in tomorrow, threatened by nothing...
+
+@26CAA4
+...I believe that is my duty as the prince of Zenobia.
+
+@26CACC
+And I believe that is what the late Sir Estrada would have wished.
+
+@26CAFA
+Grant: I see... Estrada's...
+
+@26CB10
+I understand. This old man's life is yours.
+
+@26CB36
+Grant: ...You are the volunteer army. ...Yorkleif tells me you fight Baldur.
+
+@26CB6A
+My name is Grant. Long ago I served King Gran.
+
+@26CB8E
+...I do not know how much use I can be... but allow me to accompany you.
+
+@26CBB6
+Grant joined
+your army.
+
+@26CBF6
+The former strategist of the Zenobian army lives in this town. He hardly ever goes out.
+
+@26CC25
+About the only one who visits now and then is a man named Yorkleif from Wanick.
+
+@26CC57
+Good luck to you.
+
+@26CC6D
+...They say there was once a war with the world of darkness, called the Ogre Battle.
+
+@26CC97
+But isn't that just a legend?
+
+@26CCBD
+Kiros the weretiger over in Donant... a creepy one. Says he likes the smell of blood...
+
+@26CCF0
+But when Lord Baldur shows up, he goes quiet as a dog. Funny, isn't it?
+
+@26CD32
+So you're the volunteer army.
+
+@26CD43
+How about it? Want to buy this sword? It's called the Peridot Sword.
+
+@26CD65
+How about 15000 goth?
+
+@26CD79
+Oh, is that so? Then it can't be helped.
+
+@26CDA2
+Oh, wonderful.
+
+@26CDC4
+Looks like you're short. I'm already giving you a discount. I can't go any lower.
+
+@26CDF3
+Hmm... You lot have killed plenty of weaklings, it seems.
+
+@26CE16
+Good luck out there.
+
+@26CE35
+This town has long prospered as a town of armorers.
+
+@26CE5A
+Let me give you this... No, no, there's no charge... Just please leave quickly.
+
+@26CEA8
+...Is there something else you need?
+
+@26CECB
+You're going to take care of Kiros in Donant? Then I'll give you this.
+
+@26CF05
+Good luck out there.
+
+@26CF22
+Ah, you have the Goddess Statue. Would you hand it over to us?
+
+@26CF4D
+In exchange, let me give you this.
+
+@26CF5F
+...The holy sword Brynhild... A sword holding the power to open the world of darkness.
+
+@26CF89
+If you are going to fight Baldur, you will surely need it.
+
+@26CFB6
+The world of darkness... lies hidden... within our own world...
+
+@26CFD8
+Without Brynhild, you cannot look into the world of darkness.
+
+@26CFF6
+Without the Goddess Statue, you cannot enter here. Please, go back...
+
+@26D01F
+What? Where is it? I believe it's in a town called Orata, in the Gross region.
+
+# --- Stage 10: Academia / Malenoa -----------------------------------------------------
+
+@26D061
+Nana: ...This sea... it's so polluted... It gives me a bad feeling.
+
+@26D084
+Aquarius: ...Only humans would pollute the sea like this...
+
+@26D0A6
+That must be why they say the sea reflects the human heart.
+
+@26D0D5
+Kain: Hey, has anyone seen Orosov?
+
+@26D0F3
+Nana: No. But why?
+
+@26D106
+Kain: ...Well, I haven't seen him around... Don't tell me he ran off...
+
+@26D144
+Aquarius: ...It's understandable. An ordinary person might get scared and run...
+
+@26D171
+Kain: Hmm... He didn't seem the type, though... Well, can't be helped...
+
+@26D19F
+Hmm... He didn't seem the type, though... Well, can't be helped...
+
+@26D1CE
+Nana: By the way, Kain. Have you gathered any information about this area?
+
+@26D1F9
+Kain: ...Yeah. Seems someone called Malenoa of Academia is running wild around here.
+
+@26D224
+She's using sea monsters to attack the towns.
+
+@26D24D
+And there's a rumor she's made a pact with Baldur. ...[NAME], let's go!
+
+@26D27C
+[NAME]: A pact with Baldur...
+
+@26D2A6
+Malenoa: So you are the ones who defy Lord Baldur.
+
+@26D2C6
+Why... Why?! Why do you defy him?
+
+@26D2DD
+Lord Baldur promised us... a quiet sea, where no one would ever fight again...
+
+@26D30E
+...He promised to give back that beautiful sea.
+
+@26D328
+We believe in Lord Baldur more than we believe in you humans!
+
+@26D35D
+Malenoa: It was beautiful... Give back the sea... Give back... those peaceful days...
+
+@26D385
+Give it back... please give it back...
+
+@26D395
+Malenoa breathed her last.
+
+@26D3AB
+Aquarius: ...Malenoa... was crying...
+
+@26D3C7
+Kain: ...Hey, [NAME]... Was this right? ...Was it...
+
+@26D3E7
+[NAME]: ...Right... How could it be right?! ...It can't be... right...
+
+@26D414
+Aquarius: [NAME]...
+
+@26D41F
+[NAME]: ...Why...
+
+@26D42A
+Why does it always turn out like this... Answer me, Aquarius... Why does this happen?...
+
+@26D45D
+Is Baldur the one who's right?
+
+@26D46C
+If we just do as he says, could we avoid fighting... Do as he says...
+
+@26D491
+Aquarius: ......
+
+@26D4A1
+Nana: ...What's that? Look... ...feathers...
+
+@26D4BB
+Kain: Feathers... from the sky... falling on Malenoa...
+
+@26D502
+Oh, isn't that a Thunder Stone! Say, won't you let me have it?
+
+@26D52A
+Not for nothing, of course. Look! A map for reaching the Freia Isles. How about a trade?
+
+@26D55E
+It's a rare thing, you know. Not a bad deal, is it?
+
+@26D581
+Oh. Well, how about it?
+
+@26D58C
+Are you ready to trade the Thunder Stone for the map?
+
+@26D5AC
+Hmm... I see.
+
+@26D5BB
+Well, can't be helped... But I'll wait here, so come back if you change your mind.
+
+@26D5E8
+Can't be helped. I'll wait here, so come back if you change your mind.
+
+@26D60E
+Really! Thank you. Here's the map!
+
+@26D637
+Say, you lot. Have you ever seen something called a Thunder Stone?
+
+@26D65D
+It's a very rare thing, you know...
+
+@26D67F
+It's become peaceful around here. Thank you.
+
+@26D6A1
+...We kept lying to Malenoa all along. We said we wouldn't pollute the sea...
+
+@26D6D3
+Ahh... what have we done...
+
+@26D6FF
+Lord Baldur sees through everything... what others think, what they desire.
+
+@26D72F
+What Malenoa wanted must have been the sea of long ago... clean and quiet.
+
+@26D75D
+Malenoa...
+
+@26D76E
+Metalworking is big around here. Maybe that's why... the sea's become so filthy...
+
+@26D7A2
+No wonder Malenoa got angry... But... wasn't there another way...
+
+@26D7DD
+Whatever the world's like, you need money first. Come on, buy anything you like!
+
+@26D81A
+I often saw Malenoa cry. She said it hurt to watch the sea grow dirtier...
+
+@26D84D
+But she said that if the sea gets dirty so we can live, it's sad, but it can't be helped...
+
+@26D87B
+...And she said she cried because she felt so miserable, unable to do anything...
+
+@26D8A5
+...Malenoa's really a gentle nixie, you know.
+
+@26D8CD
+What's happened to Malenoa, I wonder?
+
+@26D8F3
+Malenoa's changed... She used to get along fine with us...
+
+@26D923
+It was after Baldur showed up... She suddenly started attacking us like we were her enemies.
+
+@26D970
+That Malenoa... If I had the strength, I'd beat her to death!
+
+@26D995
+Thanks to her, our lives are a total mess! ...What's this about the sea getting dirty!
+
+@26D9C4
+We can't survive with her rampaging over a reason like that!
+
+@26D9EF
+Thanks to you, we can go fishing. Thanks.
+
+@26DA17
+If we don't do something about Malenoa and the monsters soon, we'll be wiped out...
+
+@26DA3E
+Say, you there. I'll give you this spear, so won't you do something...
+
+@26DA75
+It's become peaceful around here too. Thank you.
+
+@26DA9F
+Oh! Please don't draw too much attention. We went to all this trouble to hide.
+
+@26DAC9
+I'll give you this, so please leave quickly.
+
+@26DB1F
+Oh my, aren't you handsome! I know, take this as thanks for liberating us.
+
+@26DB61
+Thank you. Here's a token of thanks. Good luck.
+
+@26DBA6
+...This village is having a hard time too. Won't you buy this? An Ogre Shield... good stuff.
+
+@26DBD2
+Let's see... How about 20000 goth?
+
+@26DBED
+Oh, is that so? Well, that can't be helped.
+
+@26DC18
+Thank you. That helps a lot.
+
+@26DC3A
+You haven't got enough money... Well, that can't be helped.
+
+@26DC5C
+...This village is having a hard time too.
+
+@26DC7D
+Thank you very much. This is a token of thanks.
+
+@26DCBD
+Thank you very much.
+
+@26DCD9
+I picked up something rare the other day. A white Goddess Statue.
+
+@26DD01
+Won't you buy it for 500000 goth?
+
+@26DD19
+No? It's a rare thing... Come back if you change your mind.
+
+@26DD4D
+Heh heh, made a killing.
+
+@26DD70
+Looks like you don't have enough money.
+
+@26DD81
+They say this Goddess Statue is the sacred object of the church over in Shagall.
+
+@26DDBE
+My son was killed by monsters.
+
+@26DDDB
+I'll give you this, so avenge him for me.
+
+@26DDFD
+Please avenge him...
+
+@26DE0E
+Ah... you avenged him... but my son won't come back, will he...
+
+@26DE47
+You lot have never fought sea monsters before, have you?
+
+@26DE6B
+Let me give you this. It should be some help.
+
+@26DEA1
+That's... Brynhild! ...I see... So you will fight Baldur.
+
+@26DECD
+Those who live by the sword die by the sword... Please do not forget those words.
+
+@26DF01
+May the gods protect you.
+
+@26DF27
+Baldur came from the world of darkness, you say? This is no small matter.
+
+@26DF55
+It may be... a second coming of the legendary Ogre Battle. ...How terrible.
+
+@26DF87
+Peace to the wandering souls...
+
+@26DFA4
+The sea around here was once so beautiful. But now...
+
+@26DFCD
+The sea reflects the human heart, perhaps. Ravaged hearts defile the sea.
+
+# --- Stage 11: Lek ----------------------------------------------------------------------
+
+@26E00D
+Kain: Baldur's made his base at Lek, to the south. He's acting like he owns the place.
+
+@26E043
+Nana: ...So we march on Lek.
+
+@26E061
+Kain: The trouble is, there's a powerful barrier around Lek.
+
+@26E097
+[NAME]: ...How can we break that barrier...?
+
+@26E0B4
+Kain: ...My guess is it has to do with the black-robed men camped around Lek...
+
+@26E0E5
+If we beat every last one of them, the barrier might disappear...
+
+@26E114
+[NAME]: ...Then all units will hold formation while taking the area around Lek.
+
+@26E13D
+No going ahead alone. ...Always work together. ...........Right, begin the advance!
+
+@26E1E8
+A barrier has been raised here!
+
+@26E212
+Kodama: We are dwellers of the world of darkness. Echoes of the Dark Knight.
+
+@26E235
+In the world of darkness there is no strife... only perfect stillness, lasting forever...
+
+@26E266
+You need not fear. All people come from there, and in time return there...
+
+@26E2CE
+Aquarius: [NAME]... you are strong... almost too strong...
+
+@26E2ED
+But that strength seems to be different from what I am looking for.
+
+@26E316
+Kain: What are you saying all of a sudden?
+
+@26E32B
+Aquarius: Watching you fight, I no longer understand you.
+
+@26E357
+What do you want? Honor? Power? Or to restore the kingdom of Zenobia?
+
+@26E383
+...I cannot stay with you feeling like this. ...Farewell.
+
+@26E3B2
+Aquarius left, as if fleeing.
+
+@26E3CD
+Kain: Hey! [NAME]! We have to stop her...
+
+@26E3E6
+[NAME]: ...It can't be helped, Kain... I thought Aquarius wouldn't understand...
+
+@26E410
+Kain, why do you think people live in such fear these days?
+
+@26E43A
+It's because there is no true king. No one who truly saves and guides the people.
+
+@26E46C
+I want to become that kind of person... Kain, Nana, everyone... am I wrong...?
+
+@26E49E
+Nana: No, my prince. You're not wrong at all.
+
+@26E4BE
+Kain: ...Yeah, you're right. I get it, [NAME]. We're with you.
+
+@26E4EC
+[NAME]: ...Kain, I've made up my mind.
+
+@26E507
+Kain: ?
+
+@26E50E
+[NAME]: ...I will defeat Baldur.
+
+@26E520
+...Whatever he may be, he must be defeated.
+
+@26E540
+Maybe if everyone listened to Baldur... there would be no more strife.
+
+@26E573
+But at the same time, people would lose something precious... hope.
+
+@26E59A
+...Not as the prince of Zenobia, but as a person living in this world, I will challenge Baldur...!
+
+@26E5D2
+Nana: ...My prince...
+
+@26E5E6
+Aquarius: ...... Lord [NAME]...
+
+@26E5FA
+Kain: [NAME], if that's what you've decided, we'll follow you anywhere.
+
+@26E621
+[NAME]: Thank you, everyone. ...Now, let's go!
+
+@26E648
+Thank you. It's become peaceful around here.
+
+@26E675
+...So you still refuse the darkness... ...Fools...
+
+@26E69B
+What have you done? To Lord Baldur's envoy, of all people! ...Get out!
+
+@26E6EB
+Stillness that lasts forever... that is what peace is...
+
+@26E716
+...Was that black-robed one not human? He kept performing some strange ritual...
+
+@26E755
+You saved us. Thank you so much.
+
+@26E78A
+The world of darkness... the home of all life... there is nothing to fear...
+
+@26E7B9
+How sacrilegious. Lord Baldur will surely punish you.
+
+@26E80B
+We alone bring... peace... ...In the world of light, there is... no peace...
+
+@26E83C
+...A boy from this town was taken away by Lord Baldur's envoy.
+
+@26E867
+His name was... Orosov, I think...
+
+@26E88A
+In this town, only one person was attacked. Yeah, it seems he was taken somewhere.
+
+@26E8D1
+I am an echo... one who has come... from the world of darkness...
+
+@26E8FA
+...Whatever you say, we believe in Lord Baldur.
+
+@26E922
+He could truly change the world.
+
+@26E961
+To all living things... to every soul... peace...
+
+@26E98C
+I offered my son to Lord Baldur. ...The peace of my heart has been promised.
+
+@26E9BF
+Ah... I have never felt so content.
+
+@26E9F8
+Darkness is stillness... Light only... brings turmoil...
+
+@26EA22
+The war between Highland and Zenobia... the turmoil in Lichtfloss... enough...
+
+@26EA4D
+...You should quit this volunteer army foolishness and follow Lord Baldur...
+
+@26EA9F
+Believe in us... The world of darkness... is right there... ...Even within your heart...
+
+@26EAD9
+Deceived by Lord Baldur? Us? ...Ridiculous.
+
+@26EAFC
+What could he possibly gain by deceiving us?
+
+@26EB21
+And what are you? Just swinging your swords around, pleased with yourselves!
+
+@26EB5E
+Because this town was hidden, those black-robed men never came here.
+
+@26EB88
+Have you seen the towns they've occupied? All the life's gone out of them... Awful...
+
+@26EBC7
+How are things going?
+
+@26EBE6
+I wonder if anyone can stop Baldur now.
+
+@26EC08
+And if he got some Zenobian royal to rally behind him... that'd complete Baldur's empire.
+
+@26EC3C
+...Even so, you'll fight, won't you? ...Take this... A coward like me has no use for it...
+
+@26EC84
+Good luck out there.
+
+@26ECA1
+...Seems the prince of Zenobia is alive. Baldur and his men are searching everywhere.
+
+@26ECD4
+Say, you. Do people need a king? Can't we live without someone ruling us...?
+
+@26ED07
+Is hiding like this the only way to live freely...?
+
+@26ED2A
+Please, don't come to this village.
+
+@26ED52
+...As you can see, this whole area's practically Baldur's domain... It's bad for business.
+
+@26ED86
+At least you folks can buy, buy, buy!
+
+@26EDB1
+This town has a bazaar. Want to buy something?
+
+@26EDDF
+So you are the volunteer army... Then let me give you this.
+
+@26EE28
+Good luck to you.
+
+@26EE48
+...Do you think there's anything in this world that's absolutely right?
+
+@26EE6F
+A. I think there is.
+B. There's no such thing.
+
+@26EEA7
+...I see. Then this sword suits you. ...No thanks needed.
+
+@26EEE3
+Good luck.
+
+@26EF0E
+Deneb: Oh? That glass thing you have... Yes, that pumpkin.
+
+@26EF33
+It has such a lovely feel! Such a lovely feel...
+
+@26EF53
+.........
+
+@26EF59
+What? Could it be you're giving it to me? Oh, how delightful!
+
+@26EF7D
+To thank you, I'll join your side.
+
+@26EF9A
+Deneb joined
+your army.
+
+@26EFCC
+Baldur goes around preaching peace to the people. ...But the peace he speaks of...
+
+@26EFFE
+...is nothing but a world of death, ruled by darkness and silence.
+
+@26F01D
+It's the same as saying that if every living thing died, all strife would end.
+
+@26F051
+Why does no one realize it...?
+
+@26F068
+May the gods protect you...
+
+@26F089
+The black-robed men are called Baldur's envoys.
+
+@26F0AF
+It terrifies me that people are beginning to accept them.
+
+@26F0E4
+You will need even greater divine protection.
+
+@26F105
+Please take this.
+
+@26F12F
+To you who oppose Baldur, I give this.
+
+# --- Stage 12: Orma, Baldur, endings ---------------------------------------------------
+
+@26F180
+Kain: [NAME]! No doubt about it, Orma is Baldur's headquarters. ...This is it.
+
+@26F1AE
+[NAME]: Yes... This is it! If we defeat Baldur, it should settle things.
+
+@26F1D7
+Now, let's go! To Orma!
+
+@26F1EB
+Kain: [NAME]. Baldur's headquarters seems to be at a place called Orma.
+
+@26F211
+...Are you really going?
+
+@26F224
+[NAME]: ...Yes. Whether we'll have to fight or not, I don't know...
+
+@26F249
+...but we can't avoid Baldur. ...For everyone's tomorrow... and for my own...
+
+@26F27D
+...I have to settle this...
+
+@26F28E
+Kain: ...Whatever happens, I'll be at your side. I promised Sir Estrada.
+
+@26F2CB
+Aquarius: I will go with you too. Whatever happens...
+
+@26F2EE
+Nana: ...My prince... no, Lord [NAME].
+
+@26F301
+Everyone here will walk with you.
+
+@26F31E
+Not because you're the prince of Zenobia.
+
+@26F33A
+Everyone sees the future in you.
+
+@26F355
+[NAME]: ...Mm. Then let's go, everyone. To Orma!
+
+@26F39D
+Baldur: I have been waiting... for this day... Fix Trishtram...
+
+@26F3C4
+[NAME]: So you are... the Dark Knight... Baldur!
+
+@26F3D8
+Baldur: ...Trishtram... Would you not rule the world with the power of darkness?
+
+@26F406
+Kain: We came to defeat you, to protect this world!
+
+@26F42D
+Baldur: Your world...? ...Is your world worth protecting?
+
+@26F458
+The honest are deceived by the cunning... the weak forever ruled by the strong...
+
+@26F489
+Is that not your world? Is such a world truly worth protecting?
+
+@26F4BB
+Answer me... Trishtram...
+
+@26F4CF
+A. ...I will protect it anyway.
+B. ...What are you getting at?
+
+@26F4FE
+Baldur: My homeland... the world of darkness, is ruled by eternal stillness...
+
+@26F52D
+There is no past and no future. No joy and no sorrow. And... no life and no death.
+
+@26F55A
+Darkness is the beginning of all things... and the end. There is nothing to fear...
+
+@26F588
+Trishtram... whatever you desire... shall I not grant it? ...What say you?
+
+@26F5B6
+A. ...I don't need your power!
+B. ...Yes... I'll follow darkness...
+
+@26F5FD
+Orosov: ...I have been waiting for you... Fix Trishtram... prince of Zenobia...
+
+@26F631
+[NAME]: Orosov?!
+
+@26F63F
+Kain: What are you doing in a place like this?
+
+@26F656
+[NAME]: !!
+
+@26F65C
+Kain: ?!
+
+@26F66C
+Baldur: I have been waiting... for this day... Fix Trishtram...
+
+@26F6A3
+Kain: Wh-what did you do to Orosov?!
+
+@26F6B9
+Baldur: ...That man is a pitiful one. He lost everything in the war twenty-three years ago...
+
+@26F6EA
+His soul had sunk into despair... and it was I who saved it.
+
+@26F717
+...Trishtram... How many lives and how many hopes has the name of Zenobia taken?
+
+@26F748
+How many lives have you taken until now...?
+
+@26F769
+...How many more lives must you take before you are satisfied?
+
+@26F78B
+...Answer me... Trishtram...
+
+@26F7A1
+A. You... have no right to ask!
+B. ......I...........
+
+@26F7D2
+Baldur: ...Cursed child of Zenobia... Offer your life... to the darkness.
+
+@26F7FC
+[NAME]: ...I don't want to hurt anyone anymore... I want no one to be sacrificed...!
+
+@26F82B
+Kain: [NAME], what are you saying? Have you been fighting for your own desires?!
+
+@26F858
+That's not it! Unless someone dirties their hands... true peace can never be built...
+
+@26F887
+You believed that, and that's why you've wielded that sword!
+
+@26F8A5
+Fight! You have to fight, [NAME]! There's no future in the darkness!!
+
+@26F8CA
+A. ...Yes... for the future!
+B. ...No... I can't fight.
+
+@26F908
+Baldur: ...So be it... Then let us fight...
+
+@26F92B
+Baldur: ...Fool... Then turn to dust!!
+
+@26F951
+Baldur: ...Then... offer your life to me...!
+
+@26F980
+...Not you. The one I summoned was...
+
+@26F9B4
+There is nothing left here.
+
+@26F9D0
+...Lord Baldur wishes to meet you. Please hurry to Orma...
+
+@26FA0B
+It doesn't matter if Lord Baldur is from the world of darkness. We believe in him.
+
+@26FA4D
+...With Lord Baldur's power of darkness, every strife in this world can be ended...
+
+@26FA80
+...What about you? Can you do that? I doubt it... not you lot.
+
+@26FABC
+Long live Lord Baldur! ...You're fools! War-crazed fools!!
+
+@26FAE1
+All strife will be gone! Isn't that wonderful?
+
+@26FB0F
+I'm tired of living in fear of fighting...
+
+@26FB2F
+Lord Baldur promised us peace... the thing we wanted most of all...
+
+@26FB70
+The Dark Knight does not oppress those who follow him.
+
+@26FB8F
+He doesn't take heavy taxes, he doesn't drag us off to war... We're grateful...
+
+@26FBD2
+Never once in my life has there been an age without strife...
+
+@26FBF8
+...I wish Lord Baldur would rule the whole world soon...
+
+@26FC34
+We are followers of Lord Baldur. What have you come here for?
+
+@26FC66
+Lord Baldur will use this place as a foothold to change the world...
+
+@26FC8B
+...into a peaceful, quiet world without strife.
+
+@26FCA8
+If you get in Lord Baldur's way, we won't forgive you...
+
+@26FCD3
+So you are the ones who defy Lord Baldur... How pitiful...
+
+@26FCFE
+Is fighting really that much fun? Is peace really that boring?
+
+@26FD39
+Enough fighting! We will live by relying on Lord Baldur.
+
+@26FD77
+Who do we believe, you or Lord Baldur, you ask?
+
+@26FD94
+...You're only human, after all. Humans can't end strife by their own strength.
+
+@26FDC6
+Maybe you should think it over carefully too.
+
+@26FDF6
+...We don't have the courage to fight Baldur. Living in hiding is all we can do.
+
+@26FE27
+But you're different. I don't know where that courage of yours comes from...
+
+@26FE59
+...Take this with you. It's all we can do...
+
+@26FE8D
+We're counting on you. Good luck.
+
+@26FEB0
+Even if we have to stay hidden like this forever, we will live here.
+
+@26FED9
+Our parents, and their parents too... were all born here and laid to rest here.
+
+@26FF0D
+Whatever it takes, we want to go on living here...
+
+@26FF39
+It's true... Baldur the Dark Knight has tremendous power and bottomless charisma.
+
+@26FF69
+But if we gave in to him, I wouldn't know what to tell my children.
+
+@26FF99
+I want my children to face tomorrow on their own, and to believe in the future.
+
+@26FFCD
+Please, give us courage.
+
+@26FFF5
+We can't live without believing in something... That's the kind of creatures we are.
+
+@270024
+...Then, rather than believe in Baldur, we will believe in you.
+
+@27004F
+Please take this.
+
+@270071
+What are we to cling to from now on...
+
+@27009B
+So it's true there are people fighting Baldur.
+
+@2700BF
+...That's right. Like I'd let some shady creep decide my future!
+
+@2700EA
+Use this. It should help a little.
+
+@27011E
+...I feel the peace Baldur speaks of is not true peace.
+
+@270146
+To call it peace just because there is no fighting... that's far too sad.
+
+@27017A
+...Perhaps it was the hearts of people who despaired of this world that summoned Baldur...
+
+@2701AB
+May you find peace...
+
+@2701C9
+Baldur's words seem to hold magic. Please, do not be misled.
+
+@270201
+We tried to tell people that relying on Baldur is a mistake...
+
+@27022D
+But we have no power to convince them, nothing at all.
+
+@27025A
+How pathetic of us...
+
+@270276
+It is deplorable. Everyone around here has submitted to Baldur.
+
+@2702A5
+We will probably have to leave this land.
+
+@2702CC
+Baldur: ...I see... With that much power...
+
+@2702EC
+[NAME]: Baldur... Perhaps this world is just as you say...
+
+@27030F
+But we won't give up... If it's a world humans made, and humans threw into chaos...
+
+@27033B
+...then human strength should be able to set it right.
+
+@270356
+What we need is not your power.
+
+@270372
+It's the courage to believe in the future... I think. Go back to your homeland.
+
+@2703A3
+Baldur: ...So be it... But remember one thing.
+
+@2703C8
+...The true world of darkness... lies within your own hearts...
+
+@2703F5
+...Farewell...
+
+@270403
+Baldur vanished, leaving behind a low laugh.
+
+@270420
+The battle with Baldur was over.
+
+@27043A
+[NAME] disbanded the volunteer army...
+
+@27044E
+His comrades returned, each to their own home.
+
+@27046E
+Kain: ...Say, [NAME]. What are you going to do now?
+
+@270494
+[NAME]: ...Kain. Let's go to Zeteginea. I want to bring the empire down.
+
+@2704B9
+Kain: Huh? ...What did you say?
+
+@2704C9
+[NAME]: With the strength we have now, we can't topple the empire...
+
+@2704E6
+To gain greater power... Kain, you'll lend me a hand, won't you?
+
+@27050A
+Kain: Y-yeah. All right.
+
+@270520
+...What path [NAME] and Kain walked after that...
+
+@27053F
+...is a story to be told another time...
+
+@270563
+Trishtram... whatever you desire... shall I not grant it? ...What say you?
+
+@270599
+[NAME]: ...Kain. If we leave things to the Zeteginean Empire like this...
+
+@2705BE
+...true peace will never come... I think. ...What we can do, I don't know, but...
+
+@2705EE
+I mean to spend the rest of my life bringing down the empire.
+
+@270613
+...What do you say, Kain...?
+
+@270621
+Kain: ...All right, [NAME].
+
+@270630
+Didn't I tell you? I'll follow you anywhere...
+
+@27064C
+Right! Now that it's decided, let's get ready!
+
+@270665
+[NAME]: Let's go, Kain!
+
+@270676
+...What path [NAME] and Kain walked after that...
+
+@270695
+...is a story to be told another time...
+
+@2706B9
+...Listen, [NAME]. Peace is something that must be built.
+
+@2706D6
+It never comes about on its own.
+
+@2706EE
+And the hands that build that peace are always stained with blood. ...But if no one does it...
+
+@270721
+...the weak will be trampled forever. ...Never forget that.
+
+@270759
+[NAME] disbanded the volunteer army and set out with Kain, just the two of them...
+
+@27077D
+His comrades would hear their names again only after the fall of the Zeteginean Empire...
+
+@2707AE
+...But that is a story to be told another time...
+
+@2707DA
+[NAME]: ...Let's go back to Estoa... Kain, I won't fight anymore.
+
+@270802
+I'm not saying it out of cowardice... Even if we fight and win, that's no true victory.
+
+@270833
+A peace bought with people's lives is no true peace.
+
+@270855
+I want to think in Estoa about how true peace can be built.
+
+@270876
+Kain: ...All right, [NAME]. Let's go home, to Estoa.
+
+@270891
+...What path [NAME] and Kain walked after that...
+
+@2708B0
+...is a story to be told another time...
+
+@2708D4
+[NAME]... no, my prince. You alone can save and guide the people of Zenobia.
+
+@2708FE
+Until the day you may stand openly as the prince of Zenobia...
+
+@270926
+...I, Banya, will live for that day alone.
+
+@270948
+My prince... [NAME]. I pray that we will surely, surely meet again.
+
+@27096F
+And so [NAME] disbanded the volunteer army.
+
+@270989
+Kain: Hey! [NAME]...! Has anyone seen [NAME]?
+
+@2709AB
+Aquarius: No? What about you, Nana? Haven't you seen him?
+
+@2709CB
+Nana: Kain, weren't you with him?
+
+@2709E1
+Kain: ...[NAME]... Where...? ...Where do you think you're going?!
+
+@270A01
+...What am I supposed to do...
+
+@270A0F
+Nana: ...The prince disappeared for our sake...
+
+@270A35
+Zeteginea would never let this business with Baldur go. ...So...
+
+@270A6A
+Aquarius: Kain... Let's look for the prince.
+
+@270A86
+We can't let him go on a hard journey all alone...
+
+@270AA2
+Kain: ......Yeah.
+
+@270AAD
+...You idiot... [NAME]. We've always lived through everything together...
+
+@270AD6
+Whether Kain ever found [NAME] again, no one can say...
+
+@270AF8
+...What became of [NAME]... is a story to be told another time...
+
+# --- Stage 13: Birkin -------------------------------------------------------------------
+
+@270B7E
+Birkin: So it's you lot. The ones trampling all over my territory.
+
+@270BA6
+I'd rather not get too rough, you know.
+
+@270BC2
+Can't be helped. Guess I'll rough you up a little.
+
+@270BE9
+Birkin: Ugh... I feel kind of... sick...
+
+@270C02
+Could you give me a break for a bit?
+
+@270C18
+It's easier to talk after the sun goes down...
+
+@270C35
+Won't you come back later?
+
+@270C48
+Birkin: Tch. Can't be helped. It's a werewolf's life anyway.
+
+@270C70
+Time to bring down the curtain!
+
+@270C8C
+Birkin: Oh, good. Come back at night, okay?
+
+@270CE9
+Birkin: Tch. What a sorry sight. Go on, finish me off.
+
+@270D16
+Aquarius: You are... a werewolf.
+
+@270D2D
+Birkin: ......!
+
+@270D38
+...That's right. Ending up like this, I can't very well live in a town.
+
+@270D65
+So I live up here in the mountains...
+
+@270D73
+Aquarius: You have a kind heart.
+
+@270D8F
+Birkin: .........Ha ha ha. That's the first time anyone's said that. You're a strange one.
+
+@270DBC
+Aquarius: We need people with kind hearts like yours.
+
+@270DEA
+What do you say? Won't you come with us on our journey to save people from suffering?
+
+@270E18
+Birkin: You want me on your side? It might be catching, you know?
+
+@270E40
+I might turn into a werewolf at any time, you know?
+
+@270E5D
+Aquarius: No. From what I can see, your heart hasn't changed.
+
+@270E81
+Then even if your shape changes, aren't you the same person?
+
+@270EA0
+What decides a person's worth is not their form. It's their heart.
+
+@270EC1
+Birkin: .........Ha ha ha. You're right. Maybe so. It's just like you say.
+
+@270EEC
+Let me join you.
+
+@270F01
+Birkin joined
+your army.
+
+@270F32
+Birkin: ...Tch. ...What a sorry sight... What a dull life it was...
+
+@270F69
+It's completely in ruins...
+
+@270F86
+Birkin: Brings back memories... But it's gone to ruin.
+
+@270FA3
+Well, at least the bandits aren't using it as a den, right?
+
+@270FD2
+Keep going west from here, and you'll find the boss of some strange gang.
+
+@270FF7
+He rules this whole area, but I get the feeling he's not such a bad guy.
+
+@271025
+They say he spends half of every day worshiping wolves.
+
+@271046
+Creepy, huh.
+
+@271053
+Sometimes you see some black-robed guys, a different bunch from before.
+
+@27108B
+These days this country's full of bandits. But it's a bit different around here.
+
+@2710B7
+Not long ago, you couldn't even walk outside town around here.
+
+@2710E2
+The place was crawling with bandits.
+
+@2710F4
+But since Birkin came, it's turned into a different sort of gang.
+
+@27111C
+Sure, they do rob merchants.
+
+@271136
+But the ones they rob are usually crooked merchants getting rich.
+
+@27115C
+They seem a bit different from plain thugs.
+
+@27117D
+It's far better than when the old bandit gang was around.
+
+@2711BF
+I hear Birkin used to be a Zenobian soldier. An elite of the ranger corps, they say.
+
+@2711F3
+But while he was on the run after losing to Highland, he caught some strange disease.
+
+@271225
+But ten bandits together can't take him. Is he really sick?
+
+@27119D
+Something's off lately.
+
+@271271
+Birkin showed up about three years ago.
+
+@27128A
+He challenged the violent bandits we'd been having so much trouble with.
+
+@2712B3
+He beat them all in no time, and that's how he became the boss.
+
+@2712D8
+There's less violence, but I hear he worships something strange. It's creepy.
+
+@271323
+Oh, how rare. A visitor? Please don't make too much noise.
+
+@27136A
+Lord: Oh. That is the Twinkle Star. I received a revelation in a dream.
+
+@271396
+That I would fight alongside the one who bears the Twinkle Star...
+
+@2713B0
+I have been waiting for this moment. Come, let us fight together.
+
+@2713D6
+The Lord joined
+your army.
+
+@27140C
+This land has a strange contagious disease handed down from long ago.
+
+@271434
+Those who catch it look human by day, but by night they change into something else.
+
+@271466
+But whether that sickness still lingers, no one knows.
+
+@27148B
+If it does... then someone must have caught it.
+
+@2714B2
+It's an unfortunate thing...
+
+@2714CA
+May the gods protect you.
+
+# --- Stage 14: Ein Peninsula giants -------------------------------------------------
+
+@271500
+You... killed Master Jenga?
+
+@271516
+Revenge. You... die.
+
+@271552
+It's become peaceful around here too. Thank you.
+
+@271578
+Sea monsters, and giants on land. We can't cope.
+
+@271598
+They say Jenga made them smarter... but can a human really do such a thing?
+
+@2715C7
+It's become peaceful around here too. Thank you.
+
+@2715F1
+What? You're going to deal with the giants for us?
+
+@27160F
+That's wonderful. Then we'll have to support you too.
+
+@271634
+Good luck to you.
+
+@271643
+It's become peaceful around here.
+
+@271665
+It's just awful. What on earth is going on?
+
+@27167F
+Giants are attacking everything in sight.
+
+@27169D
+With those huge bodies they churn up the sea too, so we can't even fish.
+
+@2716C0
+It's become peaceful around here too. Thank you.
+
+@2716EA
+Was it you who defeated Jenga?
+
+@271705
+Please take this. I'm sure it will be of use to you.
+
+@271752
+Good luck to you.
+
+@271760
+It's become peaceful around here.
+
+@271786
+Somehow or other, there's a Firbolg around with a sharp mind.
+
+@2717A7
+He must have been put under a spell not of this world.
+
+@2717C5
+Please take this. It will surely be of use to you.
+
+@271808
+Good luck to you.
+
+@271817
+It's become peaceful around here.
+
+@27183D
+That Firbolg seems to feel indebted to Jenga! Infuriating!
+
+@271865
+Use this and kill him quick!
+
+@271892
+It's become peaceful around here too. Thank you.
+
+@2718B4
+Giving monsters intelligence... how terrible.
+
+@2718CE
+But was that really Jenga's aim? Or did he have some other purpose...?
+
+@2718FE
+Now no one will ever know.
+
+# --- Stage 15: the Baron of Hyhandra --------------------------------------------------
+# The black-robed figure speaks in all-katakana in the original: rendered in
+# halting capitals.
+
+@271974
+Black Robe: SO YOU... ARE THE ONES... GETTING IN OUR WAY...
+
+@27199E
+Aquarius: This is... I sense something tremendously strange...
+
+@2719C7
+Baron: ...Who... are you...?
+
+@2719E4
+Black Robe: HEH HEH HEH. IS IT, STRANGE, THAT HE, LOOKS LIKE, YOUR LEADER?
+
+@271A2D
+Birkin: Sniff, sniff... Hmph, the smell's different.
+
+@271A4A
+Baron: Something... something...
+
+@271A5E
+Black Robe: ENOUGH, TALK. NOW, FOR JENGA'S, REVENGE...
+
+@271A83
+THE BARON, SHALL, TAKE IT.
+
+@271AA1
+Kain: Jenga?! So you... you're with Jenga...
+
+@271AC6
+Black Robe: HEH... HERE I COME!
+
+@271AE8
+Baron: Ugh... ugh...
+
+@271AF9
+Kain: Hey! Who... who are you?
+
+@271B13
+Baron: Someday... far away... somewhere...
+
+@271B2D
+The Baron breathed his last.
+
+@271B40
+Kain: Damn it! What was that all about?!
+
+@271B5A
+[NAME]: ......
+
+@271B6C
+There seems to be no one here...
+
+@271B98
+You saved us. You're the ones who defeated that golem, aren't you?
+
+@271BC1
+About two years ago, the Baron and his men started spreading those golems around.
+
+@271BF1
+Lately we're even scared to go in and out of town...
+
+@271C19
+You saved us. You're the ones who defeated that golem, aren't you?
+
+@271C5E
+Ordinary weapons won't defeat that robed man, I think.
+
+@271C84
+I suspect he's not of this world.
+
+@271CA4
+Perhaps the Baron is just being used, under that man's spell.
+
+@271CDC
+Be careful.
+
+@271D04
+Even we don't know what those golems are for.
+
+@271D23
+Come to think of it, they never attack the people of this town.
+
+@271D41
+They attacked you? Hmm. There must be some trick to those golems.
+
+@271D79
+You lot be careful.
+
+@271DA5
+The Baron's the one with the empty eyes, right?
+
+@271DBC
+Still, I find that robed man under him a lot creepier than the Baron.
+
+@271DED
+That robed man never shows his face. It's always pitch black inside his robe.
+
+@271E19
+What's he like, I wonder? Surely it isn't empty in there just because it's dark?
+
+@271E4D
+What was that robed man like?
+
+@271E83
+They say the Baron is very strong. With a sword in hand, he has no equal.
+
+@271EB2
+But he hardly ever leaves Hyhandra Castle, so who knows what he does in there...
+
+@271EE9
+Was that Baron human?
+
+@271F1D
+Since when has that Baron lived in Hyhandra Castle, I wonder...
+
+@271F47
+Hyhandra... Highland... They sound alike. Are they connected somehow?
+
+@271F79
+It's become peaceful around here too. Thank you.
+
+@271FB0
+What? The Baron's name? Who knows...
+
+@271FC7
+Around here, when you say "the Baron," there's only him.
+
+@271FFC
+Come to think of it, don't you look somehow like that Baron?
+
+@272022
+Well, I only saw him once from far away, so I can't say for sure. Just a feeling.
+
+@272055
+When I think of that Baron, somehow I feel sorry for him.
+
+@27207D
+Not that it has anything to do with me, mind you...
+
+@2720BD
+Oh, thank you so much. We were sick and tired of that Talos.
+
+@2720E4
+Please accept this as thanks.
+
+@272115
+Good luck to you.
+
+@27215F
+Warren: Oh? Have we not met somewhere before?
+
+@272188
+Hmm, just my imagination? Yet I feel a strange nostalgia.
+
+@2721AC
+I find I wish to test my strength alongside you. Allow me to accompany you.
+
+@2721D9
+Warren joined
+your army.
+
+@272216
+We saw your heroic deeds. Please accept this as thanks.
+
+@27224B
+Heh heh heh, I saw it all. You saved us. We were scared of that Talos.
+
+@27226E
+Now we can come and go as we please. This is a thank-you.
+
+@2722A4
+Now we can come and go as we please.
+
+@2722DE
+Oho. Defeating that Talos is quite something.
+
+@2722FA
+Let me give you this as thanks.
+
+@27232F
+Defeating that Talos is quite something.
+
+@27234F
+The black-robed ones seem to wield magic beyond human power.
+
+@27237A
+For them, moving corpses must be a simple thing.
+
+@2723A0
+But moving a corpse and bringing a corpse back to life are entirely different matters.
+
+@2723D0
+And yet, those ones might...
+
+@2723ED
+The ones who made the golems and placed them in the town are the black-robed ones.
+
+@272413
+Their arts seem to be quite powerful.
+
+@272431
+Perhaps, for them, even the art of making a person out of something else...
+
+@272465
+No, no matter what, that would be the work of the devil. Please forget I said it.
+
+# --- Stage 16: Bergo the dragon master -------------------------------------------------
+
+@2724CB
+Bergo: Tch. So you're the ones getting in my way.
+
+@2724EA
+The Dark Knight's paying me good money, so I'm working hard here.
+
+@27250D
+Mind you, burning those brats to death as they run around screaming feels pretty good.
+
+@272532
+I'll roast you lot nice and crispy too.
+
+@272553
+Hayato: I see, so it's you. That's a little... unforgivable.
+
+@272584
+Aquarius: Such cruelty... O gods...
+
+@2725A4
+Goldie: I'll teach you what atonement means!
+
+@2725D9
+Bergo: Ugh... y-you're tough... For that kind of money... it wasn't worth it...
+
+@27260D
+Bergo's gone, but the dragons still attack people.
+
+@27263C
+There have always been lots of monsters around here.
+
+@27265C
+They used to be docile... What happened, I wonder?
+
+@27268F
+Bergo is a terrible man. He'll do anything for his own greed.
+
+@2726B8
+I feel sorry for the dragons he uses.
+
+@2726E4
+Bergo's gone, but the dragons still attack people.
+
+@27271B
+It happened suddenly, half a year ago. Dragons and griffins started attacking.
+
+@272743
+Maybe it's because of the volcano erupting?
+
+@27275B
+Lots of strange things have been happening lately.
+
+@272771
+Bergo's gone, but the dragons still attack people.
+
+@2727A4
+Bergo, the dragon master. Since he showed up, places all over have been attacked.
+
+@2727D5
+Around here too, plenty of families were wiped out.
+
+@2727F9
+Please, beat him for us...
+
+@272810
+You avenged them for us. Thank you.
+
+@272844
+Hayato: Ah, thank you. I've been working as this town's bodyguard.
+
+@27286B
+I managed to keep the monsters from getting into town.
+
+@27288C
+But we were practically surrounded, so there was nothing I could do.
+
+@2728B1
+If I wandered out of town carelessly and got bitten by a monster, that'd hurt.
+
+@2728DE
+Of course, getting cut hurts too. I don't like being hurt.
+
+@272900
+But I guess my job here is done.
+
+@272917
+Hey, what do you say? Won't you hire me?
+
+@272933
+I don't like getting hurt, but you need money to live.
+
+@272955
+How about 50000 goth?
+
+@272969
+Oh well. I'll be here a while longer, so come back when you can afford me.
+
+@2729AC
+Ah, you don't have enough money...
+
+@2729CC
+But it doesn't look like you can hire any more...
+
+@2729EC
+Ah, thank goodness. I can eat again.
+
+@272A05
+Well then, I'm in your hands.
+
+@272A15
+Hayato joined
+your army.
+
+@272A5D
+Bergo's gone, but the dragons still attack people.
+
+@272A98
+Do you know a samurai named Hayato? He's amazing.
+
+@272AB6
+I saw him fight just once. He cut a dragon in two with a single blow.
+
+@272AE1
+There aren't many men that strong.
+
+@272AFB
+I wish someone would take care of Bergo.
+
+@272B14
+Bergo's gone, but the dragons still attack people.
+
+@272B3A
+Well, it's a little better than before.
+
+@272B62
+Are you the ones fighting the Army of Darkness?
+
+@272B82
+The monsters around here never used to attack people.
+
+@272BA4
+Since they turned vicious, people have stopped going out.
+
+@272BC1
+Won't you buy something?
+
+@272BDE
+Won't you buy something?
+
+@272C01
+Ah, we're saved. We kept getting attacked by Bergo the dragon tamer.
+
+@272C29
+This is a thank-you. Take it with you.
+
+@272C53
+Ah, we're saved.
+
+@272C71
+There are lots of volcanoes around here. Seems that's how it goes with so many islands.
+
+@272C9E
+There's a Dragon Mail enshrined in this village's shrine, but it's no use just on display.
+
+@272CCF
+You folks make good use of it. It's sturdy armor that won't burn no matter what.
+
+@272D13
+Has the Dragon Mail been useful?
+
+@272D3F
+This town's defenses are strong, so we kept the dragons from getting in.
+
+@272D6E
+But we couldn't drive them off by our own strength.
+
+@272D91
+We tried making a weapon like this, but it's hard to handle...
+
+@272DB2
+Please, take it with you.
+
+@272DCE
+This is a town of weapon and armor smiths.
+
+@272DE6
+We'd like fine people such as you to be properly outfitted, but...
+
+@272E1A
+This is a town of weapon and armor smiths.
+
+@272E3F
+Bergo's cruelty is beyond bearing. Our prayers seem too weak.
+
+@272E6D
+There's also a rumor he's only causing trouble at the Dark Knight's request.
+
+@272E95
+Please, take care.
+
+@272EA7
+May you find peace...
+
+@272EC9
+Our church holds arms handed down from long ago.
+
+@272EE8
+It was said that someday a messenger of the gods would come and use them.
+
+@272F10
+Perhaps you are the messengers of the gods. Please take this.
+
+@272F40
+May the gods protect you...
+
+@272F81
+Mm... You need not say anything. I understand. Take this with you.
+
+@272FB2
+Mm... I see. They say the eyes are the windows of the heart...
+
+@272FCF
+I see...
+
+@272FE2
+May the gods protect you...
+
+# --- Stage 17 ---------------------------------------------------------------------------
+
+@273021
+Someday... in the not so distant future... in the time of truth...
+
+@273045
+...
+To you, I give this...
+
+@2730BF
+Canopus: I hate people like you, who fight without rhyme or reason.
+
+@2730ED
+Heh. Well, it's no concern of mine. Go on, leave.
+
+@273118
+Gilbert: Wait! Canopus! Have you forgotten me?
+
+@273136
+Canopus: Gilbert! Why are you here?
+
+@27314D
+Gilbert: I read the letter from your sister, Yuria.
+
+@27316D
+At last... perhaps the time has come to strive for true peace.
+
+@27318F
+Canopus: True peace, huh... Whether it's real, I can't say.
+
+@2731B5
+But it's you saying so. I'll trust you, and entrust myself to you.
+
+@2731DC
+Canopus joined
+your army.
+
+@273225
+Ares: Well, well, I must be losing my touch. Beaten by the likes of you.
+
+@273251
+Hm? You're gathering strong fighters? Then how about me? I'd be a big help.
+
+@273284
+Right, it's settled. From today, we're comrades. Glad to have you.
+
+@2732A3
+Ares joined
+your army.
+
+@2732D5
+A Gungnir joined
+your army.
+
+@27330F
+A Trooper joined
+your army.

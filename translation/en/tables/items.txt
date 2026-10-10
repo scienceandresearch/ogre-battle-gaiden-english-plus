@@ -1,0 +1,387 @@
+# Item names (table 0x2166B8). Each entry starts with item data (type,
+# price, flags, stat bytes), kept by prefix=item. Names are copied into
+# fixed-cell lists and messages; keep them short.
+@table 2166B8 prefix=item maxlen=15
+1	Cure Potion
+2	Cure Stone
+3	Soul Call
+4	Echo Chime
+5	Cure Ankh
+6	Wonder Egg
+7	Full Moon Stone
+8	Joker Card
+9	Return Half
+10	Dowsing Rod
+11	Trade Ticket
+12	All Summons
+13	Love & Peace
+14	7-League Boots
+15	Trojan Horse
+16	Scent of Night
+17	Light's Whisper
+18	Crystal Ball
+19	Sonic Blade
+20	Durandal
+21	Bizen Osafune
+22	Zephyros
+23	Fafnir
+24	Zanzibar
+25	Brynhild
+26	Black Katana
+27	Piercing Sword
+28	Sword of Mikado
+29	Conqueror Blade
+30	Kokuou's Sword
+31	Ogre Blade
+32	Flame Sword
+33	Musashi's Blade
+34	Iskender Bey
+35	Ice Scimitar
+36	Ice Blade
+37	Peridot Sword
+38	Euros
+39	Quick Sword
+40	Malachite Sword
+41	Summanus
+42	Notos
+43	Sigmund
+44	Broken Hexblade
+45	Claws of Death
+46	Evil Blade
+47	Relic Sword
+48	Dragon Claw
+49	Godsoul Sword
+50	Kusanagi Blade
+51	Caladbolg
+52	Dragoon Spear
+53	Benkei Glaive
+54	Adamant Lance
+55	Ozrick Spear
+56	Thunder Spear
+57	White Lance
+58	Lava Axe
+59	Boreas
+60	Frozen Axe
+61	Dark Axe
+62	Rune Axe
+63	Battle Fan
+64	Searing Staff
+65	Rod of Flame
+66	Flame Flail
+67	Thunder Whip
+68	Devil Hammer
+69	Kukai's Rod
+70	Mystic Mace
+71	Ripple's Rod
+72	Silver Rod
+73	Holy Rod
+74	Shield Bow
+75	Lightning Bow
+76	Dark Darts
+77	Spirit Charm
+78	Elder Sign
+79	Kiryu Horn
+80	Bell of Flame
+81	Hydra Fang
+82	Bell of Cold
+83	Byakko Fang
+84	Snow Orb
+85	Bell of Thunder
+86	Thunder Orb
+87	Dark Charm
+88	Black Cross
+89	Mistletoe Leaf
+90	Archangel Wing
+91	Iron Rosary
+92	White Cross
+93	Ring of Power
+94	Kotodama Ring
+95	Firedrake Ring
+96	Thunder Ring
+97	Brand Ring
+98	Lucifer Ring
+99	Ring of Grace
+100	Battle Bugle
+101	Ninja Garb
+102	Samurai Armor
+103	Mail of Nails
+104	Golden Armor
+105	Mail of Earth
+106	Dragon Mail
+107	Phoenix Robe
+108	Snow Mantle
+109	Jet-Black Armor
+110	Death's Mantle
+111	Saint's Garb
+112	Oath Vestment
+113	Pirate Helm
+114	Silver Helmet
+115	Silver Tiara
+116	Mystic Veil
+117	Overlord Crown
+118	Burning Band
+119	Ice Bandana
+120	Thunder Helm
+121	Devil Mask
+122	Holy Crown
+123	Iron Gauntlets
+124	Thunder Gloves
+125	Spike Shield
+126	Shield of Grit
+127	Martyr's Shield
+128	Ogre Shield
+129	Searing Shield
+130	Cold Shield
+131	Raiju Shield
+132	Drago Stone
+133	Necro Staff
+134	Ring of Undeath
+135	Blood Spell
+136	Dream Crown
+137	Rotten Pumpkin
+138	Black Brand
+139	Hard Bokken
+140	White Vow
+141	Black Vow
+142	Cat's Tongue
+143	Silver Cross
+144	Hero's Shard
+145	Life Source
+146	Sword Symbol
+147	Speed Gear
+148	Magus Paper
+149	Heart of Leo
+150	Mirror of Heart
+151	Vessel of Fate
+152	Glass Pumpkin
+153	Twinkle Star
+154	Silver Doll
+155	Goddess Statue
+156	Thunder Stone
+157	Bronze Maiden
+158	Purified Ruby
+159	Amber Knife
+160	Rainbow Choker
+161	Yuria's Letter
+162	Chaos Up
+163	Chaos Down
+164	Gauge Up
+165	Gauge Down
+166	Tornado
+167	Petro Breath
+168	Fireball
+169	Blizzard
+170	Lightning
+171	Nightmare
+172	Charm
+173	Banish
+174	Healing
+175	Deep Sea
+176	Plains
+177	Snowfield
+178	Forest
+179	Wasteland
+180	Swamp
+181	Mountains
+182	Snowy Peaks
+183	Volcano
+184	Cliffs
+185	Desert
+186	Stronghold
+187	Light
+188	Darkness
+189	Bond to Future
+
+# Item descriptions (table 0x2C4124), copied to RAM and shown in the message
+# window; 'vwf' marks them for the variable-width renderer.
+# Elements: Phys(ical), Fire, Ice, Thndr (thunder), Dark, Holy.
+@table 2C4124 vwf wrap width=18 lines=3 tiles=54
+1	A medicine blended from many herbs. Restores 50 HP to one character.
+2	A powerful wound remedy. Restores 100 HP to one character.
+3	A flute that calls back the soul of the dead from the heavens. Revives a character.
+4	A bell that draws the souls of all who hear it. Calls a neutral character.
+5	Restores 100 HP to every character in the unit.
+6	A strange egg. You won't know what's inside until you open it.
+7	A magic gem that calls the legendary beast, the Weretiger.
+8	A blank tarot card. Gives you one tarot card at random.
+9	A magic tome that moves you at once. Sends one unit back to headquarters.
+10	A tool for finding lost sacred relics. Uncovers one buried treasure.
+11	Trades with Jack, the mysterious merchant who appears wherever he is called.
+12	Gathers allied units around the opinion leader.
+13	Appeals to an enemy's heart and wins them over to your side.
+14	Magic boots that move a unit instantly, but only to towns you have liberated.
+15	A wooden horse built by Troy. Its quake shakes heaven and earth and topples walls.
+16	A small bag with a strange scent. Makes it night at once.
+17	A small box that leaks light. Makes it day at once.
+18	A crystal that reveals hidden towns and churches.
+19	A sword faster than sound.| STR+13
+20	The dark sword of the ancient sky people.| STR+12
+21	A dark sword of old Zipang.| STR+11
+22	The dark sword of the god of the west wind.| STR+15, INT+3
+23	The dark sword of the hero Sigurd.| STR+20, INT+4
+24	The holy sword of Ishtar, goddess of war.| STR+18
+25	The holy sword of the holy knight Fenrir.| STR+20
+26	A katana favored by ninja.| STR+3
+27	A sword with a needle-sharp tip.| STR+4
+28	The sword of Mikado, great king of the East.| STR+8
+29	A great sword handed down from the ancient hero Sigurd.| STR+11
+30	The cursed blade of the legendary demon Kokuou.| STR+15
+31	The great sword of an ogre.| STR+20
+32	A magic fire sword that shoots small flames.| STR+6
+33	The fire sword of the hero Musashi.| STR+12
+34	The fire sword of the hero Iskender Bey.| STR+15, INT+3
+35	An ice sword shaped like the crescent moon.| STR+3
+36	A frozen sword forged from ice that never melts.| STR+7
+37	A spirit sword made from the gem peridot.| STR+11
+38	The frozen sword of the god of the north wind.| STR+15, INT+3
+39	A sword made to honor fallen warriors without glory.| STR+15, Ice+20
+40	A frozen sword forged in the demon world.| STR+18, INT-4
+41	A thunder sword made from dragon scales.| STR+7
+42	The thunder sword of the god of the east wind.| STR+15, INT+3
+43	A thunder sword forged by the thunder god Thor.| STR+19
+44	A cursed demon sword.| STR+4
+45	A cursed claw.| STR+8
+46	A dark sword used by swordsmen of the demon world.| STR+8, INT+3
+47	A demon sword of madness born in another world.| STR+24, INT-16
+48	The holy claw of a bronze dragon.| STR+5
+49	A holy sword in which a hero's soul dwells.| STR+8, INT+10
+50	A divine sword found inside the dragon of the deep.| STR+15
+51	The holy sword called "Demon Slayer".| STR+17
+52	The spear once used by a dragoon.| STR+7
+53	The glaive of Benkei, warrior monk of the East.| STR+12
+54	A spear said to be wielded by the messengers of the gods.| STR+20, Fire+12
+55	The ice spear of the ancient King Zamora.| STR+14, INT+7
+56	A magic spear filled with the power of thunder.| STR+9
+57	A spear sealed with holy power.| STR+18, Holy+15
+58	An axe made of stone that even lava cannot melt.| STR+11
+59	The fire axe of the god of the south wind.| STR+17
+60	A magic axe that raises an icy wind.| STR+11
+61	A demon axe drawn from the deepest darkness.| STR+16, INT-8
+62	An axe carved with holy runes.| STR+15
+63	A war fan with a metal frame.| STR+3
+64	A staff that glows white-hot and becomes a weapon of fire.| INT+3
+65	A rod holding a flame that will never go out.| INT+8
+66	The flail of a cult that worships fire.| STR+4
+67	The whip of the thunder god Thor.| STR+6
+68	A devil's hammer forged by an evil god.| STR+12, INT-4
+69	The holy staff of the ascetic Kukai.| STR+8
+70	A holy mace clad in light.| STR+2, INT+7
+71	The star staff of a great witch.| INT+14
+72	A rod made of silver. If it were purified at a certain church...| STR+11, Holy+8
+73	A purified silver rod sealed with holy power.| STR+14, Holy+9
+74	A crossbow fitted with a sturdy shield.| STR+15, Phys+15
+75	A bow that fires arrows of thunder.| STR+7
+76	Dark darts forged in the fires of hell.| STR+3, INT+2
+77	A charm that gathers the power of nature.| Fire+3, Ice+3, Thndr+3
+78	A charm made in the age of the gods.| STR+11, INT+5, Dark+16, Holy+14
+79	Horn of the raging dragon Kiryu.| STR+12 INT-10 Phys+10 Fire+15| Ice+4 Thndr+13 Dark+4 Holy-6
+80	A charm against fire.| Fire+5
+81	A charm made from a hydra's fang.| STR+4, Phys+6, Fire+8
+82	A charm against cold.| Ice+5
+83	A charm of Byakko, the sacred beast.| INT+7, Ice+12
+84	An orb carved from the heart of an iceberg.| INT+11, Fire-8, Ice+14
+85	A charm against thunder.| Thndr+5
+86	A charm sealing the core of a thundercloud.| STR+6, Thndr+17
+87	A charm carved with a demon's seal.| STR+8, INT-4, Dark+13, Holy-16
+88	A black cross carried by those who worship demons.| INT+3, Dark+3
+89	A charm that keeps evil away.| Holy+5
+90	A wing of an archangel, holding holy power.| INT+16, Phys+7, Holy+23
+91	A rosary made of iron.| INT+2, Holy+2
+92	A cross painted all in white.| INT+2, Holy+2
+93	A ring that fills you with vigor.| STR+18, INT-7
+94	A ring of the spirit that dwells in words.| STR-12, INT+16
+95	A ring made from a fire dragon's bones.| STR+6, Fire+14
+96	A ring sealing the power of the thunder god.| STR+3, Thndr+15, Holy+6
+97	A ring that grants a demon's protection.| INT+11, Dark+19, Holy-11
+98	A bracelet blessed by the fallen angel.| STR+21, Dark+17, Holy-15
+99	A ring blessed by the holy father.| INT+5, Phys+12, Holy+14
+100	A magic bugle.| STR+2, Phys+2
+101	Clothes woven with metal thread.| Phys+3, Dark+2
+102	Armor of metal plates tied together.| Phys+5
+103	Armor covered in long spikes.| Phys+7
+104	Gold-plated armor.| Phys+12
+105	Armor protected by the power of mother earth.| Phys+16, Holy+7
+106	Armor that no flame can burn.| Fire+30
+107	The robe of the immortal Phoenix.| Phys+7, Fire+11
+108	The mantle of Byakko, the sacred beast.| Phys+11, Ice+16
+109	Black armor blessed by darkness.| Phys+8, Dark+4, Holy-3
+110	The mantle of Death, who snuffs out the flame of life.| Phys+13, Dark+17, Holy-11
+111	Clothes made by followers of the light.| Phys+4, Holy+3
+112	A mantle given as proof of being a saint.| Phys+5, Holy+13
+113	A helmet worn by pirates.| Phys+2
+114	A helmet that wards off evil.| Phys+3, Holy+1
+115	A crown worn mainly by priests.| Phys+3, Holy+8
+116	A veil that protects its wearer with a strange power.| Fire+7, Ice+11, Holy+5
+117	The helm worn by the conqueror of a troubled age.| Phys+17
+118	A headband made from a fire wyrm's whiskers.| Fire+6, Ice-4
+119	A bandana woven from an ice dragon's frozen breath.| Fire-9, Ice+7
+120	The helmet of the thunder god Thor.| Phys+5, Thndr+8
+121	A mask worn by heretics.| Phys+4, Dark+8, Holy-6
+122	A helm blessed by the holy king.| Phys+7, Holy+13
+123	Gloves faced with metal plates.| Phys+2
+124	The gloves of the thunder god Thor.| Phys+3, Thndr+4
+125	A shield with long spikes on its face.| Phys+6
+126	A shield that stops attacks with sheer grit.| Phys+19, Fire-8, Ice-5
+127	A shield with a loyal heart.| Phys+14, Holy+7
+128	An ogre's legacy.| Phys+18, Dark+21
+129	A shield sealing the spirit of magma.| Phys+9, Fire+12
+130	A magic shield giving off a fierce chill.| Phys+8, Ice+15
+131	A shield holding the power of the thunder beast Nue.| Phys+7, Thndr+14
+132	Whoever holds this stone understands dragon speech. Use it on a Beast Master...?
+133	A demonic staff for speaking with the dead. Use it on a Goetic...?
+134	A ring that makes its wearer's own body undying. Use it on a Necromancer...?
+135	A seal of blood, the mark of the demon nobility. Use it on a Knight...?
+136	A crown of change that gives a noble heart and an unsullied body. Use it on an Amazon...?
+137	It seems to be a rotten pumpkin? Use it on a Pumpkinhead...?
+138	A brand of darkness. Use it on a Black Knight...?
+139	A wooden sword that never breaks. Use it on a Samurai Master...?
+140	The vow of a saint. Use it on a Light Priest...?
+141	A pact with the great demon king. Use it on a Curse Priest...?
+142	An item for changing class. Use it on a Firbolg...?
+143	A silver cross that gives the power to drive out evil. Use it on an Amazon...?
+144	Whoever holds it glimpses the soul of a hero. Raises the level by 1.
+145	A medicine made for the frail. Raises max HP by a few points.
+146	A warrior's mark inscribed with the secrets of the sword. Raises STR by a few points.
+147	An oil magically blended from many flower oils. Raises AGI by a few points.
+148	An old magic text that sharpens the mind. Raises INT by a few points.
+149	A stone holding the proud spirit of the lion. Raises CHA by a few points.
+150	It makes the heart of the one who looks into it beautiful. Raises ALI by a few points.
+151	A vessel that increases the amount of luck a person has. Raises LUK by a few points.
+152	A pumpkin ornament made of glass. If you take it to a certain town...
+153	An emblem that marks a true hero. If you take it to a certain town...
+154	An angel statue made of silver.
+155	A goddess statue made to undo the barrier sealed by a heavenly envoy.
+156	A shard of stone said to call down thunder.
+157	A maiden statue of bronze, prized for its unusual shape.
+158	A purified ruby that can remove a demonic barrier.
+159	A knife the color of amber, said to cut light apart from darkness.
+160	A choker with rainbow ornaments.
+161	A letter written by Yuria, the younger sister of Canopus. If you take it to a certain town...
+162	Raises the Chaos Frame by 5.
+163	Lowers the Chaos Frame by 5.
+164	Use in versus battles. Speeds up the wait gauge.
+165	Use in versus battles. Slows down the wait gauge.
+166	Use in versus battles. Makes a whirlwind that damages the enemy.
+167	Use in versus battles. Turns the enemy to stone.
+168	Use in versus battles. Fireballs damage the enemy.
+169	Use in versus battles. Hurls ice crystals that damage the enemy.
+170	Use in versus battles. Calls lightning that damages the enemy.
+171	Use in versus battles. Evil spirit energy damages the enemy.
+172	Use in versus battles. Charms the enemy into fighting each other.
+173	Use in versus battles. Holy light damages the enemy.
+174	Use in versus battles. Restores the HP of one ally.
+175	Use in versus battles. Turns the field into deep sea.
+176	Use in versus battles. Turns the field into plains.
+177	Use in versus battles. Turns the field into snowfield.
+178	Use in versus battles. Turns the field into forest.
+179	Use in versus battles. Turns the field into wasteland.
+180	Use in versus battles. Turns the field into swamp.
+181	Use in versus battles. Turns the field into mountains.
+182	Use in versus battles. Turns the field into snowy peaks.
+183	Use in versus battles. Turns the field into a volcano.
+184	Use in versus battles. Turns the field into cliffs.
+185	Use in versus battles. Turns the field into desert.
+186	Use in versus battles. Turns the field into a stronghold.
+187	Use in versus battles. Turns night into day.
+188	Use in versus battles. Turns day into night.
+189	Use in versus battles. Holy magic damages the enemy.

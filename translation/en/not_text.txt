@@ -1,0 +1,40 @@
+# Strings the localization database scan (tools/text/l10n.py) finds that need
+# no translation: data that happens to look like text, or text that is
+# already English. One per line: ID<TAB>reason. The export leaves them out.
+ui:2054C8	window layout data (cursor/marker cells)
+ui:2065E9	window frame layout
+ui:2081BE	window frame layout (church window)
+ui:20820E	window frame layout (church window, second palette)
+ui:240000	map data
+ui:29A66A	graphics data copied in 16-byte blocks
+ui:29A672	graphics data copied in 16-byte blocks
+ui:29A68A	save slot numbers 1-3 (digits only)
+ui:29A6AE	already English ("DATA LOAD")
+ui:29BA4E	blank line (spaces only)
+ui:29BE2A	data
+ui:2C3EA5	offset table of the help texts (the texts are translated one by one)
+ui:2C6D1B	data
+ui:2CBD11	data
+ui:2DD92F	data
+ui:2DD9A9	data
+ui:2DDA23	data
+ui:2E18BE	already English ("EXIT")
+ui:2E320D	already English ("-BATTLE RESULT-")
+ui:2E368A	already English ("YOU GET!")
+ui:2E36A2	already English ("MONEY" with a bullet)
+ui:2E36B8	already English ("TAROT" with a bullet)
+ui:2E36CE	already English ("ITEM" with a bullet)
+ui:2E3705	already English (currency letter "G")
+ui:3212BA	data
+ui:321334	data
+ui:32183A	data
+ui:3218B4	data
+ui:35DC37	data
+ui:35DE77	data
+ui:35DFF7	data
+ui:360411	data
+ui:366C1C	data
+raw:290051	data (digits)
+raw:2B07CA	data
+ui:202F7B	initial game data copied to RAM (starting funds etc.), not text
+ui:2E3616	script opcode in front of the string at 2E3617 (translated)

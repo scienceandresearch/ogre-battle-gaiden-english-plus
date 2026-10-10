@@ -1,0 +1,17 @@
+# English for the two small pre-drawn status tags (graphics target "tags":
+# tools/gfx/tags.py, notes in docs/workstreams/gfx-tags.md). Drawn in capitals
+# with assets/gfx/tags/caps6.txt; "keep" keeps the original art.
+#
+# @deployed: the tag on the organize status pane of a unit that is deployed on
+#   the stage map. White capitals with a dark shadow in the original's box,
+#   inside the original lettering's area: at most 24 px of ink (FIELDED is
+#   exactly 24, the width of the original lettering; DEPLOYED, 30 px, does not
+#   fit). FIELDED: the unit is in the field (the tutorial's "send a waiting
+#   unit into the field").
+# @paralysis: the label over a combatant that a paralysing attack hits in
+#   battle (STUN: the usual word for the status, also in the attack name
+#   Stun Cloud). White capitals with a dark outline, 16 x 8 px; at most 16 px
+#   of ink (STUN is 15).
+
+@deployed FIELDED
+@paralysis STUN

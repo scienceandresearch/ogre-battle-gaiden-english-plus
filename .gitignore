@@ -1,0 +1,28 @@
+# Original game data must never be committed
+rom/
+*.ngc
+*.ngp
+*.npc
+*.zip
+*.7z
+*.rar
+
+# Build output (contains ROM-derived data such as the Japanese script dump,
+# decoded graphics, screenshots and saved states)
+build/
+dist/
+*.state
+*.sav
+*.bak
+*.ico
+zenobia.ini
+
+# Python
+__pycache__/
+*.pyc
+
+# Editors and OS
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini

@@ -1,0 +1,276 @@
+# Location names: one line per record of each stage's location table
+# (INDEX<TAB>English), in the order the game stores them. See
+# tools/text/locations.py for the format and the fit rules:
+#   * the town window draws the name with the variable-width font in an
+#     8-cell (64 px) row;
+#   * the liberated / discovered / lost messages are
+#     "<type phrase>" NEWLINE "<name>" NEWLINE "<ending from ui.txt>",
+#     or "<name>" NEWLINE "<ending>" for locations without a town type.
+# Names that the dialogue mentions must be spelled the same way there
+# (see glossary.md).
+
+# Town types (record byte 0). Type 0 (castles, forts, prisons) has no phrase.
+@types
+1	The fortress city of
+2	The trade city of
+3	The magic city of
+4	The free city of
+5	The industrial city of
+6	The holy city of
+7	The religious city of
+8	The self-governing city of
+
+# --- Prologue: Estoa ---------------------------------------------------------
+@stage 0
+0	Estoa
+1	Balzac
+2	Gring
+3	Hind
+
+@stage 1
+0	Grolier
+1	Fort 1
+2	Fort 2
+3	Fort 3
+4	Dakatsu
+5	Hoinheim
+6	Leckart
+7	Orata
+8	Kehm
+
+@stage 2
+0	Karkov
+1	Lard
+2	Mugunt
+3	Kaf
+4	Yoshi
+5	Colomban
+6	Parna
+7	Ijiriko
+
+@stage 3
+0	Lichtfloss
+1	Fulda
+2	Karkalko
+3	Stomund
+4	Kamicross
+5	Heide
+6	Satsurama
+7	Linde
+
+@stage 4
+0	Gainbara
+1	Brunn
+2	Helmut
+3	Zigrama
+4	Porluck
+5	Obhelmut
+6	Isrand
+
+@stage 5
+0	Gais
+1	Destart
+2	Kukrit
+3	Sarit
+4	Urit
+5	Heidecker
+
+@stage 6
+0	Cassandro
+1	Nanitte
+2	Indemura
+3	Kaldai
+4	Sattoni
+5	Sakrah
+6	Kumar
+7	Ives
+8	Dekka
+9	Poai
+10	Kashmiwar
+11	Sagar
+12	Hakatte
+13	Ryuk
+14	Gotore
+15	Spewar
+
+# --- Norodom -----------------------------------------------------------------
+@stage 7
+0	Palmagowa
+1	Sict Prison
+2	Haitel
+3	Garusha
+4	Pejawar
+5	Rorom
+6	Kleber
+7	Consana
+8	Forte
+
+@stage 8
+0	Gordoba
+1	Megaholten
+2	Dendale
+3	Fantas
+4	Wanick
+5	Karas
+6	Gawafur
+7	Shilda
+
+@stage 9
+0	Meirei
+1	Donant
+2	Karkar
+3	Stuka
+4	Netobi
+5	Kuta
+6	Dodongo
+7	Kaiban
+8	Salwar
+9	Mint
+10	Estedale
+11	Mitsugol
+12	Catalina
+13	Kabe
+14	Bembega
+15	Kurat
+
+# Stage 10 mixes invented names with English words and Pacific places
+# (Bikini, Iwo, Port Moresby -> "Portmo"); "Eief" (#3) is spelled "A-F" in the original.
+@stage 10
+0	Regon
+1	Academia
+2	Whitey
+3	Eief
+4	Bikini
+5	Newcroft
+6	Arik
+7	Samon
+8	Kranch
+9	Harmon
+10	Kuriera
+11	Iwo
+12	Raoul
+13	Portmo
+14	Sietch
+15	Gipis
+16	Kushat
+17	Muga
+
+@stage 11
+0	Bidord
+1	Lek
+2	Ricon
+3	Kangawa
+4	Ubed
+5	Sannil
+6	Naganaga
+7	Iruna
+8	Oanami
+9	Fuchimoni
+10	Donoaki
+11	Tomata
+12	Mig
+13	Kiteppe
+14	Blanco
+15	Tomi
+
+@stage 12
+0	Doriapolo
+1	Orma
+2	Elsthorn
+3	Panasock
+4	Yoganga
+5	Tosrai
+6	Ricantesdo
+7	Ixemonica
+8	Shoka
+9	Gringa
+10	Tirite
+11	Irah
+12	Shilec
+13	Regond
+14	Hamsgon
+15	Spelancas
+16	Clavino
+17	Maiden
+18	Ikron
+
+@stage 13
+0	Elmidar
+1	Urtomo
+2	Noha
+3	Pokka
+4	Spilt
+5	Gagar
+6	Kaminol
+
+@stage 14
+0	Norfrost
+1	Gigant
+2	Borg
+3	Idemund
+4	Winda
+5	Wette
+6	Kul
+7	Polka
+
+@stage 15
+0	Ur
+1	Hyhandra
+2	Tente
+3	Ikutsute
+4	Canro
+5	Yellots
+6	Riga
+7	Knox
+8	Ironobel
+9	Estable
+10	Queenrock
+11	Waltmood
+
+# --- The Freia Isles ---------------------------------------------------------
+@stage 16
+0	Freia
+1	Dono
+2	Bos
+3	Megarta
+4	Kattoit
+5	Clay
+6	Breia
+7	Aalt
+8	Mowry
+9	Katsura
+10	Shijimi
+11	Sakuri
+
+# Stages 17-19 borrow real place names: Pakistan (Bannu, Bahawalpur, Peshawar,
+# a play on Rawalpindi), Brazilian states, and Turkish and nearby cities.
+# Real places keep their usual English spelling.
+@stage 17
+0	Warampinji
+1	Bannu
+2	Bahawalpur
+3	Sajigabad
+4	Changikal
+5	Renanican
+6	Peshawar
+7	Anatolia
+
+@stage 18
+0	Mato Grosso
+1	Minas Gerais
+2	Sergipe
+3	Bahia
+4	Roraima
+5	Rondonia
+6	Maranhao
+7	Alagoas
+8	Goias
+
+@stage 19
+0	Trabzon
+1	Kayseri
+2	Gaziantep
+3	Erzurum
+4	Krasnodar
+5	Aleppo Haleb
+6	Antalya

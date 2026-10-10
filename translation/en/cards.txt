@@ -1,0 +1,153 @@
+# Chapter title cards: the English lettering of the cards shown when a stage
+# starts (graphics target 'cards': tools/gfx/cards.py, patch/src/cards.asm;
+# notes in docs/workstreams/gfx-chapter-cards.md).
+#
+# [story N]  the card shown the first time chapter N (1-20) is played
+# [area N]   the card shown when a cleared chapter N is played again
+#
+# Lines of a card:
+#   ^text    the heading line (at most one, before the title); it is drawn
+#            in screen rows 8-9, and its digits get 2-px strokes like the
+#            original chapter numbers
+#   text     the title line (one): screen rows 10-11
+#   same N   this card is card N of the same set (one shared record)
+#
+# Every line is centred and drawn in assets/font/title16.txt with the
+# original's outline (white ink, dark-blue 1-px outline) and 4-px word gaps.
+# The lettering must stay inside the original lettering block (12 x 4 cells,
+# screen x 32-127, y 64-95), so a line may be at most 96 px wide with its
+# outline: python -m tools.gfx.cards fit measures them. Names follow
+# glossary.md and the scenario-map stage labels in ui.txt.
+
+[story 1]
+^Chapter 1
+Quickening
+
+[story 2]
+^Chapter 2
+Those Who Hunger
+
+[story 3]
+^Chapter 3
+Those Who Believe
+
+[story 4]
+^Chapter 4
+Northern Kingdom
+
+[story 5]
+^Chapter 5
+The Dead
+
+[story 6]
+^Chapter 6
+The Sorcerer
+
+[story 7]
+^Chapter 7
+A Voice That Asks
+
+[story 8]
+^Chapter 8
+What Desire Brings
+
+[story 9]
+^Chapter 9
+Resolve
+
+[story 10]
+^Chapter 10
+The Dark Knight
+
+[story 11]
+^Chapter 11
+Tears
+
+[story 12]
+^Chapter 12
+Silent Darkness…
+
+[story 13]
+^Final Chapter
+White Night
+
+[story 14]
+Mountain Depths
+
+[story 15]
+Treasure
+
+[story 16]
+Of Blood and Flesh
+
+[story 17]
+Samurai
+
+[story 18]
+Free Battle Area
+
+[story 19]
+same 18
+
+[story 20]
+same 18
+
+[area 1]
+Estrada's Manor
+
+[area 2]
+Gross Region
+
+[area 3]
+Satsu Peninsula
+
+[area 4]
+Lichtfloss
+
+[area 5]
+Roden Region
+
+[area 6]
+Litt Island Waters
+
+[area 7]
+Nessa Region
+
+[area 8]
+Norodom Region
+
+[area 9]
+Megaholten
+
+[area 10]
+Shagall Marsh
+
+[area 11]
+Lego Islands
+
+[area 12]
+Am Sea of Trees
+
+[area 13]
+Laika Lakeside
+
+[area 14]
+Krono Mountains
+
+[area 15]
+Ein Peninsula
+
+[area 16]
+Wind Dunes
+
+[area 17]
+Freia Isles
+
+[area 18]
+Free Battle Area
+
+[area 19]
+same 18
+
+[area 20]
+same 18

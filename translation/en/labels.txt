@@ -1,0 +1,66 @@
+# Menu labels: the 45 pre-drawn 64x8 labels under every icon bar
+# (tools/gfx/labels.py, docs/workstreams/gfx-labels.md).
+#
+# One line per label: "@NN text", NN = 00-2C (hex), or "@NN keep" to keep the
+# original art. Every label appears once. A label is at most 64 px wide in
+# vwf8 with its 1-px outline: check with `python -m tools.gfx.labels fit`.
+# Wording: sentence case, full words where they fit (glossary.md); names that
+# help texts or dialogue quote must stay identical (see the notes per line).
+
+# Stage map command bar: NEXT, Deploy unit, Organize, Items, Tarot cards,
+# Finances, Monitor, Suspend, Return to map
+@00 Deploy unit
+# (Game System Tips 5 quotes "Deploy unit")
+@01 Items
+@02 View status
+@03 Finances
+# (the window it opens is titled "Income & Expenses")
+@04 Monitor
+# (the map popup names the same command "Monitor")
+@05 Tarot cards
+@06 Return to map
+@07 Organize
+# (unit window: opens the unit's organize bar; label 20 opens the organize screen)
+@08 Add character
+@09 Remove
+@0A Formation
+@0B Dismiss
+@0C Class change
+@0D Change leader
+@0E Move
+@0F Destination
+# (0F is in no menu table)
+@10 Tactics
+@11 Transfer
+@12 Recruit
+@13 Buy items
+@14 Rite of revival
+# (Game System Tips 2 quotes "Rite of revival")
+@15 Retreat
+@16 Persuade
+@17 Character
+# Item commands (the item help texts in ui.txt quote these names)
+@18 Use item
+@19 Equip item
+@1A Remove item
+@1B Sell item
+@1C Discard item
+@1D Sort
+@1E Tidy up
+@1F Swap units
+@20 Organize
+# (command bar: the organize screen; the map popup names the same command "Organize")
+@21 Animation
+@22 Suspend
+# NEXT is English in the original art
+@23 keep
+# Link-cable menus (the Link submenu of the map popup uses the same names)
+@24 Versus
+@25 Send chars
+@26 Get chars
+@27 Type 1 rules
+@28 Type 2 rules
+@29 Register
+@2A Custom
+@2B Send items
+@2C Get items

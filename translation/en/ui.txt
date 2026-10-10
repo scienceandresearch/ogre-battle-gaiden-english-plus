@@ -1,0 +1,2690 @@
+# English menu / window text — Ogre Battle Gaiden: Prince of Zenobia
+#
+# Format: see tools/text/uitext.py. "@ADDR [fixed|vwf|sysmsg|inplace]
+# [solid] [width=N] [lines=N] [tiles=N] [len=N]", then one line per display
+# line; a blank line ends the entry. "sysmsg" = variable-width text in the
+# 18 x 3 message window (system messages, prompts).
+
+# --- Shared prompts ---------------------------------------------------------
+
+# Yes/No prompt: the cursor for "No" sits in cell 3, so "No" starts at cell 4.
+@2030F5
+Yes No
+
+# --- Opening: tarot answers -------------------------------------------------
+
+@299768 vwf width=18 lines=3 tiles=54
+ A: Poison.
+ B: A potion that makes one rich.
+ C: An elixir of eternal life.
+
+@2997C9 vwf width=18 lines=3 tiles=54
+ A: Deceiving others.
+ B: Sacrificing others.
+ C: Stealing from others.
+
+@299839 vwf width=18 lines=3 tiles=54
+ A: Room to grow.
+ B: Efficiency.
+ C: Practicality.
+
+@299893 vwf width=18 lines=3 tiles=54
+ A: The will to act.
+ B: Leadership.
+ C: Mastery over others.
+
+@2998F6 vwf width=18 lines=3 tiles=54
+ A: Compassion.
+ B: Self-respect.
+ C: A sense of justice.
+
+@299955 vwf width=18 lines=3 tiles=54
+ A: Kindness.
+ B: Purity.
+ C: Outward beauty.
+
+@2999BC vwf width=18 lines=3 tiles=54
+ A: Military might.
+ B: Religion.
+ C: Popularity and charisma.
+
+@299A1A vwf width=18 lines=3 tiles=54
+ A: Justice.
+ B: Honor.
+ C: Conviction.
+
+@299A71 vwf width=18 lines=3 tiles=54
+ A: Too few troops.
+ B: Poor leadership.
+ C: The luck of the day.
+
+@299ACE vwf width=18 lines=3 tiles=54
+ A: Something I forge myself.
+ B: Something none can escape.
+ C: Luck, good or bad, is one.
+
+@299B3F vwf width=18 lines=3 tiles=54
+ A: Physical strength.
+ B: Intellect.
+ C: Morals.
+
+@299B98 vwf width=18 lines=3 tiles=54
+ A: I regret my mistake.
+ B: I take the blame and resign.
+ C: It was fate; I accept it.
+
+@299C03 vwf width=18 lines=3 tiles=54
+ A: Two hundred lashes.
+ B: Take an arm; banish forever.
+ C: Death to traitors.
+
+@299C6C vwf width=18 lines=3 tiles=54
+ A: An old man with a staff.
+ B: A shabbily dressed youth.
+ C: A beautiful maiden.
+
+@299CDC vwf width=18 lines=3 tiles=54
+ A: All my wealth.
+ B: My life.
+ C: My family.
+
+@299D34 vwf width=18 lines=3 tiles=54
+ A: Send an envoy for peace.
+ B: Send in the army.
+ C: Convert and yield the throne.
+
+@299DA8 vwf width=18 lines=3 tiles=54
+ A: Grant us good fortune.
+ B: Grant us courage.
+ C: Grant us victory.
+
+@299E0F vwf width=18 lines=3 tiles=54
+ A: How the battle will go.
+ B: The family I left behind.
+ C: The one I love.
+
+@299E76 vwf width=18 lines=3 tiles=54
+ A: My own good fortune.
+ B: My comrades in arms.
+ C: The protection of the gods.
+
+@299EDD vwf width=18 lines=3 tiles=54
+ A: My aged mother.
+ B: The one I love.
+ C: My child.
+
+@299F44 vwf width=18 lines=3 tiles=54
+ A: Obey the law.
+ B: Make no empty promises.
+ C: Be kind to everyone.
+
+@299FB5 vwf width=18 lines=3 tiles=54
+ A: Filled to the brim.
+ B: About half full.
+ C: Almost empty.
+
+# --- Name entry -------------------------------------------------------------
+# The grids are read by the game cell by cell (row*14 + column), so they are
+# replaced in place with the same shape: 5 + space + 5 cells per row, blank
+# rows between (the last row of the third page has only 5 + 3 cells).
+# {DC} is a selectable space.
+
+@299471 inplace
+ABCDE FGHIJ
+ 
+KLMNO PQRST
+ 
+UVWXY Z.,-'
+ 
+abcde fghij
+ 
+klmno pqrst
+ 
+uvwxy z!?&{DC}
+ 
+01234 56789
+ 
+()/:; +=*~%
+
+@2994E0 inplace
+abcde fghij
+ 
+klmno pqrst
+ 
+uvwxy z.,-'
+ 
+ABCDE FGHIJ
+ 
+KLMNO PQRST
+ 
+UVWXY Z!?&{DC}
+ 
+01234 56789
+ 
+()/:; +=*~%
+
+@29954F inplace
+01234 56789
+ 
+.,!?' ":;-(
+ 
+)/&%+ =*~[]
+ 
+{DC}{DC}{DC}{DC}{DC} {DC}{DC}{DC}{DC}{DC}
+ 
+{DC}{DC}{DC}{DC}{DC} {DC}{DC}{DC}
+
+# Mode menu: one 14-tile string laid out by sprites as 4/4/3/3 tiles.
+@299592 inplace
+ABC{DC}abc{DC}123END
+
+# Default name: length byte, 8 characters padded with {DC}.
+@2995BD inplace
+{07}Tristan{DC}
+
+# Name confirmation, composed by code at 0x294FE4: prefix + name + suffix.
+# The window is not cleared and its first row still points at 16 old tiles,
+# so line 1 is exactly 16 solid cells; the variable-length name goes on line 2.
+@=name_ok_prefix noterm solid orig=2995A2:5
+Is this name OK?
+“
+
+@=name_ok_suffix orig=2995A7:22
+”
+
+# --- System messages: organize / HQ (message window, 18 x 3) ------------------
+
+@202E46 sysmsg cells=18
+You will lose this
+character. OK?
+
+@202E5D sysmsg cells=18
+Is that all right?
+
+@202E67 sysmsg cells=18
+You cannot dismiss
+this character.
+
+@202E82 sysmsg cells=18
+You cannot dismiss
+a unit leader.
+
+@202E9D sysmsg cells=18
+A leader can only
+change to a class
+that can lead.
+
+@203CE9 sysmsg
+With its leader lost,
+the volunteer army
+has been wiped out...
+
+@2048AF sysmsg
+To resume this game, choose
+Continue on the title screen.
+
+@2048DB sysmsg
+Note: once you resume, this
+suspend data will be erased.
+
+@2055CD sysmsg
+This character cannot
+be recalled.
+
+@2055E8 sysmsg
+Choosing the leader recalls
+the whole unit. Is that OK?
+
+@20588E sysmsg
+You don't have enough funds
+to recruit this character.
+
+@205B3A sysmsg
+You don't have enough funds.
+
+@206011 sysmsg
+There is no room in the
+destination unit.
+
+@207773 sysmsg
+Your item stock is full.
+You can't buy any more.
+
+@207798 sysmsg
+You don't have enough funds
+to buy this item.
+
+# Income forecast window (command bar): labels; the game draws the amounts
+# below each label. 12 cells wide, 47 tiles.
+@20825E vwf
+Income & Expenses
+----------------------
+Aid
+{01}
+{01}
+Deployment cost
+{01}
+{01}
+Carried over
+{01}
+{01}
+Total funds
+
+@2082A0 sysmsg
+You don't have enough funds.
+Choose a character from a
+deployed unit to recall.
+
+@208885 sysmsg
+Draw a tarot card?
+
+@2088BE sysmsg
+From now on, tarot card
+effects apply to every
+deployed unit.
+
+@208CB7 sysmsg
+Keep this tarot card
+in stock?
+
+@208CEA sysmsg
+Your tarot stock is full.
+Discard one?
+
+@208DC2 sysmsg
+CONGRATULATIONS!
+You found buried treasure!
+
+@20A3C8 sysmsg
+Your headquarters
+has fallen to
+the enemy...
+
+@20CDD6 sysmsg cells=18
+To add a character
+here, change this
+unit's formation.
+
+@20CE75 sysmsg cells=18
+The unit is full.
+5 members at most;
+large ones take 2.
+
+@212B21 sysmsg cells=18
+Choose a character
+to add.
+
+@212B3D sysmsg cells=18
+This character
+can't lead a unit.
+
+@212B58 sysmsg cells=18
+This unit will be
+formed. All right?
+
+@212B72 sysmsg cells=18
+A large character
+can't be added to
+this unit.
+
+@212B96 sysmsg cells=18
+You cannot have
+any more units.
+
+@212CD9 sysmsg cells=18
+This character
+can't be removed.
+
+@212CF8 sysmsg cells=18
+The unit will be
+disbanded. OK?
+
+@212FE4 sysmsg cells=18
+This unit's leader
+cannot be changed.
+
+@214279 sysmsg cells=18
+End unit entry.
+Is that all right?
+
+@215F11 sysmsg cells=18
+The stock is full.
+Discard something?
+
+@215F2E sysmsg cells=18
+Nothing happened.
+
+@215F3C sysmsg cells=18
+Pick a character.
+
+@215F4E sysmsg cells=18
+Pick a unit.
+
+@215F5E sysmsg cells=18
+This item can't be
+used on the
+organize screen.
+
+@2952DC sysmsg
+Overwrite this file?
+
+# Map: suspend (command bar), moving characters between units
+@204888 sysmsg
+Save the game in progress
+and turn off the power?
+
+@206029 sysmsg
+This character
+cannot be moved.
+
+@206044 sysmsg
+A unit leader
+cannot be moved.
+
+# Map: using items (target is a unit, a character or the stock), searching
+@216122 sysmsg cells=18
+It can't be used
+on the stock.
+
+@21664D sysmsg cells=18
+It can't be used
+on this unit.
+
+@21666F sysmsg cells=18
+It can't be used
+on this character.
+
+@216228 sysmsg
+There seems to be no
+buried treasure here.
+
+@216487 sysmsg
+There are no hidden
+towns or churches
+here.
+
+@216356 sysmsg
+Pick a destination.
+
+# Jack's shop: the original calls him a dealer in anything, hence the pun.
+@21626A sysmsg
+Jack: Jack of all trades,
+at your service! What
+can I get for you?
+
+# --- Save / load screen ---------------------------------------------------------
+
+@29BCF1 vwf fill=12
+Could not save.
+
+@29BCFF vwf fill=12
+Saving data...
+
+@29BD0D vwf fill=10
+Save complete.
+
+@29BD19
+{DC}OK:A{DC}{DC}NO:B{DC}
+
+# --- Notice shown on a monochrome Neo Geo Pocket -------------------------------
+
+@28C7C3 vwf width=19
+Only for use with
+ 
+NEOGEO POCKET COLOR.
+
+# --- Battle windows -------------------------------------------------------------
+
+@2C79C7 vwf
+Persuasion
+succeeded!
+
+@2C8402 vwf width=8 tiles=8
+Animation ON
+
+@2C842D vwf width=8 tiles=8
+Animation OFF
+
+@2C999F vwf
+Processing
+orders...
+
+@2C9A72 vwf
+Time up!
+
+# --- Status / finance labels ------------------------------------------------------
+
+@208299
+Funds
+
+@208E22 vwf
+Roshfol Church
+
+# Endings of the location messages. patch/src/locname.asm writes
+# "<type phrase>" NEWLINE "<name>" (translation/en/locations.txt) and the game
+# appends these; {00} starts a new line. The liberated ending is copied
+# without a terminator (the game adds it).
+@=loc_msg_liberated noterm orig=20887A:11
+{00}has been liberated.
+
+@=loc_msg_found orig=208E2F
+{00}has been discovered.
+
+@=loc_msg_lost orig=20A3CD
+{00}has fallen to the enemy.
+
+# --- Composed messages (patch/src/msgcompose.asm) ------------------------------------
+# The game builds these in RAM from fragments plus a name or a number. {DB} at
+# the start selects the variable-width font (message window: 144 px x 3 lines),
+# {00} is a new line, {FF} marks where the game inserts the name or number.
+
+# Unit messages: the code writes the VWF marker, the optional text before the
+# name and the leader's name; these endings follow.
+@=msg_moved noterm orig=208864:22
+'s unit{00}has finished moving.
+
+@=msg_recall_pre
+Recall{01}
+
+@=msg_recall orig=208848
+'s unit{00}to headquarters?
+
+@=msg_met_enemy orig=20966C
+'s unit has{00}encountered an enemy unit.
+
+@=msg_met_neutral orig=20968A
+'s unit has{00}encountered a neutral{00}character.
+
+# Item and tarot names in quotes: the head runs up to {FF}, the game copies the
+# name, then msg_close_quote ends the message.
+@=msg_found_item noterm orig=208903:5
+{DB}You found an item:{00}“{FF}
+
+@=msg_treasure noterm orig=208EE3:14
+{DB}The treasure you found{00}was “{FF}
+
+@=msg_spoils noterm orig=2096AC:10
+{DB}As spoils of war, you{00}found “{FF}
+
+@=msg_obtained noterm orig=215EF5
+{DB}You obtained{00}“{FF}
+
+@=msg_gaveup noterm orig=215F03
+{DB}You gave up{00}“{FF}
+
+@=msg_drew_card noterm orig=208CD1
+{DB}You drew the card{00}“{FF}
+
+@=msg_close_quote orig=208908,208EF1,2096B6
+”.
+
+# Costs: the game writes the amount at {FF}.
+@=msg_revive_cost orig=205B1D
+{DB}Reviving costs {FF} goth.{00}Is that OK?
+
+@=msg_deploy_cost orig=206F71
+{DB}Deploying costs {FF} goth.{00}Is that OK?
+
+@=msg_deploy_leader_down orig=206F29
+{DB}This unit's leader cannot{00}fight, so the unit{00}cannot be deployed.
+
+@=msg_deploy_no_funds orig=206F51
+{DB}You don't have enough{00}funds to deploy this unit.
+
+# Shop: the price comes first, so this one keeps the fixed font.
+@=msg_price orig=215ED7
+ goth.{00}Is that OK?
+
+# Class change: text before and after the class name.
+@=msg_classchange_pre
+{DB}Change class to{00}{FF}
+
+@=msg_classchange orig=202ED4
+?
+
+# Stat changes from tarot cards: "<subject><stat>" NEWLINE "went up by N points."
+@=msg_stat_subject orig=208895:7
+Characters'{01}
+
+@=msg_stat_chaos orig=2088B7:7
+The Chaos Frame
+
+@=msg_stat_up orig=20889C:21
+{00}went up by {FF}
+
+@=msg_stat_down orig=2088B1:6
+{00}went down by {FF}
+
+@=msg_stat_point
+ point.
+
+@=msg_stat_points
+ points.
+
+@=msg_stat_6 orig=2088EB:6
+HP and max HP
+
+@=msg_stat_7 orig=2088EE:3
+max HP
+
+@=msg_stat_8 orig=2088F1:3
+STR
+
+@=msg_stat_9 orig=2088F4:3
+AGI
+
+@=msg_stat_10 orig=2088F7:3
+INT
+
+@=msg_stat_11 orig=2088FA:3
+CHA
+
+@=msg_stat_12 orig=2088FD:3
+ALI
+
+@=msg_stat_13 orig=208900:3
+LUK
+
+# Move types ("MOVE: Forest"), patch/src/movetype.asm: at most 7 letters.
+@=move_0 orig=20EB61:4
+Slow
+
+@=move_1 orig=20EB65:4
+Ocean
+
+@=move_2 orig=20EB69:4
+Shallow
+
+@=move_3 orig=20EB6D:4
+Swamp
+
+@=move_4 orig=20EB71:4
+Snow
+
+@=move_5 orig=20EB75:4
+Peaks
+
+@=move_6 orig=20EB79:4
+Forest
+
+@=move_7 orig=20EB7D:4
+Plains
+
+@=move_8 orig=20EB81:4
+Glide
+
+@=move_9 orig=20EB85:4
+Soar
+
+# Stock label: 6 bytes, then the game writes two digits, then 13 bytes.
+@=msg_stock_label orig=2136AF:18
+Stock{01}{01}{01}{01}{01}{01}{01}{01}{01}{DC}{DC}
+
+# --- Link-cable battle (tile-mapped printer: fixed cells) -------------------------
+
+@2E14F8 uiprint
+Please wait.
+
+@2E2378 uiprint
+Proceed?
+
+@2E23AD uiprint
+Press A button
+
+@2E2591 uiprint
+Please wait.
+
+@2E25D3 uiprint
+Yes   No
+
+@2E26F3 uiprint
+Save settings?
+
+@2E2736 uiprint
+Saved.
+
+@2E2946 uiprint
+Please wait.
+
+@2E2A89 uiprint
+Terrain
+
+@2E2BA3 uiprint
+Choose a terrain.
+
+@2E2EB0 uiprint
+Time
+
+@2E2EFE uiprint
+Choose the time.
+
+@2E3617 uiprint
+Unit storage
+is full.
+
+@2E3631 uiprint
+Item storage
+is full.
+
+@2E364B uiprint
+Tarot stock
+is full.
+
+@2E3B40 uiprint
+Yes   No
+
+@2E3BC0 uiprint width=18
+The game is saved
+after linking. OK?
+
+@2E3FA6 uiprint
+Either side
+
+@2E3FC1 uiprint
+press A.
+
+@2E410B uiprint
+Warning! Check
+your characters,
+items and cards.
+
+@2E4135 uiprint
+You can't receive
+when full.
+
+@2E47D4 uiprint
+You
+
+@2E47D9 uiprint
+Foe
+
+@2E4A63 uiprint
+Please wait.
+
+@2E4BEF uiprint
+Please wait.
+
+@2E4DA9 uiprint
+Cancelled.
+
+@2E5481 uiprint
+Please try again.
+
+
+# --- Name tables (10-byte entries: 8 cells + 00 00) -------------------------------
+# Each entry has an 8-cell version written in place (screens that copy the bytes,
+# e.g. the status screen) and a variable-width version for the screens that draw
+# the entry directly (8-tile name windows: battle attack names, the in-battle
+# TAROT list, tactic labels), so those windows never mix fixed-cell and
+# proportional names: the full name, or the same text when it fits 8 cells.
+# Generated by a helper; edit here directly from now on.
+
+# Tactics (0x20F0E7) and the 4-line tactics menu that follows them.
+@20F0E7 inplace fixedwidth
+Guts!
+
+@20F0E7 vwf width=8 tiles=8
+Show guts!
+
+@20F0F1 inplace fixedwidth
+Spread!
+
+@20F0F1 vwf width=8 tiles=8
+Spread out!
+
+@20F0FB inplace fixedwidth
+Leader!
+
+@20F0FB vwf width=8 tiles=8
+Get the leader!
+
+@20F105 inplace fixedwidth
+Finish!
+
+@20F105 vwf width=8 tiles=8
+Finish them!
+
+@20F10F vwf width=8
+Show guts!
+Spread out!
+Get the leader!
+Finish them!
+
+# Tarot cards (0x20F134; entry 0 is blank).
+@20F13E inplace fixedwidth
+Magician
+
+@20F13E vwf width=8 tiles=8
+Magician
+
+@20F148 inplace fixedwidth
+Priestss
+
+@20F148 vwf width=8 tiles=8
+Priestess
+
+@20F152 inplace fixedwidth
+Empress
+
+@20F152 vwf width=8 tiles=8
+Empress
+
+@20F15C inplace fixedwidth
+Emperor
+
+@20F15C vwf width=8 tiles=8
+Emperor
+
+@20F166 inplace fixedwidth
+Hierophn
+
+@20F166 vwf width=8 tiles=8
+Hierophant
+
+@20F170 inplace fixedwidth
+Lovers
+
+@20F170 vwf width=8 tiles=8
+Lovers
+
+@20F17A inplace fixedwidth
+Chariot
+
+@20F17A vwf width=8 tiles=8
+Chariot
+
+@20F184 inplace fixedwidth
+Strength
+
+@20F184 vwf width=8 tiles=8
+Strength
+
+@20F18E inplace fixedwidth
+Hermit
+
+@20F18E vwf width=8 tiles=8
+Hermit
+
+@20F198 inplace fixedwidth
+Fortune
+
+@20F198 vwf width=8 tiles=8
+Fortune
+
+@20F1A2 inplace fixedwidth
+Justice
+
+@20F1A2 vwf width=8 tiles=8
+Justice
+
+@20F1AC inplace fixedwidth
+HangedMn
+
+@20F1AC vwf width=8 tiles=8
+Hanged Man
+
+@20F1B6 inplace fixedwidth
+Death
+
+@20F1B6 vwf width=8 tiles=8
+Death
+
+@20F1C0 inplace fixedwidth
+Tempernc
+
+@20F1C0 vwf width=8 tiles=8
+Temperance
+
+@20F1CA inplace fixedwidth
+Devil
+
+@20F1CA vwf width=8 tiles=8
+Devil
+
+@20F1D4 inplace fixedwidth
+Tower
+
+@20F1D4 vwf width=8 tiles=8
+Tower
+
+@20F1DE inplace fixedwidth
+Star
+
+@20F1DE vwf width=8 tiles=8
+Star
+
+@20F1E8 inplace fixedwidth
+Moon
+
+@20F1E8 vwf width=8 tiles=8
+Moon
+
+@20F1F2 inplace fixedwidth
+Sun
+
+@20F1F2 vwf width=8 tiles=8
+Sun
+
+@20F1FC inplace fixedwidth
+Judgment
+
+@20F1FC vwf width=8 tiles=8
+Judgment
+
+@20F206 inplace fixedwidth
+Fool
+
+@20F206 vwf width=8 tiles=8
+Fool
+
+@20F210 inplace fixedwidth
+World
+
+@20F210 vwf width=8 tiles=8
+World
+
+# Attacks and spells (0x20F21A; entry 0 is blank). "Magic" and "Ninjutsu" are
+# placeholders that the battle code always replaces (by the target's weakest
+# element, the terrain or at random); Cleave and the second Healing are never
+# produced.
+@20F224 inplace fixedwidth
+Slash
+
+@20F224 vwf width=8 tiles=8
+Slash
+
+@20F22E inplace fixedwidth
+Strike
+
+@20F22E vwf width=8 tiles=8
+Strike
+
+@20F238 inplace fixedwidth
+Healing
+
+@20F238 vwf width=8 tiles=8
+Healing
+
+@20F242 inplace fixedwidth
+Fireball
+
+@20F242 vwf width=8 tiles=8
+Fireball
+
+@20F24C inplace fixedwidth
+SncBoom
+
+@20F24C vwf width=8 tiles=8
+Sonic Boom
+
+@20F256 inplace fixedwidth
+Lightnng
+
+@20F256 vwf width=8 tiles=8
+Lightning
+
+@20F260 inplace fixedwidth
+ThndFlar
+
+@20F260 vwf width=8 tiles=8
+Thunder Flare
+
+@20F26A inplace fixedwidth
+IceField
+
+@20F26A vwf width=8 tiles=8
+Ice Field
+
+@20F274 inplace fixedwidth
+AcidCld
+
+@20F274 vwf width=8 tiles=8
+Acid Cloud
+
+@20F27E inplace fixedwidth
+AcidCld
+
+@20F27E vwf width=8 tiles=8
+Acid Cloud
+
+@20F288 inplace fixedwidth
+DeathCld
+
+@20F288 vwf width=8 tiles=8
+Death Cloud
+
+@20F292 inplace fixedwidth
+StunCld
+
+@20F292 vwf width=8 tiles=8
+Stun Cloud
+
+@20F29C inplace fixedwidth
+Healing+
+
+@20F29C vwf width=8 tiles=8
+Healing+
+
+@20F2A6 inplace fixedwidth
+Blizzard
+
+@20F2A6 vwf width=8 tiles=8
+Blizzard
+
+@20F2B0 inplace fixedwidth
+IceStorm
+
+@20F2B0 vwf width=8 tiles=8
+Ice Storm
+
+@20F2BA inplace fixedwidth
+LifeFrc
+
+@20F2BA vwf width=8 tiles=8
+Life Force
+
+@20F2C4 inplace fixedwidth
+Charm
+
+@20F2C4 vwf width=8 tiles=8
+Charm
+
+@20F2CE inplace fixedwidth
+StrTiara
+
+@20F2CE vwf width=8 tiles=8
+Star Tiara
+
+@20F2D8 inplace fixedwidth
+DragEatr
+
+@20F2D8 vwf width=8 tiles=8
+Drag Eater
+
+@20F2E2 inplace fixedwidth
+WindShot
+
+@20F2E2 vwf width=8 tiles=8
+Wind Shot
+
+@20F2EC inplace fixedwidth
+FireBrth
+
+@20F2EC vwf width=8 tiles=8
+Fire Breath
+
+@20F2F6 inplace fixedwidth
+Mesmrize
+
+@20F2F6 vwf width=8 tiles=8
+Mesmerize
+
+@20F300 inplace fixedwidth
+Maelstrm
+
+@20F300 vwf width=8 tiles=8
+Maelstrom
+
+@20F30A inplace fixedwidth
+Cleave
+
+@20F30A vwf width=8 tiles=8
+Cleave
+
+@20F314 inplace fixedwidth
+ColdBrth
+
+@20F314 vwf width=8 tiles=8
+Cold Breath
+
+@20F31E inplace fixedwidth
+AcidBrth
+
+@20F31E vwf width=8 tiles=8
+Acid Breath
+
+@20F328 inplace fixedwidth
+AcidBrth
+
+@20F328 vwf width=8 tiles=8
+Acid Breath
+
+@20F332 inplace fixedwidth
+SuprNova
+
+@20F332 vwf width=8 tiles=8
+Supernova
+
+@20F33C inplace fixedwidth
+IceReqm
+
+@20F33C vwf width=8 tiles=8
+Ice Requiem
+
+@20F346 inplace fixedwidth
+EvilDead
+
+@20F346 vwf width=8 tiles=8
+Evil Dead
+
+@20F350 inplace fixedwidth
+RotBrth
+
+@20F350 vwf width=8 tiles=8
+Rot Breath
+
+@20F35A inplace fixedwidth
+Nitemare
+
+@20F35A vwf width=8 tiles=8
+Nightmare
+
+@20F364 inplace fixedwidth
+ThndArrw
+
+@20F364 vwf width=8 tiles=8
+Thunder Arrow
+
+@20F36E inplace fixedwidth
+FireStrm
+
+@20F36E vwf width=8 tiles=8
+Firestorm
+
+@20F378 inplace fixedwidth
+Banish
+
+@20F378 vwf width=8 tiles=8
+Banish
+
+@20F382 inplace fixedwidth
+Jihad
+
+@20F382 vwf width=8 tiles=8
+Jihad
+
+@20F38C inplace fixedwidth
+Meteor
+
+@20F38C vwf width=8 tiles=8
+Meteor Strike
+
+@20F396 inplace fixedwidth
+BlowKiss
+
+@20F396 vwf width=8 tiles=8
+Blow a Kiss
+
+@20F3A0 inplace fixedwidth
+MgcMssle
+
+@20F3A0 vwf width=8 tiles=8
+Magic Missile
+
+@20F3AA inplace fixedwidth
+WindStrm
+
+@20F3AA vwf width=8 tiles=8
+Windstorm
+
+@20F3B4 inplace fixedwidth
+PtroBrth
+
+@20F3B4 vwf width=8 tiles=8
+Petro Breath
+
+@20F3BE inplace fixedwidth
+DarkQst
+
+@20F3BE vwf width=8 tiles=8
+Dark Quest
+
+@20F3C8 inplace fixedwidth
+SncBlade
+
+@20F3C8 vwf width=8 tiles=8
+Sonic Blade
+
+@20F3D2 inplace fixedwidth
+Sweep
+
+@20F3D2 vwf width=8 tiles=8
+Sweep
+
+@20F3DC inplace fixedwidth
+QuickDrw
+
+@20F3DC vwf width=8 tiles=8
+Quickdraw
+
+@20F3E6 inplace fixedwidth
+Shuriken
+
+@20F3E6 vwf width=8 tiles=8
+Shuriken
+
+@20F3F0 inplace fixedwidth
+Ninjutsu
+
+@20F3F0 vwf width=8 tiles=8
+Ninjutsu
+
+@20F3FA inplace fixedwidth
+Shoot
+
+@20F3FA vwf width=8 tiles=8
+Shoot
+
+@20F404 inplace fixedwidth
+Whip
+
+@20F404 vwf width=8 tiles=8
+Whip
+
+@20F40E inplace fixedwidth
+Sic 'em
+
+@20F40E vwf width=8 tiles=8
+Sic 'em
+
+@20F418 inplace fixedwidth
+Magic
+
+@20F418 vwf width=8 tiles=8
+Magic
+
+@20F422 inplace fixedwidth
+Punch
+
+@20F422 vwf width=8 tiles=8
+Punch
+
+@20F42C inplace fixedwidth
+ColdStre
+
+@20F42C vwf width=8 tiles=8
+Cold Stare
+
+@20F436 inplace fixedwidth
+Slap
+
+@20F436 vwf width=8 tiles=8
+Slap
+
+@20F440 inplace fixedwidth
+DvnBrand
+
+@20F440 vwf width=8 tiles=8
+Divine Brand
+
+@20F44A inplace fixedwidth
+Stab
+
+@20F44A vwf width=8 tiles=8
+Stab
+
+@20F454 inplace fixedwidth
+Starlite
+
+@20F454 vwf width=8 tiles=8
+Starlight
+
+@20F45E inplace fixedwidth
+Wallop
+
+@20F45E vwf width=8 tiles=8
+Wallop
+
+@20F468 inplace fixedwidth
+RageFist
+
+@20F468 vwf width=8 tiles=8
+Fist of Rage
+
+@20F472 inplace fixedwidth
+Smash
+
+@20F472 vwf width=8 tiles=8
+Smash
+
+@20F47C inplace fixedwidth
+IceStrke
+
+@20F47C vwf width=8 tiles=8
+Ice Strike
+
+@20F486 inplace fixedwidth
+FireStrk
+
+@20F486 vwf width=8 tiles=8
+Fire Strike
+
+@20F490 inplace fixedwidth
+Tackle
+
+@20F490 vwf width=8 tiles=8
+Tackle
+
+@20F49A inplace fixedwidth
+Peck
+
+@20F49A vwf width=8 tiles=8
+Peck
+
+@20F4A4 inplace fixedwidth
+HellThst
+
+@20F4A4 vwf width=8 tiles=8
+Hell Thrust
+
+@20F4AE inplace fixedwidth
+WrthStrk
+
+@20F4AE vwf width=8 tiles=8
+Wrath Strike
+
+@20F4B8 inplace fixedwidth
+GrdgStrk
+
+@20F4B8 vwf width=8 tiles=8
+Grudge Strike
+
+@20F4C2 inplace fixedwidth
+CrseStrk
+
+@20F4C2 vwf width=8 tiles=8
+Curse Strike
+
+@20F4CC inplace fixedwidth
+AnglHalo
+
+@20F4CC vwf width=8 tiles=8
+Angel Halo
+
+@20F4D6 inplace fixedwidth
+Swat
+
+@20F4D6 vwf width=8 tiles=8
+Swat
+
+@20F4E0 inplace fixedwidth
+Charge
+
+@20F4E0 vwf width=8 tiles=8
+Charge
+
+@20F4EA inplace fixedwidth
+TailWhip
+
+@20F4EA vwf width=8 tiles=8
+Tail Whip
+
+@20F4F4 inplace fixedwidth
+Impale
+
+@20F4F4 vwf width=8 tiles=8
+Impale
+
+@20F4FE inplace fixedwidth
+Asleep
+
+@20F4FE vwf width=8 tiles=8
+Asleep
+
+@20F508 inplace fixedwidth
+Tornado
+
+@20F508 vwf width=8 tiles=8
+Tornado
+
+@20F512 inplace fixedwidth
+Fire Art
+
+@20F512 vwf width=8 tiles=8
+Fire Art
+
+@20F51C inplace fixedwidth
+WaterArt
+
+@20F51C vwf width=8 tiles=8
+Water Art
+
+@20F526 inplace fixedwidth
+Thunder
+
+@20F526 vwf width=8 tiles=8
+Thunder
+
+@20F530 inplace fixedwidth
+FrzSolid
+
+@20F530 vwf width=8 tiles=8
+Freeze Solid
+
+@20F53A inplace fixedwidth
+PsnMist
+
+@20F53A vwf width=8 tiles=8
+Poison Mist
+
+@20F544 inplace fixedwidth
+PtroFlsh
+
+@20F544 vwf width=8 tiles=8
+Petro Flash
+
+@20F54E inplace fixedwidth
+Banish+
+
+@20F54E vwf width=8 tiles=8
+Banish+
+
+@20F558 inplace fixedwidth
+DarkZone
+
+@20F558 vwf width=8 tiles=8
+Dark Zone
+
+@20F562 inplace fixedwidth
+Magic
+
+@20F562 vwf width=8 tiles=8
+Magic
+
+@20F56C inplace fixedwidth
+Magic
+
+@20F56C vwf width=8 tiles=8
+Magic
+
+@20F576 inplace fixedwidth
+Ninjutsu
+
+@20F576 vwf width=8 tiles=8
+Ninjutsu
+
+@20F580 inplace fixedwidth
+Magic
+
+@20F580 vwf width=8 tiles=8
+Magic
+
+@20F58A inplace fixedwidth
+Magic
+
+@20F58A vwf width=8 tiles=8
+Magic
+
+@20F594 inplace fixedwidth
+Magic
+
+@20F594 vwf width=8 tiles=8
+Magic
+
+@20F59E inplace fixedwidth
+Magic
+
+@20F59E vwf width=8 tiles=8
+Magic
+
+@20F5A8 inplace fixedwidth
+Firewall
+
+@20F5A8 vwf width=8 tiles=8
+Firewall
+
+@20F5B2 inplace fixedwidth
+Magic
+
+@20F5B2 vwf width=8 tiles=8
+Magic
+
+@20F5BC inplace fixedwidth
+Magic
+
+@20F5BC vwf width=8 tiles=8
+Magic
+
+@20F5C6 inplace fixedwidth
+Magic
+
+@20F5C6 vwf width=8 tiles=8
+Magic
+
+@20F5D0 inplace fixedwidth
+Stab
+
+@20F5D0 vwf width=8 tiles=8
+Stab
+
+@20F5DA inplace fixedwidth
+Fire Art
+
+@20F5DA vwf width=8 tiles=8
+Fire Art
+
+@20F5E4 inplace fixedwidth
+WaterArt
+
+@20F5E4 vwf width=8 tiles=8
+Water Art
+
+@20F5EE inplace fixedwidth
+Thunder
+
+@20F5EE vwf width=8 tiles=8
+Thunder
+
+@20F5F8 inplace fixedwidth
+MachStrm
+
+@20F5F8 vwf width=8 tiles=8
+Mach Storm
+
+@20F602 inplace fixedwidth
+Throw
+
+@20F602 vwf width=8 tiles=8
+Throw
+
+@20F60C inplace fixedwidth
+Magic
+
+@20F60C vwf width=8 tiles=8
+Magic
+
+@20F616 inplace fixedwidth
+Magic
+
+@20F616 vwf width=8 tiles=8
+Magic
+
+@20F620 inplace fixedwidth
+Magic
+
+@20F620 vwf width=8 tiles=8
+Magic
+
+@20F62A inplace fixedwidth
+Magic
+
+@20F62A vwf width=8 tiles=8
+Magic
+
+@20F634 inplace fixedwidth
+Magic
+
+@20F634 vwf width=8 tiles=8
+Magic
+
+@20F63E inplace fixedwidth
+Magic
+
+@20F63E vwf width=8 tiles=8
+Magic
+
+@20F648 inplace fixedwidth
+Healing
+
+@20F648 vwf width=8 tiles=8
+Healing
+
+@20F652 inplace fixedwidth
+Healing
+
+@20F652 vwf width=8 tiles=8
+Healing
+
+@20F65C inplace fixedwidth
+MultHeal
+
+@20F65C vwf width=8 tiles=8
+Multi-Heal
+
+@20F666 inplace fixedwidth
+PmpkDrop
+
+@20F666 vwf width=8 tiles=8
+Pumpkin Drop
+
+@20F670 inplace fixedwidth
+SncBoom+
+
+@20F670 vwf width=8 tiles=8
+Sonic Boom+
+
+@20F67A inplace fixedwidth
+Magic
+
+@20F67A vwf width=8 tiles=8
+Magic
+
+@20F684 inplace fixedwidth
+Magic
+
+@20F684 vwf width=8 tiles=8
+Magic
+
+@20F68E inplace fixedwidth
+Explode
+
+@20F68E vwf width=8 tiles=8
+Explode
+
+@20F698 inplace fixedwidth
+Magic
+
+@20F698 vwf width=8 tiles=8
+Magic
+
+@20F6A2 inplace fixedwidth
+PtroFlsh
+
+@20F6A2 vwf width=8 tiles=8
+Petro Flash
+
+@20F6AC inplace fixedwidth
+Magic
+
+@20F6AC vwf width=8 tiles=8
+Magic
+
+@20F6B6 inplace fixedwidth
+Tempest
+
+@20F6B6 vwf width=8 tiles=8
+Tempest
+
+# Battle result labels (original English, 0x20F6C0 + 9 * code, drawn by 0x2C949A in
+# the attack-name window or the top-left window): variable width like the
+# attack names drawn in the same window.
+@20F6C9 vwf
+WINNERS
+
+@20F6D2 vwf
+WINNERS
+
+@20F6DB vwf
+DRAW
+
+
+# --- Battle help texts (9 x 3 description box, first tile 0x39, 26 tiles) -----
+
+# Tarot card effects (table 0x20F6E4)
+@20F743 vwf width=9 lines=3 tiles=26
+Deals fire
+magic damage.
+
+@20F75A vwf width=9 lines=3 tiles=26
+Restores 50 HP
+to each ally.
+
+@20F771 vwf width=9 lines=3 tiles=26
+Fully restores
+all allies' HP.
+
+@20F78D vwf width=9 lines=3 tiles=26
+Gives each ally
+one more
+attack.
+
+@20F7A8 vwf width=9 lines=3 tiles=26
+Puts enemies
+to sleep, so
+they can't act.
+
+@20F7C0 vwf width=9 lines=3 tiles=26
+Turns enemies
+against each
+other.
+
+@20F7D7 vwf width=9 lines=3 tiles=26
+The hero Loki
+deals damage.
+
+@20F7ED vwf width=9 lines=3 tiles=26
+Raises allies'
+defense.
+
+@20F803 vwf width=9 lines=3 tiles=26
+The sage Merlin
+deals damage.
+
+@20F81B vwf width=9 lines=3 tiles=26
+Drives the foe
+off and flees
+the battle.
+
+@20F833 vwf width=9 lines=3 tiles=26
+A fierce
+blizzard deals
+damage.
+
+@20F84C vwf width=9 lines=3 tiles=26
+Lowers enemies'
+defense.
+
+@20F85F vwf width=9 lines=3 tiles=26
+Death slays
+weakened foes
+outright.
+
+@20F877 vwf width=9 lines=3 tiles=26
+Cures allies of
+sleep, paralysis
+and the like.
+
+@20F890 vwf width=9 lines=3 tiles=26
+Asmodeus
+deals damage.
+
+@20F8A6 vwf width=9 lines=3 tiles=26
+An earthquake
+deals damage.
+
+@20F8BD vwf width=9 lines=3 tiles=26
+Raises allies'
+AGI.
+
+@20F8CF vwf width=9 lines=3 tiles=26
+Swaps the foe's
+front and back
+rows.
+
+@20F8E4 vwf width=9 lines=3 tiles=26
+Damages
+characters with
+low ALI.
+
+@20F8FE vwf width=9 lines=3 tiles=26
+Holy light
+deals damage.
+
+@20F92A vwf width=9 lines=3 tiles=26
+Drives off all
+foes but the
+leader.
+
+@20F915 vwf width=9 lines=3 tiles=26
+Blocks enemy
+magic attacks.
+
+# Battle commands (table 0x20F941)
+@20F95D vwf width=9 lines=3 tiles=26
+Use a tarot
+card.
+
+@20F974 vwf width=9 lines=3 tiles=26
+Change your
+battle tactics.
+
+@20F98D vwf width=9 lines=3 tiles=26
+Retreat from
+the battle.
+
+@20F9A3 vwf width=9 lines=3 tiles=26
+Turn battle
+animations on
+or off.
+
+@20F9BE vwf width=9 lines=3 tiles=26
+Persuade a
+neutral to join
+your side.
+
+@20F9DB vwf width=9 lines=3 tiles=26
+Use a battle
+item.
+
+# Tactics (table 0x20F9F2)
+@20FA02 vwf width=9 lines=3 tiles=26
+Balanced tactics
+for offense and
+defense.
+
+@20FA1F vwf width=9 lines=3 tiles=26
+Targets the
+characters with
+the most HP.
+
+@20FA36 vwf width=9 lines=3 tiles=26
+Targets the
+enemy leader.
+
+@20FA47 vwf width=9 lines=3 tiles=26
+Targets the
+characters with
+the least HP.
+
+# Spells (table 0x20FA5E)
+@20FAC6 vwf width=9 lines=3 tiles=26
+Speeds up the
+wait gauge.
+
+@20FADE vwf width=9 lines=3 tiles=26
+Slows down the
+wait gauge.
+
+@20FAF6 vwf width=9 lines=3 tiles=26
+A whirlwind
+deals damage.
+
+@20FB0D vwf width=9 lines=3 tiles=26
+Turns enemies
+to stone.
+
+@20FB1A vwf width=9 lines=3 tiles=26
+Fireballs
+deal damage.
+
+@20FB2E vwf width=9 lines=3 tiles=26
+Hurls ice
+crystals that
+deal damage.
+
+@20FB4B vwf width=9 lines=3 tiles=26
+Calls lightning
+to deal damage.
+
+@20FB66 vwf width=9 lines=3 tiles=26
+Evil spirit
+energy deals
+damage.
+
+@20FB84 vwf width=9 lines=3 tiles=26
+Charms enemies
+into fighting
+each other.
+
+@20FB9B vwf width=9 lines=3 tiles=26
+Holy light
+deals damage.
+
+@20FBB2 vwf width=9 lines=3 tiles=26
+Restores HP.
+
+@20FBC0 vwf width=9 lines=3 tiles=26
+Turns the field
+into deep sea.
+
+@20FBD4 vwf width=9 lines=3 tiles=26
+Turns the field
+into plains.
+
+@20FBE8 vwf width=9 lines=3 tiles=26
+Turns the field
+into snowfield.
+
+@20FBFC vwf width=9 lines=3 tiles=26
+Turns the field
+into forest.
+
+@20FC10 vwf width=9 lines=3 tiles=26
+Turns the field
+into wasteland.
+
+@20FC23 vwf width=9 lines=3 tiles=26
+Turns the field
+into swamp.
+
+@20FC36 vwf width=9 lines=3 tiles=26
+Turns the field
+into mountains.
+
+@20FC48 vwf width=9 lines=3 tiles=26
+Turns the field
+into snowy
+peaks.
+
+@20FC5C vwf width=9 lines=3 tiles=26
+Turns the field
+into volcano.
+
+@20FC6F vwf width=9 lines=3 tiles=26
+Turns the field
+into cliffs.
+
+@20FC81 vwf width=9 lines=3 tiles=26
+Turns the field
+into desert.
+
+@20FC94 vwf width=9 lines=3 tiles=26
+Turns the field
+into stronghold.
+
+@20FCA8 vwf width=9 lines=3 tiles=26
+Turns night
+into day.
+
+@20FCBC vwf width=9 lines=3 tiles=26
+Turns day
+into night.
+
+@20FCD0 vwf width=9 lines=3 tiles=26
+Holy magic
+deals damage.
+
+
+# --- Tarot card texts (self-relative 16-bit offsets at 0x21BD84; message window) ---------
+
+@21BDB4 sysmsg
+“Magician"
+Deals fire magic damage
+to the enemy.
+
+@21BDD5 sysmsg
+“Priestess"
+Restores 50 HP to
+each of your characters.
+
+@21BDFC sysmsg
+“Empress"
+Fully restores your
+characters' HP.
+
+@21BE21 sysmsg
+“Emperor"
+Gives each of your
+characters one more attack.
+
+@21BE45 sysmsg
+“Hierophant"
+Puts the enemy to sleep,
+leaving them helpless.
+
+@21BE67 sysmsg
+“Lovers"
+Turns the enemy against
+each other.
+
+@21BE86 sysmsg
+“Chariot"
+Summons Loki, hero of hell,
+to damage the enemy.
+
+@21BEB1 sysmsg
+“Strength"
+Raises the defense of
+your characters.
+
+@21BED2 sysmsg
+“Hermit"
+Summons the sage Merlin
+to damage the enemy.
+
+@21BEFA sysmsg
+“Fortune"
+Drives off the enemy and
+escapes the battle.
+
+@21BF1D sysmsg
+“Justice"
+Whips up a blizzard that
+deals heavy damage.
+
+@21BF42 sysmsg
+“Hanged Man"
+Lowers the enemy's
+defense.
+
+@21BF5F sysmsg
+“Death"
+Summons Death to slay
+weakened enemies.
+
+@21BF82 sysmsg
+“Temperance"
+Cures ailments such as
+charm, stone and sleep.
+
+@21BFAF sysmsg
+“Devil"
+Summons a demon that
+deals heavy damage.
+
+@21BFD2 sysmsg
+“Tower"
+Causes an earthquake that
+deals heavy damage.
+
+@21BFF3 sysmsg
+“Star"
+Raises your characters'
+AGI.
+
+@21C00D sysmsg
+“Moon"
+Swaps the front and back
+of the enemy formation.
+
+@21C02C sysmsg
+“Sun"
+Deals heavy damage to all
+with low ALI, friend or foe.
+
+@21C057 sysmsg
+“Judgment"
+Holy light magic deals
+heavy damage to the enemy.
+
+@21C081 sysmsg
+“Fool"
+Briefly drives off all
+enemies but the leader.
+
+@21C0A7 sysmsg
+“World"
+Makes you immune to
+enemy magic attacks.
+
+
+# --- Command help (Option button): self-relative 16-bit offset tables ---------
+
+# World map commands (table 0x2C3C8C)
+@2C3CA0 sysmsg
+Shows the list of units
+and the list of towns.
+
+@2C3CBB sysmsg
+Deploys a unit.
+
+@2C3CC9 sysmsg
+Goes to the organize screen.
+
+@2C3CD9 sysmsg
+Uses or equips the items
+you are carrying.
+
+@2C3CF6 sysmsg
+Shows the tarot cards
+you are holding.
+
+@2C3D15 sysmsg
+Shows the expected
+income and expenses.
+
+@2C3D2F sysmsg
+Changes the screen
+settings.
+
+@2C3D48 sysmsg
+Saves your progress for now
+and suspends the game.
+
+@2C3D68 sysmsg
+Leaves this map and returns
+to the map select screen.
+
+# Unit commands (table 0x2C3D86)
+@2C3D9C sysmsg
+Moves the unit.
+
+@2C3DAB sysmsg
+Sets the tactics the unit
+uses in battle.
+
+@2C3DC1 sysmsg
+Recruits characters.
+Only possible while the
+unit is in a town.
+
+@2C3DE6 sysmsg
+Buys items.
+
+@2C3DFD sysmsg
+Revives incapacitated
+characters.
+
+@2C3E18 sysmsg
+Changes the formation
+or dismisses characters.
+
+@2C3E38 sysmsg
+Changes where the
+characters stand.
+
+@2C3E51 sysmsg
+Dismisses a character.
+
+@2C3E62 sysmsg
+Changes the unit's leader.
+
+@2C3E77 sysmsg
+Sends a character to
+another unit.
+
+@2C3E8F sysmsg
+Changes a character's class.
+
+# Tactics (table 0x2C3EA5)
+@2C3EAF sysmsg
+Balanced tactics for
+offense and defense.
+
+@2C3ECB sysmsg
+Targets the characters
+with the most HP.
+
+@2C3EE1 sysmsg
+Targets the enemy leader.
+
+@2C3EF1 sysmsg
+Targets the characters
+with the least HP.
+
+# Organize screen commands (table 0x2C3F07)
+@2C3F1D uiprint width=18 lines=3
+Dismisses a
+character or
+changes its class.
+
+@2C3F3B uiprint width=18 lines=3
+Adds characters to
+a unit or forms
+a new unit.
+
+@2C3F5F uiprint width=18 lines=3
+Removes a member.
+Removing a leader
+disbands the unit.
+
+@2C3F87 uiprint width=18 lines=3
+Swaps the numbers
+of two units.
+
+@2C3F9B uiprint width=18 lines=3
+Changes where the
+characters stand.
+
+@2C3FB4 uiprint width=18 lines=3
+Changes the
+unit's leader.
+
+@2C3FC9 uiprint width=18 lines=3
+Uses or equips the
+items you carry.
+
+@2C3FE6 uiprint width=18 lines=3
+Shows the status
+of a character.
+
+@2C4004 uiprint width=18 lines=3
+Dismisses a
+character.
+
+@2C4015 uiprint width=18 lines=3
+Changes a
+character's class.
+
+# Item commands (table 0x2C402B)
+@2C403B sysmsg cells=18
+"Use item"
+Uses an item you
+are carrying.
+
+@2C405E sysmsg cells=18
+"Equip item"
+Equips weapons,
+armor and so on.
+
+@2C408C sysmsg cells=18
+"Remove item"
+Takes off an
+equipped item.
+
+@2C40AC sysmsg cells=18
+"Sell item"
+Sells an item you
+are carrying.
+
+@2C40CC sysmsg cells=18
+"Discard item"
+Throws an item
+away.
+
+@2C40E3 sysmsg cells=18
+"Sort"
+Changes the order
+of your items.
+
+@2C40FB sysmsg cells=18
+"Tidy up"
+Packs scattered
+items together.
+
+
+# --- Status screen fragments ------------------------------------------------------
+# "Leader:" + " No" / " OK" (code copies 7 bytes, then 3 bytes chosen by a flag).
+@20D603 inplace len=13
+Leader: No OK
+
+# Unit number label, copied as exactly 5 bytes.
+@2133A3 inplace len=5
+Unit:
+
+# --- Map popup (B on the map): labels (10 cells) and help (2 x 14 cells) -------------
+# Every cell is filled (solid) like the original, which pads with blank glyphs.
+
+@29C315 inplace solid
+ Organize 
+
+@29C321 inplace solid
+Organize units
+beforehand.   
+
+@29C340 inplace solid
+  Monitor 
+
+@29C34C inplace solid
+Change screen 
+settings.     
+
+@29C36B inplace solid
+   Data   
+
+@29C377 inplace solid
+Save the game 
+or load a save
+
+@29C396 inplace solid
+   Link   
+
+@29C3A2 inplace solid
+Play a friend 
+via link cable
+
+# Data submenu (save / load) and Link submenu. Labels are padded to 10 cells and
+# help lines to 14 cells with the blank glyph (solid in-place entries).
+@29C403 inplace solid
+   Save
+
+@29C40F inplace solid
+Save the game
+in progress.
+
+@29C42E inplace solid
+   Load
+
+@29C43A inplace solid
+Load a saved
+game.
+
+@29C47D inplace solid
+  Versus
+
+@29C489 inplace solid
+Send chars
+
+@29C495 inplace solid
+Get chars
+
+@29C4CE inplace solid
+Settings 1
+
+@29C4DA inplace solid
+Settings 2
+
+@29C4E6 inplace solid
+ Register
+
+@29C4F2 inplace solid
+  Custom
+
+# --- Stage names (scenario map: 10-cell label below the map) ------------------------
+# Drawn from ROM, so the variable-width version (padded to the 10-cell field) is
+# what players see; the 10-cell in-place versions are for any code that copies
+# the bytes. Spellings follow the dialogue where it names the region.
+@29C562 vwf fill=10 center
+Estrada's Manor
+
+@29C562 inplace solid
+ The Manor
+
+@29C56E vwf fill=10 center
+Gross Region
+
+@29C56E inplace solid
+  Gross
+
+@29C57A vwf fill=10 center
+Satsu Peninsula
+
+@29C57A inplace solid
+  Satsu
+
+@29C586 vwf fill=10 center
+Krono Mountains
+
+@29C586 inplace solid
+  Krono
+
+@29C592 vwf fill=10 center
+Lichtfloss
+
+@29C592 inplace solid
+Lichtfloss
+
+@29C59E vwf fill=10 center
+Roden Region
+
+@29C59E inplace solid
+  Roden
+
+@29C5AA vwf fill=10 center
+Litt Island Waters
+
+@29C5AA inplace solid
+ Litt Sea
+
+@29C5B6 vwf fill=10 center
+Ein Peninsula
+
+@29C5B6 inplace solid
+   Ein
+
+@29C5C2 vwf fill=10 center
+Nessa Region
+
+@29C5C2 inplace solid
+  Nessa
+
+@29C5CE vwf fill=10 center
+Norodom Region
+
+@29C5CE inplace solid
+ Norodom
+
+@29C5DA vwf fill=10 center
+Megaholten
+
+@29C5DA inplace solid
+Megaholten
+
+@29C5E6 vwf fill=10 center
+Shagall Marsh
+
+@29C5E6 inplace solid
+ Shagall
+
+@29C5F2 vwf fill=10 center
+Lego Islands
+
+@29C5F2 inplace solid
+Lego Isles
+
+@29C5FE vwf fill=10 center
+Am Sea of Trees
+
+@29C5FE inplace solid
+Am Forest
+
+@29C60A vwf fill=10 center
+Laika Lakeside
+
+@29C60A inplace solid
+Lake Laika
+
+@29C616 vwf fill=10 center
+Wind Dunes
+
+@29C616 inplace solid
+Wind Dunes
+
+@29C622 vwf fill=10 center
+Freia Isles
+
+@29C622 inplace solid
+  Freia
+
+@29C62E vwf fill=10 center
+Free Battle Area 1
+
+@29C62E inplace solid
+ Free 1
+
+@29C63A vwf fill=10 center
+Free Battle Area 2
+
+@29C63A inplace solid
+ Free 2
+
+@29C646 vwf fill=10 center
+Free Battle Area 3
+
+@29C646 inplace solid
+ Free 3
+
+# --- Link-cable battle, part 2: settings screen, results ----------------------------
+# Tile-mapped printer (fixed cells). Its spaces ({01}) leave cells untouched; only
+# the blank glyph {DC} erases. The game clears these fields itself before
+# redrawing, like the original; values are padded to their full width with {01}.
+
+# Settings screen: the selected setting's name (row 1, 9 cells) and its value
+# (row 1 from column 13, padded to the longest value of the setting).
+@2E1693 uiprint
+Funds{01}{01}{01}{01}
+
+@2E169E uiprint
+Units{01}{01}{01}{01}
+
+@2E16A9 uiprint
+Knockout{01}
+
+@2E16B4 uiprint
+Tarots{01}{01}{01}
+
+@2E16BF uiprint
+Spoils{01}{01}{01}
+
+@2E16CA uiprint
+Victory{01}{01}
+
+@2E16D5 uiprint
+Terrain{01}{01}
+
+@2E16E0 uiprint
+Time{01}{01}{01}{01}{01}
+
+@2E16EB uiprint
+Order{01}{01}{01}{01}
+
+@2E16F6 uiprint
+Speed{01}{01}{01}{01}
+
+# Spoils: none / random / chosen
+@2E17E3 uiprint width=6
+None{01}{01}
+
+@2E17E9 uiprint width=6
+Random
+
+@2E17EF uiprint width=6
+Select
+
+# Victory condition: damage / wipeout
+@2E180E uiprint width=7
+Damage{01}
+
+@2E1814 uiprint width=7
+Wipeout
+
+# Who picks the terrain and the time: random / the winner / the loser
+@2E1833 uiprint width=6
+Random
+
+@2E183A uiprint width=6
+Winner
+
+@2E1841 uiprint width=6
+Loser{01}
+
+# Who sets the order: CPU / you / the opponent
+@2E187F uiprint
+You
+
+@2E1884 uiprint
+Foe
+
+# Gauge speed
+@2E18A2 uiprint width=6
+Slow{01}{01}
+
+@2E18A7 uiprint width=6
+Normal
+
+@2E18AC uiprint width=6
+Fast{01}{01}
+
+# Settings overview
+@2E2319 uiprint
+Settings
+ Funds
+ Units
+ Knockout
+ Tarots
+ Spoils
+ Victory
+ Terrain
+ Time
+ Order
+ Speed
+
+# Terrain choice: a 3-column grid with names 5 cells apart (4 letters each)
+@2E2AA1 uiprint width=4
+Sea
+
+@2E2AB3 uiprint width=4
+Moor
+
+@2E2AC6 uiprint width=4
+Lava
+
+@2E2AD9 uiprint width=4
+Lea
+
+@2E2AED uiprint width=4
+Bog
+
+@2E2B00 uiprint width=4
+Crag
+
+@2E2B12 uiprint width=4
+Snow
+
+@2E2B26 uiprint width=4
+Peak
+
+@2E2B38 uiprint width=4
+Sand
+
+@2E2B4B uiprint width=4
+Wood
+
+@2E2B5F uiprint width=4
+Alps
+
+@2E2B73 uiprint width=4
+Fort
+
+# Time choice
+@2E2EC8 uiprint width=4
+Day
+
+@2E2EDA uiprint width=5
+Night
+
+# Battle record: "<wins> Won <losses> Lost"
+@2E1304 uiprint width=4
+{01}Won
+
+@2E1339 uiprint width=5
+{01}Lost
+
+# Round headers (16-byte records: map position, then the text)
+@2E32F1 uiprint
+--Round 1---
+
+@2E3301 uiprint
+--Round 2---
+
+@2E3311 uiprint
+--Round 3---
+
+@2E3321 uiprint
+--Round 4---
+
+@2E3331 uiprint
+--Round 5---
+
+@2E3341 uiprint
+--Round 6---
+
+@2E3351 uiprint
+--Round 7---
+
+@2E47BF uiprint
+Pick the foe's
+battle order.
+
+# After receiving an item: "<item>" on the line above
+@2E4BC7 uiprint width=14
+was received.
+
+# Organize screen: top bar labels over the unit count, character count and funds
+# (panels at cells 1-4, 6-9 and 11-18).
+@21270C uiprint
+Unit Char Funds
+
+# Count shown before a number (3 cells)
+@214274 uiprint
+Qty
+
+# Quantity prompt: the game redraws the two digits in place (line 2, cells 8-9).
+@215EBF width=18 tiles=36 cells=18
+Choose a quantity.
+        01
+
+# Link settings overview: values right-aligned to column 17 (patch/main.asm moves
+# their start left so the English fits).
+@2E2284 uiprint width=6
+{01}{01}None
+
+@2E228A uiprint width=6
+Random
+
+@2E2290 uiprint width=6
+Select
+
+@2E2296 uiprint width=6
+Random
+
+@2E229D uiprint width=6
+Winner
+
+@2E22A4 uiprint width=6
+{01}Loser
+
+# --- Battle terrain names (table at 0x2C82A9: 7 cells + 00 00 each) ----------------
+@2C82A9 inplace fixedwidth
+Shallow
+
+@2C82B2 inplace fixedwidth
+Ocean
+
+@2C82BB inplace fixedwidth
+Reef
+
+@2C82C4 inplace fixedwidth
+Plains
+
+@2C82CD inplace fixedwidth
+Snow
+
+@2C82D6 inplace fixedwidth
+Forest
+
+@2C82DF inplace fixedwidth
+Taiga
+
+@2C82E8 inplace fixedwidth
+Barrens
+
+@2C82F1 inplace fixedwidth
+Swamp
+
+@2C82FA inplace fixedwidth
+Peaks
+
+@2C830C inplace fixedwidth
+Snowcap
+
+@2C8315 inplace fixedwidth
+Volcano
+
+@2C831E inplace fixedwidth
+Cliff
+
+@2C8327 inplace fixedwidth
+Desert
+
+@2C8330 inplace fixedwidth
+Road
+
+@2C8339 inplace fixedwidth
+Icepath
+
+@2C8342 inplace fixedwidth
+Sky
+
+@2C834B inplace fixedwidth
+Rampart
+
+@2C8354 inplace fixedwidth
+Fort
+
+# --- Added after play-testing round 1 (2026-10-09): Monitor help, link
+# battle day/night and order prompt, staff roll, class change and stock
+# label symbols, deploy-list move types, style and polish ----------------
+
+# Monitor help (Option on each Monitor row; window renderer from 0x29BF92,
+# map 0x9446, 14 x 2 fixed cells; the bar is reused, so every cell is filled
+# with the blank glyph: in-place solid)
+@29BF9A inplace solid
+ON: Animations
+OFF: Skip them
+
+@29BFB9 inplace solid
+ON: Play music
+OFF: No music
+
+@29BFD8 inplace solid
+ON: Play SFX
+OFF: No SFX
+
+@29BFF7 inplace solid
+Sets message
+speed (1-3).
+
+@29C016 inplace solid
+Sets game
+speed (1-3).
+
+# Time of day in the top-left battle window (0x2C81E4: 0x2C835D + 4 * day/night,
+# map 0x9084, tiles from 9). 2 cells in place; the remap uses tiles 9-13 and
+# "Day" is padded so switching Night -> Day leaves no stale letters.
+@2C835D width=5 tiles=5
+Day{DC}{DC}
+
+@2C8361 width=5 tiles=5
+Night
+
+# Battle order screen (0x2E4716, pointer table 0x2E479E; pair of 2E47BF)
+@2E47AA uiprint
+Pick your
+battle order.
+
+# Staff roll: it opens with the game's title, romanized in the original; the
+# English title here.
+@2A36BC inplace fixedwidth
+ OGRE BATTLE GAIDEN
+
+@2A36D2 inplace fixedwidth
+  PRINCE OF ZENOBIA
+
+# The original's copyright sign (0xDB) has no glyph in the English 8x8 font.
+@2A3828 inplace fixedwidth
+ (C) QUEST
+
+# Deploy list short move types (5 cells; patch/src/movetype.asm movetype_short)
+@=move_2s
+Shoal
+
+@=move_6s
+Woods
+
+@=move_7s
+Plain
+
+# Link battle result (English in the original: "YOU DRAWN")
+@2E326A uiprint
+DRAW GAME

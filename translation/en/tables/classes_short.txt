@@ -1,0 +1,86 @@
+# Short class names: a copy of the class table (classes.txt) read by the
+# fixed-cell fields: status pane class (8 cells; also the map character
+# window), organize class change list (10), battle class picker (8;
+# link/debug code, not seen in play) and the link overview screen (name and
+# class from column 11, 9 cells to the screen edge). Every name has at most
+# 8 letters, as in the original. The class change confirmations, the link
+# message "<class> was received." and the two lists drawn with the
+# variable-width font (unit window class list, recruit list:
+# patch/src/textfix.asm) keep the full names. Names that fit are not listed (the copy
+# keeps them); the comment above each entry is its full name. Style: below
+# and in docs/workstreams/short-names.md.
+@table 20E49D maxlen=8 sites=20D451,21303C,2C803A,2C8103,2E3785   # status pane, organize class list, battle class picker, link overview
+
+# Style: as items_short.txt (CamelCase, shorten as little as needed, keep the
+# identifying word whole where possible). Recurring words always take the
+# same short form: Master Mst, Tamer Tmr, Knight Knt, Priest Prst, Hunter
+# Hntr, Dragon Drgn, Black Blk, Silver Slvr, Death Dth, Stone Stn, Pumpkin
+# Pmpk, Samurai Samu, Light Lite, Curse Crse (as CrseStrk in ui.txt). Other
+# words lose inner vowels (Enchantr, Weretigr, Salamndr, Hellhnd, Bahmt,
+# Halwn) or take their usual short form (Berserk, Necro, Lycan, Skel, Plat,
+# Enig, Zomb). Both Lycanthrope classes are "Lycan", as in the original.
+
+# Berserker
+6	Berserk
+# Black Knight
+7	BlackKnt
+# Samurai Master
+10	SamuMst
+# Arch Samurai
+11	ArchSamu
+# Ninja Master
+13	NinjaMst
+# Beast Tamer
+14	BeastTmr
+# Beast Master
+15	BeastMst
+# Dragon Tamer
+16	DrgnTmr
+# Dragon Master
+17	DrgnMst
+# Doll Master
+18	DollMst
+# Enchanter
+19	Enchantr
+# Necromancer
+22	Necro
+# Enigma Hunter
+35	EnigHntr
+# Lycanthrope
+39	Lycan
+# Weretiger
+40	Weretigr
+# Lycanthrope
+41	Lycan
+# Pumpkinhead
+44	PmpkHead
+# Mad Halloween
+45	MadHalwn
+# Stone Golem
+47	StnGolem
+# Hellhound
+54	Hellhnd
+# Red Dragon
+59	RedDrgn
+# Platinum Dragon
+60	PlatDrgn
+# Black Dragon
+61	BlkDrgn
+# Salamander
+62	Salamndr
+# Flarebrass
+63	Flarebrs
+# Death Bahamut
+65	DthBahmt
+# Dragon Zombie
+67	DrgnZomb
+# Skeleton Knight
+69	SkelKnt
+# Cockatrice
+85	Cockatrc
+# Light Priest
+88	LitePrst
+# Curse Priest
+90	CrsePrst
+# Silver Knight
+95	SlvrKnt

@@ -1,0 +1,350 @@
+# Short item names: a copy of the item table (items.txt) read by the Items
+# list (map Items command and organize Item icon: 10 cells, then a quantity
+# up to 99), the status pane ITEM field (8 cells) and the link screens
+# (2E55A0: versus battle item list in the 8-cell battle window, link overview
+# line, "was received" message). Every name has at most 8 letters, so all
+# fields show the same name and the list keeps the original two blank cells
+# before the quantity. Shops and the found / obtained / spoils / gave-up
+# messages keep the full names. Names that fit are not listed (the copy
+# keeps them); the comment above each entry is its full name. Style: below
+# and in docs/workstreams/short-names.md.
+@table 2166B8 prefix=item maxlen=8 sites=2157F6,20D5CA,2E55A0   # Items list (map Items, organize Item), status pane ITEM field, link: versus item list and screens
+
+# Style (as the attack names in ui.txt: ThndFlar, SncBlade, PtroBrth):
+# * Drop the spaces and keep a capital on each word (CamelCase); drop "of",
+#   "to" and "'s"; "X of Y" becomes "YX" (Ring of Power -> PowerRng).
+# * Shorten as little as needed. Keep the word that identifies the item
+#   whole where possible and shorten the generic one; recurring words always
+#   take the same short form:
+#     Sword Swd, Blade Blde, Spear Spr, Lance Lnc, Staff Stf, Shield Shld,
+#     Ring Rng, Stone Stn, Charm Chrm, Crown Crwn, Mantle Mntl, Garb Grb,
+#     Armor Armr, Fang Fng, Pumpkin Pmpk, Thunder Thnd, Dragon (Dragoon)
+#     Drgn, Death Dth, Devil Dvl, Black (Jet-Black) Blk, White Wht, Silver
+#     Slvr (Slv before a whole word: SlvTiara), Flame Flm, Battle Btl,
+#     Mystic Myst, Samurai Samu, Down Dn; Light Lite and Night Nite (as
+#     Starlite and Nitemare in ui.txt).
+# * Other long words lose inner vowels, then doubled letters (Potn, Rtrn,
+#   Tkt, Sumns, Scnt, Whsp, Scmtr), or take a natural shorter word (Golden
+#   Gold, Burning Burn, Purified Pure, Vestment Vest, Helmet Helm, Maiden
+#   Maid, Dowsing Dowse, Mountains Mountain, Archangel Angl).
+# * Where abbreviating both words would hide the item, its proper name or
+#   key word stands alone: Musashi, Kusanagi, Mikado, Benkei, Ozrick,
+#   Kokuou, Iskender, Osafune, Kotodama, Overlord, Martyr, Mirror, Rainbow,
+#   Goddess, Twinkle, FullMoon, 7-League.
+# * Spell items reuse the attack names' short forms (PtroBrth, Lightnng,
+#   Nitemare).
+
+# Cure Potion
+1	CurePotn
+# Cure Stone
+2	CureStn
+# Soul Call
+3	SoulCall
+# Echo Chime
+4	EchoChme
+# Cure Ankh
+5	CureAnkh
+# Wonder Egg
+6	WondrEgg
+# Full Moon Stone
+7	FullMoon
+# Joker Card
+8	JokerCrd
+# Return Half
+9	RtrnHalf
+# Dowsing Rod
+10	DowseRod
+# Trade Ticket
+11	TradeTkt
+# All Summons
+12	AllSumns
+# Love & Peace
+13	Love&Pce
+# 7-League Boots
+14	7-League
+# Trojan Horse
+15	TrojHrse
+# Scent of Night
+16	NiteScnt
+# Light's Whisper
+17	LiteWhsp
+# Crystal Ball
+18	CrysBall
+# Sonic Blade
+19	SncBlade
+# Bizen Osafune
+21	Osafune
+# Black Katana
+26	BlkKatna
+# Piercing Sword
+27	PiercSwd
+# Sword of Mikado
+28	Mikado
+# Conqueror Blade
+29	ConqBlde
+# Kokuou's Sword
+30	Kokuou
+# Ogre Blade
+31	OgreBlde
+# Flame Sword
+32	FlameSwd
+# Musashi's Blade
+33	Musashi
+# Iskender Bey
+34	Iskender
+# Ice Scimitar
+35	IceScmtr
+# Ice Blade
+36	IceBlade
+# Peridot Sword
+37	PeridSwd
+# Quick Sword
+39	QuickSwd
+# Malachite Sword
+40	MalacSwd
+# Broken Hexblade
+44	BrknHex
+# Claws of Death
+45	DthClaws
+# Evil Blade
+46	EvilBlde
+# Relic Sword
+47	RelicSwd
+# Dragon Claw
+48	DrgnClaw
+# Godsoul Sword
+49	GodslSwd
+# Kusanagi Blade
+50	Kusanagi
+# Caladbolg
+51	Caldbolg
+# Dragoon Spear
+52	DrgnSpr
+# Benkei Glaive
+53	Benkei
+# Adamant Lance
+54	AdmntLnc
+# Ozrick Spear
+55	Ozrick
+# Thunder Spear
+56	ThndSpr
+# White Lance
+57	WhtLance
+# Frozen Axe
+60	FrznAxe
+# Battle Fan
+63	BtlFan
+# Searing Staff
+64	SearStf
+# Rod of Flame
+65	FlameRod
+# Flame Flail
+66	FlmFlail
+# Thunder Whip
+67	ThndWhip
+# Devil Hammer
+68	DvlHammr
+# Kukai's Rod
+69	KukaiRod
+# Mystic Mace
+70	MystMace
+# Ripple's Rod
+71	RipplRod
+# Silver Rod
+72	SlvrRod
+# Shield Bow
+74	ShldBow
+# Lightning Bow
+75	LtngBow
+# Dark Darts
+76	DarkDrts
+# Spirit Charm
+77	SprtChrm
+# Elder Sign
+78	EldrSign
+# Kiryu Horn
+79	KiryuHrn
+# Bell of Flame
+80	FlmBell
+# Hydra Fang
+81	HydraFng
+# Bell of Cold
+82	ColdBell
+# Byakko Fang
+83	ByakoFng
+# Bell of Thunder
+85	ThndBell
+# Thunder Orb
+86	ThndOrb
+# Dark Charm
+87	DarkChrm
+# Black Cross
+88	BlkCross
+# Mistletoe Leaf
+89	Mistltoe
+# Archangel Wing
+90	AnglWing
+# Iron Rosary
+91	IronRsry
+# White Cross
+92	WhtCross
+# Ring of Power
+93	PowerRng
+# Kotodama Ring
+94	Kotodama
+# Firedrake Ring
+95	DrakeRng
+# Thunder Ring
+96	ThndRing
+# Brand Ring
+97	BrandRng
+# Lucifer Ring
+98	LucfrRng
+# Ring of Grace
+99	GraceRng
+# Battle Bugle
+100	BtlBugle
+# Ninja Garb
+101	NinjaGrb
+# Samurai Armor
+102	SamuArmr
+# Mail of Nails
+103	NailMail
+# Golden Armor
+104	GoldArmr
+# Mail of Earth
+105	ErthMail
+# Dragon Mail
+106	DrgnMail
+# Phoenix Robe
+107	PhnxRobe
+# Snow Mantle
+108	SnowMntl
+# Jet-Black Armor
+109	BlkArmor
+# Death's Mantle
+110	DthMntl
+# Saint's Garb
+111	SaintGrb
+# Oath Vestment
+112	OathVest
+# Pirate Helm
+113	PirtHelm
+# Silver Helmet
+114	SlvrHelm
+# Silver Tiara
+115	SlvTiara
+# Mystic Veil
+116	MystVeil
+# Overlord Crown
+117	Overlord
+# Burning Band
+118	BurnBand
+# Ice Bandana
+119	IceBndna
+# Thunder Helm
+120	ThndHelm
+# Devil Mask
+121	DvlMask
+# Holy Crown
+122	HolyCrwn
+# Iron Gauntlets
+123	IronGntl
+# Thunder Gloves
+124	ThndGlvs
+# Spike Shield
+125	SpkShld
+# Shield of Grit
+126	GritShld
+# Martyr's Shield
+127	Martyr
+# Ogre Shield
+128	OgreShld
+# Searing Shield
+129	SearShld
+# Cold Shield
+130	ColdShld
+# Raiju Shield
+131	RaijShld
+# Drago Stone
+132	DragoStn
+# Necro Staff
+133	NecroStf
+# Ring of Undeath
+134	UndthRng
+# Blood Spell
+135	BloodSpl
+# Dream Crown
+136	DrmCrwn
+# Rotten Pumpkin
+137	RotPmpk
+# Black Brand
+138	BlkBrand
+# Hard Bokken
+139	HardBokn
+# White Vow
+140	WhiteVow
+# Black Vow
+141	BlackVow
+# Cat's Tongue
+142	CatTonge
+# Silver Cross
+143	SlvCross
+# Hero's Shard
+144	HeroShrd
+# Life Source
+145	LifeSrc
+# Sword Symbol
+146	SwdSymbl
+# Speed Gear
+147	SpdGear
+# Magus Paper
+148	MagusPpr
+# Heart of Leo
+149	LeoHeart
+# Mirror of Heart
+150	Mirror
+# Vessel of Fate
+151	FateVssl
+# Glass Pumpkin
+152	GlsPmpk
+# Twinkle Star
+153	Twinkle
+# Silver Doll
+154	SlvrDoll
+# Goddess Statue
+155	Goddess
+# Thunder Stone
+156	ThndStn
+# Bronze Maiden
+157	BrnzMaid
+# Purified Ruby
+158	PureRuby
+# Amber Knife
+159	AmberKnf
+# Rainbow Choker
+160	Rainbow
+# Yuria's Letter
+161	YuriaLtr
+# Chaos Down
+163	ChaosDn
+# Gauge Down
+165	GaugeDn
+# Petro Breath
+167	PtroBrth
+# Lightning
+170	Lightnng
+# Nightmare
+171	Nitemare
+# Snowfield
+177	Snowfld
+# Wasteland
+179	Wastelnd
+# Mountains
+181	Mountain
+# Snowy Peaks
+182	SnowPeak
+# Stronghold
+186	Strnghld
+# Bond to Future
+189	BondFutr

@@ -1,0 +1,26 @@
+# Tarot card names, packed list (table 0x21BCEB, read via 0x201B77), used when
+# a drawn card is named in a message. The fixed-width list at 0x20F134 is in
+# ui.txt.
+@table 21BCEB
+1	Magician
+2	Priestess
+3	Empress
+4	Emperor
+5	Hierophant
+6	Lovers
+7	Chariot
+8	Strength
+9	Hermit
+10	Fortune
+11	Justice
+12	Hanged Man
+13	Death
+14	Temperance
+15	Devil
+16	Tower
+17	Star
+18	Moon
+19	Sun
+20	Judgment
+21	Fool
+22	World

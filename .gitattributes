@@ -1,0 +1,6 @@
+# Text files are stored with LF in the repository; the tools read either line
+# ending. Windows scripts keep CRLF, shell scripts LF.
+* text=auto
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+*.sh text eol=lf

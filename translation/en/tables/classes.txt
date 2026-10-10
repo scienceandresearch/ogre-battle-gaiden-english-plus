@@ -1,0 +1,121 @@
+# Character classes (table 0x20E49D, read via 0x201B77; copied by length).
+# Series spellings where they exist. Long names may still need shortening
+# once every screen that shows them has been checked.
+@table 20E49D
+1	Fighter
+2	Knight
+3	Paladin
+4	General
+5	Dragoon
+6	Berserker
+7	Black Knight
+8	Revenger
+9	Samurai
+10	Samurai Master
+11	Arch Samurai
+12	Ninja
+13	Ninja Master
+14	Beast Tamer
+15	Beast Master
+16	Dragon Tamer
+17	Dragon Master
+18	Doll Master
+19	Enchanter
+20	Wizard
+21	Goetic
+22	Necromancer
+23	Lich
+24	Ranger
+25	Amazon
+26	Valkyrie
+27	Freya
+28	Witch
+29	Hagal
+30	Cleric
+31	Priest
+32	Bishop
+33	Nereid
+34	Princess
+35	Enigma Hunter
+36	Mermaid
+37	Nixie
+38	Werewolf
+39	Lycanthrope
+40	Weretiger
+41	Lycanthrope
+42	Vampire
+43	Coffin
+44	Pumpkinhead
+45	Mad Halloween
+46	Golem
+47	Stone Golem
+48	Talos
+49	Giant
+50	Firbolg
+51	Titan
+52	Gigantes
+53	Troll
+54	Hellhound
+55	Cerberus
+56	Octopus
+57	Kraken
+58	Dragon
+59	Red Dragon
+60	Platinum Dragon
+61	Black Dragon
+62	Salamander
+63	Flarebrass
+64	Bahamut
+65	Death Bahamut
+66	Tiamat
+67	Dragon Zombie
+68	Skeleton
+69	Skeleton Knight
+70	Ghost
+71	Phantom
+72	Hawkman
+73	Vultan
+74	Raven
+75	Angel
+76	Thrones
+77	Seraphim
+78	Devil
+79	Demon
+80	Satan
+81	Faerie
+82	Pixie
+83	Sylph
+84	Griffin
+85	Cockatrice
+86	Wyrm
+87	Wyvern
+88	Light Priest
+89	Holy
+90	Curse Priest
+91	Exodus
+92	Gungnir
+93	Crescent
+94	Trooper
+95	Silver Knight
+96	Lord
+97	Witch
+98	Fighter
+99	Fighter
+100	Fighter
+101	Fighter
+102	Fighter
+103	Knight
+104	Knight
+105	Knight
+106	Knight
+107	Knight
+108	General
+109	General
+110	General
+111	General
+112	General
+113	Valit
+114	Valit
+115	Valit
+116	Vanity
+117	???

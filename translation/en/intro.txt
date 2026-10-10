@@ -1,0 +1,31 @@
+# Intro narration: the text crawl after power-on, before the title screen.
+#
+# Drawn by tools/gfx/intro.py in the title16 font (assets/font/title16.txt),
+# white with a blue outline like the original lettering. One text line per
+# line of the crawl, at most 144 px wide with the outline (check with
+# python -m tools.gfx.intro fit). A blank line separates paragraphs. Three
+# paragraphs of 6, 6 and 3 lines keep the original layout and timing (written
+# in place); any other structure selects the relocated layout, which adds
+# about 4.3 seconds per extra line.
+#
+# Terms: "true king" as in the dialogue; "Imperial Year 15" is the date in
+# the Imperial Calendar (glossary.md). The ellipsis is one character (U+2026),
+# the quotes are curly.
+
+To take all the suffering
+of the people upon oneself,
+and to bear one's own
+suffering alone…
+Whoever can do this
+is indeed a “true king”…
+
+But…
+can such a way of life
+be called happiness?
+And to force such a life
+upon others…
+is that truly right?
+
+Imperial Year 15. Our story
+begins in Estoa, a village
+on a small peninsula…

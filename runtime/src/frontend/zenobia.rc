@@ -1,0 +1,60 @@
+/*
+ * zenobia.rc: version information and program icon of zenobia.exe.
+ *
+ * CMakeLists.txt compiles it with
+ *   ZEN_VERSION_MAJOR, ZEN_VERSION_MINOR, ZEN_VERSION_PATCH  from the VERSION
+ *       file in the repository root (MAJOR.MINOR.PATCH), and
+ *   ZEN_HAVE_ICON  when Python could convert assets/icon/zenobia.txt to
+ *       zenobia.ico in the build folder (tools/release/mkicon.py; the build
+ *       folder is on this file's include path). Without Python the player is
+ *       built without an icon.
+ * The application manifest (zenobia.manifest) is embedded by the linker, not
+ * here, so this file must not add an RT_MANIFEST resource.
+ */
+#include <windows.h>
+#include <winver.h>
+#include "resource.h"
+
+#if !defined(ZEN_VERSION_MAJOR) || !defined(ZEN_VERSION_MINOR) || !defined(ZEN_VERSION_PATCH)
+#error "zenobia.rc needs ZEN_VERSION_MAJOR/MINOR/PATCH from CMakeLists.txt (VERSION file)"
+#endif
+
+#define ZEN_RC_STR2(x) #x
+#define ZEN_RC_STR(x) ZEN_RC_STR2(x)
+#define ZEN_VERSION_STR ZEN_RC_STR(ZEN_VERSION_MAJOR) "." ZEN_RC_STR(ZEN_VERSION_MINOR) "." ZEN_RC_STR(ZEN_VERSION_PATCH)
+
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+
+#ifdef ZEN_HAVE_ICON
+IDI_ZENOBIA ICON "zenobia.ico"
+#endif
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION     ZEN_VERSION_MAJOR, ZEN_VERSION_MINOR, ZEN_VERSION_PATCH, 0
+ PRODUCTVERSION  ZEN_VERSION_MAJOR, ZEN_VERSION_MINOR, ZEN_VERSION_PATCH, 0
+ FILEFLAGSMASK   VS_FFI_FILEFLAGSMASK
+ FILEFLAGS       0
+ FILEOS          VOS_NT_WINDOWS32
+ FILETYPE        VFT_APP
+ FILESUBTYPE     VFT2_UNKNOWN
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName",      "The open-ogre-battle-gaiden-zenobia contributors"
+            VALUE "FileDescription",  "Ogre Battle Gaiden: Prince of Zenobia (English)"
+            VALUE "FileVersion",      ZEN_VERSION_STR
+            VALUE "InternalName",     "zenobia"
+            VALUE "LegalCopyright",   "Copyright (c) 2026 The open-ogre-battle-gaiden-zenobia contributors. MIT License."
+            VALUE "OriginalFilename", "zenobia.exe"
+            VALUE "ProductName",      "Ogre Battle Gaiden: Prince of Zenobia - English fan translation"
+            VALUE "ProductVersion",   ZEN_VERSION_STR
+            VALUE "Comments",         "Unofficial fan project. Plays your own copy of the original game with the English patch (ogre_en.bps)."
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0409, 1200
+    END
+END
