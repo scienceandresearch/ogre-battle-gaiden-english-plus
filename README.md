@@ -13,16 +13,33 @@ player, and both need your own copy of the original Japanese game
 
 ## Playing
 
-### With the included Windows player
+Download the latest zip from the **Releases** page (on the right of the
+repository page). You also need your own copy of the original Japanese game:
+a `.ngc` file, or a `.zip` that contains it.
 
-1. Put `zenobia.exe` and `ogre_en.bps` in a folder.
-2. Start `zenobia.exe` and choose your original game file (or drag the file
-   onto the window, or pass it on the command line). The player applies the
-   English patch in memory each time; your file is never modified. The last
-   game file is remembered.
-3. The game's own saves (Save and Suspend) go to `saves\` next to the player,
-   save states to `states\`, settings to `zenobia.ini` (created with
-   commented defaults; delete it to restore them).
+**Play on Windows (easiest):**
+1. Extract the downloaded zip into a folder (right-click it, *Extract All*).
+2. Double-click `zenobia.exe`. If Windows says *"Windows protected your PC"*,
+   click *More info*, then *Run anyway* (the program is not signed).
+3. Choose your game file: the `.ngc`, or the `.zip` it came in (no need to
+   unzip it). The game starts in English.
+
+**Get the English game file** (for another emulator, a Mac, Linux, a phone or
+a flash cart): in the player choose *File > Save English ROM...* (Ctrl+S), or,
+on any system:
+1. Double-click `Patch your game.html` from the zip. It opens in your browser.
+2. Click the box and choose your game file (a `.zip` works too).
+3. Click *Save the English game*. The file appears in your Downloads folder.
+
+Nothing is uploaded: the page works offline. Your original file is never
+changed by either method.
+
+### More about the Windows player
+
+The player applies the English patch in memory each time and remembers the
+last game file. The game's own saves (Save and Suspend) go to `saves\` next to
+the player, save states to `states\`, settings to `zenobia.ini` (created with
+commented defaults; delete it to restore them).
 
 Default controls (changeable in `zenobia.ini`):
 
@@ -41,21 +58,25 @@ Default controls (changeable in `zenobia.ini`):
 | Previous / next state slot (0-9) | F6 / F7 | |
 | Full screen | F11 or Alt+Enter | |
 | Reset (asks first) | F12 | |
-| Open a game file | Ctrl+O | |
+| Open a game file (.ngc or .zip) | Ctrl+O | |
+| Save the English ROM | Ctrl+S | |
 | Show the controls | F1 | |
 | Quit (writes the game save first) | Esc | |
 
-`zenobia.exe GAME.ngc --write-patched ogre_en.ngc` writes the English ROM
-for use elsewhere; `zenobia.exe --help` lists the other options.
+The File and Help menus have the same commands (the menu bar is hidden in
+full screen). From a command line, `zenobia.exe GAME.ngc --write-patched
+ogre_en.ngc` writes the English ROM (the game may be a `.zip`);
+`zenobia.exe --help` lists the other options.
 
 ### With another emulator
 
-Apply `ogre_en.bps` to your original game file with any BPS patcher (for
-example Floating IPS, or ROM Patcher JS in a web browser), or with this
-project's tool:
+The easiest way is `Patch your game.html` (above). `ogre_en.bps` is the same
+patch for any BPS patching tool (for example Floating IPS, or ROM Patcher JS
+in a web browser); or, with Python:
 
 ```
-python -m tools.patch.apply your_game.ngc ogre_en.bps -o ogre_en.ngc
+python patch-tools/apply.py your_game.ngc        # in the extracted release folder
+python -m tools.patch.apply your_game.ngc build/ogre_en.bps -o ogre_en.ngc   # in this repository
 ```
 
 Then open the patched file in a Neo Geo Pocket Color emulator.

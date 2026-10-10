@@ -1,6 +1,9 @@
 /*
  * Window mode: Win32 window with GDI output, waveOut audio, keyboard and
- * XInput input, hotkeys, cartridge saves and save states.
+ * XInput input, hotkeys, cartridge saves and save states, and a menu bar
+ * (File: Open game, Save English ROM, Exit; Help: Controls, About) that is
+ * hidden in fullscreen. The menu bar is for the mouse only: Alt and F10 do
+ * not open it, so every key stays with the game and the hotkeys.
  *
  * Frames are paced with QueryPerformanceCounter at the emulated rate
  * (6144000 / (515 * 199) = 59.95 Hz, from the K2GE line count), with a
@@ -14,16 +17,19 @@
 #include "input.h"
 #include "resource.h"
 #include "saves.h"
+#include "sha1.h"
 #include "video.h"
 
 #include "core/flashchip.h"
 #include "core/ngp.h"
 #include "core/png.h"
 
+#define COBJMACROS
 #include <commdlg.h>
 #include <mmsystem.h>
 #include <objbase.h>
 #include <shellapi.h>
+#include <shobjidl.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -35,6 +41,16 @@ int ngp_shutdown_requested(void);
 #define FF_FRAMES      5          /* frames per paced step while fast-forwarding */
 #define TIMER_SIZEMOVE 1
 #define NUM_SLOTS      10
+
+/* menu commands */
+#define IDM_OPEN         101
+#define IDM_SAVE_ENGLISH 102
+#define IDM_EXIT         103
+#define IDM_CONTROLS     201
+#define IDM_ABOUT        202
+
+/* File > Save English ROM: proposed name, in the game file's folder */
+#define ENGLISH_ROM_NAME L"Ogre Battle Gaiden - Prince of Zenobia (English).ngc"
 
 #ifndef CREATE_WAITABLE_TIMER_HIGH_RESOLUTION
 #define CREATE_WAITABLE_TIMER_HIGH_RESOLUTION 0x00000002
@@ -48,8 +64,9 @@ typedef UINT (WINAPI *GetDpiForWindowFn)(HWND hwnd);
 typedef BOOL (WINAPI *AdjustWindowRectExForDpiFn)(LPRECT rc, DWORD style, BOOL menu, DWORD ex, UINT dpi);
 
 static const wchar_t k_hint[] =
-    L"Drop a Neo Geo Pocket Color ROM onto this window, or press Ctrl+O to choose one.\n\n"
-    L"The original Japanese ROM is translated while it loads, using ogre_en.bps "
+    L"Drop your Ogre Battle Gaiden game file (.ngc, or the .zip it came in) onto this window, "
+    L"or choose File > Open game (Ctrl+O).\n\n"
+    L"The original Japanese game is translated while it loads, using ogre_en.bps "
     L"next to zenobia.exe.\n\nF1 shows the controls.";
 
 static const wchar_t k_help[] =
@@ -62,18 +79,25 @@ static const wchar_t k_help[] =
     L"P or Pause: pause / resume\n"
     L"F5 / F9: save / load state in the current slot\n"
     L"F6 / F7: previous / next state slot (0-9)\n"
-    L"F11 or Alt+Enter: fullscreen\n"
+    L"F11 or Alt+Enter: fullscreen (hides the menu bar)\n"
     L"F12: reset the game\n"
-    L"Ctrl+O: open a ROM (or drop one onto the window)\n"
-    L"Esc: quit (the cartridge save is written first)";
+    L"Ctrl+O: open a game file, .ngc or .zip (or drop one onto the window)\n"
+    L"Ctrl+S: save the English ROM, for other emulators or a flash cart\n"
+    L"F1: these controls\n"
+    L"Esc: quit (the cartridge save is written first)\n\n"
+    L"The File and Help menus have the same commands.";
 
 typedef struct {
     const Options *opt;
     Config   cfg;
     HWND     hwnd;
+    HMENU    menu;             /* the menu bar; detached in fullscreen */
     HANDLE   timer;            /* waitable timer for frame pacing */
     int      have_rom;
     int      untranslated;
+    int      english;          /* the image running is the English ROM */
+    uint32_t english_crc;      /* its CRC32 (the patch's target) */
+    wchar_t *rom_path;         /* the game file loaded (or the .zip holding it) */
     int      paused;           /* by the user */
     int      inactive;         /* the application is in the background */
     int      shutdown_seen;    /* the game powered the console off */
@@ -179,10 +203,20 @@ static wchar_t *slot_path(int slot)
     return zen_path_join(zen_exe_dir(), name);
 }
 
-static wchar_t *save_path_for(const wchar_t *rom_path)
+/* saves\<name of the game file>.sav; for a zip, the name of the game file in
+   it (so the save stays the same when the zip is extracted). */
+static wchar_t *save_path_for(const wchar_t *game_name)
 {
-    wchar_t *stem = zen_path_stem(rom_path);
+    wchar_t *stem = zen_path_stem(game_name);
     if (!stem) return NULL;
+    /* a name from a zip may hold characters Windows does not allow in file names */
+    for (wchar_t *c = stem; *c; c++)
+        if (*c < 0x20 || wcschr(L"<>:\"/\\|?*", *c)) *c = L'_';
+    if (!stem[0]) {
+        free(stem);
+        stem = zen_wcsdup(L"game");
+        if (!stem) return NULL;
+    }
     size_t n = wcslen(stem) + 16;
     wchar_t *name = (wchar_t *)malloc(n * sizeof(wchar_t));
     wchar_t *path = NULL;
@@ -226,20 +260,23 @@ static UINT window_dpi(HWND hwnd)
     return d ? d : 96;
 }
 
-static void adjust_rect(RECT *rc, DWORD style, DWORD ex, UINT dpi)
+/* Window rectangle for a client rectangle; menu = the window has a menu bar
+   (counted as one line). */
+static void adjust_rect(RECT *rc, DWORD style, DWORD ex, UINT dpi, BOOL menu)
 {
     HMODULE u = GetModuleHandleW(L"user32.dll");
     AdjustWindowRectExForDpiFn adj = u ?
         (AdjustWindowRectExForDpiFn)(void (*)(void))GetProcAddress(u, "AdjustWindowRectExForDpi") : NULL;
-    if (adj && adj(rc, style, FALSE, ex, dpi)) return;
-    AdjustWindowRectEx(rc, style, FALSE, ex);
+    if (adj && adj(rc, style, menu, ex, dpi)) return;
+    AdjustWindowRectEx(rc, style, menu, ex);
 }
 
-/* Window for a client area of 160x152 times scale, centred on its monitor's
-   work area, with the scale reduced until it fits. */
+/* Window for a client area of 160x152 times scale (below the menu bar),
+   centred on its monitor's work area, with the scale reduced until it fits. */
 static void size_window(int scale)
 {
     DWORD style = (DWORD)GetWindowLongW(A.hwnd, GWL_STYLE), ex = (DWORD)GetWindowLongW(A.hwnd, GWL_EXSTYLE);
+    BOOL menu = GetMenu(A.hwnd) != NULL;
     UINT dpi = window_dpi(A.hwnd);
     MONITORINFO mi;
     mi.cbSize = sizeof(mi);
@@ -248,7 +285,7 @@ static void size_window(int scale)
     RECT rc;
     for (;;) {
         SetRect(&rc, 0, 0, NGP_SCREEN_W * scale, NGP_SCREEN_H * scale);
-        adjust_rect(&rc, style, ex, dpi);
+        adjust_rect(&rc, style, ex, dpi, menu);
         if (scale <= 1 || (rc.right - rc.left <= ww && rc.bottom - rc.top <= wh)) break;
         scale--;
     }
@@ -257,6 +294,14 @@ static void size_window(int scale)
     if (x < mi.rcWork.left) x = mi.rcWork.left;
     if (y < mi.rcWork.top) y = mi.rcWork.top;
     SetWindowPos(A.hwnd, NULL, x, y, w, h, SWP_NOZORDER | SWP_NOACTIVATE);
+    /* A menu bar that wraps onto a second line (a narrow window with large
+       text) takes more height than the one line counted above: add the
+       difference, so the client area keeps its exact size. */
+    RECT cr;
+    if (menu && GetClientRect(A.hwnd, &cr) && cr.bottom > 0 && cr.bottom < NGP_SCREEN_H * scale) {
+        h += NGP_SCREEN_H * scale - cr.bottom;
+        SetWindowPos(A.hwnd, NULL, x, y, w, h, SWP_NOZORDER | SWP_NOACTIVATE);
+    }
 }
 
 static void toggle_fullscreen(void)
@@ -268,6 +313,7 @@ static void toggle_fullscreen(void)
         A.saved_wp.length = sizeof(A.saved_wp);
         if (!GetWindowPlacement(A.hwnd, &A.saved_wp) ||
             !GetMonitorInfoW(MonitorFromWindow(A.hwnd, MONITOR_DEFAULTTOPRIMARY), &mi)) return;
+        SetMenu(A.hwnd, NULL);   /* no menu bar in fullscreen (the menu is kept in A.menu) */
         SetWindowLongW(A.hwnd, GWL_STYLE, (LONG)(style & ~(DWORD)WS_OVERLAPPEDWINDOW));
         SetWindowPos(A.hwnd, HWND_TOP, mi.rcMonitor.left, mi.rcMonitor.top,
                      mi.rcMonitor.right - mi.rcMonitor.left, mi.rcMonitor.bottom - mi.rcMonitor.top,
@@ -275,6 +321,7 @@ static void toggle_fullscreen(void)
         A.fullscreen = 1;
     } else {
         SetWindowLongW(A.hwnd, GWL_STYLE, (LONG)(style | WS_OVERLAPPEDWINDOW));
+        if (A.menu) SetMenu(A.hwnd, A.menu);   /* before the placement: it was saved with the menu bar */
         SetWindowPlacement(A.hwnd, &A.saved_wp);
         SetWindowPos(A.hwnd, NULL, 0, 0, 0, 0,
                      SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_FRAMECHANGED);
@@ -390,9 +437,13 @@ static int load_rom(const wchar_t *path)
     ngp_reset();   /* also puts the flash chip in read mode and sets the BIOS chip sizes */
     A.have_rom = 1;
     A.untranslated = p.untranslated;
+    A.english = rom_prep_is_english(&p);
+    A.english_crc = p.patch_info.target_crc;
+    free(A.rom_path);
+    A.rom_path = zen_wcsdup(p.rom_path);
     A.shutdown_seen = 0;
     A.paused = 0;
-    wchar_t *save = save_path_for(p.rom_path);
+    wchar_t *save = save_path_for(p.zip.name ? p.zip.name : p.rom_path);
     int r = saves_flash_attach(save);
     if (r < 0)
         modal_message(MB_OK | MB_ICONWARNING, IDOK,
@@ -416,7 +467,8 @@ static int open_rom_dialog(void)
     memset(&ofn, 0, sizeof(ofn));
     ofn.lStructSize = sizeof(ofn);
     ofn.hwndOwner = A.hwnd;
-    ofn.lpstrFilter = L"Neo Geo Pocket ROMs (*.ngc;*.ngp;*.npc)\0*.ngc;*.ngp;*.npc\0All files (*.*)\0*.*\0";
+    ofn.lpstrFilter = L"Neo Geo Pocket games (*.ngc;*.ngp;*.npc;*.zip)\0*.ngc;*.ngp;*.npc;*.zip\0"
+                      L"All files (*.*)\0*.*\0";
     ofn.lpstrFile = file;
     ofn.nMaxFile = CFG_PATH_MAX;
     ofn.lpstrTitle = L"Open the Ogre Battle Gaiden ROM";
@@ -426,6 +478,241 @@ static int open_rom_dialog(void)
     input_clear();
     A.next_frame = 0;
     return ok ? load_rom(file) : 0;
+}
+
+/* 2097152 -> "2,097,152" */
+static const wchar_t *grouped(size_t v)
+{
+    static wchar_t out[40];
+    wchar_t digits[24];
+    int n = swprintf(digits, 24, L"%zu", v), o = 0;
+    for (int i = 0; i < n; i++) {
+        if (i > 0 && (n - i) % 3 == 0) out[o++] = L',';
+        out[o++] = digits[i];
+    }
+    out[o] = 0;
+    return out;
+}
+
+/* Save As dialog opened in the given folder with the given name. The common
+   item dialog is used because it can be told the folder (GetSaveFileName
+   opens wherever Windows last saved for this program); GetSaveFileName is
+   the fallback. Returns 1 with the chosen path in out. */
+static int ask_save_path(wchar_t *out, size_t cap, const wchar_t *folder, const wchar_t *name,
+                         const wchar_t *title)
+{
+    IFileSaveDialog *dlg = NULL;
+    if (SUCCEEDED(CoCreateInstance(&CLSID_FileSaveDialog, NULL, CLSCTX_INPROC_SERVER, &IID_IFileSaveDialog,
+                                   (void **)&dlg))) {
+        static const COMDLG_FILTERSPEC types[] = {
+            {L"Neo Geo Pocket Color ROM (*.ngc)", L"*.ngc"},
+            {L"All files (*.*)", L"*.*"},
+        };
+        DWORD opts = 0;
+        int ok = 0;
+        IFileSaveDialog_GetOptions(dlg, &opts);
+        IFileSaveDialog_SetOptions(dlg, opts | FOS_OVERWRITEPROMPT | FOS_FORCEFILESYSTEM | FOS_PATHMUSTEXIST |
+                                            FOS_NOREADONLYRETURN | FOS_NOCHANGEDIR);
+        IFileSaveDialog_SetFileTypes(dlg, 2, types);
+        IFileSaveDialog_SetDefaultExtension(dlg, L"ngc");
+        IFileSaveDialog_SetTitle(dlg, title);
+        IFileSaveDialog_SetFileName(dlg, name);
+        IShellItem *dir = NULL;
+        if (folder && folder[0] &&
+            SUCCEEDED(SHCreateItemFromParsingName(folder, NULL, &IID_IShellItem, (void **)&dir))) {
+            IFileSaveDialog_SetFolder(dlg, dir);
+            IShellItem_Release(dir);
+        }
+        if (SUCCEEDED(IFileSaveDialog_Show(dlg, A.hwnd))) {
+            IShellItem *item = NULL;
+            if (SUCCEEDED(IFileSaveDialog_GetResult(dlg, &item))) {
+                PWSTR path = NULL;
+                if (SUCCEEDED(IShellItem_GetDisplayName(item, SIGDN_FILESYSPATH, &path))) {
+                    ok = wcslen(path) < cap;
+                    if (ok) wcscpy_s(out, cap, path);
+                    CoTaskMemFree(path);
+                }
+                IShellItem_Release(item);
+            }
+        }
+        IFileSaveDialog_Release(dlg);
+        return ok;
+    }
+    /* no common item dialog: the classic one, with the folder in the name */
+    if (!folder || wcslen(folder) + wcslen(name) + 2 > cap) folder = L"";
+    swprintf(out, cap, L"%ls%ls%ls", folder,
+             folder[0] && folder[wcslen(folder) - 1] != L'\\' ? L"\\" : L"", name);
+    OPENFILENAMEW ofn;
+    memset(&ofn, 0, sizeof(ofn));
+    ofn.lStructSize = sizeof(ofn);
+    ofn.hwndOwner = A.hwnd;
+    ofn.lpstrFilter = L"Neo Geo Pocket Color ROM (*.ngc)\0*.ngc\0All files (*.*)\0*.*\0";
+    ofn.lpstrFile = out;
+    ofn.nMaxFile = (DWORD)cap;
+    ofn.lpstrTitle = title;
+    ofn.lpstrDefExt = L"ngc";
+    ofn.Flags = OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY | OFN_NOREADONLYRETURN |
+                OFN_NOCHANGEDIR | OFN_EXPLORER;
+    return GetSaveFileNameW(&ofn) ? 1 : 0;
+}
+
+/* File > Save English ROM (Ctrl+S): writes the English ROM as it was loaded
+   (before any in-game saves, which stay in the save file) where the user
+   chooses, by default in the game file's folder, then reads the file back
+   and checks its SHA-1 against the running image and its CRC32 against the
+   patch's target. Without a game, or with a game that is not the English
+   ROM, it explains why there is nothing to save. */
+static void save_english_rom(void)
+{
+    if (!A.have_rom) {
+        modal_message(MB_OK | MB_ICONINFORMATION, IDOK,
+                      L"No game is loaded yet.\n\n"
+                      L"Open your Ogre Battle Gaiden game file first (File > Open game, or Ctrl+O). This "
+                      L"command then saves the English version of it as a new file, for other emulators "
+                      L"or a flash cartridge.");
+        return;
+    }
+    if (!A.english) {
+        if (A.untranslated)
+            modal_message(MB_OK | MB_ICONINFORMATION, IDOK,
+                          L"The game is running untranslated: the English patch (ogre_en.bps) was not found "
+                          L"or could not be used, so there is no English ROM to save.\n\n"
+                          L"Put ogre_en.bps in the same folder as zenobia.exe, then open the game again "
+                          L"(File > Open game).");
+        else
+            modal_message(MB_OK | MB_ICONINFORMATION, IDOK,
+                          L"The game file running now is not the original Japanese game that the English "
+                          L"patch was made for, so no English ROM can be made from it.\n\n"
+                          L"Open your original game file (File > Open game), then try again.");
+        return;
+    }
+    size_t size = 0;
+    const uint8_t *image = rom_image(&size);
+    if (!image || !size || !A.rom_path) return;
+
+    /* proposed: the English name in the game file's folder */
+    wchar_t folder[CFG_PATH_MAX], file[CFG_PATH_MAX];
+    size_t dirlen = (size_t)(zen_path_name(A.rom_path) - A.rom_path);
+    if (dirlen >= CFG_PATH_MAX) dirlen = 0;
+    wmemcpy(folder, A.rom_path, dirlen);
+    folder[dirlen] = 0;
+    audio_set_muted(1);
+    int ok = ask_save_path(file, CFG_PATH_MAX, folder, ENGLISH_ROM_NAME, L"Save the English ROM");
+    input_clear();
+    A.next_frame = 0;
+    if (!ok) return;
+
+    wchar_t *out = zen_full_path(file);
+    if (!out) return;
+    if (_wcsicmp(out, A.rom_path) == 0) {
+        modal_message(MB_OK | MB_ICONWARNING, IDOK,
+                      L"This is the game file you opened:\n%ls\n\n"
+                      L"Choose another name, so that it stays as it is.", out);
+        free(out);
+        return;
+    }
+    int written = zen_write_file_atomic(out, image, size) == ZEN_FILE_OK;
+    int verified = 0;
+    uint8_t digest[20];
+    uint8_t *back = NULL;
+    size_t back_size = 0;
+    if (written && zen_read_file(out, &back, &back_size, size + 1) == ZEN_FILE_OK && back_size == size) {
+        sha1(back, back_size, digest);
+        verified = memcmp(digest, rom_image_sha1(), 20) == 0 && bps_crc32(0, back, back_size) == A.english_crc;
+    }
+    free(back);
+    if (!written) {
+        modal_message(MB_OK | MB_ICONERROR, IDOK,
+                      L"The English ROM could not be saved here:\n%ls\n\n"
+                      L"Choose another folder (for example Documents) and try again.", out);
+    } else if (!verified) {
+        DeleteFileW(out);
+        modal_message(MB_OK | MB_ICONERROR, IDOK,
+                      L"The English ROM was written here:\n%ls\n\nbut reading it back gave different data, so "
+                      L"the file was deleted. The drive may be full or failing; try another folder.", out);
+    } else {
+        char hex[41];
+        sha1_hex(digest, hex);
+        set_status(L"English ROM saved");
+        modal_message(MB_OK | MB_ICONINFORMATION, IDOK,
+                      L"The English ROM was saved:\n%ls\n\n"
+                      L"Play it with another Neo Geo Pocket Color emulator or on a flash cartridge. Your "
+                      L"original game file was not changed, and your saved games stay with this player "
+                      L"(in its saves folder).\n\n"
+                      L"Checked after saving: %ls bytes, CRC32 %08X, SHA-1 %hs.",
+                      out, grouped(size), (unsigned)A.english_crc, hex);
+    }
+    free(out);
+}
+
+static void show_controls(void)
+{
+    modal_message(MB_OK | MB_ICONINFORMATION, IDOK, L"%ls", k_help);
+}
+
+/* "MAJOR.MINOR.PATCH" from the program's version resource (zenobia.rc). */
+static void version_string(wchar_t *out, size_t cap)
+{
+    swprintf(out, cap, L"(unknown)");
+    HRSRC r = FindResourceW(NULL, MAKEINTRESOURCEW(1), MAKEINTRESOURCEW(16));   /* VS_VERSION_INFO, RT_VERSION */
+    HGLOBAL g = r ? LoadResource(NULL, r) : NULL;
+    const uint8_t *d = g ? (const uint8_t *)LockResource(g) : NULL;
+    DWORD n = d ? SizeofResource(NULL, r) : 0;
+    for (DWORD i = 0; i + 16 <= n; i += 4) {
+        uint32_t w[4];
+        memcpy(w, d + i, sizeof(w));   /* VS_FIXEDFILEINFO: signature, struct version, version MS, LS */
+        if (w[0] == 0xFEEF04BDu) {
+            swprintf(out, cap, L"%u.%u.%u", (unsigned)(w[2] >> 16), (unsigned)(w[2] & 0xFFFF),
+                     (unsigned)(w[3] >> 16));
+            return;
+        }
+    }
+}
+
+static void show_about(void)
+{
+    wchar_t version[32], game[CFG_PATH_MAX + 64];
+    version_string(version, 32);
+    if (!A.have_rom || !A.rom_path)
+        swprintf(game, sizeof(game) / sizeof(game[0]), L"none loaded");
+    else
+        swprintf(game, sizeof(game) / sizeof(game[0]), L"%ls\n(%ls)", A.rom_path,
+                 A.english ? L"running in English" : A.untranslated ? L"running untranslated" : L"running as is");
+    modal_message(MB_OK | MB_ICONINFORMATION, IDOK,
+                  L"%ls\nVersion %ls\n\n"
+                  L"An unofficial English fan translation of Densetsu no Ogre Battle Gaiden: Zenobia no Ouji "
+                  L"(Neo Geo Pocket Color, 2000). It plays your own copy of the original Japanese game, "
+                  L"translated while it loads with the English patch (ogre_en.bps); your game file is never "
+                  L"changed.\n\n"
+                  L"Game: %ls\n\nSettings, saves and states are kept in:\n%ls\n\n"
+                  L"Free software under the MIT License (LICENSE.txt, THIRD_PARTY_NOTICES.txt). Not "
+                  L"affiliated with the owners of the game.",
+                  ZEN_TITLE, version, game, zen_exe_dir());
+}
+
+static HMENU create_menu(void)
+{
+    HMENU bar = CreateMenu(), file = CreatePopupMenu(), help = CreatePopupMenu();
+    if (!bar || !file || !help) {
+        if (bar) DestroyMenu(bar);
+        if (file) DestroyMenu(file);
+        if (help) DestroyMenu(help);
+        return NULL;
+    }
+    /* Exit shows the first key bound to quit (Esc unless changed in zenobia.ini) */
+    wchar_t exit_label[64];
+    int quit = A.cfg.nkeys[ACT_QUIT] > 0 ? A.cfg.keys[ACT_QUIT][0] : 0;
+    if (quit) swprintf(exit_label, 64, L"E&xit\t%ls", quit == VK_ESCAPE ? L"Esc" : config_key_name(quit));
+    else swprintf(exit_label, 64, L"E&xit");
+    AppendMenuW(file, MF_STRING, IDM_OPEN, L"&Open game...\tCtrl+O");
+    AppendMenuW(file, MF_STRING, IDM_SAVE_ENGLISH, L"&Save English ROM...\tCtrl+S");
+    AppendMenuW(file, MF_SEPARATOR, 0, NULL);
+    AppendMenuW(file, MF_STRING, IDM_EXIT, exit_label);
+    AppendMenuW(help, MF_STRING, IDM_CONTROLS, L"&Controls\tF1");
+    AppendMenuW(help, MF_STRING, IDM_ABOUT, L"&About");
+    AppendMenuW(bar, MF_POPUP, (UINT_PTR)file, L"&File");
+    AppendMenuW(bar, MF_POPUP, (UINT_PTR)help, L"&Help");
+    return bar;
 }
 
 static void save_state_slot(void)
@@ -518,7 +805,7 @@ static void handle_hotkey(int vk)
     if (input_is_bound(ACT_QUIT, vk)) { app_close(); return; }
     if (input_is_bound(ACT_FULLSCREEN, vk)) toggle_fullscreen();
     if (vk == VK_F1) {
-        modal_message(MB_OK | MB_ICONINFORMATION, IDOK, L"%ls", k_help);
+        show_controls();
         return;
     }
     if (!A.have_rom) return;
@@ -589,7 +876,7 @@ static LRESULT CALLBACK wndproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
         MINMAXINFO *mm = (MINMAXINFO *)lp;
         RECT rc;
         SetRect(&rc, 0, 0, NGP_SCREEN_W, NGP_SCREEN_H);
-        adjust_rect(&rc, WS_OVERLAPPEDWINDOW, 0, window_dpi(hwnd));
+        adjust_rect(&rc, WS_OVERLAPPEDWINDOW, 0, window_dpi(hwnd), GetMenu(hwnd) != NULL);
         mm->ptMinTrackSize.x = rc.right - rc.left;
         mm->ptMinTrackSize.y = rc.bottom - rc.top;
         return 0;
@@ -610,7 +897,8 @@ static LRESULT CALLBACK wndproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
                 if (nz < 1) nz = 1;
                 RECT nr;
                 SetRect(&nr, 0, 0, NGP_SCREEN_W * nz, NGP_SCREEN_H * nz);
-                adjust_rect(&nr, (DWORD)GetWindowLongW(hwnd, GWL_STYLE), (DWORD)GetWindowLongW(hwnd, GWL_EXSTYLE), new_dpi);
+                adjust_rect(&nr, (DWORD)GetWindowLongW(hwnd, GWL_STYLE), (DWORD)GetWindowLongW(hwnd, GWL_EXSTYLE),
+                            new_dpi, GetMenu(hwnd) != NULL);
                 SetRect(&wr, r->left, r->top, r->left + (nr.right - nr.left), r->top + (nr.bottom - nr.top));
             }
             SetWindowPos(hwnd, NULL, wr.left, wr.top, wr.right - wr.left, wr.bottom - wr.top,
@@ -645,10 +933,12 @@ static LRESULT CALLBACK wndproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
         if (msg == WM_SYSKEYDOWN && wp == VK_F4 && alt) break;   /* Alt+F4 closes */
         input_key(vk, 1);
         if (!repeat) {
-            if (wp == 'O' && (GetKeyState(VK_CONTROL) & 0x8000)) open_rom_dialog();
+            int ctrl = (GetKeyState(VK_CONTROL) & 0x8000) != 0 || input_key_down(VK_CONTROL);
+            if (ctrl && wp == 'O') open_rom_dialog();
+            else if (ctrl && wp == 'S') save_english_rom();
             else handle_hotkey(vk);
         }
-        return 0;   /* no menu activation by F10 or Alt */
+        return 0;   /* no menu activation by F10 or Alt: the keys stay with the game */
     }
     case WM_KEYUP:
     case WM_SYSKEYUP:
@@ -660,6 +950,27 @@ static LRESULT CALLBACK wndproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
     case WM_SYSCOMMAND:
         if ((wp & 0xFFF0) == SC_KEYMENU && lp == 0) return 0;
         break;
+    case WM_COMMAND:
+        if (HIWORD(wp) == 0 && lp == 0) {   /* a menu item */
+            switch (LOWORD(wp)) {
+            case IDM_OPEN:         open_rom_dialog(); return 0;
+            case IDM_SAVE_ENGLISH: save_english_rom(); return 0;
+            case IDM_EXIT:         app_close(); return 0;
+            case IDM_CONTROLS:     show_controls(); return 0;
+            case IDM_ABOUT:        show_about(); return 0;
+            default:               break;
+            }
+        }
+        break;
+    case WM_ENTERMENULOOP:
+        /* the game waits while a menu is open (the main loop does not run) */
+        audio_set_muted(1);
+        input_clear();
+        return 0;
+    case WM_EXITMENULOOP:
+        input_clear();
+        A.next_frame = 0;
+        return 0;
     case WM_DROPFILES: {
         HDROP drop = (HDROP)wp;
         UINT n = DragQueryFileW(drop, 0, NULL, 0);
@@ -768,9 +1079,11 @@ int run_gui(const Options *o, HINSTANCE inst)
     wc.hCursor = LoadCursorW(NULL, (LPCWSTR)IDC_ARROW);
     wc.lpszClassName = WINDOW_CLASS;
     RegisterClassExW(&wc);
+    A.menu = create_menu();
     A.hwnd = CreateWindowExW(0, WINDOW_CLASS, ZEN_TITLE, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,
-                             NGP_SCREEN_W * 4, NGP_SCREEN_H * 4, NULL, NULL, inst, NULL);
+                             NGP_SCREEN_W * 4, NGP_SCREEN_H * 4, NULL, A.menu, inst, NULL);
     if (!A.hwnd) {
+        if (A.menu) DestroyMenu(A.menu);
         zen_message(NULL, MB_OK | MB_ICONERROR, IDOK, L"Cannot create the window.");
         timeEndPeriod(1);
         return EXIT_USAGE;
@@ -833,6 +1146,9 @@ done:
     print_stats();
     audio_close();
     input_shutdown();
+    if (A.menu && A.fullscreen) DestroyMenu(A.menu);   /* detached: not destroyed with the window */
+    free(A.rom_path);
+    A.rom_path = NULL;
     if (A.timer) CloseHandle(A.timer);
     timeEndPeriod(1);
     if (SUCCEEDED(com)) CoUninitialize();

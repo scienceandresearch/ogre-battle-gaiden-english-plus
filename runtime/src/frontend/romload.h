@@ -9,6 +9,14 @@
  * file most likely is (an archive, another game, a wrong size, a copy that
  * was patched already, another dump). No patched ROM is ever written unless
  * explicitly requested.
+ *
+ * A .zip is opened directly (zipread.h): the game file in it is the entry
+ * whose name ends in .ngc, .ngp or .npc (if several, the original Japanese
+ * ROM by its CRC32, else the largest; if none, the only or the largest
+ * file), unpacked in memory and checked against its CRC32. Encrypted
+ * entries, ZIP64, split archives and compression methods other than stored
+ * and deflate are refused with a message that asks to extract the zip
+ * first; .7z, .rar and .gz files are refused as before.
  */
 #ifndef ZEN_ROMLOAD_H
 #define ZEN_ROMLOAD_H
@@ -30,8 +38,18 @@ typedef enum {
     ROMPREP_ASK_UNKNOWN,        /* not the expected ROM */
 } RomPrepStatus;
 
+/* The game file chosen in a zip archive. */
 typedef struct {
-    wchar_t *rom_path;          /* full path of the ROM file */
+    wchar_t *name;              /* its name in the archive (malloc'd), NULL when not from a zip */
+    int      by_name;           /* chosen by its .ngc/.ngp/.npc name (else the only or largest file) */
+    int      method;            /* compression method (0 stored, 8 deflate) */
+    uint32_t packed_size, size, crc32;
+} ZipPick;
+
+typedef struct {
+    wchar_t *rom_path;          /* full path of the ROM file (or of the .zip holding it) */
+    ZipPick  zip;               /* the game file inside the .zip (zip.name NULL for a plain file) */
+    wchar_t *shown_path;        /* rom_path for messages, with the file inside the zip */
     wchar_t *patch_path;        /* patch used, or where it was looked for first */
     wchar_t *patch_alt_path;    /* second place looked at (next to the ROM), or NULL */
     uint8_t *file;
@@ -58,6 +76,9 @@ RomPrepStatus rom_prepare(const wchar_t *rom_path, const wchar_t *patch_override
 /* The user agreed to run the file without the patch. */
 void rom_prep_accept_as_is(RomPrep *p);
 void rom_prep_free(RomPrep *p);
+/* 1 when p->image is the English ROM: the original patched in memory, or
+   the English ROM itself (CRC32 = the patch's target). */
+int  rom_prep_is_english(const RomPrep *p);
 
 /* Puts the image into the core exactly like ngp_load_rom() (2 or 4 MB
    buffer filled with 0xFF) and keeps a pristine copy. Does not reset. */
@@ -66,9 +87,18 @@ int  rom_install(const RomPrep *p);
 const uint8_t *rom_image_sha1(void);
 /* The installed buffer as it was before any flash writes (g_rom_size bytes). */
 const uint8_t *rom_pristine(size_t *size);
+/* The installed image itself as it was loaded, before any flash writes
+   (*size = the image's size, without the 0xFF padding). */
+const uint8_t *rom_image(size_t *size);
 
 /* Writes the image to a file (only for --write-patched). */
 int  rom_write_image(const RomPrep *p, const wchar_t *out_path);
+
+/* Unpacks the game file of a zip archive exactly as rom_prepare() chooses
+   it (--unzip). Returns ZIP_OK or a ZIP_ERR_* code (zipread.h), or -1 when
+   the file cannot be opened or is not a zip archive. pick->name is malloc'd
+   (also on most errors, once an entry was chosen); free it. */
+int  rom_unzip(const wchar_t *path, size_t max_size, uint8_t **out, size_t *out_size, ZipPick *pick);
 
 const char *rom_kind_name(RomKind k);
 

@@ -11,10 +11,32 @@ This download contains no game data. The English patch and the player need
 your own copy of the original Japanese game.
 
 
+Quick start
+-----------
+You need your own copy of the original Japanese game: a .ngc file, or a .zip
+that contains it (see "What you need" below).
+
+To play on Windows:
+  1. Extract this zip into a folder (right-click it, then "Extract All").
+  2. Double-click zenobia.exe. If Windows says "Windows protected your PC",
+     click "More info", then "Run anyway".
+  3. Choose your game file (the .ngc, or the .zip it came in). The game
+     starts in English.
+
+To get the English game file instead (for another emulator, a Mac, Linux, a
+phone or a flash cart), either use File > Save English ROM in the player, or:
+  1. Double-click "Patch your game.html". It opens in your web browser.
+  2. Click the box and choose your game file (a .zip works too).
+  3. Click "Save the English game". The English file appears in your
+     Downloads folder.
+Nothing is uploaded: the page works offline, on your own computer.
+
+
 Contents
 --------
   zenobia.exe               the Windows player (64-bit Windows 10 or 11)
-  ogre_en.bps               the English patch (BPS format)
+  Patch your game.html      makes the English game file in your web browser
+  ogre_en.bps               the English patch (BPS format), for patching tools
   ogre_en.sha1              SHA-1 of the English ROM that the patch makes
   README.txt                this file
   LICENSE.txt               the licence of this project (MIT)
@@ -33,9 +55,9 @@ Your own copy of the original cartridge's data (a "ROM" file) of
   MD5:    @ORIGINAL_MD5@
   SHA-1:  @ORIGINAL_SHA1@
 
-The file name and extension (.ngc, .ngp) do not matter. Other dumps, other
-revisions and files that were patched already are refused. This project
-does not provide the game.
+The file name and extension (.ngc, .ngp) do not matter, and a .zip that
+contains the file works too. Other dumps, other revisions and files that
+were patched already are refused. This project does not provide the game.
 
 
 Playing with the included player
@@ -48,11 +70,19 @@ Playing with the included player
    the player.
 2. Start zenobia.exe. The program is not signed, so Windows SmartScreen may
    say "Windows protected your PC": click "More info", then "Run anyway".
-3. Choose your game file in the window that opens (or drop the file onto
-   the player's window, or run zenobia.exe "path\to\game.ngc"). The game is
+3. Choose your game file in the window that opens (or drop it onto the
+   player's window). You don't need to unzip it: pick the .zip your game
+   came in and the player finds the .ngc file inside. The game is
    translated in memory while it loads; your file is never changed. Next
-   time the same file opens by itself (Ctrl+O opens another one).
-4. Play. F1 shows the controls.
+   time the same file opens by itself (File > Open game, or Ctrl+O, opens
+   another one).
+4. Play. F1 (or Help > Controls) shows the controls.
+
+To play the English version elsewhere (another emulator, a flash cart),
+choose File > Save English ROM... (Ctrl+S) while your game is open. The
+Save dialog opens in your game's folder with the name "Ogre Battle Gaiden -
+Prince of Zenobia (English).ngc"; click Save. The player checks the file it
+wrote and shows its checksums. Your original file is not changed.
 
 If something is wrong, the player says what and how to fix it, for example:
   - "the English patch was not found": ogre_en.bps must be next to
@@ -62,8 +92,11 @@ If something is wrong, the player says what and how to fix it, for example:
   - "This file is not the ROM this player expects", with the reason (a bad
     or modified dump, another game, the wrong size, a copy that was patched
     already) and the checksums of the right file.
-  - "This is a compressed archive": extract the game file from its archive
-    first.
+  - "Please extract the zip first": the .zip is password-protected or in a
+    format the player cannot read. Right-click it in File Explorer, choose
+    "Extract All...", and open the extracted .ngc file instead.
+  - "This is a compressed archive": .7z, .rar and .gz files must be
+    extracted first (a .zip opens directly).
 
 
 Controls
@@ -81,11 +114,13 @@ Controls
   Previous / next state slot (0-9)            F6 / F7
   Full screen                                 F11 or Alt+Enter
   Reset (asks first)                          F12
-  Open a game file                            Ctrl+O
+  Open a game file (.ngc or .zip)             Ctrl+O
+  Save the English ROM                        Ctrl+S
   Show the controls                           F1
   Quit (writes the game's save first)         Esc
 
-The keys can be changed in zenobia.ini (see below).
+The File and Help menus have the same commands; the menu bar is hidden in
+full screen. The keys can be changed in zenobia.ini (see below).
 
 
 Saves, save states and settings
@@ -123,9 +158,14 @@ Command line
 
 Using the patch with other emulators
 ------------------------------------
-ogre_en.bps turns the original game file into the English ROM. All of these
-tools check the original first and refuse a different file; never force
-them to apply the patch anyway.
+The easiest way is "Patch your game.html" (see Quick start): it works in
+any modern web browser on Windows, macOS and Linux, accepts the game as a
+.ngc file or inside a .zip, checks that it is the right game, and saves
+"Ogre Battle Gaiden - Prince of Zenobia (English).ngc".
+
+ogre_en.bps is the same patch for patching tools. All of these tools check
+the original first and refuse a different file; never force them to apply
+the patch anyway.
 
 Floating IPS (Flips), Windows and Linux:
   Start Flips, click "Apply Patch", choose ogre_en.bps, then your original
@@ -147,8 +187,9 @@ in this folder:
   chooses another name). It checks the original's SHA-1 before patching and
   the result afterwards.
 
-The player:
+The player: File > Save English ROM... (Ctrl+S), or from a command line
   zenobia.exe "original.ngc" --write-patched ogre_en.ngc
+  (the original may also be the .zip it came in).
 
 Check the result (optional): the English ROM has SHA-1
 @ENGLISH_SHA1@ (the contents of ogre_en.sha1) and

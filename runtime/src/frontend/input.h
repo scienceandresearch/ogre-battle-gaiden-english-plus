@@ -20,6 +20,7 @@ void input_shutdown(void);
    should be passed as VK_L... / VK_R...; the generic code follows them. */
 void input_key(int vk, int down);
 void input_clear(void);
+int  input_key_down(int vk);             /* the window saw vk go down and not up again */
 int  input_action_down(int act);         /* any key bound to act is held */
 int  input_is_bound(int act, int vk);    /* vk is one of act's keys */
 

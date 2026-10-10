@@ -29,6 +29,7 @@ typedef struct {
     int      console;            /* --console */
     int      log_level;          /* --log N (-1 = default) */
     wchar_t *bps_args[3];        /* --bps-apply SOURCE PATCH OUT */
+    wchar_t *unzip_args[2];      /* --unzip ZIP OUT */
 } Options;
 
 /* Identifies, patches and (after asking when needed) accepts a ROM.
@@ -51,7 +52,8 @@ enum {
     EXIT_WRITE_FAILED = 5,
     EXIT_PNG_FAILED = 6,
     EXIT_SAVE_FAILED = 7,
-    EXIT_BPS_BASE = 10        /* --bps-apply: 10 + BPS error code */
+    EXIT_BPS_BASE = 10,       /* --bps-apply: 10 + BPS error code */
+    EXIT_ZIP_BASE = 30        /* --unzip: 30 + zip error code (zipread.h) */
 };
 
 #endif

@@ -189,6 +189,34 @@ with Python 3.12 `-I`, from inside `patch-tools`, a ROM path with spaces:
 all write `e63bffd1...` ("matches ogre_en.sha1"); the English ROM given as
 the original is refused ("already patched"), nothing written.
 
+### "Patch your game.html": the one-file web patcher (2026-10-10)
+
+For people who want the English game file without any command line, on any
+system: double-click the page (it opens in the browser, offline), click the
+box and choose the game file (`.ngc`/`.ngp`, or a `.zip` that contains it),
+click "Save the English game". The page reads stored and deflate zips
+(`DecompressionStream`), accepts an over-dump (the game plus `0xFF` fill),
+checks the original's SHA-1, applies the built-in BPS patch with its own
+applier (CRC32 of source, target and patch), checks the result's SHA-1, and
+saves `Ogre Battle Gaiden - Prince of Zenobia (English).ngc`; an English ROM
+is recognised, anything else gets a plain explanation. Its
+Content-Security-Policy (`default-src 'none'`) forbids every network access.
+
+* Template `tools/release/patcher.html` (all code ours, ASCII);
+  `tools/release/webpatcher.py` fills in the patch (base64), the checksums
+  and the version: `python -m tools.release.webpatcher [--out FILE]`.
+  `package.py` adds the page to the zip (`Patch your game.html`; it is
+  covered by the Japanese scan and the ROM-data scan like every file).
+* `python -m tools.release.test_webpatcher [rom/baserom.ngc]` runs the
+  page's own script in Node (same browser APIs): the plain ROM, a stored
+  and a deflate zip and an over-dump all give the English ROM's SHA-1; an
+  English ROM is recognised; a changed ROM, a damaged zip, a
+  password-protected zip and a `.7z` are refused with their messages; plus
+  static checks (no URLs, CSP present, every field filled). Checked by hand
+  in Chrome too (zip chosen, "This is the right game", Save enabled).
+* Later, when the repository is public, the same page can be served from
+  GitHub Pages for a true "click here" link.
+
 ### Other files
 
 * `tools/release/pe.py`: reads a PE file's resources (version information,

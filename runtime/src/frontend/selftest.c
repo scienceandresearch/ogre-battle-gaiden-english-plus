@@ -13,6 +13,7 @@
 #include "bps.h"
 #include "saves.h"
 #include "sha1.h"
+#include "zipread.h"
 
 #include "core/flashchip.h"
 #include "core/ngp.h"
@@ -109,6 +110,12 @@ int run_selftest(const Options *o)
     char hex[41];
     printf("selftest: process code page %u%s\n", (unsigned)GetACP(), GetACP() == CP_UTF8 ? " (UTF-8)" : "");
     print_path("selftest: rom ", p.rom_path);
+    if (p.zip.name) {
+        char *u = zen_to_utf8(p.zip.name);
+        printf("selftest: zip entry %s (%s, %u bytes packed)\n", u ? u : "?", zip_method_name(p.zip.method),
+               (unsigned)p.zip.packed_size);
+        free(u);
+    }
     sha1_hex(p.file_sha1, hex);
     printf("selftest: rom sha1 %s crc32 %08x (%s)\n", hex, (unsigned)p.file_crc, rom_kind_name(p.kind));
     if (p.patched) print_path("selftest: patch applied: ", p.patch_path);

@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- No network access at all: the page cannot load or send anything. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:">
+<title>Ogre Battle Gaiden English Patcher</title>
+<!--
+  Ogre Battle Gaiden: Prince of Zenobia - English patcher (version @VERSION@).
+  Made by tools/release/webpatcher.py from tools/release/patcher.html; the
+  English patch (ogre_en.bps, which holds no data from the game) is built in.
+  Part of an unofficial fan translation, MIT License.
+-->
+<style>
+  :root {
+    --bg: #f4f1ea; --panel: #ffffff; --ink: #1d1b18; --muted: #5d574e;
+    --accent: #b8321f; --accent-ink: #ffffff; --line: #d9d2c4;
+    --ok: #1e6b3a; --ok-bg: #e5f3e9; --bad: #9b1c1c; --bad-bg: #fbe9e7;
+    --drop: #fbf8f2;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #17161a; --panel: #222127; --ink: #ecebe8; --muted: #aaa59c;
+      --accent: #e0563d; --accent-ink: #111; --line: #3a3842;
+      --ok: #7fd49a; --ok-bg: #18301f; --bad: #ff9c8f; --bad-bg: #3a1c1a;
+      --drop: #1c1b20;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font: 17px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 32px 16px 48px; }
+  h1 { font-size: 1.6em; line-height: 1.25; margin: 0 0 8px; }
+  .lead { color: var(--muted); margin: 0 0 24px; }
+  ol.steps { list-style: none; padding: 0; margin: 0; counter-reset: step; }
+  ol.steps > li { background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+                  padding: 18px 20px 20px; margin-bottom: 16px; counter-increment: step; }
+  ol.steps h2 { font-size: 1.15em; margin: 0 0 12px; }
+  ol.steps h2::before { content: counter(step); display: inline-grid; place-items: center;
+                        width: 1.7em; height: 1.7em; margin-right: 10px; border-radius: 50%;
+                        background: var(--accent); color: var(--accent-ink); font-size: 0.9em; }
+  .drop { display: block; border: 2px dashed var(--line); border-radius: 10px; padding: 26px 16px;
+          text-align: center; cursor: pointer; background: var(--drop); }
+  .drop:hover, .drop.over { border-color: var(--accent); }
+  .drop strong { display: block; font-size: 1.1em; }
+  .drop small { color: var(--muted); }
+  .drop input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+  .drop:focus-within { outline: 3px solid var(--accent); outline-offset: 2px; }
+  button { font: inherit; font-weight: 600; padding: 12px 22px; border-radius: 10px; border: 0;
+           background: var(--accent); color: var(--accent-ink); cursor: pointer; }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+  .status { margin: 14px 0 0; padding: 12px 14px; border-radius: 10px; display: none; }
+  .status.ok { display: block; background: var(--ok-bg); color: var(--ok); }
+  .status.bad { display: block; background: var(--bad-bg); color: var(--bad); }
+  .status.info { display: block; background: var(--drop); color: var(--ink); border: 1px solid var(--line); }
+  .hint { color: var(--muted); font-size: 0.92em; margin: 10px 0 0; }
+  details { margin-top: 8px; color: var(--muted); font-size: 0.92em; }
+  details code, .mono { font-family: ui-monospace, Consolas, monospace; font-size: 0.95em; word-break: break-all; }
+  footer { color: var(--muted); font-size: 0.85em; margin-top: 28px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Ogre Battle Gaiden: Prince of Zenobia, in English</h1>
+  <p class="lead">This page turns your own copy of the Japanese game into the English
+  version. Everything happens on your computer: your file is not uploaded anywhere,
+  and it is not changed.</p>
+
+  <ol class="steps">
+    <li>
+      <h2>Choose your game file</h2>
+      <label class="drop" id="drop">
+        <input type="file" id="file" accept=".ngc,.ngp,.npc,.zip">
+        <strong>Click here to choose your game file</strong>
+        <small>or drag it onto this box (.ngc, .ngp, or a .zip that contains it)</small>
+      </label>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+    </li>
+    <li>
+      <h2>Save the English game</h2>
+      <button id="save" disabled>Save the English game</button>
+      <p class="hint">The file is called <span class="mono" id="outname"></span>.
+      Your browser saves it like any download (usually in your Downloads folder).</p>
+    </li>
+    <li>
+      <h2>Play</h2>
+      <p style="margin:0">Open the saved file in any Neo Geo Pocket Color emulator, or copy
+      it to a flash cart. On Windows you can also simply start <b>zenobia.exe</b> from this
+      download and choose your original game file: it translates the game by itself.</p>
+    </li>
+  </ol>
+
+  <details>
+    <summary>Details</summary>
+    <p>Patch version @VERSION@. The game this patch is for: Densetsu no Ogre Battle Gaiden:
+    Zenobia no Ouji (Japan), Neo Geo Pocket Color, @ORIGINAL_SIZE@ bytes,
+    SHA-1 <code>@ORIGINAL_SHA1@</code>. The English file it makes has
+    SHA-1 <code>@ENGLISH_SHA1@</code>. A file that is already English is recognised.
+    The same patch is included as <code>ogre_en.bps</code> for other patching tools.</p>
+  </details>
+
+  <footer>Unofficial, non-commercial fan translation, not affiliated with the owners of
+  Ogre Battle. This page holds no data from the game; you need your own copy.</footer>
+</main>
+
+<script>
+"use strict";
+// --- Patch data (filled in by tools/release/webpatcher.py) -------------------
+const PATCH_BASE64 = "@BPS_BASE64@";
+const ORIGINAL_SHA1 = "@ORIGINAL_SHA1@";
+const ENGLISH_SHA1 = "@ENGLISH_SHA1@";
+const ORIGINAL_SIZE = @ORIGINAL_SIZE_BYTES@;
+const OUTPUT_NAME = "Ogre Battle Gaiden - Prince of Zenobia (English).ngc";
+
+// @@CORE-BEGIN (pure functions; tools/release/test_webpatcher.py runs them in Node)
+const CRC_TABLE = (() => {
+  const t = new Uint32Array(256);
+  for (let n = 0; n < 256; n++) {
+    let c = n;
+    for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1;
+    t[n] = c >>> 0;
+  }
+  return t;
+})();
+
+function crc32(bytes) {
+  let c = 0xFFFFFFFF;
+  for (let i = 0; i < bytes.length; i++) c = CRC_TABLE[(c ^ bytes[i]) & 0xFF] ^ (c >>> 8);
+  return (c ^ 0xFFFFFFFF) >>> 0;
+}
+
+function sha1Hex(bytes) {
+  const len = bytes.length;
+  const total = Math.ceil((len + 9) / 64) * 64;
+  const buf = new Uint8Array(total);
+  buf.set(bytes);
+  buf[len] = 0x80;
+  const dv = new DataView(buf.buffer);
+  dv.setUint32(total - 8, Math.floor(len / 0x20000000));      // bit length, high word
+  dv.setUint32(total - 4, (len * 8) >>> 0);                    // bit length, low word
+  let h0 = 0x67452301, h1 = 0xEFCDAB89, h2 = 0x98BADCFE, h3 = 0x10325476, h4 = 0xC3D2E1F0;
+  const w = new Int32Array(80);
+  for (let off = 0; off < total; off += 64) {
+    for (let i = 0; i < 16; i++) w[i] = dv.getInt32(off + 4 * i);
+    for (let i = 16; i < 80; i++) {
+      const x = w[i - 3] ^ w[i - 8] ^ w[i - 14] ^ w[i - 16];
+      w[i] = (x << 1) | (x >>> 31);
+    }
+    let a = h0, b = h1, c = h2, d = h3, e = h4;
+    for (let i = 0; i < 80; i++) {
+      let f, k;
+      if (i < 20) { f = (b & c) | (~b & d); k = 0x5A827999; }
+      else if (i < 40) { f = b ^ c ^ d; k = 0x6ED9EBA1; }
+      else if (i < 60) { f = (b & c) | (b & d) | (c & d); k = 0x8F1BBCDC; }
+      else { f = b ^ c ^ d; k = 0xCA62C1D6; }
+      const t = (((a << 5) | (a >>> 27)) + f + e + k + w[i]) | 0;
+      e = d; d = c; c = (b << 30) | (b >>> 2); b = a; a = t;
+    }
+    h0 = (h0 + a) | 0; h1 = (h1 + b) | 0; h2 = (h2 + c) | 0; h3 = (h3 + d) | 0; h4 = (h4 + e) | 0;
+  }
+  return [h0, h1, h2, h3, h4].map(x => (x >>> 0).toString(16).padStart(8, "0")).join("");
+}
+
+function base64ToBytes(text) {
+  const bin = atob(text);
+  const out = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+  return out;
+}
+
+// BPS (beat) patch format: "BPS1", source size, target size, metadata, then
+// actions, then the CRC32 of the source, the target and the patch.
+function applyBps(source, patch) {
+  const fail = msg => { throw new Error(msg); };
+  if (patch.length < 19 || patch[0] !== 0x42 || patch[1] !== 0x50 || patch[2] !== 0x53 || patch[3] !== 0x31)
+    fail("The built-in patch is damaged (not a BPS patch).");
+  const end = patch.length - 12;
+  const u32 = i => (patch[i] | (patch[i + 1] << 8) | (patch[i + 2] << 16) | (patch[i + 3] << 24)) >>> 0;
+  if (crc32(patch.subarray(0, patch.length - 4)) !== u32(end + 8)) fail("The built-in patch is damaged.");
+  let p = 4;
+  const num = () => {
+    let data = 0, shift = 1;
+    for (;;) {
+      if (p >= end) fail("The built-in patch is damaged.");
+      const x = patch[p++];
+      data += (x & 0x7F) * shift;
+      if (x & 0x80) return data;
+      shift *= 128;
+      data += shift;
+    }
+  };
+  const sourceSize = num(), targetSize = num(), metaSize = num();
+  p += metaSize;
+  if (sourceSize !== source.length || crc32(source) !== u32(end))
+    fail("This patch does not fit this file.");
+  const target = new Uint8Array(targetSize);
+  let out = 0, sourceRel = 0, targetRel = 0;
+  while (p < end) {
+    const data = num();
+    const action = data % 4, length = Math.floor(data / 4) + 1;
+    if (out + length > targetSize) fail("The built-in patch is damaged.");
+    if (action === 0) {                       // SourceRead
+      if (out + length > source.length) fail("The built-in patch is damaged.");
+      target.set(source.subarray(out, out + length), out);
+      out += length;
+    } else if (action === 1) {                // TargetRead
+      if (p + length > end) fail("The built-in patch is damaged.");
+      target.set(patch.subarray(p, p + length), out);
+      p += length; out += length;
+    } else {
+      const d = num();
+      const offset = (d % 2 ? -1 : 1) * Math.floor(d / 2);
+      if (action === 2) {                     // SourceCopy
+        sourceRel += offset;
+        if (sourceRel < 0 || sourceRel + length > source.length) fail("The built-in patch is damaged.");
+        for (let i = 0; i < length; i++) target[out++] = source[sourceRel++];
+      } else {                                // TargetCopy (may overlap)
+        targetRel += offset;
+        if (targetRel < 0 || targetRel >= out) fail("The built-in patch is damaged.");
+        for (let i = 0; i < length; i++) target[out++] = target[targetRel++];
+      }
+    }
+  }
+  if (out !== targetSize || crc32(target) !== u32(end + 4)) fail("Patching failed (check of the result).");
+  return target;
+}
+
+const ZIP_HELP = "Please extract the .zip first (on Windows: right-click it and choose " +
+                 "\"Extract All\"), then choose the game file that was inside.";
+
+// The game file inside a .zip: the first .ngc/.ngp/.npc entry, else the only
+// or the largest file. Stored and deflate entries; the CRC32 is checked.
+async function unzipGame(bytes) {
+  const dv = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  let eocd = -1;
+  for (let i = bytes.length - 22; i >= Math.max(0, bytes.length - 22 - 65535); i--) {
+    if (dv.getUint32(i, true) === 0x06054B50) { eocd = i; break; }
+  }
+  if (eocd < 0) throw new Error("This .zip file is damaged. " + ZIP_HELP);
+  const count = dv.getUint16(eocd + 10, true), dirOffset = dv.getUint32(eocd + 16, true);
+  if (count === 0xFFFF || dirOffset === 0xFFFFFFFF) throw new Error("This .zip format is not supported here. " + ZIP_HELP);
+  const files = [];
+  let p = dirOffset;
+  for (let n = 0; n < count; n++) {
+    if (p + 46 > bytes.length || dv.getUint32(p, true) !== 0x02014B50)
+      throw new Error("This .zip file is damaged. " + ZIP_HELP);
+    const nameLen = dv.getUint16(p + 28, true);
+    const entry = {
+      flags: dv.getUint16(p + 8, true), method: dv.getUint16(p + 10, true),
+      crc: dv.getUint32(p + 16, true), packed: dv.getUint32(p + 20, true),
+      size: dv.getUint32(p + 24, true), local: dv.getUint32(p + 42, true),
+      name: new TextDecoder().decode(bytes.subarray(p + 46, p + 46 + nameLen)),
+    };
+    if (!entry.name.endsWith("/")) files.push(entry);
+    p += 46 + nameLen + dv.getUint16(p + 30, true) + dv.getUint16(p + 32, true);
+  }
+  if (!files.length) throw new Error("This .zip file is empty.");
+  const game = files.find(e => /\.(ngc|ngp|npc)$/i.test(e.name)) ||
+               files.slice().sort((a, b) => b.size - a.size)[0];
+  if (game.flags & 1) throw new Error("This .zip file is password-protected. " + ZIP_HELP);
+  if (game.size > 8 * 1024 * 1024) throw new Error("The file in this .zip is too large to be this game.");
+  const h = game.local;
+  if (h + 30 > bytes.length || dv.getUint32(h, true) !== 0x04034B50)
+    throw new Error("This .zip file is damaged. " + ZIP_HELP);
+  const start = h + 30 + dv.getUint16(h + 26, true) + dv.getUint16(h + 28, true);
+  const packed = bytes.subarray(start, start + game.packed);
+  let data;
+  if (game.method === 0) {
+    data = packed.slice();
+  } else if (game.method === 8) {
+    if (typeof DecompressionStream === "undefined")
+      throw new Error("This browser cannot open .zip files. " + ZIP_HELP);
+    const stream = new Blob([packed]).stream().pipeThrough(new DecompressionStream("deflate-raw"));
+    data = new Uint8Array(await new Response(stream).arrayBuffer());
+  } else {
+    throw new Error("This .zip uses a compression method that is not supported here. " + ZIP_HELP);
+  }
+  if (data.length !== game.size || crc32(data) !== game.crc)
+    throw new Error("The file in this .zip is damaged. " + ZIP_HELP);
+  return { name: game.name, bytes: data };
+}
+
+// What a chosen file is: { kind: "original" | "english" | "other", rom }.
+// An over-dump (the game followed by unused 0xFF bytes) counts as the original.
+function identify(bytes) {
+  const sha = sha1Hex(bytes);
+  if (sha === ORIGINAL_SHA1) return { kind: "original", rom: bytes };
+  if (sha === ENGLISH_SHA1) return { kind: "english", rom: bytes };
+  if (bytes.length > ORIGINAL_SIZE && bytes.subarray(ORIGINAL_SIZE).every(b => b === 0xFF)) {
+    const head = bytes.subarray(0, ORIGINAL_SIZE);
+    if (sha1Hex(head) === ORIGINAL_SHA1) return { kind: "original", rom: head.slice() };
+  }
+  return { kind: "other", rom: bytes, sha1: sha };
+}
+
+async function translate(name, bytes, patch) {
+  let file = { name, bytes };
+  const isZip = bytes.length >= 4 && bytes[0] === 0x50 && bytes[1] === 0x4B && bytes[2] === 0x03 && bytes[3] === 0x04;
+  if (isZip) file = await unzipGame(bytes);
+  else if (/\.(7z|rar|gz)$/i.test(name)) throw new Error("This is a compressed archive. Please extract it first, then choose the game file that was inside.");
+  const id = identify(file.bytes);
+  if (id.kind === "english") return { kind: "english" };
+  if (id.kind === "other") {
+    throw new Error("This file is not the original Japanese game that this patch is for. " +
+      "It needs the Japanese cartridge \"Densetsu no Ogre Battle Gaiden: Zenobia no Ouji\" " +
+      "(" + ORIGINAL_SIZE.toLocaleString("en-US") + " bytes). Your file: " +
+      file.bytes.length.toLocaleString("en-US") + " bytes, SHA-1 " + id.sha1 + ".");
+  }
+  const english = applyBps(id.rom, patch);
+  if (sha1Hex(english) !== ENGLISH_SHA1) throw new Error("Patching failed (the result is not as expected).");
+  return { kind: "translated", english, from: file.name };
+}
+// @@CORE-END
+
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { crc32, sha1Hex, base64ToBytes, applyBps, unzipGame, identify, translate };
+} else {
+  const fileInput = document.getElementById("file");
+  const drop = document.getElementById("drop");
+  const status = document.getElementById("status");
+  const save = document.getElementById("save");
+  document.getElementById("outname").textContent = OUTPUT_NAME;
+  let english = null;
+
+  const show = (cls, text) => { status.className = "status " + cls; status.textContent = text; };
+
+  async function handle(file) {
+    english = null;
+    save.disabled = true;
+    if (!file) return;
+    show("info", "Checking " + file.name + " ...");
+    try {
+      const bytes = new Uint8Array(await file.arrayBuffer());
+      const result = await translate(file.name, bytes, base64ToBytes(PATCH_BASE64));
+      if (result.kind === "english") {
+        show("ok", "This file is already the English version. There is nothing to do.");
+        return;
+      }
+      english = result.english;
+      save.disabled = false;
+      show("ok", "This is the right game. Click \"Save the English game\" below.");
+      save.focus();
+    } catch (err) {
+      show("bad", err.message || String(err));
+    }
+  }
+
+  fileInput.addEventListener("change", () => handle(fileInput.files[0]));
+  ["dragenter", "dragover"].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.add("over"); }));
+  ["dragleave", "drop"].forEach(t => drop.addEventListener(t, () => drop.classList.remove("over")));
+  drop.addEventListener("drop", e => { e.preventDefault(); handle(e.dataTransfer.files[0]); });
+
+  save.addEventListener("click", () => {
+    if (!english) return;
+    const url = URL.createObjectURL(new Blob([english], { type: "application/octet-stream" }));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = OUTPUT_NAME;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 10000);
+    show("ok", "Saved \"" + OUTPUT_NAME + "\". Look in your Downloads folder.");
+  });
+}
+</script>
+</body>
+</html>

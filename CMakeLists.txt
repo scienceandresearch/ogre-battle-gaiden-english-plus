@@ -54,6 +54,7 @@ if(WIN32)
         runtime/src/frontend/bps.c
         runtime/src/frontend/sha1.c
         runtime/src/frontend/util.c
+        runtime/src/frontend/zipread.c
         runtime/src/frontend/zenobia.manifest
     )
     target_compile_definitions(zenobia PRIVATE UNICODE _UNICODE WIN32_LEAN_AND_MEAN NOMINMAX)

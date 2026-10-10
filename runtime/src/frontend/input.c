@@ -97,6 +97,11 @@ void input_clear(void)
     memset(s_down, 0, sizeof(s_down));
 }
 
+int input_key_down(int vk)
+{
+    return vk > 0 && vk <= 255 && s_down[vk];
+}
+
 int input_action_down(int act)
 {
     if (act < 0 || act >= ACT_COUNT) return 0;

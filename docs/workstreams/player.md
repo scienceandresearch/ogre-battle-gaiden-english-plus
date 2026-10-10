@@ -25,6 +25,19 @@ the emulation core itself now emulates the flash chip and reports the right
 chip size to the game (`core.md`; former open issues 2 and 3). 19 saves to
 file 1 erase block 28 once, as on hardware, and the English text stays.
 
+Ease of use (2026-10-10, task player-zip): the game can be opened straight
+from the `.zip` it usually comes in, everywhere a game file is accepted
+(Open dialog, drag and drop, command line, `--selftest`, `--write-patched`,
+the remembered last game), with the project's own zip reader and inflate
+decoder (`zipread.c`, no third-party code). A menu bar (File: Open game,
+Save English ROM, Exit; Help: Controls, About) makes the English ROM easy to
+save for other emulators or a flash cart without the command line. The
+client area is unchanged at every scale and the menu bar is hidden in
+fullscreen; Alt and F10 still do not take keys from the game. Tests:
+`zip_test.py` 59/59, `gui_menu_test.ps1` 37/37, and every earlier script
+passes unchanged except `release_test.py`, whose ".zip refused" check now
+checks that the zip opens (41/41 with a new `.7z` refusal check).
+
 ## Release package
 
 ### What a player needs
@@ -33,9 +46,9 @@ Exactly three files; nothing else is needed to play:
 
 | File | Source | Notes |
 |---|---|---|
-| `zenobia.exe` | `build\zenobia.exe` from `build.bat` | x64, Windows 10/11. Self-contained: imports only Windows system DLLs (user32, gdi32, winmm, comdlg32, shell32, ole32, kernel32); the C runtime is linked in. About 360 KB. |
+| `zenobia.exe` | `build\zenobia.exe` from `build.bat` | x64, Windows 10/11. Self-contained: imports only Windows system DLLs (user32, gdi32, winmm, comdlg32, shell32, ole32, kernel32); the C runtime is linked in. About 410 KB. |
 | `ogre_en.bps` | `build\ogre_en.bps` from `python -m tools.patch.build rom/baserom.ngc` | Must come from the same build as the `ogre_en.sha1` quoted in the release. Holds no ROM data (audited). |
-| the player's ROM | the player's own dump | The original Japanese cartridge, 2,097,152 bytes, SHA-1 `5ac794c0f125bfb97efe9cd06c2aca3afdf549ea`. Never shipped. Any file name and extension, any folder; not inside a .zip. |
+| the player's ROM | the player's own dump | The original Japanese cartridge, 2,097,152 bytes, SHA-1 `5ac794c0f125bfb97efe9cd06c2aca3afdf549ea`. Never shipped. Any file name and extension, any folder; also inside the `.zip` it came in (stored or deflate; not `.7z`/`.rar`/`.gz`). |
 
 The release zip also carries, for reading only: `README.txt` (the player steps
 below and the controls), `LICENSE.txt`, `THIRD_PARTY_NOTICES.txt` (required:
@@ -74,13 +87,18 @@ Never in the package: a ROM or patched ROM (`.ngc`, `.ngp`, `.npc`, any
    program).
 2. Start `zenobia.exe`. The program is not signed, so Windows SmartScreen may
    say "Windows protected your PC": click "More info", then "Run anyway".
-3. Choose your Ogre Battle Gaiden ROM in the window that opens (or drop the
-   file onto the player, or run `zenobia.exe "path\to\game.ngc"`). The game is
-   translated while it loads; your ROM file is never changed. Next time the
-   same ROM opens by itself.
-4. Play (controls below; F1 shows them). The game's own saves go to `saves\`,
-   save states (F5 / F9) to `states\`. To move to another PC, copy the whole
-   folder.
+3. Choose your Ogre Battle Gaiden game file in the window that opens: the
+   `.ngc` file, or the `.zip` it came in (no need to extract it). You can
+   also drop the file onto the player, or run `zenobia.exe "path\to\game.zip"`.
+   The game is translated while it loads; your file is never changed. Next
+   time the same game opens by itself.
+4. Play (controls below; F1 or Help > Controls shows them). The game's own
+   saves go to `saves\`, save states (F5 / F9) to `states\`. To move to
+   another PC, copy the whole folder.
+5. To play the English version elsewhere (another emulator, a flash cart):
+   File > Save English ROM (Ctrl+S). The Save dialog opens in your game
+   file's folder with the name "Ogre Battle Gaiden - Prince of Zenobia
+   (English).ngc"; the player checks the written file and confirms.
 
 If something is wrong, the player says what and how to fix it:
 * "the English patch was not found": `ogre_en.bps` must be next to
@@ -89,7 +107,12 @@ If something is wrong, the player says what and how to fix it:
 * "This file is not the ROM this player expects", with the reason (a bad or
   modified dump, another game, the wrong size, a copy that was patched
   already) and the checksums of the right ROM.
-* "This is a compressed archive": extract the `.ngc` file from the `.zip` first.
+* A zip the player cannot read (password-protected, ZIP64, a compression
+  method other than deflate): "Please extract the zip first: right-click it,
+  choose Extract All, then open the extracted game file (.ngc)." A damaged or
+  incomplete zip: "Copy or download it again."
+* "This is a compressed archive (.7z, .rar or .gz)": extract the `.ngc` file
+  first.
 
 ## User guide
 
@@ -103,9 +126,27 @@ and are unchanged.
 
 ### Run
 
-* Start `zenobia.exe` and choose your ROM, drop the ROM file onto the window, or
-  pass it on the command line: `zenobia.exe "path\to\game.ngc"`. The last ROM
-  is remembered.
+* Start `zenobia.exe` and choose your ROM (File > Open game, Ctrl+O), drop
+  the ROM file onto the window, or pass it on the command line:
+  `zenobia.exe "path\to\game.ngc"`. Each of these also takes the `.zip`
+  holding the ROM. The last ROM (or zip) is remembered.
+* Zip files (`zipread.c`): the game file is the entry whose name ends in
+  `.ngc`, `.ngp` or `.npc` (any case; when there are several, the one with
+  the original ROM's CRC32 and size, else the largest), else the only or the
+  largest file; directories are skipped. Stored (0) and deflate (8) entries
+  are unpacked in memory (at most 4 MB, the largest Neo Geo Pocket ROM;
+  `--unzip` allows 8 MB) and checked against their CRC32; the result goes
+  through the same identification as a plain file. Encrypted entries
+  (flag bits 0, 6, 13 or method 99), other methods (LZMA, BZIP2, Deflate64,
+  ...), ZIP64 and split archives are refused with "Please extract the zip
+  first: right-click it, choose Extract All, ..."; damaged zips (CRC32,
+  invalid or truncated data, no end record) with "Copy or download it
+  again". Names are UTF-8 (flag bit 11) or code page 437. An archive comment,
+  data in front of the archive and data descriptors are fine. A file named
+  `.zip` that holds no zip is identified like any other file. Messages name
+  the zip and the file inside it; the cartridge save is named after the file
+  inside (`saves\<its name>.sav`), so it stays the same when the zip is
+  extracted.
 * The original Japanese cartridge (2,097,152 bytes, SHA-1
   `5ac794c0f125bfb97efe9cd06c2aca3afdf549ea`) is translated while it loads with
   `ogre_en.bps`: `--patch FILE`, else the one next to `zenobia.exe`, else the
@@ -115,8 +156,31 @@ and are unchanged.
   (default Yes). Any other file gets an explanation of what it most likely is
   and the question "Run this file anyway?" (default No), or, for a copy of this
   game that was already patched (the patch's code area at file offset
-  0x170000 is not blank), "Run this file as it is?" (default Yes). Archives
-  (.zip, .7z, .rar, .gz) are refused with "extract the ROM first".
+  0x170000 is not blank), "Run this file as it is?" (default Yes). Other
+  archives (.7z, .rar, .gz) are refused with "extract the ROM first".
+* Menu bar (mouse only: Alt and F10 do not open it, so no key is taken from
+  the game; hidden in fullscreen): File > Open game... (Ctrl+O), Save English
+  ROM... (Ctrl+S), Exit (the quit key, Esc); Help > Controls (F1), About
+  (version from the version resource, the game file and whether it runs in
+  English, the folder of the settings and saves). The game waits while a
+  menu is open (sound muted, keys released). The window is sized with
+  `AdjustWindowRectExForDpi(..., bMenu)`, and grown further if the menu bar
+  wraps onto two lines, so the client area is exactly what it was before
+  the menu bar at every scale (checked against the previous build at scales
+  1-12 on a 3840x2160 150 % monitor: identical).
+* File > Save English ROM writes the image as it was loaded (the pristine
+  copy, without in-game saves, which stay in `saves\`), the same bytes as
+  `--write-patched`. The Save dialog (the common item dialog, so the folder
+  can be set: `GetSaveFileName` ignores the folder of the proposed name and
+  opens where Windows last saved for the program) opens in the game file's
+  folder with the name "Ogre Battle Gaiden - Prince of Zenobia
+  (English).ngc"; Windows asks before replacing a file. The player refuses
+  to write over the game file (or zip) it is running, writes through a
+  temporary file, reads the file back and checks its SHA-1 against the
+  running image and its CRC32 against the patch's target, then confirms
+  (path, size, CRC32, SHA-1); a file that does not read back the same is
+  deleted. With no game loaded, an untranslated game or another ROM run as
+  is, it explains why there is no English ROM to save instead.
 * `zenobia.exe ROM --write-patched OUT.ngc` writes the patched ROM (for other
   emulators or flash carts) and exits; it refuses (exit 3, with the reason)
   anything but the original ROM with a usable patch or the English ROM itself.
@@ -135,9 +199,13 @@ and are unchanged.
 | Previous / next slot (0-9, shown in the title bar) | F6 / F7 | |
 | Fullscreen (borderless) | F11 or Alt+Enter | |
 | Reset (asks first) | F12 | |
-| Open a ROM | Ctrl+O | |
-| Show the controls | F1 | |
-| Quit (writes the cartridge save first) | Esc | |
+| Open a game file, .ngc or .zip (File > Open game) | Ctrl+O | |
+| Save the English ROM (File > Save English ROM) | Ctrl+S | |
+| Show the controls (Help > Controls) | F1 | |
+| Quit, writing the cartridge save first (File > Exit) | Esc | |
+
+Ctrl+O, Ctrl+S and F1 are fixed; the others can be changed in `zenobia.ini`.
+The File > Exit item shows the first key bound to `quit`.
 
 ### Files the player creates (all next to `zenobia.exe`)
 
@@ -150,7 +218,9 @@ and are unchanged.
   several per action separated by commas, empty = disabled; `[rom] last`;
   `[general] pause_when_inactive` (default 0). Delete it to restore defaults.
 * `saves\<ROM file name>.sav`: the cartridge save (the game's own Save and
-  Suspend), written about 2 s after the game saves and on exit. The previous
+  Suspend), written about 2 s after the game saves and on exit. For a zip,
+  the name of the game file inside it (folders in the zip and characters
+  Windows does not allow in file names left out). The previous
   file is kept as `.sav.bak` once per session. A damaged file is reported,
   only its complete records are loaded, and it is copied to `.bak` before the
   game saves again.
@@ -170,7 +240,16 @@ zenobia --selftest ROM [--patch FILE] [--frames N] [--input "F:BUTTONS:LEN;..."]
         [--load-state FILE] [--load-state-at F FILE] [--save-state F FILE]
         [--no-flash-commands] [--write-patched OUT] [--log N]
 zenobia --bps-apply SOURCE PATCH OUT
+zenobia --unzip ZIP OUT
 ```
+
+ROM may be a `.zip` holding the game file in every form above.
+`--unzip` writes the file the player would take from ZIP (chosen and
+checked the same way, limit 8 MB) and prints which one; exit 30 + the zip
+error code of `zipread.h` (31 read error, 32 damaged/incomplete, 33 split,
+34 ZIP64, 35 no files, 36 encrypted, 37 other method, 38 too large, 39
+damaged data, 40 CRC32 mismatch, 41 out of memory), 2 when the file cannot
+be opened or is not a zip; it is also the test hook for the zip reader.
 
 `--no-flash-commands` (window and selftest) makes the core ignore the game's
 flash chip commands, the old behaviour: in-game saving then fails ("Could not
@@ -180,9 +259,10 @@ a window start never attaches to a console. `--exit-after` runs the real
 window and audio for that many seconds, then quits cleanly (flushes the save,
 writes `--png`, prints statistics to stderr; no dialogs: questions get their
 default answer, except that an unrecognised ROM runs as is with a warning, as
-in `--selftest`). Exit codes: 0 ok, 1 usage, 2 ROM unreadable, 3 ROM refused
-(or patch unusable), 4 a state operation failed, 5 write failed, 6 PNG
-failed, 7 cartridge save failed, 10+n BPS error n.
+in `--selftest`). Exit codes: 0 ok, 1 usage, 2 ROM unreadable (also a zip
+that cannot be used), 3 ROM refused (or patch unusable), 4 a state operation
+failed, 5 write failed, 6 PNG failed, 7 cartridge save failed, 10+n BPS
+error n, 30+n zip error n (`--unzip`).
 
 Test hook: the environment variable `ZENOBIA_XINPUT="name.dll[,name.dll]"`
 replaces the XInput DLL names tried (still from System32 only); a name that
@@ -278,6 +358,38 @@ captures its output; from PowerShell pipe it (`| Out-Host`) or use
   rejects also restores the chip's command state. Behaviour otherwise
   unchanged (all regression scripts below pass; the player and the harness
   give byte-identical pictures and save files for the same run).
+* Zip files and the menu bar (2026-10-10, task player-zip):
+  * `zipread.c/.h` (new, original code, MIT): end record search (the last
+    record whose comment ends at the end of the file first, then any;
+    data in front of the archive handled by the offset shift), central
+    directory (at most 16 MB), entry choice, local header, stored and
+    deflate entries, CRC32 (`bps_crc32`), clear error classes. The inflate
+    decoder (RFC 1951): stored, fixed and dynamic blocks, a 9-bit lookup
+    table plus a short list for longer codes, every length, distance and
+    table bound checked, incomplete codes accepted only where encoders
+    produce them (no code, or one 1-bit code), exactly like zlib. The
+    archive is read through a callback, so only the end, the directory and
+    the chosen entry are read, whatever the zip's size.
+  * `romload.c`: `unzip_game` (Win32 file reader for `zipread`), zip
+    messages, messages naming the zip and the file inside (`shown_path`),
+    `ZipPick` in `RomPrep`, `rom_prep_is_english`, `rom_image`, `rom_unzip`;
+    the archive message now lists only .7z, .rar and .gz.
+  * `gui.c`: menu bar, `WM_COMMAND`/`WM_ENTERMENULOOP`/`WM_EXITMENULOOP`,
+    Ctrl+S, Save English ROM (`IFileSaveDialog` with `SetFolder`, classic
+    dialog as fallback; read-back check), About (version read from the
+    version resource), menu-aware window sizing and fullscreen, save file
+    named after the file in the zip, Open dialog filter with `*.zip`, new
+    hint and controls texts. `input.c`: `input_key_down` (Ctrl seen by the
+    window, so posted test keys work like real ones). `main.c`: `--unzip`,
+    usage text. `selftest.c`: prints `zip entry NAME (method, packed size)`.
+  * Verified beyond the scripts (scratch, not committed): the inflate
+    decoder against zlib on 25,255 streams (zlib at every level, strategy,
+    window size and flush mode; an independent encoder's stored, fixed and
+    dynamic blocks; 3 mutated copies of each), with identical verdict and
+    output in every case, built with AddressSanitizer; the archive layer on
+    64,800 valid and mutated zips under AddressSanitizer, no fault; the
+    owner's own zip of the game (a `.url` file next to the `.ngc`) opens and
+    gives the English image.
 * Integration pass (2026-10-09), fixes found by the end-to-end test:
   * The executable needed `VCRUNTIME140.dll` (Visual C++ Redistributable, not
     part of a clean Windows): now linked with the static C runtime.
@@ -290,7 +402,7 @@ captures its output; from PowerShell pipe it (`| Out-Host`) or use
     prints the reason and "nothing written".
   * `ogre_en.bps` next to the ROM is used when there is none next to the exe.
   * `.zip`/`.7z`/`.rar`/`.gz` files are recognised and refused with
-    "extract the ROM first".
+    "extract the ROM first" (`.zip` files are opened since 2026-10-10).
   * `bps_apply` with `max_target = 0` could try to allocate the size a
     damaged header declares: now limited to 256 MiB.
 
@@ -307,14 +419,16 @@ Build: `build.bat`; patch: `python -m tools.patch.build rom/baserom.ngc`.
 
 It copies `zenobia.exe` and `ogre_en.bps` into an otherwise empty folder and
 checks (40 checks, all pass on the 2026-10-09 integration build and again on
-the round 2 core-saves build with English ROM SHA-1 `272f13ab...`): only system
+the round 2 core-saves build with English ROM SHA-1 `272f13ab...`; 41 since
+the zip support, 41/41 on English ROM `4fe9c5ff...`): only system
 DLLs imported; the original ROM patched in memory gives the image SHA-1 of
 `build/ogre_en.ngc` and frame 1499 byte-identical to `ngp_harness` on
 `build/ogre_en.ngc`; the English ROM runs as is with the same picture;
 `--write-patched` = `build/ogre_en.ngc`; `--bps-apply` and
 `tools/patch/bps.py` give the same bytes; one byte changed / wrong size /
 another game / not a ROM (headless: warned with the reason and run as is;
-`--write-patched`: refused with the reason); `.zip` refused; missing patch
+`--write-patched`: refused with the reason); a `.zip` of the ROM opens and
+gives the English image, a `.7z` is refused; missing patch
 (names both places looked at); English ROM without the patch (recognised as
 patched); patch next to the ROM used; damaged and truncated patch refused;
 in-game save from `data-popup_save_prompt` (4096 bytes programmed, file holds
@@ -347,6 +461,44 @@ core's own save checks are `runtime/src/core/tests/save_test.py`, see
 * The BPS test vectors (`python -m tools.patch.test_bps --vectors DIR`) through
   `zenobia.exe --bps-apply`: 28/28 give the expected result (10 targets
   byte-identical, 18 rejected with the matching error class).
+* `python runtime/src/frontend/tests/zip_test.py --exe build/zenobia.exe
+  --rom rom/baserom.ngc --patch build/ogre_en.bps --english build/ogre_en.ngc
+  --work NEW_DIR` (about 5 s; every zip is made at test time from the ROM in
+  WORK): 17 zips that must give the English image with `--selftest`
+  (zipfile stored and deflate; raw deflate at levels 0/1/9 and the fixed,
+  Huffman-only, run-length and filtered strategies; a `.url` next to the
+  game; the game in a folder as `.NGC`; no ROM name; two ROM names, the
+  original chosen by CRC32; comment and data in front; data descriptor;
+  UTF-8 and code page 437 names), `--write-patched` and `--unzip` from zips,
+  Greek and Cyrillic paths; 9 payloads from an independent deflate encoder
+  in the script (single one-bit distance code, distance 32768 with length
+  258 as code 284, empty blocks, stored data over 65,535 bytes, long codes,
+  fixed codes only) through `--unzip`; refusals with message and exit code:
+  bad CRC32, damaged deflate data, truncated file, encrypted flag, LZMA,
+  BZIP2, ZIP64 archive and entry, split archive, empty zip, folder only, a
+  5 MB file (too large for a ROM), the 8 MB `--unzip` limit (8 MB passes, one
+  byte more is refused), an encrypted zip with `--write-patched` (nothing
+  written), a zip in the zip, a non-zip named `.zip`, `.7z`: 59/59.
+* `gui_menu_test.ps1 -AppDir DIR -ExeName NEW_NAME.exe -Rom JP_ROM -English
+  EN_ROM -Out DIR` (real windows, about 35 s; makes its zip with .NET's zip
+  writer): the Open dialog takes the zip and it runs; it is remembered and
+  opens by itself on the next start; the menu texts and shortcuts; client
+  480x456 at scale 3; Alt and F10 enter no menu mode (Down + Enter after
+  them open no menu item and no dialog), F5/F9 still work; F1
+  and Help > Controls; About; Save English ROM proposes the English name in
+  the zip's folder, writes the English ROM (SHA-1 checked) and confirms;
+  Ctrl+S opens it, Cancel writes nothing; saving over the zip: Windows asks,
+  then the player refuses and the zip stays unchanged; F11 hides the menu bar
+  and fills the monitor, F11 again restores menu, window and client area;
+  File > Exit quits with exit 0; the explanations with no game and
+  untranslated; client 176x152 (scale 1, Windows' minimum window width, as
+  before the menu), 320x304 and 640x608 at scales 2 and 4, each started
+  under a new exe name: 37/37. Use a new exe name: PersistentWindows
+  otherwise restores the size of the first window for later starts.
+* `gui_save_test.ps1` with `-Rom` a zip whose game file has the zip's name
+  (`Ogre Zip Test.zip` holding `Ogre Zip Test.ngc`): 12/12, so in-game
+  saving works when playing from a zip (`saves\Ogre Zip Test.sav`); with
+  `mygame.zip` holding `roms/Ogre (J).ngc` the file is `saves\Ogre (J).sav`.
 * GUI scripts (`tests/gui_*.ps1`, real window, keys posted to it; run them on a
   copy of `zenobia.exe` + `ogre_en.bps` in a scratch folder):
   `gui_save_test.ps1` 12/12, `gui_dialog_test.ps1` 14/14 (new message texts
@@ -367,6 +519,10 @@ core's own save checks are `runtime/src/core/tests/save_test.py`, see
   pre-change player failed the same way there, and a third run gave 12/12.
   `gui_misc_test.ps1`'s fast-forward checks need a machine that is not
   busy (once 497 frames in 6 s instead of over 600; the rerun 1088).
+  With the menu bar (2026-10-10) all four pass unchanged: `gui_test.ps1`
+  21/21 on a renamed copy (client 640x608, F11 / Alt+Enter restore the same
+  window), `gui_dialog_test.ps1` 14/14, `gui_misc_test.ps1` 9/9 (1084
+  frames in 6 s), `gui_save_test.ps1` 12/12.
 * In-game save headless: `zenobia.exe --selftest ROM --load-state
   build\states\data-popup_save_prompt.state --input "10:A:2" --frames 600 --png
   S.png --save S.sav` shows "Save complete." and writes the flash file;
@@ -400,10 +556,15 @@ core's own save checks are `runtime/src/core/tests/save_test.py`, see
    `saves\<name>.sav`. With the save-safe layout both images keep blocks
    27-30 blank, so the file holds only the game's own records in either case.
 5. Not covered by automated tests: drag and drop (the handler is plain
-   `WM_DROPFILES` code), a real gamepad (none connected; XInput loads, and the
+   `WM_DROPFILES` code calling the same `load_rom` as the Open dialog, which
+   is tested with a zip), a real gamepad (none connected; XInput loads, and the
    no-XInput path is tested with `ZENOBIA_XINPUT`), moving the window to a
    monitor with a different DPI, a PC without an audio device (the code runs
-   silent with a title-bar note; not exercised).
+   silent with a title-bar note; not exercised), the menu bar wrapping onto
+   two lines (very large text on a narrow window: `size_window` adds the
+   difference; not seen at 150 %, where even scale 1 keeps one line), the
+   classic Save dialog fallback (used only if the common item dialog cannot
+   be created).
 6. `gui_test.ps1`'s window-size check fails while PersistentWindows runs (see
    "How to test"); run it on a renamed copy of the exe on such machines.
 7. Flash emulation (now in the core) completes operations at once and has no
@@ -411,6 +572,12 @@ core's own save checks are `runtime/src/core/tests/save_test.py`, see
    `core.md` "Open issues".
 8. The executable is unsigned (SmartScreen asks once). (Its icon and
    version resource were added in round 2, `release.md`.)
+9. Zip limits by design: no ZIP64, encryption, split archives or methods
+   other than stored and deflate (each refused with "Please extract the zip
+   first"); the game file must be at most 4 MB unpacked. `.7z`, `.rar` and
+   `.gz` are still refused. A zip of the player release itself (no `.ngc`
+   inside) is identified as "not a Neo Geo Pocket ROM ... this is the largest
+   file in it".
 
 ## Next steps
 

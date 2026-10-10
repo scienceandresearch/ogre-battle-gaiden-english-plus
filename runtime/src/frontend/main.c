@@ -7,10 +7,13 @@
  *   zenobia ROM --write-patched OUT [--patch FILE]
  *   zenobia --selftest ROM [options, see selftest.c]
  *   zenobia --bps-apply SOURCE PATCH OUT
+ *   zenobia --unzip ZIP OUT
+ * ROM may be a .zip holding the game file (romload.h).
  */
 #include "app.h"
 #include "bps.h"
 #include "sha1.h"
+#include "zipread.h"
 
 #include "core/ngp.h"
 
@@ -21,7 +24,8 @@
 
 static const wchar_t k_usage[] =
     L"Usage: zenobia [ROM] [options]\n"
-    L"  ROM                   .ngc/.ngp/.npc file (default: the last ROM, or a file dialog)\n"
+    L"  ROM                   .ngc/.ngp/.npc file, or a .zip holding it\n"
+    L"                        (default: the last ROM, or a file dialog)\n"
     L"  --patch FILE          English patch (default: ogre_en.bps next to zenobia.exe,\n"
     L"                        else next to the ROM)\n"
     L"  --untranslated        accept the Japanese ROM without the patch\n"
@@ -35,7 +39,8 @@ static const wchar_t k_usage[] =
     L"                        --save FLASHFILE, --load-state FILE, --load-state-at F FILE,\n"
     L"                        --save-state F FILE\n"
     L"  --no-flash-commands   ignore the game's flash commands (in-game saving then fails)\n"
-    L"  --bps-apply SOURCE PATCH OUT   apply any BPS patch\n";
+    L"  --bps-apply SOURCE PATCH OUT   apply any BPS patch\n"
+    L"  --unzip ZIP OUT       unpack the game file of a zip, chosen as for ROM\n";
 
 /* Asks p->question after p->message (default button = p->default_yes). */
 static int ask_yes(HWND owner, const RomPrep *p)
@@ -76,10 +81,13 @@ int app_prepare_rom(HWND owner, const wchar_t *rom_path, const wchar_t *patch,
             char hex[41];
             sha1_hex(p->file_sha1, hex);
             char *u = zen_to_utf8(p->rom_path);
+            char *z = p->zip.name ? zen_to_utf8(p->zip.name) : NULL;
             char *w = zen_to_utf8(p->why);
-            zen_logf("warning: %s is not a ROM the patch knows (sha1 %s, crc32 %08x); running it as is\n"
-                     "  (%s)\n", u ? u : "?", hex, (unsigned)p->file_crc, w ? w : "");
+            zen_logf("warning: %s%s%s%s is not a ROM the patch knows (sha1 %s, crc32 %08x); running it as is\n"
+                     "  (%s)\n", u ? u : "?", z ? " (file in the zip: " : "", z ? z : "", z ? ")" : "",
+                     hex, (unsigned)p->file_crc, w ? w : "");
             free(u);
+            free(z);
             free(w);
             rom_prep_accept_as_is(p);
             return 1;
@@ -154,6 +162,40 @@ static int run_bps_apply(const Options *o)
     return EXIT_OK;
 }
 
+/* --unzip ZIP OUT: the game file the player would take from ZIP, unpacked
+   and checked (also a test hook for the zip reader). */
+static int run_unzip(const Options *o)
+{
+    uint8_t *data = NULL;
+    size_t size = 0;
+    ZipPick pick;
+    int r = rom_unzip(o->unzip_args[0], ZIP_MAX_ENTRY_SIZE, &data, &size, &pick);
+    char *name = pick.name ? zen_to_utf8(pick.name) : NULL;
+    if (name)
+        zen_logf("unzip: %s (%s, %u bytes packed, %u bytes, crc32 %08x%s)\n", name, zip_method_name(pick.method),
+                 (unsigned)pick.packed_size, (unsigned)pick.size, (unsigned)pick.crc32,
+                 pick.by_name ? "" : "; no .ngc/.ngp/.npc name: the only or largest file");
+    free(name);
+    free(pick.name);
+    if (r < 0) {
+        zen_logf("unzip: cannot open the file, or it is not a zip archive\n");
+        return EXIT_ROM_UNREADABLE;
+    }
+    if (r != ZIP_OK) {
+        zen_logf("unzip: %s\n", zip_error_string(r));
+        return EXIT_ZIP_BASE + r;
+    }
+    int ok = zen_write_file_atomic(o->unzip_args[1], data, size) == ZEN_FILE_OK;
+    free(data);
+    if (!ok) {
+        zen_logf("unzip: cannot write the output file\n");
+        return EXIT_WRITE_FAILED;
+    }
+    printf("unzip: ok, %zu bytes written\n", size);
+    fflush(stdout);
+    return EXIT_OK;
+}
+
 static char *arg_utf8(const wchar_t *s)
 {
     char *u = zen_to_utf8(s);
@@ -197,6 +239,10 @@ static int parse_args(int argc, wchar_t **argv, Options *o)
             o->bps_args[1] = argv[++i];
             o->bps_args[2] = argv[++i];
         }
+        else if (!wcscmp(a, L"--unzip") && more >= 2) {
+            o->unzip_args[0] = argv[++i];
+            o->unzip_args[1] = argv[++i];
+        }
         else if (!wcscmp(a, L"--help") || !wcscmp(a, L"-h") || !wcscmp(a, L"/?")) return 0;
         else if (a[0] == L'-' && a[1] == L'-') return -1;
         else if (!o->rom) o->rom = argv[i];
@@ -219,7 +265,7 @@ int WINAPI wWinMain(HINSTANCE inst, HINSTANCE prev, PWSTR cmdline, int show)
 
     Options o;
     int pr = parse_args(argc, argv, &o);
-    int headless = o.selftest || o.write_patched || o.bps_args[0];
+    int headless = o.selftest || o.write_patched || o.bps_args[0] || o.unzip_args[0];
     if (headless || o.exit_after > 0) g_zen_interactive = 0;
     /* A plain window start stays detached from any console (so Ctrl+C in the
        console it was started from cannot kill it without saving). */
@@ -239,6 +285,8 @@ int WINAPI wWinMain(HINSTANCE inst, HINSTANCE prev, PWSTR cmdline, int show)
         code = pr < 0 ? EXIT_USAGE : EXIT_OK;
     } else if (o.bps_args[0]) {
         code = run_bps_apply(&o);
+    } else if (o.unzip_args[0]) {
+        code = run_unzip(&o);
     } else if (o.selftest) {
         if (o.log_level >= 0) g_log_level = o.log_level;
         code = run_selftest(&o);

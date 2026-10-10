@@ -12,9 +12,10 @@ Checks:
     harness running the English ROM (frame 1499), and the same image SHA-1;
     the English ROM runs as is; --write-patched equals the English ROM;
  3. the C applier (--bps-apply) and tools/patch/bps.py give the English ROM;
- 4. refusals and messages: changed byte, wrong size, another game, archive,
-    missing / damaged / truncated patch, English ROM without the patch,
-    patch next to the ROM instead of the player;
+ 4. refusals and messages: changed byte, wrong size, another game, a .zip
+    of the ROM opened directly (zip_test.py tests zips in depth) but a .7z
+    refused, missing / damaged / truncated patch, English ROM without the
+    patch, patch next to the ROM instead of the player;
  5. cartridge save: the game saves (Data -> Save from the given state), the
     file holds block 28, the next start offers Load and loads the saved game;
     a truncated save file is reported and not loaded half;
@@ -173,7 +174,12 @@ def main():
     with zipfile.ZipFile(W('roms', 'game.zip'), 'w', zipfile.ZIP_DEFLATED) as z:
         z.writestr('game.ngc', base)
     code, out = run([exe, '--selftest', W('roms', 'game.zip'), '--frames', '10'])
-    T.check('.zip archive refused (exit %d), told to extract it' % code,
+    T.check('.zip of the original ROM opens directly (exit %d), patched in memory' % code,
+            code == 0 and 'zip entry game.ngc' in out and 'image sha1 ' + en_sha1 in out, out)
+    with open(W('roms', 'game.7z'), 'wb') as f:
+        f.write(b'7z\xbc\xaf\x27\x1c' + bytes(100))
+    code, out = run([exe, '--selftest', W('roms', 'game.7z'), '--frames', '10'])
+    T.check('.7z archive refused (exit %d), told to extract it' % code,
             code == 3 and 'compressed archive' in out and 'Extract' in out, out)
 
     nopatch = W('player without patch')

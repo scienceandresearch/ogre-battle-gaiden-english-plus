@@ -57,6 +57,16 @@ each round.
    sits in the working folder's root (git-ignored by `*.zip`, never
    committed); moving it into `rom/` or out of the folder is safer.
 
+**Ease of use (2026-10-10):** no command line needed. The player opens the
+game as `.ngc` or straight from the `.zip` it came in (own zip/inflate reader,
+`runtime/src/frontend/zipread.c`), and has a menu bar with File > Save English
+ROM... (Ctrl+S) for other emulators. The package also holds `Patch your
+game.html`: a one-file, offline web patcher (choose the game or its zip, click
+"Save the English game"; works on any system; no network access allowed by
+its CSP; `tools/release/webpatcher.py`, tested in Node and in Chrome). Both
+READMEs start with a three-step quick start. Tests: `release_test.py` 41/41,
+`zip_test.py` 59/59, `test_webpatcher` 2/2, `test_package` 33/33.
+
 **Repository and sharing (2026-10-10):** private GitHub repository
 `https://github.com/scienceandresearch/open-ogre-battle-gaiden-zenobia`
 (branch `main`), with the pre-release `v0.1.0-dev` carrying the package zip.

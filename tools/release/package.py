@@ -14,6 +14,8 @@ The zip holds one folder, ogre-battle-gaiden-en-<version>, with
   zenobia.exe               the player (build folder)
   ogre_en.bps, ogre_en.sha1 the patch and the English ROM's SHA-1 (build folder)
   LICENSE.txt, THIRD_PARTY_NOTICES.txt   from the repository root
+  Patch your game.html      the one-file web patcher (tools/release/webpatcher.py):
+                            choose your game in a browser, save the English ROM
   patch-tools/              apply.py (tools/release/patch_tools_apply.py) and the
                             applier modules it imports, unchanged
 Text files get CRLF line ends; everything else is copied byte for byte.
@@ -69,6 +71,7 @@ from collections import Counter
 from ..patch import bps
 from ..recomp.rom import EXPECTED_SHA1
 from . import pe as pefile
+from . import webpatcher
 
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 NAME = 'ogre-battle-gaiden-en'
@@ -81,7 +84,7 @@ LAUNCHER = 'tools/release/patch_tools_apply.py'
 APPLIER = 'tools/patch/apply.py'
 TEXT_DOCS = (('LICENSE', 'LICENSE.txt'), ('THIRD_PARTY_NOTICES.md', 'THIRD_PARTY_NOTICES.txt'))
 FORBIDDEN_EXT = ('.ngc', '.ngp', '.npc', '.sav', '.state', '.ini', '.pdb', '.zip', '.7z', '.rar', '.gz')
-TEXT_EXT = ('.txt', '.py', '.sha1', '.md')
+TEXT_EXT = ('.txt', '.py', '.sha1', '.md', '.html')
 VC_RUNTIME = re.compile(r'^(vcruntime|msvcp|msvcr|ucrtbase|api-ms-win-crt-)', re.I)
 # Files that make up zenobia.exe besides the C sources listed in CMakeLists.txt
 # (CMakeLists.txt itself is covered by the Ninja dry run only).
@@ -348,7 +351,7 @@ def fill_template(text, fields):
     return text
 
 
-def stage(top, build_files, readme, repo=REPO):
+def stage(top, build_files, readme, repo=REPO, page=None):
     """[(zip name, bytes or None for a folder, source description)] in zip order."""
     exe, patch, sha1_text = build_files
     entries = [(top + '/', None, ''),
@@ -356,6 +359,8 @@ def stage(top, build_files, readme, repo=REPO):
                (top + '/zenobia.exe', exe, 'build'),
                (top + '/ogre_en.bps', patch, 'build'),
                (top + '/ogre_en.sha1', sha1_text, 'build')]
+    if page is not None:
+        entries.append((top + '/' + webpatcher.PAGE_NAME, page, webpatcher.TEMPLATE))
     for src, name in TEXT_DOCS:
         entries.append((top + '/' + name, crlf(read(os.path.join(repo, src))), src))
     tools = top + '/patch-tools/'
@@ -728,13 +733,15 @@ def main(argv=None):
     top = '%s-%s' % (NAME, full_version)
     zip_name = '%s-%s.zip' % (top, PLATFORM)
     inputs = [paths['zenobia.exe'], paths['ogre_en.bps'], paths['ogre_en.sha1'], os.path.join(REPO, 'VERSION'),
-              os.path.join(REPO, README_TEMPLATE), os.path.join(REPO, LAUNCHER)]
+              os.path.join(REPO, README_TEMPLATE), os.path.join(REPO, LAUNCHER),
+              os.path.join(REPO, webpatcher.TEMPLATE)]
     inputs += [os.path.join(REPO, s) for s, _ in TEXT_DOCS]
     inputs += [os.path.join(REPO, p) for p in import_closure(REPO, APPLIER)]
     date_time, date = zip_time(inputs)
     template = read(os.path.join(REPO, README_TEMPLATE)).decode('utf-8')
     readme = fill_template(template, readme_fields(full_version, date, rom, english)).encode('utf-8')
-    entries = stage(top, (exe, patch, sha1_text), readme)
+    page = webpatcher.build(patch, english_sha1, full_version)
+    entries = stage(top, (exe, patch, sha1_text), readme, page=page)
     check_contents(rep, entries, top)
     check_rom_data(rep, rom, entries)
 
