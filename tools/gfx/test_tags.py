@@ -168,7 +168,7 @@ def test_font():
     assert T.ink_width(f, 'ON MAP') == 23 and T.ink_width(f, 'DEPLOYED') == 30
     with open(os.path.join(ROOT, T.FONT_FILE), 'rb') as fh:
         raw = fh.read()
-    assert raw.isascii() and b'\r' not in raw, 'the font is ASCII with LF line ends'
+    assert raw.isascii(), 'the font is ASCII'      # LF or CRLF (git checks out CRLF on Windows)
 
 
 def test_text_file():
@@ -178,7 +178,7 @@ def test_text_file():
         assert v is None or (v.isascii() and v == v.upper()), (k, v)
     with open(os.path.join(ROOT, 'translation', 'en', T.TEXT_FILE), 'rb') as fh:
         raw = fh.read()
-    assert raw.isascii() and b'\r' not in raw, 'tags.txt is ASCII with LF line ends'
+    assert raw.isascii(), 'tags.txt is ASCII'         # LF or CRLF (git checks out CRLF on Windows)
 
 
 def test_text_errors():
