@@ -69,9 +69,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ## Original works of this project
 
 The code, the English fonts (`assets/font/`), the translation
-(`translation/en/`) and any replacement artwork are original works of this
-project, released under the MIT License (see `LICENSE`); the variable-width
-font is also dedicated to the public domain (CC0). The game itself, its
-program, text, graphics and sound are the property of their respective owners
-and are not included; the patch and the player require your own copy of the
-original cartridge data.
+(`translation/en/`) and the replacement lettering for the game's graphics
+(`assets/gfx/`) are original works of this project, released under the MIT
+License (see `LICENSE`). The variable-width font is also dedicated to the
+public domain (CC0). The game itself, its program, text, graphics and sound
+are the property of their respective owners and are not included. The patch
+and the player need your own copy of the original cartridge data.

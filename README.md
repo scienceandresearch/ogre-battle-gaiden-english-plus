@@ -1,56 +1,126 @@
-# Ogre Battle Gaiden: Prince of Zenobia — English
+# Ogre Battle Gaiden: Prince of Zenobia (English)
 
-An English version of *Densetsu no Ogre Battle Gaiden: Zenobia no Ouji*
-(Neo Geo Pocket Color, 2000) that you can play on a PC.
+An English fan translation of *Densetsu no Ogre Battle Gaiden: Zenobia no Ouji*
+(Neo Geo Pocket Color, 2000), with a small Windows player so you can play it on
+a PC.
 
-This project contains **no game data**. It is a translation patch plus a small
-player, and both need your own copy of the original Japanese game
-(`.ngc` file, SHA-1 `5ac794c0f125bfb97efe9cd06c2aca3afdf549ea`).
+This project contains no game data. To play, you need your own copy of the
+original Japanese game as a ROM file, which is the game's data copied from the
+cartridge. That is a `.ngc` file (SHA-1
+`5ac794c0f125bfb97efe9cd06c2aca3afdf549ea`) or the `.zip` it came in. The
+player and the patch page check the file for you.
 
-> Status: complete development build (version 0.1.0-dev): every text and every
-> pre-drawn graphic is in English, verified in play. A public release still
-> needs a few manual checks. See [STATUS.md](STATUS.md) for details.
+Version 0.1.0-dev is a complete development build. All of the game's text and
+pre-drawn graphics are in English, and every stage and ending has been checked
+in play. Before a public release it still needs a few manual checks with other
+emulators and patching tools. [STATUS.md](STATUS.md) has the details.
 
-## Playing
+## How to play
 
-Download the latest zip from the **Releases** page (on the right of the
-repository page). You also need your own copy of the original Japanese game:
-a `.ngc` file, or a `.zip` that contains it.
+Open the newest release on the
+[Releases page](https://github.com/scienceandresearch/open-ogre-battle-gaiden-zenobia/releases)
+and download the file whose name ends in `-win64.zip` (not the "Source code"
+files). On the repository's main page, the Releases link is in the right-hand
+column.
 
-**Play on Windows (easiest):**
-1. Extract the downloaded zip into a folder (right-click it, *Extract All*).
-2. Double-click `zenobia.exe`. If Windows says *"Windows protected your PC"*,
-   click *More info*, then *Run anyway* (the program is not signed).
-3. Choose your game file: the `.ngc`, or the `.zip` it came in (no need to
-   unzip it). The game starts in English.
+### On Windows
 
-**Get the English game file** (for another emulator, a Mac, Linux, a phone or
-a flash cart): in the player choose *File > Save English ROM...* (Ctrl+S), or,
-on any system:
-1. Double-click `Patch your game.html` from the zip. It opens in your browser.
+1. Extract the zip into a folder of its own (right-click it, then choose
+   *Extract All*), and open the `ogre-battle-gaiden-en-...` folder inside.
+2. Double-click `zenobia.exe`. The program is not signed, so Windows may show
+   "Windows protected your PC". Click *More info*, then *Run anyway*.
+3. Choose your game file. It can be the `.ngc` file or the `.zip` it came in.
+   The game starts in English.
+
+### On a Mac, Linux, a phone, a flash cart or another emulator
+
+Make an English game file on your computer:
+
+1. Extract the zip (on a Mac, double-click it) and open the
+   `ogre-battle-gaiden-en-...` folder inside. Double-click
+   `Patch your game.html`. It opens in your web browser.
 2. Click the box and choose your game file (a `.zip` works too).
-3. Click *Save the English game*. The file appears in your Downloads folder.
+3. Click *Save the English game*. Your browser saves the file like any other
+   download, usually in your Downloads folder.
 
-Nothing is uploaded: the page works offline. Your original file is never
-changed by either method.
+Open that file in a Neo Geo Pocket Color emulator, or copy it to a flash
+cart. So far the English file has been tested only with this project's own
+player. The page works offline and uploads nothing. On Windows the player can
+make the same file: choose *File > Save English ROM...* (Ctrl+S). Neither way
+changes your original file.
 
-### More about the Windows player
+## Have an AI agent do it for you
 
-The player applies the English patch in memory each time and remembers the
-last game file. The game's own saves (Save and Suspend) go to `saves\` next to
-the player, save states to `states\`, settings to `zenobia.ini` (created with
-commented defaults; delete it to restore them).
+If you use an AI agent that can work with files on your computer, such as
+Claude Code or Codex, you can paste the text below into it. Replace the part
+in angle brackets on the "My game file" line with the location of your game
+file, or leave it as it is and the agent will ask you for it.
 
-Default controls (changeable in `zenobia.ini`):
+```text
+Set up the English fan translation of the Neo Geo Pocket Color game
+"Densetsu no Ogre Battle Gaiden: Zenobia no Ouji" for me.
 
-| Neo Geo Pocket | Keyboard | Gamepad (XInput) |
+My game file: <full path to my .ngc file, or the .zip it came in>
+Download page: https://github.com/scienceandresearch/open-ogre-battle-gaiden-zenobia/releases
+
+Rules:
+- Use only my own game file. If I did not say where it is, ask me.
+- Never download, search for or share the game (the ROM) or a patched copy,
+  even if my file is missing or does not match.
+- Do not change, move or delete my original game file.
+- Download only from the download page above.
+- Ask me before installing anything.
+
+Steps:
+1. From the newest release on the download page (a pre-release counts),
+   download the file whose name ends in -win64.zip and extract it into a new
+   folder. The files are in the ogre-battle-gaiden-en-... folder inside it;
+   work there. If the page asks for a GitHub sign-in, ask me to download the
+   zip and tell you where it is.
+2. Check my game file. The original is 2,097,152 bytes with SHA-1
+   5ac794c0f125bfb97efe9cd06c2aca3afdf549ea. If it is a .zip, check the .ngc
+   file inside. If the SHA-1 is different, stop and tell me, because the
+   patch only works with this exact file.
+3. In that folder, make the English game file with Python 3.7 or
+   newer (no extra packages needed; use python3 on macOS and Linux):
+     python patch-tools/apply.py "<my game file>" -o "<folder of my game file>/Ogre Battle Gaiden - Prince of Zenobia (English).ngc"
+   On Windows without Python, this does the same (zenobia.exe is a windowed
+   program, so in PowerShell use Start-Process -Wait, or add | Out-Null, to
+   wait until it has finished):
+     zenobia.exe "<my game file>" --write-patched "<same output path>"
+   Then check that the new file's SHA-1 matches the one in ogre_en.sha1.
+4. Tell me where the English file is. It is meant for Neo Geo Pocket Color
+   emulators and flash carts (so far it has been tested only with the
+   project's own player). On Windows I can also double-click zenobia.exe in
+   that folder and choose my original game file; the player translates the
+   game as it loads, and F1 shows the controls.
+```
+
+To have an agent build the project from source instead, point it to
+[Building from source](#building-from-source) and
+[CONTRIBUTING.md](CONTRIBUTING.md).
+
+## The Windows player
+
+The player applies the English patch in memory every time it loads the game,
+so your game file is never changed. It reopens the last game file you used.
+It keeps its files next to `zenobia.exe`: the game's own saves (Save and
+Suspend in the game) in `saves\`, save states in `states\`, and settings in
+`zenobia.ini`. The player creates the settings file with the default values
+and a comment for each setting; delete it to restore the defaults.
+
+These are the default controls. You can change the keyboard keys in
+`zenobia.ini`, except Ctrl+O, Ctrl+S, F1 and Alt+Enter; the gamepad buttons
+are fixed.
+
+| Neo Geo Pocket | Keyboard | Gamepad (Xbox-style, XInput) |
 |---|---|---|
 | D-pad | Arrow keys | D-pad / left stick |
 | A | Z | A (or X) |
 | B | X | B (or Y) |
 | Option | Enter (or C) | Start |
 
-| Player | Keyboard | Gamepad |
+| Player command | Keyboard | Gamepad |
 |---|---|---|
 | Fast forward (hold) | Tab | Right trigger |
 | Pause / resume | P or Pause | |
@@ -63,76 +133,103 @@ Default controls (changeable in `zenobia.ini`):
 | Show the controls | F1 | |
 | Quit (writes the game save first) | Esc | |
 
-The File and Help menus have the same commands (the menu bar is hidden in
-full screen). From a command line, `zenobia.exe GAME.ngc --write-patched
-ogre_en.ngc` writes the English ROM (the game may be a `.zip`);
-`zenobia.exe --help` lists the other options.
+The File menu has Open game, Save English ROM and Exit, and the Help menu
+has Controls and About. The menu bar is hidden in full screen. From a command
+line, `zenobia.exe GAME.ngc --write-patched ogre_en.ngc` writes the English
+ROM (the game can also be a `.zip`), and `zenobia.exe --help` lists the other
+options. The player is a windowed program, so a command prompt does not wait
+for it: use `start /wait zenobia.exe ...` in cmd, or add `| Out-Null` in
+PowerShell.
 
-### With another emulator
+## Other patching tools
 
-The easiest way is `Patch your game.html` (above). `ogre_en.bps` is the same
-patch for any BPS patching tool (for example Floating IPS, or ROM Patcher JS
-in a web browser); or, with Python:
+`Patch your game.html` is the easiest way to make the English file. The
+release also has the patch as `ogre_en.bps`, for BPS patching tools such as
+Floating IPS or ROM Patcher JS in a web browser (not yet tested with them).
+With Python:
 
 ```
 python patch-tools/apply.py your_game.ngc        # in the extracted release folder
 python -m tools.patch.apply your_game.ngc build/ogre_en.bps -o ogre_en.ngc   # in this repository
 ```
 
-Then open the patched file in a Neo Geo Pocket Color emulator.
+Both check your file before patching and check the result afterwards.
 
 ## Building from source
 
-Requirements: Windows with Visual Studio 2022 (C++ build tools, which include
-CMake and Ninja) and Python 3.
+You need Windows with Visual Studio 2022 (its C++ build tools include CMake
+and Ninja) and Python 3. Put your original game file at `rom/baserom.ngc`
+first. The `rom/` and `build/` folders are git-ignored, so nothing from the
+game ends up in a commit.
 
 ```
 build.bat                                     # emulator core, test harness, player
 python -m tools.patch.build rom/baserom.ngc   # English ROM and patch (needs your game file)
 ```
 
-Put your original game file at `rom/baserom.ngc` first. Outputs go to `build/`
-(`ogre_en.ngc`, `ogre_en.bps`, `zenobia.exe`, `ngp_harness.exe`).
+The results go to `build/`: `ogre_en.ngc`, `ogre_en.bps`, `zenobia.exe` and
+`ngp_harness.exe`. To make the download package:
 
 ```
 python -m tools.release.package      # dist/ogre-battle-gaiden-en-<version>-win64.zip
 ```
 
-builds the download package (player, patch, README, licences, and a
-pure-Python patch tool) after checking that it carries no data from the game.
+The package holds the player, the patch, the web patcher page, a README, the
+licenses and a pure-Python patch tool. Before writing it, the script checks
+that none of these files carries data from the game.
+[CONTRIBUTING.md](CONTRIBUTING.md) lists the tests and the rules for changes.
 
-## Translation
+## What is in this repository
 
-The English text lives in `translation/en/` (dialogue, menus, names, places).
-`docs/localization.md` explains the localization database: an export of every
-Japanese string next to its translation for review, and the import of a
-reviewer's suggestions. Technical notes on the game are in
-`docs/engine-notes.md`.
+| Path | Contents |
+|---|---|
+| `translation/en/` | The English text: dialogue, menus, names, places, and the wording of the redrawn graphics |
+| `patch/` | Assembly code the patch adds to the game (variable-width text, text hooks) |
+| `assets/` | The project's own fonts, title lettering and icon, stored as text files |
+| `tools/` | Python tools: patch build, text and graphics pipelines, assembler and disassembler, release packaging |
+| `runtime/` | C sources of the emulator core, the Windows player and the headless test harness |
+| `third_party/` | The Z80 sound CPU emulator (MIT License, unmodified) |
+| `docs/` | Technical notes, the localization workflow, testing and the development history |
+| [STATUS.md](STATUS.md) | Where the project stands and what is left |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | How to report problems and send changes |
+
+## Helping with the translation
+
+The English text is in `translation/en/`. [docs/localization.md](docs/localization.md)
+explains how to export every string with its Japanese original into a
+spreadsheet for review, and how to bring a reviewer's suggestions back in.
+[docs/engine-notes.md](docs/engine-notes.md) describes how the game works
+inside. If you find untranslated or cut-off text, please open an issue with a
+screenshot and say where in the game it appears.
 
 ## License and legal
 
 This is a free, unofficial, non-commercial fan project. It is not affiliated
-with, endorsed or sponsored by the owners of the game or of the Ogre Battle
+with, endorsed by or sponsored by the owners of the game or of the Ogre Battle
 series. Its code, translation, fonts and art are released under the
-[MIT License](LICENSE) (the English variable-width font in `assets/font/` is
-additionally dedicated to the public domain, CC0). Third-party components and
-their licenses are listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+[MIT License](LICENSE). The English variable-width font in `assets/font/` is
+also dedicated to the public domain (CC0).
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) lists the third-party
+components and their licenses.
 
-**Bring your own game.** The project distributes no copyrighted game data: no
-ROM, no BIOS, no graphics, text or sound from the game. The repository holds
-only original code, an original English translation, original fonts and
-original English lettering; the patch (`ogre_en.bps`) holds only the changes,
-and the build audits it to contain no data from the game (every literal run is
-checked against the original). You need your own copy of the original
-cartridge, dumped by yourself. This project does not provide ROM files or tell
-you where to find them; please do not ask for them or share patched ROMs.
+### Bring your own game
 
-The replacement graphics (menu labels, intro text, chapter cards, title logo,
-status tags) are new lettering drawn by this project with its own fonts, placed
-where the Japanese lettering was and using the game's own colours at run time;
-no original artwork is copied into this repository or the patch.
+The project distributes no copyrighted game data: no ROM, no BIOS, and no
+graphics, text or sound from the game. The repository holds only original
+code, an original English translation, original fonts and original English
+lettering. The patch (`ogre_en.bps`) holds only the changes, and the build
+checks every literal run in it against the original game to make sure it
+contains no game data. You need your own copy of the original cartridge,
+dumped by yourself. This project does not provide ROM files or say where to
+find them. Please do not ask for them, and do not share patched ROMs.
+
+The replacement graphics (menu labels, intro text, chapter cards, title logo
+and status tags) are new lettering drawn by this project with its own fonts.
+The patch puts them where the Japanese lettering was, and they use the color
+palettes that come from your copy of the game. No original artwork is copied
+into this repository or the patch.
 
 Ogre Battle, Densetsu no Ogre Battle Gaiden and related names and logos are
-trademarks of their respective owners, used here only to identify the game
-this translation is for. If you are a rights holder and have a concern, please
-open an issue and it will be addressed promptly.
+trademarks of their respective owners. They are used here only to identify
+the game this translation is for. If you are a rights holder and have a
+concern, please open an issue and it will be addressed promptly.

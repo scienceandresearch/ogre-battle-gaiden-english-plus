@@ -1,4 +1,4 @@
-# Engine notes — Densetsu no Ogre Battle Gaiden: Zenobia no Ouji (NGPC)
+# Engine notes for Densetsu no Ogre Battle Gaiden: Zenobia no Ouji (NGPC)
 
 Reverse-engineering notes for the supported dump
 (`5ac794c0f125bfb97efe9cd06c2aca3afdf549ea`). Addresses are CPU addresses
@@ -215,3 +215,38 @@ Reverse-engineering notes for the supported dump
   ("The trade city of"), a new line and the name; the callers' suffix copies
   are repointed to English endings (`loc_msg_*` in `ui.txt`). The 8-cell name
   field of each record also gets the English name (cut to 8 characters).
+
+## How UI text is translated
+
+How UI text reaches the screen (the renderers are described under "Text"
+above):
+
+* `0x200BAC` window renderer and `0x200B72` tile-mapped printer, both with the
+  string pointer in `XIY` (`00` new line, `00 00` end, `01` space).
+* System messages: code stores a string pointer in task field +32 (script
+  var `0x20`) and calls `0x203FEF`/`0x202FA1`, which draws it straight from
+  ROM with `0x200BAC` (yes/no prompt from `0x2030F5`).
+* Many screens compose text in the RAM buffer `0x6000` with bespoke code,
+  often copying fragments with fixed lengths (e.g. `ld XIY, 0x208864` /
+  `ld BC, 0x16`), and fixed-width name tables (`0x20F0E7`, `0x20F134`,
+  `0x20F21A`, terrain `0x2C82B2`, ...). Help texts use a 16-bit offset table
+  (`0x2C3C8C`).
+
+Insertion modes, per string:
+
+1. In place: English written over the original bytes (must fit; padded).
+2. Remap: hooks at `0x200BAC`/`0x200B72` look the source pointer up in a
+   sorted table (original address -> English address in free ROM), so any
+   string drawn directly from ROM can be longer; window strings can request
+   the VWF renderer (packed tiles; must not use more tiles than the original).
+3. Repoint: patch the code immediates that load the string (and copy
+   lengths) when all references are known.
+4. Code: custom patch where Japanese word order is baked into composition.
+
+Packed tables: a table of self-relative 16-bit offsets followed by packed
+entries; `0x201B77` returns `XIY` = entry, `BC` = length. Rebuilt whole and
+repointed (`translation/en/tables/*.txt`, `@table ADDR [prefix=N]`).
+
+Tools: `python -m tools.text.rawdump ROM LO-HI` (strings with lengths and
+reference counts), harness `--text-log FILE` + `python -m tools.text.textlog
+FILE` (what the renderers actually draw, with callers).

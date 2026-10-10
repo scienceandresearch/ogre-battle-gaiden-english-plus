@@ -23,9 +23,11 @@ Columns
                 tools/text/tables.py), loc:STAGE:N (location name),
                 loctype:N (town-type phrase), raw:ADDR (unverified text-like bytes),
                 gfx:FILE:KEY (text drawn as a picture: menu labels, intro,
-                chapter cards, title, tags; see tools/text/gfxtext.py)
+                chapter cards, title, tags; see tools/text/gfxtext.py),
+                ram:ADDR (text composed in RAM and drawn by the code at ADDR,
+                found in the runtime text logs)
   category      dialogue, ui, symbol, table:<file>, location, location-type,
-                graphic:<file>, unverified
+                graphic:<file>, composed, unverified
   context       where it appears (stage, speaker, renderer, table, ...)
   address       ROM address of the original text
   japanese      original text (new lines as line breaks; [NAME] and [NUM] are

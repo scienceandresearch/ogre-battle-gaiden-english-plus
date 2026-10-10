@@ -342,7 +342,7 @@ literal run found in the original: 7 bytes).
   differed to frame 960 and the tiles after the card's own differed too.)
 * In play, without pokes (scratch `natural.py`): the scenario-map states
   with the cursor on stages 0, 1, 2, 3 and 12 (stage 0 with the hotspot input
-  of `STATUS.md`, the others with A at frame 10; stage 12 also with a skip at
+  in `docs/testing.md`, the others with A at frame 10; stage 12 also with a skip at
   150) show the story cards of chapters 1, 2, 3, 4 and 13: every 4th frame to
   600, the screen is identical outside the original block and the main RAM
   is identical; the lettering differs only while the card is shown (frames

@@ -10,14 +10,21 @@ the zip may contain data from the game.
 ## State
 
 Current package (2026-10-10, complete build: every text and every pre-drawn
-graphic in English): `dist\ogre-battle-gaiden-en-0.1.0-dev+4fe9c5ff-win64.zip`,
-313,994 bytes, 18 entries, SHA-256
-`b5c184d90acb9b78228f9641ddfce787852884af330cf96de96a073010098f41`, English
+graphic in English; with the web patcher and the reworded READMEs):
+`dist\ogre-battle-gaiden-en-0.1.0-dev+4fe9c5ff-win64.zip`, 457,519 bytes,
+19 entries, SHA-256
+`25dcba326a9c2c2aab50f9ea5601d1daf4337c500d0cd72e97912ae3d1c70297`, English
 ROM SHA-1 `4fe9c5ffe335e028397a8503ee5d3a625607dc16`, patch 133,251 bytes.
-Unzipped, it passes `release_test.py` 40/40; `save_test.py` 27/27; its
-`patch-tools/apply.py` reproduces `ogre_en.sha1`. Older packages were deleted.
-Still not a public release: the manual checklist steps 6-8 (Flips, ROM
-Patcher JS, a clean PC, another emulator) remain for the owner.
+Unzipped, it passes `release_test.py` 41/41, and its `patch-tools/apply.py`
+reproduces `ogre_en.sha1`; `test_package` 33/33, `test_webpatcher` 2/2. It is
+the asset of the GitHub pre-release `v0.1.0-dev`. Older packages were
+deleted. Still not a public release: the manual checklist steps 6-8 (Flips,
+ROM Patcher JS, a clean PC, another emulator) remain for the owner.
+
+Earlier package of the same build (before the web patcher): 313,994 bytes,
+18 entries, SHA-256
+`b5c184d90acb9b78228f9641ddfce787852884af330cf96de96a073010098f41`;
+`release_test.py` 40/40, `save_test.py` 27/27.
 
 Done 2026-10-09 (round 2, task release-package). First package:
 `dist\ogre-battle-gaiden-en-0.1.0-dev+e63bffd1-win64.zip`, 296,941 bytes,

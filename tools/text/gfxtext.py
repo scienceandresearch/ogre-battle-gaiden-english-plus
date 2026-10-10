@@ -116,7 +116,7 @@ def _cards(path):
             continue
         what = ('the first time chapter %d is played' % card[1] if card[0] == 'story'
                 else 'when cleared chapter %d is played again' % card[1])
-        lim = 'at most 158 px in the title16 font with its outline (python -m tools.gfx.cards fit)'
+        lim = 'at most 96 px in the title16 font with its outline (python -m tools.gfx.cards fit)'
         if line.startswith('^'):
             items.append(Item('gfx:cards:%s:%d:head' % card, path, n, '^', line[1:],
                               'chapter title card (%s %d, shown %s): heading' % (card[0], card[1], what), lim))
@@ -124,7 +124,7 @@ def _cards(path):
             k += 1
             items.append(Item('gfx:cards:%s:%d:%d' % (card[0], card[1], k), path, n, '', line,
                               'chapter title card (%s %d, shown %s): title line %d' % (card[0], card[1], what, k),
-                              lim + '; one heading and at most two title lines'))
+                              lim + '; one heading and one title line'))
     return items
 
 
@@ -143,7 +143,7 @@ _TITLE_INFO = {
 
 _TAGS_INFO = {
     'deployed': ('status tag on the organize status pane of a unit deployed on the stage map',
-                 'at most 30 px of capitals inside the original box (assets/gfx/tags/caps6.txt)'),
+                 'at most 24 px of capitals inside the original box (assets/gfx/tags/caps6.txt)'),
     'paralysis': ('label over a combatant hit by a paralysing attack in battle',
                   'at most 16 px of capitals (16x8-px picture)'),
 }

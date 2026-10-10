@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:">
 <title>Ogre Battle Gaiden English Patcher</title>
 <!--
-  Ogre Battle Gaiden: Prince of Zenobia - English patcher (version @VERSION@).
+  Ogre Battle Gaiden: Prince of Zenobia, English patcher (version @VERSION@).
   Made by tools/release/webpatcher.py from tools/release/patcher.html; the
   English patch (ogre_en.bps, which holds no data from the game) is built in.
   Part of an unofficial fan translation, MIT License.
@@ -64,8 +64,8 @@
 <main>
   <h1>Ogre Battle Gaiden: Prince of Zenobia, in English</h1>
   <p class="lead">This page turns your own copy of the Japanese game into the English
-  version. Everything happens on your computer: your file is not uploaded anywhere,
-  and it is not changed.</p>
+  version. It runs entirely on your computer. Your file is not uploaded anywhere, and
+  it is not changed.</p>
 
   <ol class="steps">
     <li>
@@ -85,9 +85,10 @@
     </li>
     <li>
       <h2>Play</h2>
-      <p style="margin:0">Open the saved file in any Neo Geo Pocket Color emulator, or copy
-      it to a flash cart. On Windows you can also simply start <b>zenobia.exe</b> from this
-      download and choose your original game file: it translates the game by itself.</p>
+      <p style="margin:0">Open the saved file in a Neo Geo Pocket Color emulator, or copy
+      it to a flash cart. On Windows you can also start <b>zenobia.exe</b> from this
+      download and choose your original game file. The player translates the game as it
+      loads.</p>
     </li>
   </ol>
 
@@ -96,8 +97,9 @@
     <p>Patch version @VERSION@. The game this patch is for: Densetsu no Ogre Battle Gaiden:
     Zenobia no Ouji (Japan), Neo Geo Pocket Color, @ORIGINAL_SIZE@ bytes,
     SHA-1 <code>@ORIGINAL_SHA1@</code>. The English file it makes has
-    SHA-1 <code>@ENGLISH_SHA1@</code>. A file that is already English is recognised.
-    The same patch is included as <code>ogre_en.bps</code> for other patching tools.</p>
+    SHA-1 <code>@ENGLISH_SHA1@</code>. If you choose a file that is already in English,
+    the page says so. The same patch is included as <code>ogre_en.bps</code> for other
+    patching tools.</p>
   </details>
 
   <footer>Unofficial, non-commercial fan translation, not affiliated with the owners of
@@ -172,7 +174,7 @@ function base64ToBytes(text) {
 // BPS (beat) patch format: "BPS1", source size, target size, metadata, then
 // actions, then the CRC32 of the source, the target and the patch.
 function applyBps(source, patch) {
-  const fail = msg => { throw new Error(msg); };
+  const fail = msg => { throw new Error(msg + " Please download this release again."); };
   if (patch.length < 19 || patch[0] !== 0x42 || patch[1] !== 0x50 || patch[2] !== 0x53 || patch[3] !== 0x31)
     fail("The built-in patch is damaged (not a BPS patch).");
   const end = patch.length - 12;
@@ -222,7 +224,7 @@ function applyBps(source, patch) {
       }
     }
   }
-  if (out !== targetSize || crc32(target) !== u32(end + 4)) fail("Patching failed (check of the result).");
+  if (out !== targetSize || crc32(target) !== u32(end + 4)) fail("Patching failed: the result is not the expected English game.");
   return target;
 }
 
@@ -303,12 +305,13 @@ async function translate(name, bytes, patch) {
   if (id.kind === "english") return { kind: "english" };
   if (id.kind === "other") {
     throw new Error("This file is not the original Japanese game that this patch is for. " +
-      "It needs the Japanese cartridge \"Densetsu no Ogre Battle Gaiden: Zenobia no Ouji\" " +
+      "The patch needs the Japanese cartridge \"Densetsu no Ogre Battle Gaiden: Zenobia no Ouji\" " +
       "(" + ORIGINAL_SIZE.toLocaleString("en-US") + " bytes). Your file: " +
       file.bytes.length.toLocaleString("en-US") + " bytes, SHA-1 " + id.sha1 + ".");
   }
   const english = applyBps(id.rom, patch);
-  if (sha1Hex(english) !== ENGLISH_SHA1) throw new Error("Patching failed (the result is not as expected).");
+  if (sha1Hex(english) !== ENGLISH_SHA1)
+    throw new Error("Patching failed: the result is not the expected English game. Please download this release again.");
   return { kind: "translated", english, from: file.name };
 }
 // @@CORE-END
@@ -361,7 +364,7 @@ if (typeof module !== "undefined" && module.exports) {
     a.click();
     a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 10000);
-    show("ok", "Saved \"" + OUTPUT_NAME + "\". Look in your Downloads folder.");
+    show("ok", "Your browser is saving \"" + OUTPUT_NAME + "\" (usually to your Downloads folder).");
   });
 }
 </script>

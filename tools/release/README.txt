@@ -1,4 +1,4 @@
-Ogre Battle Gaiden: Prince of Zenobia - English
+Ogre Battle Gaiden: Prince of Zenobia (English)
 ===============================================
 
 Version @VERSION@ (@DATE@)
@@ -17,19 +17,22 @@ You need your own copy of the original Japanese game: a .ngc file, or a .zip
 that contains it (see "What you need" below).
 
 To play on Windows:
-  1. Extract this zip into a folder (right-click it, then "Extract All").
+  1. Extract this zip into a folder (right-click it, then "Extract All"),
+     and open the ogre-battle-gaiden-en-... folder inside.
   2. Double-click zenobia.exe. If Windows says "Windows protected your PC",
      click "More info", then "Run anyway".
   3. Choose your game file (the .ngc, or the .zip it came in). The game
      starts in English.
 
 To get the English game file instead (for another emulator, a Mac, Linux, a
-phone or a flash cart), either use File > Save English ROM in the player, or:
-  1. Double-click "Patch your game.html". It opens in your web browser.
+phone or a flash cart):
+  1. Extract this zip, then double-click "Patch your game.html". It opens in
+     your web browser.
   2. Click the box and choose your game file (a .zip works too).
   3. Click "Save the English game". The English file appears in your
      Downloads folder.
-Nothing is uploaded: the page works offline, on your own computer.
+The page works offline and uploads nothing. On Windows, File > Save English
+ROM in the player does the same.
 
 
 Contents
@@ -39,14 +42,15 @@ Contents
   ogre_en.bps               the English patch (BPS format), for patching tools
   ogre_en.sha1              SHA-1 of the English ROM that the patch makes
   README.txt                this file
-  LICENSE.txt               the licence of this project (MIT)
-  THIRD_PARTY_NOTICES.txt   the licences of parts made by others
+  LICENSE.txt               the license of this project (MIT)
+  THIRD_PARTY_NOTICES.txt   the licenses of parts made by others
   patch-tools               a Python tool that applies the patch (optional)
 
 
 What you need
 -------------
-Your own copy of the original cartridge's data (a "ROM" file) of
+Your own copy of this game, as a "ROM" file dumped from the original
+cartridge:
 
   Densetsu no Ogre Battle Gaiden: Zenobia no Ouji (Japan)
   Neo Geo Pocket Color
@@ -56,18 +60,19 @@ Your own copy of the original cartridge's data (a "ROM" file) of
   SHA-1:  @ORIGINAL_SHA1@
 
 The file name and extension (.ngc, .ngp) do not matter, and a .zip that
-contains the file works too. Other dumps, other revisions and files that
-were patched already are refused. This project does not provide the game.
+contains the file works too. The patching tools refuse other dumps, other
+revisions and files that were already patched; the player asks before it runs
+such a file as it is. This project does not provide the game.
 
 
 Playing with the included player
 --------------------------------
-1. Extract ALL files of the zip into a folder of your own, for example
-   Documents\Zenobia. Do not start zenobia.exe from inside the zip: Windows
-   would run it alone from a temporary folder, without ogre_en.bps, and your
-   saves would be lost. Do not use a write-protected folder such as
-   Program Files either: settings, saves and save states are stored next to
-   the player.
+1. Extract all files of the zip into a folder of your own, for example
+   Documents\Zenobia. Do not start zenobia.exe from inside the zip. Windows
+   would run it alone from a temporary folder without ogre_en.bps, and your
+   saves would be lost. Avoid write-protected folders such as Program Files
+   too, because the player keeps its settings, saves and save states next to
+   itself.
 2. Start zenobia.exe. The program is not signed, so Windows SmartScreen may
    say "Windows protected your PC": click "More info", then "Run anyway".
 3. Choose your game file in the window that opens (or drop it onto the
@@ -101,13 +106,13 @@ If something is wrong, the player says what and how to fix it, for example:
 
 Controls
 --------
-  Neo Geo Pocket    Keyboard             Gamepad (XInput)
+  Neo Geo Pocket    Keyboard             Gamepad (Xbox-style, XInput)
   D-pad             arrow keys           D-pad or left stick
   A                 Z                    A or X
   B                 X                    B or Y
   Option            Enter or C           Start
 
-  Player                                      Keyboard
+  Player command                              Keyboard
   Fast forward (hold; about 5x, no sound)     Tab (gamepad: right trigger)
   Pause / resume                              P or Pause
   Save state / load state (current slot)      F5 / F9
@@ -119,13 +124,15 @@ Controls
   Show the controls                           F1
   Quit (writes the game's save first)         Esc
 
-The File and Help menus have the same commands; the menu bar is hidden in
-full screen. The keys can be changed in zenobia.ini (see below).
+The File menu has Open game, Save English ROM and Exit, and the Help menu
+has Controls and About; the menu bar is hidden in full screen. You can change
+the keyboard keys in zenobia.ini (see below), except Ctrl+O, Ctrl+S, F1 and
+Alt+Enter. The gamepad buttons are fixed.
 
 
 Saves, save states and settings
 -------------------------------
-Everything is stored next to zenobia.exe:
+The player keeps these files next to zenobia.exe:
 
   saves\<game file name>.sav
       The game's own saves (Save and Suspend in the game), written about
@@ -136,10 +143,11 @@ Everything is stored next to zenobia.exe:
       with a different version of the game or the patch asks before it is
       loaded.
   zenobia.ini
-      Settings, created with commented defaults: window size ([video]
-      scale, 1-12), full screen, whole-number zoom, volume ([audio] volume,
-      0-100), the keys ([input]), the last game file, pausing while the
-      window is in the background. Delete it to restore the defaults.
+      Settings. The player creates this file with the default values and a
+      comment for each setting: window size ([video] scale, 1-12), full
+      screen, whole-number zoom, volume ([audio] volume, 0-100), the keys
+      ([input]), the last game file, pausing while the window is in the
+      background. Delete it to restore the defaults.
 
 To move to another PC or to a new version of this release, copy the saves
 and states folders (and zenobia.ini, if you changed it) into the new folder.
@@ -155,6 +163,10 @@ Command line
                                         other emulators or flash carts
   zenobia.exe --help                    all options
 
+zenobia.exe is a windowed program, so a command prompt does not wait for it:
+use "start /wait zenobia.exe ..." in the Windows command prompt, or add
+"| Out-Null" in PowerShell.
+
 
 Using the patch with other emulators
 ------------------------------------
@@ -169,7 +181,8 @@ the patch anyway.
 
 Floating IPS (Flips), Windows and Linux:
   Start Flips, click "Apply Patch", choose ogre_en.bps, then your original
-  game file, then where to save the English ROM (for example ogre_en.ngc).
+  game file (extracted; Flips cannot open a .zip), then where to save the
+  English ROM (for example ogre_en.ngc).
   Command line: flips --apply ogre_en.bps "original.ngc" ogre_en.ngc
   Do not use its option to ignore checksums.
 
@@ -210,19 +223,21 @@ Known issues
   - Where the game has room for only 8 or 10 letters (item, class and
     character names in some lists and status fields), long names are
     shortened; the full names appear in shops, messages and confirmations.
-  - The later stages and the endings have been played less than the first
-    stages. Please report untranslated or cut-off text.
+  - Every stage and ending has been checked, but a game this long can still
+    hide untranslated or cut-off text. Please report any you find at
+    https://github.com/scienceandresearch/open-ogre-battle-gaiden-zenobia/issues
+    with a screenshot and where in the game it appears.
   - So far the English ROM has been tested only with this project's own
     player.
   - zenobia.exe is not signed, so SmartScreen asks before the first start.
 
 
-Licence and credits
+License and credits
 -------------------
 This is a free, unofficial fan project, not connected with the owners of
 Ogre Battle. Its code, translation, fonts and art are released under the
 MIT License (LICENSE.txt). zenobia.exe also contains work by others under
-their own licences: the Z80 emulator by Nicolas Allemand (MIT) and
+their own licenses: the Z80 emulator by Nicolas Allemand (MIT) and
 instruction timings derived from MAME by Wilbert Pol (BSD-3-Clause); see
 THIRD_PARTY_NOTICES.txt.
 

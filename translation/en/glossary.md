@@ -1,4 +1,4 @@
-# Glossary — Ogre Battle Gaiden: Prince of Zenobia (English)
+# Glossary for Ogre Battle Gaiden: Prince of Zenobia (English)
 
 Terminology used across the dialogue (`script.txt`), menus (`ui.txt`),
 location names (`locations.txt`) and the text drawn into graphics (labels,
