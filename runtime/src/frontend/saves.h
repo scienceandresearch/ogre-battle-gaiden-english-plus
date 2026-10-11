@@ -31,6 +31,10 @@
    or unreadable (the complete records before the damage are loaded). Does
    not change g_flash_dirty. */
 int  saves_load_flash_file(const wchar_t *path);
+/* Checks a save file without loading it: every record complete and for a
+   flash block of this image that the game saves to (0x1B-0x1E). Returns 1
+   valid, 0 no such file, -1 not a save file or damaged. */
+int  saves_check_flash_file(const wchar_t *path);
 /* Selects the save file for the loaded ROM (NULL = no persistence) and loads
    it into the core; call after ngp_reset(). Returns 1 loaded, 0 no file,
    -1 present but damaged (kept on disk, backed up before replacement). */
@@ -57,6 +61,8 @@ typedef enum {
 } StateResult;
 
 int  state_save(const wchar_t *path, const uint8_t rom_sha1[20]);
+/* 1 if the state file exists and its trailer names this ROM image. */
+int  state_matches_rom(const wchar_t *path, const uint8_t rom_sha1[20]);
 int  state_load(const wchar_t *path, const uint8_t rom_sha1[20], int allow_other_rom);
 const char *state_result_string(int r);
 

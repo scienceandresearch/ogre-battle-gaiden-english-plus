@@ -1,6 +1,8 @@
 # The menu bar and the zip support in the real window: Open game with a .zip
 # (Open dialog), the zip remembered for the next start, menu items and
-# shortcuts, Alt/F10 not taking keys from the game, Help > Controls / About,
+# shortcuts (the newer Options, Cheats, Import, Continue and Player's guide
+# commands are in gui_extras_test.ps1), Alt/F10 not taking keys from the
+# game, Help > Controls / About,
 # File > Save English ROM (the dialog opens in the game's folder with the
 # proposed name; the saved file is checked; the original game file cannot be
 # overwritten; Ctrl+S; the explanations with no game and untranslated), the
@@ -102,7 +104,8 @@ function Command($h, $id) { [void][W5]::PostMessage($h, $WM_COMMAND, [IntPtr]$id
 function Client($h) { $r = New-Object W5+RECT; [void][W5]::GetClientRect($h, [ref]$r); "$($r.Right)x$($r.Bottom)" }
 function WinRect($h) { $r = New-Object W5+RECT; [void][W5]::GetWindowRect($h, [ref]$r); "$($r.Left),$($r.Top),$($r.Right),$($r.Bottom)" }
 function Ini($scale, $last) {
-  $t = "[video]`r`nscale=$scale`r`n[rom]`r`nlast=$last`r`n"
+  # resume=no: the restarts below expect no "continue where you left off" question (gui_extras_test.ps1 covers it)
+  $t = "[video]`r`nscale=$scale`r`n[rom]`r`nlast=$last`r`n[general]`r`nresume=no`r`n"
   [System.IO.File]::WriteAllText("$AppDir\zenobia.ini", $t, [System.Text.Encoding]::Unicode)   # UTF-16 with BOM, as the player writes it
 }
 function Start-Player($argline) {
@@ -157,14 +160,15 @@ try {
   # 2. the menu bar
   $m = [W5]::GetMenu($h)
   Check "menu bar present" ($m -ne [IntPtr]::Zero)
-  $file = [W5]::GetSubMenu($m, 0); $help = [W5]::GetSubMenu($m, 1)
-  $bar = "$([W5]::MenuText($m, 0)) | $([W5]::MenuText($m, 1))"
+  $file = [W5]::GetSubMenu($m, 0); $help = [W5]::GetSubMenu($m, 3)
+  $bar = (0..([W5]::GetMenuItemCount($m) - 1) | ForEach-Object { [W5]::MenuText($m, $_) }) -join ' | '
   $fileItems = (0..([W5]::GetMenuItemCount($file) - 1) | ForEach-Object { [W5]::MenuText($file, $_) }) -join ' | '
   $helpItems = (0..([W5]::GetMenuItemCount($help) - 1) | ForEach-Object { [W5]::MenuText($help, $_) }) -join ' | '
   Write-Output "  menus: [$bar] File: [$fileItems] Help: [$helpItems]"
-  Check "  File and Help" ($bar -eq '&File | &Help')
-  Check "  File: Open game (Ctrl+O), Save English ROM (Ctrl+S), Exit (Esc)" ($fileItems -eq "&Open game...`tCtrl+O | &Save English ROM...`tCtrl+S |  | E&xit`tEsc")
-  Check "  Help: Controls (F1), About" ($helpItems -eq "&Controls`tF1 | &About")
+  Check "  File, Options, Cheats and Help" ($bar -eq '&File | &Options | &Cheats | &Help')
+  Check "  File: Open game (Ctrl+O), Save English ROM (Ctrl+S), Import saved game, Continue where I left off, Exit (Esc)" (
+    $fileItems -eq "&Open game...`tCtrl+O | &Save English ROM...`tCtrl+S |  | &Import saved game... | &Continue where I left off |  | E&xit`tEsc")
+  Check "  Help: Controls (F1), Player's guide, About" ($helpItems -eq "&Controls`tF1 | &Player's guide | &About")
   $size = Client $h; Write-Output "  client $size"
   Check "  client area 480x456 at scale 3 (menu bar outside it)" ($size -eq '480x456')
 

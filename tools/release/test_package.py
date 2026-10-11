@@ -7,12 +7,20 @@ NEW_DIR (keeping their times) and runs the packager on the copies; the build
 folder is never changed. Checks:
   1. a normal run makes the zip (exit 0); a second run makes a byte-identical
      zip; --release names it without the -dev suffix;
+  1b. the zip holds the guide, Chapter saves/About.txt and every chapter
+     save of BUILD/catalog (copied with the build files; without it, a
+     made-up empty save of file 1 stands in), and the guide lists each save
+     with its note from catalog.json;
   2. each refusal on its own (exit 1, only that check fails, nothing
      written): ogre_en.sha1 not matching ogre_en.ngc; a patch that writes
      into the game's save blocks (layout); a patch whose literal holds 16
      bytes of the original ROM (audit); zenobia.exe older than its sources;
      ROM data inside a packaged file (64 ROM bytes appended to zenobia.exe);
-     a missing input; --release over a different zip of the same version;
+     a missing input; no chapter saves (and --no-catalog then packages
+     without them, its guide saying so); no catalog.json to describe the
+     saves; a chapter save holding another flash block, or 16
+     bytes of the original ROM; --release over a different zip of the
+     same version;
   3. the classification of matches with the ROM (padding, runs, counting,
      cartridge header; real ROM data found as one piece, also when every
      8-byte window of it looks trivial);
@@ -20,19 +28,25 @@ folder is never changed. Checks:
      assets/icon/zenobia.txt, deterministic output, malformed sources
      refused with a message and no .ico;
   5. the files of this workstream (tools/release, VERSION, the icon source,
-     zenobia.rc, resource.h, docs/workstreams/release.md) are plain ASCII.
+     zenobia.rc, resource.h, docs/workstreams/release.md,
+     docs/guide-sources.md) are plain ASCII;
+  6. zenobia.exe looks for the guide and the saves folder under the names
+     the package gives them (GUIDE_FILE and CATALOG_DIR in gui.c).
 About 20 s. Exit 1 if any check fails.
 """
 import argparse
 import contextlib
 import hashlib
+import html
 import io
+import json
 import os
 import re
 import shutil
 import struct
 import sys
 import time
+import zipfile
 
 from ..patch import bps
 from . import mkicon, package
@@ -69,11 +83,31 @@ def failed_checks(text):
     return []
 
 
-def copy_build(src, dst):
+def copy_build(src, dst, catalog=True):
+    """The build files, and the chapter saves (BUILD/catalog) unless catalog is False.
+    Without BUILD/catalog (it needs the maintainer's test states) a made-up
+    save stands in: file 1's block, empty, described in catalog.json."""
     os.makedirs(dst)
     for name in BUILD_FILES:
         shutil.copy2(os.path.join(src, name), os.path.join(dst, name))
+    if catalog and os.path.isdir(os.path.join(src, 'catalog')):
+        shutil.copytree(os.path.join(src, 'catalog'), os.path.join(dst, 'catalog'))
+    elif catalog:
+        folder = os.path.join(dst, 'catalog')
+        os.makedirs(folder)
+        with open(os.path.join(folder, '01 Test save.sav'), 'wb') as f:
+            f.write(b'NGPFLSH1' + struct.pack('<BBHI', 0, 0x1C, 0, 0x10000) + bytes(0x10000))
+        info = [{'file': '01 Test save.sav', 'note': "A made-up save for the packager's tests.", 'state': '',
+                 'hero_level': 1, 'characters': 3, 'funds': 30000, 'chaos_frame': 50,
+                 'stages_cleared': [], 'stages_open': [0]}]
+        with open(os.path.join(folder, package.CATALOG_INFO), 'w', encoding='utf-8') as f:
+            json.dump(info, f, indent=1)
     return dst
+
+
+def first_save(folder):
+    return os.path.join(folder, 'catalog', sorted(f for f in os.listdir(os.path.join(folder, 'catalog'))
+                                                  if f.endswith('.sav'))[0])
 
 
 def put_english(folder, rom, target, patch):
@@ -140,7 +174,20 @@ def main(argv=None):
     english_sha1 = hashlib.sha1(package.read(os.path.join(good, 'ogre_en.ngc'))).hexdigest()
     version = package.read_version()
     T.check('  dev name has -dev+<8 digits of the English SHA-1>',
-            made == ['ogre-battle-gaiden-en-%s-dev+%s-win64.zip' % (version, english_sha1[:8])])
+            made == ['ogre-battle-gaiden-english-plus-%s-dev+%s-win64.zip' % (version, english_sha1[:8])])
+    if made:
+        names = zipfile.ZipFile(os.path.join(work, 'out-a', made[0])).namelist()
+        top = names[0]
+        saves = [n for n in names if n.startswith(top + 'Chapter saves/') and n.endswith('.sav')]
+        catalog_saves = [f for f in os.listdir(os.path.join(good, 'catalog')) if f.endswith('.sav')]
+        T.check("  the zip holds Player's Guide.html, Chapter saves/About.txt and the %d chapter saves"
+                % len(catalog_saves), top + "Player's Guide.html" in names and
+                top + 'Chapter saves/About.txt' in names and len(saves) == len(catalog_saves) > 0, '\n'.join(names))
+        guide = zipfile.ZipFile(os.path.join(work, 'out-a', made[0])).read(top + "Player's Guide.html").decode('utf-8')
+        T.check('  the guide lists every chapter save, with its note from catalog.json',
+                package.GUIDE_SAVES_MARK not in guide and all(
+                    html.escape(f) in guide and html.escape(e['note']) in guide
+                    for f, e in package.catalog_info(os.path.join(good, 'catalog')).items()))
     code, text2 = run(['--build', good, '--rom', rom_path, '--out', os.path.join(work, 'out-b')])
     same = (code == 0 and made and zips(os.path.join(work, 'out-b')) == made
             and package.read(os.path.join(work, 'out-a', made[0])) == package.read(os.path.join(work, 'out-b', made[0])))
@@ -150,7 +197,7 @@ def main(argv=None):
     rel_out = os.path.join(work, 'out-release')
     code, text = run(['--build', good, '--rom', rom_path, '--out', rel_out, '--release'])
     T.check('--release: %s' % ', '.join(zips(rel_out)),
-            code == 0 and zips(rel_out) == ['ogre-battle-gaiden-en-%s-win64.zip' % version], text)
+            code == 0 and zips(rel_out) == ['ogre-battle-gaiden-english-plus-%s-win64.zip' % version], text)
 
     print('== 2. refusals')
     b = copy_build(build_src, os.path.join(work, 'build-sha1'))
@@ -195,6 +242,36 @@ def main(argv=None):
     os.remove(os.path.join(b, 'ogre_en.bps'))
     refusal('inputs: ogre_en.bps missing', work, b, rom_path, 'inputs')
 
+    b = copy_build(build_src, os.path.join(work, 'build-nosaves'), catalog=False)
+    refusal('saves: no chapter saves', work, b, rom_path, 'saves')
+    out = os.path.join(work, 'out-nocatalog')
+    code, text = run(['--build', b, '--rom', rom_path, '--out', out, '--no-catalog'])
+    T.check('--no-catalog packages without the chapter saves (exit %d)' % code, code == 0 and len(zips(out)) == 1, text)
+    if code == 0 and len(zips(out)) == 1:
+        z = zipfile.ZipFile(os.path.join(out, zips(out)[0]))
+        guide = z.read(z.namelist()[0] + "Player's Guide.html").decode('utf-8')
+        T.check('  its guide says the package has no chapter saves', 'This package has no chapter saves.' in guide
+                and package.GUIDE_SAVES_MARK not in guide)
+
+    b = copy_build(build_src, os.path.join(work, 'build-noinfo'))
+    os.remove(os.path.join(b, 'catalog', package.CATALOG_INFO))
+    refusal('saves: catalog.json missing', work, b, rom_path, 'saves')
+
+    b = copy_build(build_src, os.path.join(work, 'build-saveblock'))
+    path = first_save(b)
+    data = bytearray(package.read(path))
+    data[9] = 0x1D                                      # file 2's block instead of file 1's
+    open(path, 'wb').write(bytes(data))
+    refusal('saves: a chapter save holding another block', work, b, rom_path, 'saves')
+
+    b = copy_build(build_src, os.path.join(work, 'build-saverom'))
+    path = first_save(b)
+    data = bytearray(package.read(path))
+    src = rich_rom_piece(rom, 16)
+    data[16 + 0x2000:16 + 0x2010] = rom[src:src + 16]   # inside block 0x1C's data, past the game's 4 KB
+    open(path, 'wb').write(bytes(data))
+    refusal('saves: 16 ROM bytes inside a chapter save', work, b, rom_path, 'saves')
+
     b = copy_build(build_src, os.path.join(work, 'build-rerelease'))
     with open(os.path.join(b, 'zenobia.exe'), 'ab') as f:
         f.write(b'\0' * 16)                             # different exe, no ROM data
@@ -202,7 +279,7 @@ def main(argv=None):
     T.check('refused: --release over a different zip of the same version (exit %d, failed %s)'
             % (code, ', '.join(failed_checks(text))), code == 1 and failed_checks(text) == ['zip'], text)
     T.check('  the existing release zip is kept, no temporary file left',
-            zips(rel_out) == ['ogre-battle-gaiden-en-%s-win64.zip' % version])
+            zips(rel_out) == ['ogre-battle-gaiden-english-plus-%s-win64.zip' % version])
 
     print('== 3. classification of matches')
     cases = [(b'\x40\x01\x00\x00\x00\x05\x00\x00', 'padding'),
@@ -256,15 +333,21 @@ def main(argv=None):
 
     print('== 5. this workstream\'s repository files are ASCII (no Japanese, no stray characters)')
     owned = [os.path.join('tools', 'release', n) for n in sorted(os.listdir(os.path.join(package.REPO, 'tools', 'release')))
-             if n.endswith(('.py', '.txt'))]
+             if n.endswith(('.py', '.txt', '.html'))]
     owned += ['VERSION', os.path.join('assets', 'icon', 'zenobia.txt'), os.path.join('runtime', 'src', 'frontend', 'zenobia.rc'),
-              os.path.join('runtime', 'src', 'frontend', 'resource.h'), os.path.join('docs', 'workstreams', 'release.md')]
+              os.path.join('runtime', 'src', 'frontend', 'resource.h'), os.path.join('docs', 'workstreams', 'release.md'),
+              os.path.join('docs', 'guide-sources.md')]
     bad = []
     for name in owned:
         path = os.path.join(package.REPO, name)
         if os.path.isfile(path) and any(b > 127 for b in package.read(path)):
             bad.append(name)
     T.check('%d files checked%s' % (len(owned), ', non-ASCII: ' + ', '.join(bad) if bad else ''), not bad)
+
+    print('== 6. the player and the package agree on the names of the guide and the saves folder')
+    gui = package.read(os.path.join(package.REPO, 'runtime', 'src', 'frontend', 'gui.c')).decode('utf-8')
+    names = dict(re.findall(r'#define\s+(GUIDE_FILE|CATALOG_DIR)\s+L"([^"]*)"', gui))
+    T.check('gui.c opens %s' % names, names == {'GUIDE_FILE': package.GUIDE_NAME, 'CATALOG_DIR': package.CATALOG_NAME})
 
     print('passed %d, failed %d (%.1f s)' % (T.passed, T.failed, time.time() - t0))
     return 1 if T.failed else 0

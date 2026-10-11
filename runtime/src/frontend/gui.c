@@ -20,6 +20,7 @@
 #include "sha1.h"
 #include "video.h"
 
+#include "core/cheats.h"
 #include "core/flashchip.h"
 #include "core/ngp.h"
 #include "core/png.h"
@@ -46,11 +47,25 @@ int ngp_shutdown_requested(void);
 #define IDM_OPEN         101
 #define IDM_SAVE_ENGLISH 102
 #define IDM_EXIT         103
+#define IDM_IMPORT_SAVE  104
+#define IDM_CONTINUE     105
 #define IDM_CONTROLS     201
 #define IDM_ABOUT        202
+#define IDM_GUIDE        203
+#define IDM_DATE_PC      301       /* Options > Console date (the current one checked) */
+#define IDM_DATE_DEC25   302
+#define IDM_DATE_JUN6    303
+#define IDM_RESUME_ASK   311       /* Options > When the player starts (the current one checked) */
+#define IDM_RESUME_YES   312
+#define IDM_RESUME_NO    313
+#define IDM_CHEAT_FIRST  401       /* Cheats: IDM_CHEAT_FIRST + CHEAT_* */
 
 /* File > Save English ROM: proposed name, in the game file's folder */
 #define ENGLISH_ROM_NAME L"Ogre Battle Gaiden - Prince of Zenobia (English).ngc"
+/* Files of the release package next to zenobia.exe */
+#define CATALOG_DIR      L"Chapter saves"
+#define GUIDE_FILE       L"Player's Guide.html"
+#define RESUME_STATE     L"states\\resume.state"
 
 #ifndef CREATE_WAITABLE_TIMER_HIGH_RESOLUTION
 #define CREATE_WAITABLE_TIMER_HIGH_RESOLUTION 0x00000002
@@ -85,7 +100,9 @@ static const wchar_t k_help[] =
     L"Ctrl+S: save the English ROM, for other emulators or a flash cart\n"
     L"F1: these controls\n"
     L"Esc: quit (the cartridge save is written first)\n\n"
-    L"The File and Help menus have the same commands.";
+    L"The menu bar has these commands too, and more: File > Import saved game "
+    L"(chapter saves), Options (console date, continuing where you left off), "
+    L"Cheats, and Help > Player's guide.";
 
 typedef struct {
     const Options *opt;
@@ -117,6 +134,7 @@ typedef struct {
     double   status_until;
     wchar_t  title[512];
     int      exit_code;
+    int      resume_mode;      /* RESUME_*: zenobia.ini, or --resume for this run */
 } App;
 
 static App A;
@@ -650,6 +668,280 @@ static void show_controls(void)
     modal_message(MB_OK | MB_ICONINFORMATION, IDOK, L"%ls", k_help);
 }
 
+/* ------------------------------------------------------------------ */
+/* Saved games, continuing, cheats, the guide                           */
+/* ------------------------------------------------------------------ */
+
+/* "<save stem> (before import YYYY-MM-DD HH-MM-SS).sav" next to the save. */
+static wchar_t *import_backup_path(const wchar_t *save)
+{
+    SYSTEMTIME t;
+    GetLocalTime(&t);
+    size_t n = wcslen(save) + 64;
+    wchar_t *out = (wchar_t *)malloc(n * sizeof(wchar_t));
+    if (!out) return NULL;
+    size_t stem = wcslen(save);
+    if (stem > 4 && _wcsicmp(save + stem - 4, L".sav") == 0) stem -= 4;
+    swprintf(out, n, L"%.*ls (before import %04u-%02u-%02u %02u-%02u-%02u).sav", (int)stem, save,
+             t.wYear, t.wMonth, t.wDay, t.wHour, t.wMinute, t.wSecond);
+    return out;
+}
+
+/* Replaces the cartridge save with the save file `src` (after checking it),
+   keeping the current save file as a backup, then reloads the game so it
+   starts at the title screen with the imported saves. ask = confirm first.
+   Returns 1 if imported. */
+static int import_save(const wchar_t *src, int ask)
+{
+    if (!A.have_rom || !saves_flash_path()) {
+        modal_message(MB_OK | MB_ICONINFORMATION, IDOK,
+                      L"Open your game file first (File > Open game), then import a saved game for it.");
+        return 0;
+    }
+    int v = saves_check_flash_file(src);
+    if (v <= 0) {
+        modal_message(MB_OK | MB_ICONWARNING, IDOK,
+                      v == 0 ? L"This file was not found:\n%ls"
+                             : L"This file is not a saved game of this player, or it is damaged:\n%ls\n\n"
+                               L"Choose a .sav file from the Chapter saves folder, or one this player made "
+                               L"(in its saves folder).", src);
+        return 0;
+    }
+    const wchar_t *dst = saves_flash_path();
+    wchar_t *full = zen_full_path(src);
+    if (full && _wcsicmp(full, dst) == 0) {
+        free(full);
+        modal_message(MB_OK | MB_ICONINFORMATION, IDOK, L"This file is already the game's save file:\n%ls", dst);
+        return 0;
+    }
+    free(full);
+    if (ask && modal_message(MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2, IDYES,
+                             L"Import this saved game?\n\n%ls\n\n"
+                             L"It replaces the three saved games and the suspend data of this game. Your "
+                             L"current ones are copied to a backup file first. The game then restarts at the "
+                             L"title screen: choose Load there to play the imported game.", src) != IDYES)
+        return 0;
+    if (!saves_flash_flush()) {
+        modal_message(MB_OK | MB_ICONERROR, IDOK, L"The current cartridge save could not be written, so nothing "
+                      L"was imported:\n%ls", dst);
+        return 0;
+    }
+    wchar_t *backup = NULL;
+    if (zen_file_exists(dst)) {
+        backup = import_backup_path(dst);
+        if (!backup || !CopyFileW(dst, backup, TRUE)) {
+            modal_message(MB_OK | MB_ICONERROR, IDOK, L"Your current saved games could not be backed up, so "
+                          L"nothing was imported:\n%ls", dst);
+            free(backup);
+            return 0;
+        }
+    }
+    uint8_t *data = NULL;
+    size_t size = 0;
+    int ok = zen_read_file(src, &data, &size, 16u * 1024u * 1024u) == ZEN_FILE_OK &&
+             zen_write_file_atomic(dst, data, size) == ZEN_FILE_OK;
+    free(data);
+    if (!ok) {
+        modal_message(MB_OK | MB_ICONERROR, IDOK, L"The saved game could not be copied to:\n%ls%ls%ls", dst,
+                      backup ? L"\n\nYour saved games are unchanged; a backup is in:\n" : L"",
+                      backup ? backup : L"");
+        free(backup);
+        return 0;
+    }
+    wchar_t *game = A.rom_path ? zen_wcsdup(A.rom_path) : NULL;
+    int loaded = game && load_rom(game);   /* resets and reads the imported saves */
+    free(game);
+    if (loaded) {
+        set_status(L"Saved game imported");
+        if (ask)
+            modal_message(MB_OK | MB_ICONINFORMATION, IDOK,
+                          L"The saved game was imported. Choose Load on the title screen to play it.%ls%ls",
+                          backup ? L"\n\nYour previous saved games are in:\n" : L"", backup ? backup : L"");
+    }
+    free(backup);
+    return loaded;
+}
+
+static void import_save_dialog(void)
+{
+    if (!A.have_rom) {
+        import_save(L"", 0);   /* explains that a game must be open */
+        return;
+    }
+    wchar_t file[CFG_PATH_MAX];
+    file[0] = 0;
+    wchar_t *dir = zen_path_join(zen_exe_dir(), CATALOG_DIR);
+    OPENFILENAMEW ofn;
+    memset(&ofn, 0, sizeof(ofn));
+    ofn.lStructSize = sizeof(ofn);
+    ofn.hwndOwner = A.hwnd;
+    ofn.lpstrFilter = L"Saved games (*.sav)\0*.sav\0All files (*.*)\0*.*\0";
+    ofn.lpstrFile = file;
+    ofn.nMaxFile = CFG_PATH_MAX;
+    DWORD attr = dir ? GetFileAttributesW(dir) : INVALID_FILE_ATTRIBUTES;
+    int have_dir = attr != INVALID_FILE_ATTRIBUTES && (attr & FILE_ATTRIBUTE_DIRECTORY);
+    ofn.lpstrInitialDir = have_dir ? dir : zen_exe_dir();
+    ofn.lpstrTitle = L"Import a saved game";
+    ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY | OFN_EXPLORER | OFN_NOCHANGEDIR;
+    audio_set_muted(1);
+    BOOL ok = GetOpenFileNameW(&ofn);
+    input_clear();
+    A.next_frame = 0;
+    free(dir);
+    if (ok) import_save(file, 1);
+}
+
+static wchar_t *resume_path(void)
+{
+    return zen_path_join(zen_exe_dir(), RESUME_STATE);
+}
+
+/* On quitting: a state of the running game, for "continue where you left off"
+   (also with resume=no, for File > Continue where I left off). */
+static void save_resume_state(void)
+{
+    if (!A.have_rom || A.shutdown_seen) return;
+    if (!g_zen_interactive && A.opt->resume < 0) return;   /* tests leave no files behind */
+    wchar_t *path = resume_path();
+    if (path) state_save(path, rom_image_sha1());
+    free(path);
+}
+
+/* Loads the state saved when the player last quit. quiet = at start: no
+   message when there is none for this game, no question. Returns 1 if loaded. */
+static int load_resume_state(int quiet)
+{
+    wchar_t *path = resume_path();
+    if (!path) return 0;
+    if (!A.have_rom || !state_matches_rom(path, rom_image_sha1())) {
+        free(path);
+        if (!quiet)
+            modal_message(MB_OK | MB_ICONINFORMATION, IDOK,
+                          A.have_rom ? L"There is no earlier session of this game to continue yet: it is "
+                                       L"saved when you quit the player."
+                                     : L"Open your game file first (File > Open game).");
+        return 0;
+    }
+    if (!quiet && modal_message(MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2, IDNO,
+                                L"Go back to where you were when you last quit the player?\n\n"
+                                L"What you have played since then is lost.") != IDYES) {
+        free(path);
+        return 0;
+    }
+    saves_flash_flush();
+    int r = state_load(path, rom_image_sha1(), 0);
+    free(path);
+    if (r == STATE_OK) {
+        A.shutdown_seen = 0;
+        audio_clear();
+        A.next_frame = 0;
+        set_status(L"Continued where you left off");
+        return 1;
+    }
+    set_status(L"Could not continue: %hs", state_result_string(r));
+    return 0;
+}
+
+/* At start, after the first game file is loaded. */
+static void offer_resume(void)
+{
+    if (!A.have_rom || A.resume_mode == RESUME_NO) return;
+    if (!g_zen_interactive && A.opt->resume < 0) return;
+    wchar_t *path = resume_path();
+    int have = path && state_matches_rom(path, rom_image_sha1());
+    free(path);
+    if (!have) return;
+    if (A.resume_mode == RESUME_ASK &&
+        modal_message(MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON1, IDYES,
+                      L"Continue where you left off last time?\n\n"
+                      L"Yes: continue the game as it was when you quit.\n"
+                      L"No: start at the title screen (your saved games are there as usual).\n\n"
+                      L"File > Continue where I left off does the same later, and Options > "
+                      L"When the player starts changes this question.") != IDYES)
+        return;
+    load_resume_state(1);
+}
+
+static void open_guide(void)
+{
+    wchar_t *path = zen_path_join(zen_exe_dir(), GUIDE_FILE);
+    if (path && zen_file_exists(path)) {
+        HINSTANCE h = ShellExecuteW(A.hwnd, L"open", path, NULL, NULL, SW_SHOWNORMAL);
+        if ((INT_PTR)h <= 32)
+            modal_message(MB_OK | MB_ICONWARNING, IDOK, L"The Player's Guide could not be opened:\n%ls\n\n"
+                          L"Open it with your web browser.", path);
+    } else {
+        modal_message(MB_OK | MB_ICONINFORMATION, IDOK,
+                      L"The Player's Guide was not found next to zenobia.exe:\n%ls\n\n"
+                      L"It comes with the player in the same zip file.", path ? path : GUIDE_FILE);
+    }
+    free(path);
+}
+
+static const wchar_t *k_cheat_labels[CHEAT_COUNT] = {
+    L"Add 100,000 &goth",
+    L"&Heal every character",
+    L"&Level up after the next battle",
+    L"Reputation &+10",
+    L"Reputation &-10",
+};
+
+static const wchar_t *k_cheat_done[CHEAT_COUNT] = {
+    L"Cheat: +100,000 goth",
+    L"Cheat: every character healed",
+    L"Cheat: every character levels up after the next battle",
+    L"Cheat: reputation +10",
+    L"Cheat: reputation -10",
+};
+
+static void use_cheat(int id)
+{
+    if (!A.have_rom || !cheat_game_ready()) {
+        modal_message(MB_OK | MB_ICONINFORMATION, IDOK,
+                      L"Start a new game or load a saved game first: cheats change the army and money of the "
+                      L"game being played.");
+        return;
+    }
+    if (cheat_apply(id)) set_status(L"%ls", k_cheat_done[id]);
+}
+
+static void check_item(int id, int on)
+{
+    CheckMenuItem(A.menu, (UINT)id, MF_BYCOMMAND | (on ? MF_CHECKED : MF_UNCHECKED));
+}
+
+/* Check marks of the Options menu. A console date from zenobia.ini other
+   than the two in the menu leaves all three unchecked. */
+static void update_option_checks(void)
+{
+    if (!A.menu) return;
+    check_item(IDM_DATE_PC, g_rtc_month == 0);
+    check_item(IDM_DATE_DEC25, g_rtc_month == 12 && g_rtc_day == 25);
+    check_item(IDM_DATE_JUN6, g_rtc_month == 6 && g_rtc_day == 6);
+    check_item(IDM_RESUME_ASK, A.resume_mode == RESUME_ASK);
+    check_item(IDM_RESUME_YES, A.resume_mode == RESUME_YES);
+    check_item(IDM_RESUME_NO, A.resume_mode == RESUME_NO);
+}
+
+static void set_console_date(int month, int day)
+{
+    static const wchar_t *names[12] = {L"January", L"February", L"March", L"April", L"May", L"June", L"July",
+                                       L"August", L"September", L"October", L"November", L"December"};
+    g_rtc_month = month;
+    g_rtc_day = day;
+    config_set_console_date(month, day);
+    update_option_checks();
+    if (month >= 1 && month <= 12) set_status(L"Console date: %d %ls", day, names[month - 1]);
+    else set_status(L"Console date: the PC's");
+}
+
+static void set_resume_mode(int mode)
+{
+    A.resume_mode = mode;
+    config_set_resume(mode);
+    update_option_checks();
+}
+
 /* "MAJOR.MINOR.PATCH" from the program's version resource (zenobia.rc). */
 static void version_string(wchar_t *out, size_t cap)
 {
@@ -692,11 +984,13 @@ static void show_about(void)
 
 static HMENU create_menu(void)
 {
-    HMENU bar = CreateMenu(), file = CreatePopupMenu(), help = CreatePopupMenu();
-    if (!bar || !file || !help) {
-        if (bar) DestroyMenu(bar);
-        if (file) DestroyMenu(file);
-        if (help) DestroyMenu(help);
+    HMENU bar = CreateMenu(), file = CreatePopupMenu(), options = CreatePopupMenu(),
+          date = CreatePopupMenu(), start = CreatePopupMenu(), cheats = CreatePopupMenu(),
+          help = CreatePopupMenu();
+    if (!bar || !file || !options || !date || !start || !cheats || !help) {
+        HMENU all[] = {bar, file, options, date, start, cheats, help};
+        for (size_t i = 0; i < sizeof(all) / sizeof(all[0]); i++)
+            if (all[i]) DestroyMenu(all[i]);
         return NULL;
     }
     /* Exit shows the first key bound to quit (Esc unless changed in zenobia.ini) */
@@ -707,10 +1001,28 @@ static HMENU create_menu(void)
     AppendMenuW(file, MF_STRING, IDM_OPEN, L"&Open game...\tCtrl+O");
     AppendMenuW(file, MF_STRING, IDM_SAVE_ENGLISH, L"&Save English ROM...\tCtrl+S");
     AppendMenuW(file, MF_SEPARATOR, 0, NULL);
+    AppendMenuW(file, MF_STRING, IDM_IMPORT_SAVE, L"&Import saved game...");
+    AppendMenuW(file, MF_STRING, IDM_CONTINUE, L"&Continue where I left off");
+    AppendMenuW(file, MF_SEPARATOR, 0, NULL);
     AppendMenuW(file, MF_STRING, IDM_EXIT, exit_label);
+
+    AppendMenuW(date, MF_STRING, IDM_DATE_PC, L"The &PC's date");
+    AppendMenuW(date, MF_STRING, IDM_DATE_DEC25, L"25 &December");
+    AppendMenuW(date, MF_STRING, IDM_DATE_JUN6, L"6 &June");
+    AppendMenuW(start, MF_STRING, IDM_RESUME_ASK, L"&Ask to continue where I left off");
+    AppendMenuW(start, MF_STRING, IDM_RESUME_YES, L"&Continue where I left off");
+    AppendMenuW(start, MF_STRING, IDM_RESUME_NO, L"Start at the &title screen");
+    AppendMenuW(options, MF_POPUP, (UINT_PTR)date, L"Console &date");
+    AppendMenuW(options, MF_POPUP, (UINT_PTR)start, L"&When the player starts");
+
+    for (int i = 0; i < CHEAT_COUNT; i++) AppendMenuW(cheats, MF_STRING, IDM_CHEAT_FIRST + i, k_cheat_labels[i]);
+
     AppendMenuW(help, MF_STRING, IDM_CONTROLS, L"&Controls\tF1");
+    AppendMenuW(help, MF_STRING, IDM_GUIDE, L"&Player's guide");
     AppendMenuW(help, MF_STRING, IDM_ABOUT, L"&About");
     AppendMenuW(bar, MF_POPUP, (UINT_PTR)file, L"&File");
+    AppendMenuW(bar, MF_POPUP, (UINT_PTR)options, L"&Options");
+    AppendMenuW(bar, MF_POPUP, (UINT_PTR)cheats, L"&Cheats");
     AppendMenuW(bar, MF_POPUP, (UINT_PTR)help, L"&Help");
     return bar;
 }
@@ -796,6 +1108,7 @@ static void app_close(void)
     A.quitting = 1;
     A.stop_time = zen_seconds();
     audio_set_muted(1);
+    save_resume_state();
     write_exit_png();
     DestroyWindow(A.hwnd);
 }
@@ -952,13 +1265,28 @@ static LRESULT CALLBACK wndproc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
         break;
     case WM_COMMAND:
         if (HIWORD(wp) == 0 && lp == 0) {   /* a menu item */
-            switch (LOWORD(wp)) {
+            int id = LOWORD(wp);
+            switch (id) {
             case IDM_OPEN:         open_rom_dialog(); return 0;
             case IDM_SAVE_ENGLISH: save_english_rom(); return 0;
+            case IDM_IMPORT_SAVE:  import_save_dialog(); return 0;
+            case IDM_CONTINUE:     load_resume_state(0); return 0;
             case IDM_EXIT:         app_close(); return 0;
+            case IDM_DATE_PC:      set_console_date(0, 0); return 0;
+            case IDM_DATE_DEC25:   set_console_date(12, 25); return 0;
+            case IDM_DATE_JUN6:    set_console_date(6, 6); return 0;
+            case IDM_RESUME_ASK:   set_resume_mode(RESUME_ASK); return 0;
+            case IDM_RESUME_YES:   set_resume_mode(RESUME_YES); return 0;
+            case IDM_RESUME_NO:    set_resume_mode(RESUME_NO); return 0;
             case IDM_CONTROLS:     show_controls(); return 0;
+            case IDM_GUIDE:        open_guide(); return 0;
             case IDM_ABOUT:        show_about(); return 0;
-            default:               break;
+            default:
+                if (id >= IDM_CHEAT_FIRST && id < IDM_CHEAT_FIRST + CHEAT_COUNT) {
+                    use_cheat(id - IDM_CHEAT_FIRST);
+                    return 0;
+                }
+                break;
             }
         }
         break;
@@ -1058,6 +1386,11 @@ int run_gui(const Options *o, HINSTANCE inst)
     timeBeginPeriod(1);
 
     config_load(&A.cfg);
+    A.resume_mode = o->resume >= 0 ? o->resume : A.cfg.resume;
+    if (!o->rtc_month) {   /* --date (set in main.c) wins over zenobia.ini */
+        g_rtc_month = A.cfg.rtc_month;
+        g_rtc_day = A.cfg.rtc_day;
+    }
     if (o->log_level >= 0) g_log_level = o->log_level;
     else g_log_level = o->console ? 1 : 0;
     g_flash_commands = !o->no_flash_commands;   /* the core emulates the flash chip: in-game saving works */
@@ -1080,6 +1413,7 @@ int run_gui(const Options *o, HINSTANCE inst)
     wc.lpszClassName = WINDOW_CLASS;
     RegisterClassExW(&wc);
     A.menu = create_menu();
+    update_option_checks();
     A.hwnd = CreateWindowExW(0, WINDOW_CLASS, ZEN_TITLE, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,
                              NGP_SCREEN_W * 4, NGP_SCREEN_H * 4, NULL, A.menu, inst, NULL);
     if (!A.hwnd) {
@@ -1105,6 +1439,11 @@ int run_gui(const Options *o, HINSTANCE inst)
     if (!rom && A.cfg.last_rom[0] && zen_file_exists(A.cfg.last_rom)) rom = A.cfg.last_rom;
     if (rom) load_rom(rom);
     else if (g_zen_interactive) open_rom_dialog();
+    if (A.have_rom && o->import_save) {
+        if (!import_save(o->import_save, 0) && !g_zen_interactive) A.exit_code = EXIT_SAVE_FAILED;
+    } else {
+        offer_resume();
+    }
     if (!A.have_rom && !g_zen_interactive) {
         zen_logf("zenobia: no ROM could be loaded\n");
         A.exit_code = rom ? EXIT_ROM_REFUSED : EXIT_ROM_UNREADABLE;

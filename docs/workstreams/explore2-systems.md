@@ -82,6 +82,16 @@ works silently; on a living member: "It can't be used / on this character."
   checked by patching the leader's class: General, Dragoon, Revenger, Beast
   Master, Lich, Hagal, Enigma Hunter, Holy, Exodus, Lord, Witch (97). Long
   names collide with the cost column (Open issue 2).
+* Recruits arrive two levels below the unit's leader, at least level 1
+  (`0x204E43`-`0x204E4E`, stored at `0x4580`; a level 12 leader recruited a
+  level 10 Curse Priest).
+* A unit led by a Necromancer (class 0x16) or a Lich (0x17) also gets
+  Recruit outside towns and churches: on a tile that is not a location the
+  unit-window builder (`0x204E77` -> `0x204F16`) allows the recruit path
+  `0x204F2A` for these two leader classes only. Checked on a plains tile of
+  stage 9 with the leader's class poked to Necromancer: the window gained a
+  fourth icon, Recruit, listing "Skeleton 180, Ghost 180". The game's help
+  text ("Only possible while the unit is in a town.") does not mention it.
 
 ### Class change
 
@@ -97,6 +107,13 @@ works silently; on a living member: "It can't be used / on this character."
   (Open issue 5).
 * Class change by item (Drago Stone on a Beast Master): silent, the item is
   used up (original behaviour). Equipment has no class restriction.
+* The class-change items check the target class's level and alignment
+  range but never its minimum CHA: at `0x2165FA`-`0x2165FF` the code loads
+  (`ld.b A, (XDE)`) where a compare belongs, and the following `jrl C`
+  reuses the carry of the alignment compare. A Light Priest with CHA 10 and
+  ALI 95 became a Holy (CHA minimum 70) with the White Vow. A quirk of the
+  original code; the player's guide says only that level and CHA do not
+  matter for these items.
 
 ### Items
 

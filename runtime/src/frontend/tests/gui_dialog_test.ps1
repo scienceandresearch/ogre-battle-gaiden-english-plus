@@ -40,6 +40,9 @@ function WaitDialog($p) {
   return [IntPtr]::Zero
 }
 New-Item -ItemType Directory -Force $Out | Out-Null
+# no "continue where you left off" question at the starts below (gui_extras_test.ps1 covers it)
+[System.IO.File]::WriteAllText("$AppDir\zenobia.ini", "[general]`r`nresume=no`r`n", [System.Text.Encoding]::Unicode)
+if (Test-Path "$AppDir\states\resume.state") { Remove-Item "$AppDir\states\resume.state" }
 
 # 1. Japanese ROM, patch missing: offered to run untranslated -> Yes
 $p = Start-Process -FilePath "$AppDir\zenobia.exe" -ArgumentList "`"$JapaneseRom`" --patch `"$AppDir\no_such.bps`"" -PassThru

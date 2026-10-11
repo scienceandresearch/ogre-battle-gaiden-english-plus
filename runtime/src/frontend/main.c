@@ -4,6 +4,7 @@
  *
  *   zenobia [ROM] [--patch FILE] [--untranslated] [--console] [--log N]
  *           [--exit-after SECONDS] [--png FILE] [--png-scale N]
+ *           [--date MM-DD] [--resume ask|yes|no] [--import-save FILE]
  *   zenobia ROM --write-patched OUT [--patch FILE]
  *   zenobia --selftest ROM [options, see selftest.c]
  *   zenobia --bps-apply SOURCE PATCH OUT
@@ -12,6 +13,7 @@
  */
 #include "app.h"
 #include "bps.h"
+#include "config.h"
 #include "sha1.h"
 #include "zipread.h"
 
@@ -39,6 +41,10 @@ static const wchar_t k_usage[] =
     L"                        --save FLASHFILE, --load-state FILE, --load-state-at F FILE,\n"
     L"                        --save-state F FILE\n"
     L"  --no-flash-commands   ignore the game's flash commands (in-game saving then fails)\n"
+    L"  --date MM-DD          console date the game sees, for this run\n"
+    L"  --resume ask|yes|no   continue where you left off, for this run (window mode;\n"
+    L"                        without a window only yes and no apply)\n"
+    L"  --import-save FILE    import a saved game (a .sav from Chapter saves), then play\n"
     L"  --bps-apply SOURCE PATCH OUT   apply any BPS patch\n"
     L"  --unzip ZIP OUT       unpack the game file of a zip, chosen as for ROM\n";
 
@@ -210,10 +216,19 @@ static int parse_args(int argc, wchar_t **argv, Options *o)
     o->log_level = -1;
     o->load_state_at = -1;
     o->save_state_at = -1;
+    o->resume = -1;
     for (int i = 1; i < argc; i++) {
         const wchar_t *a = argv[i];
         int more = argc - i - 1;
         if (!wcscmp(a, L"--selftest")) o->selftest = 1;
+        else if (!wcscmp(a, L"--date") && more >= 1) {
+            if (!config_parse_date(argv[++i], &o->rtc_month, &o->rtc_day) || !o->rtc_month) return -1;
+        }
+        else if (!wcscmp(a, L"--resume") && more >= 1) {
+            o->resume = config_parse_resume(argv[++i]);
+            if (o->resume < 0) return -1;
+        }
+        else if (!wcscmp(a, L"--import-save") && more >= 1) o->import_save = argv[++i];
         else if (!wcscmp(a, L"--patch") && more >= 1) o->patch = argv[++i];
         else if (!wcscmp(a, L"--frames") && more >= 1) o->frames = _wtoi(argv[++i]);
         else if (!wcscmp(a, L"--input") && more >= 1) o->input = arg_utf8(argv[++i]);
@@ -271,6 +286,11 @@ int WINAPI wWinMain(HINSTANCE inst, HINSTANCE prev, PWSTR cmdline, int show)
        console it was started from cannot kill it without saving). */
     int console_ok = 0;
     if (headless || o.console || o.exit_after > 0 || pr <= 0) console_ok = zen_console_init(o.console);
+
+    if (pr > 0 && o.rtc_month) {   /* --date (the window otherwise takes zenobia.ini's) */
+        g_rtc_month = o.rtc_month;
+        g_rtc_day = o.rtc_day;
+    }
 
     int code;
     if (pr <= 0) {

@@ -1,0 +1,16 @@
+Chapter saves
+=============
+
+Saved games that start you at a chapter, or on either side of a choice that
+changes the route. In each one the hero is named Tristan and the game is in
+file 1. "Player's Guide.html" lists them, with what comes next in each.
+
+To use one:
+  1. Open your game in zenobia.exe.
+  2. Choose File > Import saved game... and pick a file from this folder.
+     The player copies your own saved games to a backup file first (in its
+     saves folder), then restarts the game at the title screen.
+  3. Choose Load, then file 1.
+
+These files are in the player's own save format: other emulators cannot
+read them.

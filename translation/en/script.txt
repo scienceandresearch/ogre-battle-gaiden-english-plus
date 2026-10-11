@@ -191,7 +191,7 @@ What they seek is the "Key of Glory"... and, [NAME], your life...
 [NAME], your father's name was Gran Zenobia.
 
 @263EEA
-And your true name is... Fix Trishtram... Zenobia.
+And your true name is... Pheryx Tristan... Zenobia.
 
 @263F11
 Yes. You are the prince of Zenobia.
@@ -921,7 +921,7 @@ Perhaps someone powerful is backing them...
 It's a quiet place around here. Peaceful, with no trouble at all.
 
 @26677C
-Lancelot: Are you the one who has been seeking strong warriors?
+Lanselot: Are you the one who has been seeking strong warriors?
 
 @26679F
 I see. You seem to have spent your days in battle.
@@ -930,7 +930,7 @@ I see. You seem to have spent your days in battle.
 If I am with you, perhaps I can train myself anew.
 
 @2667E4
-Lancelot joined
+Lanselot joined
 your army.
 
 @266809
@@ -2430,7 +2430,7 @@ Kain: What... he's just a drunk. Let's go, [NAME].
 Yorkleif: ...You are the leader of the volunteer army that fights Baldur, the Dark Knight.
 
 @26B666
-[NAME], they call you... but your true name... could it be Fix Trishtram...
+[NAME], they call you... but your true name... could it be Pheryx Tristan...
 
 @26B696
 Kain: ...Who are you?
@@ -2534,7 +2534,7 @@ Ah... I see. You don't have it...
 Thank you so much. It shall be this town's treasure.
 
 @26BBC0
-Ryan: Wa ha ha ha! I'm Ryan, the greatest beast tamer on the continent!
+Lyon: Wa ha ha ha! I'm Lyon, the greatest beast tamer on the continent!
 
 @26BBEC
 Oh? Well, you've got plenty of money, haven't you? I know, hand over 100000 goth.
@@ -2543,7 +2543,7 @@ Oh? Well, you've got plenty of money, haven't you? I know, hand over 100000 goth
 And I'll join your side. Wa ha ha ha!
 
 @26BC3B
-Ryan joined
+Lyon joined
 your army.
 
 @26BC62
@@ -2786,7 +2786,7 @@ Rumor has it Baldur means to find someone of Zenobia's royal house and make him 
 And then overthrow the Zeteginean Empire, they say. ...Is that true, I wonder?
 
 @26C98F
-Grant: ...I have been waiting for you, Lord Trishtram.
+Grant: ...I have been waiting for you, Lord Tristan.
 
 @26C9B0
 [NAME]: Please... [NAME] will do, Lord Grant.
@@ -3563,13 +3563,13 @@ Everyone sees the future in you.
 [NAME]: ...Mm. Then let's go, everyone. To Orma!
 
 @26F39D
-Baldur: I have been waiting... for this day... Fix Trishtram...
+Baldur: I have been waiting... for this day... Pheryx Tristan...
 
 @26F3C4
 [NAME]: So you are... the Dark Knight... Baldur!
 
 @26F3D8
-Baldur: ...Trishtram... Would you not rule the world with the power of darkness?
+Baldur: ...Tristan... Would you not rule the world with the power of darkness?
 
 @26F406
 Kain: We came to defeat you, to protect this world!
@@ -3584,7 +3584,7 @@ The honest are deceived by the cunning... the weak forever ruled by the strong..
 Is that not your world? Is such a world truly worth protecting?
 
 @26F4BB
-Answer me... Trishtram...
+Answer me... Tristan...
 
 @26F4CF
 A. ...I will protect it anyway.
@@ -3600,14 +3600,14 @@ There is no past and no future. No joy and no sorrow. And... no life and no deat
 Darkness is the beginning of all things... and the end. There is nothing to fear...
 
 @26F588
-Trishtram... whatever you desire... shall I not grant it? ...What say you?
+Tristan... whatever you desire... shall I not grant it? ...What say you?
 
 @26F5B6
 A. ...I don't need your power!
 B. ...Yes... I'll follow darkness...
 
 @26F5FD
-Orosov: ...I have been waiting for you... Fix Trishtram... prince of Zenobia...
+Orosov: ...I have been waiting for you... Pheryx Tristan... prince of Zenobia...
 
 @26F631
 [NAME]: Orosov?!
@@ -3622,7 +3622,7 @@ Kain: What are you doing in a place like this?
 Kain: ?!
 
 @26F66C
-Baldur: I have been waiting... for this day... Fix Trishtram...
+Baldur: I have been waiting... for this day... Pheryx Tristan...
 
 @26F6A3
 Kain: Wh-what did you do to Orosov?!
@@ -3634,7 +3634,7 @@ Baldur: ...That man is a pitiful one. He lost everything in the war twenty-three
 His soul had sunk into despair... and it was I who saved it.
 
 @26F717
-...Trishtram... How many lives and how many hopes has the name of Zenobia taken?
+...Tristan... How many lives and how many hopes has the name of Zenobia taken?
 
 @26F748
 How many lives have you taken until now...?
@@ -3643,7 +3643,7 @@ How many lives have you taken until now...?
 ...How many more lives must you take before you are satisfied?
 
 @26F78B
-...Answer me... Trishtram...
+...Answer me... Tristan...
 
 @26F7A1
 A. You... have no right to ask!
@@ -3900,7 +3900,7 @@ Kain: Y-yeah. All right.
 ...is a story to be told another time...
 
 @270563
-Trishtram... whatever you desire... shall I not grant it? ...What say you?
+Tristan... whatever you desire... shall I not grant it? ...What say you?
 
 @270599
 [NAME]: ...Kain. If we leave things to the Zeteginean Empire like this...

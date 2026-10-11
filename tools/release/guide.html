@@ -1,0 +1,787 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prince of Zenobia Player's Guide</title>
+<meta name="description" content="Unofficial player's guide for the English fan translation of Ogre Battle Gaiden: Prince of Zenobia (Neo Geo Pocket Color) and its Windows player.">
+<style>
+:root {
+  --bg: #fbfaf6;
+  --fg: #1e1c19;
+  --muted: #5d584f;
+  --accent: #8a3d13;
+  --link: #8a3d13;
+  --rule: #ddd7ca;
+  --head-bg: #f1ece1;
+  --row-alt: #f7f4ed;
+  --box-bg: #f4efe4;
+  --spoiler-bg: #fbf3e2;
+  --spoiler-rule: #e3c995;
+  --kbd-bg: #ffffff;
+  --kbd-rule: #c9c2b2;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #161519;
+    --fg: #e6e2d9;
+    --muted: #a8a296;
+    --accent: #e8a86f;
+    --link: #f0b680;
+    --rule: #39363a;
+    --head-bg: #232127;
+    --row-alt: #1c1b20;
+    --box-bg: #201e23;
+    --spoiler-bg: #241f17;
+    --spoiler-rule: #5c4a2a;
+    --kbd-bg: #2a282e;
+    --kbd-rule: #4a4650;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 17px/1.62 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+main { max-width: 50rem; margin: 0 auto; padding: 2.2rem 1.25rem 5rem; }
+h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 .3rem; }
+.subtitle { color: var(--muted); margin: 0 0 1.6rem; font-size: 1.05rem; }
+h2 {
+  font-size: 1.5rem; line-height: 1.3; margin: 3rem 0 .8rem;
+  padding-top: 1rem; border-top: 1px solid var(--rule);
+}
+h3 { font-size: 1.18rem; margin: 2rem 0 .5rem; }
+h4 { font-size: 1.02rem; margin: 1.4rem 0 .4rem; }
+p, ul, ol { margin: .6rem 0 .9rem; }
+li { margin: .25rem 0; }
+a { color: var(--link); text-underline-offset: 2px; }
+a:hover { text-decoration-thickness: 2px; }
+.toc {
+  background: var(--box-bg); border: 1px solid var(--rule); border-radius: 8px;
+  padding: .9rem 1.2rem .9rem 1rem; margin: 1.2rem 0 2rem;
+}
+.toc h2 { border: 0; margin: .2rem 0 .4rem; padding: 0; font-size: 1.1rem; }
+.toc ol { margin: .2rem 0; padding-left: 1.4rem; }
+.toc ol ol { margin: .1rem 0 .3rem; padding-left: 1.2rem; font-size: .95em; }
+.toc li { margin: .12rem 0; }
+.table-wrap { overflow-x: auto; margin: .8rem 0 1.2rem; }
+table { border-collapse: collapse; width: 100%; font-size: .93rem; line-height: 1.45; }
+th, td { border: 1px solid var(--rule); padding: .4rem .55rem; text-align: left; vertical-align: top; }
+th { background: var(--head-bg); font-weight: 600; }
+tbody tr:nth-child(even) td { background: var(--row-alt); }
+kbd {
+  font: .85em/1.2 ui-monospace, "Cascadia Mono", Consolas, monospace;
+  background: var(--kbd-bg); border: 1px solid var(--kbd-rule); border-bottom-width: 2px;
+  border-radius: 4px; padding: .05rem .35rem; white-space: nowrap;
+}
+code { font: .9em ui-monospace, "Cascadia Mono", Consolas, monospace; }
+.tip {
+  background: var(--box-bg); border-left: 4px solid var(--accent);
+  padding: .6rem .9rem; margin: 1rem 0; border-radius: 0 6px 6px 0;
+}
+.tip p { margin: .3rem 0; }
+details.spoiler {
+  background: var(--spoiler-bg); border: 1px solid var(--spoiler-rule);
+  border-radius: 8px; padding: .55rem .95rem; margin: 1rem 0 1.4rem;
+}
+details.spoiler > summary { cursor: pointer; font-weight: 600; }
+details.spoiler[open] > summary { margin-bottom: .5rem; }
+.small { font-size: .9rem; color: var(--muted); }
+.nowrap { white-space: nowrap; }
+@media print {
+  details.spoiler { break-inside: avoid; }
+  a { color: inherit; }
+}
+</style>
+</head>
+<body>
+<main>
+
+<h1>Player's Guide</h1>
+<p class="subtitle">Ogre Battle Gaiden: Prince of Zenobia, English fan translation (Neo Geo Pocket Color), with the Windows player <code>zenobia.exe</code></p>
+
+<p>The original game came with a manual in Japanese only. This guide explains the player program, how the game works, and the things the game never tells you outright: class changes, recruits, routes, endings and the secrets after the ending. Story details sit in sections marked as spoilers, folded shut until you open them.</p>
+
+<nav class="toc" aria-label="Contents">
+<h2>Contents</h2>
+<ol>
+  <li><a href="#player">Getting started with the player</a>
+    <ol>
+      <li><a href="#open">Opening your game</a></li>
+      <li><a href="#controls">Controls</a></li>
+      <li><a href="#menus">The menu bar</a></li>
+      <li><a href="#saving">Saving: game saves, states and continuing</a></li>
+    </ol>
+  </li>
+  <li><a href="#basics">How the game works</a>
+    <ol>
+      <li><a href="#newgame">Starting a new game</a></li>
+      <li><a href="#scenario">The scenario map and the chapters</a></li>
+      <li><a href="#time">Real time, pausing, day and night</a></li>
+      <li><a href="#units">Units and leaders</a></li>
+      <li><a href="#hq">Headquarters and deploying units</a></li>
+      <li><a href="#moving">Moving units</a></li>
+      <li><a href="#towns">Towns, churches and hidden places</a></li>
+      <li><a href="#money">Money: income and expenses</a></li>
+      <li><a href="#battles">Battles</a></li>
+      <li><a href="#tarot">Tarot cards</a></li>
+      <li><a href="#items">Items</a></li>
+      <li><a href="#losing">How you lose</a></li>
+      <li><a href="#clearing">Clearing a chapter and going back</a></li>
+      <li><a href="#chaos">The Chaos Frame and alignment</a></li>
+    </ol>
+  </li>
+  <li><a href="#classes">Characters and class changes</a>
+    <ol>
+      <li><a href="#stats">Character stats</a></li>
+      <li><a href="#ccrules">How class changes work</a></li>
+      <li><a href="#cctable">Class change table</a></li>
+      <li><a href="#ccitems">Items that change a class</a></li>
+      <li><a href="#recruit">What each leader can recruit</a></li>
+      <li><a href="#heroclass">The hero's class</a></li>
+    </ol>
+  </li>
+  <li><a href="#routes">Routes and side areas</a></li>
+  <li><a href="#recruits">Story characters and how they join</a></li>
+  <li><a href="#endings">Spoilers: the final battle and the five endings</a></li>
+  <li><a href="#postgame">After the ending</a></li>
+  <li><a href="#extras">Chapter saves, cheats and the console date</a></li>
+  <li><a href="#about">About this guide</a></li>
+</ol>
+</nav>
+
+<!-- ====================================================================== -->
+<h2 id="player">1. Getting started with the player</h2>
+
+<h3 id="open">Opening your game</h3>
+<p>Keep <code>zenobia.exe</code> and <code>ogre_en.bps</code> together in a folder of your own, such as <code>Documents\Zenobia</code>. The player stores its settings, saves and save states next to itself, so avoid write-protected folders like <code>Program Files</code>.</p>
+<p>Start <code>zenobia.exe</code> and choose your copy of the Japanese game with <b>File &gt; Open game</b> (<kbd>Ctrl</kbd>+<kbd>O</kbd>), or drop the file onto the window. The <code>.ngc</code> file works, and so does the <code>.zip</code> it came in. The player translates the game in memory while it loads; your own file is never changed. The next time you start the player, the same game opens by itself.</p>
+<p>To play the English version somewhere else, such as another emulator or a flash cart, use <b>File &gt; Save English ROM</b> (<kbd>Ctrl</kbd>+<kbd>S</kbd>). It writes a separate English <code>.ngc</code> file and checks it after writing.</p>
+
+<h3 id="controls">Controls</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>Action</th><th>Keyboard</th><th>Gamepad</th></tr></thead>
+<tbody>
+<tr><td>D-pad</td><td>Arrow keys</td><td>D-pad or left stick</td></tr>
+<tr><td>A button</td><td><kbd>Z</kbd></td><td>A or X</td></tr>
+<tr><td>B button</td><td><kbd>X</kbd></td><td>B or Y</td></tr>
+<tr><td>Option button</td><td><kbd>Enter</kbd> or <kbd>C</kbd></td><td>Start</td></tr>
+<tr><td>Fast-forward (hold)</td><td><kbd>Tab</kbd></td><td>Right trigger</td></tr>
+<tr><td>Pause or resume the player</td><td><kbd>P</kbd> or <kbd>Pause</kbd></td><td></td></tr>
+<tr><td>Save state, load state</td><td><kbd>F5</kbd>, <kbd>F9</kbd></td><td></td></tr>
+<tr><td>Previous or next state slot (0 to 9)</td><td><kbd>F6</kbd>, <kbd>F7</kbd></td><td></td></tr>
+<tr><td>Fullscreen</td><td><kbd>F11</kbd> or <kbd>Alt</kbd>+<kbd>Enter</kbd></td><td></td></tr>
+<tr><td>Reset the game (asks first)</td><td><kbd>F12</kbd></td><td></td></tr>
+<tr><td>Open a game</td><td><kbd>Ctrl</kbd>+<kbd>O</kbd></td><td></td></tr>
+<tr><td>Save the English ROM</td><td><kbd>Ctrl</kbd>+<kbd>S</kbd></td><td></td></tr>
+<tr><td>Show the controls</td><td><kbd>F1</kbd></td><td></td></tr>
+<tr><td>Quit (writes the game's save first)</td><td><kbd>Esc</kbd></td><td></td></tr>
+</tbody></table></div>
+<p>Fast-forward runs the game about five times faster with the sound muted. You can change the keyboard keys in <code>zenobia.ini</code>, except <kbd>Ctrl</kbd>+<kbd>O</kbd>, <kbd>Ctrl</kbd>+<kbd>S</kbd>, <kbd>F1</kbd> and <kbd>Alt</kbd>+<kbd>Enter</kbd>.</p>
+<p>In the game itself, A confirms and B goes back. Option pauses the map and shows a short help text for the icon or command under the cursor.</p>
+
+<h3 id="menus">The menu bar</h3>
+<p>The menu bar works with the mouse only, so <kbd>Alt</kbd> and <kbd>F10</kbd> never take a key away from the game. It is hidden in fullscreen.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Menu</th><th>Commands</th></tr></thead>
+<tbody>
+<tr><td>File</td><td>Open game; Save English ROM; Import saved game (the <a href="#chaptersaves">chapter saves</a>); Continue where I left off; Exit</td></tr>
+<tr><td>Options</td><td>Console date: The PC's date, 25 December or 6 June (see <a href="#date">the console date</a>). When the player starts: Ask to continue where I left off, Continue where I left off, or Start at the title screen.</td></tr>
+<tr><td>Cheats</td><td>Add 100,000 goth; Heal every character; Level up after the next battle; Reputation +10; Reputation -10 (see <a href="#cheats">cheats</a>)</td></tr>
+<tr><td>Help</td><td>Controls; Player's guide (opens this page); About</td></tr>
+</tbody></table></div>
+
+<h3 id="saving">Saving: game saves, states and continuing</h3>
+<p>There are three ways to keep your progress, and they work differently.</p>
+<h4>The game's own saves</h4>
+<p>On the scenario map (the map of the whole land between chapters), press B to open the popup, choose <b>Data</b>, then <b>Save</b>. The game has three save files. To play a saved game, choose <b>Load</b> on the title screen. The player writes these saves to <code>saves\&lt;game file name&gt;.sav</code> a couple of seconds after the game saves, and again when you quit; the previous file is kept as a <code>.bak</code> copy.</p>
+<p>During a chapter you cannot use Data. Use <b>Suspend</b> on the command bar instead: it saves the game in progress, and you resume it with <b>Continue</b> on the title screen. The suspend data is erased once you resume. After suspending, the game stays on its last message; press <kbd>F12</kbd> to reset, or quit the player.</p>
+<h4>Save states</h4>
+<p><kbd>F5</kbd> saves the exact moment and <kbd>F9</kbd> loads it, at any time, even in the middle of a battle. There are ten slots; <kbd>F6</kbd> and <kbd>F7</kbd> change the slot, and the title bar shows the current one. States are stored in the <code>states</code> folder. A state made with a different version of the game or patch asks before loading, because it may not work.</p>
+<h4>Continue where you left off</h4>
+<p>When you quit, the player keeps the moment you stopped at. At the next start it asks whether to continue from there; <b>Options &gt; When the player starts</b> changes this, and <b>File &gt; Continue where I left off</b> does it at any time.</p>
+<div class="tip"><p>Save states are convenient, but keep using the game's own saves too. The chapter saves and the import command work with game saves. A save state records the whole machine and may not load correctly with another version of the patch, while a game save holds only the game's own record of your army, money and progress.</p></div>
+
+<!-- ====================================================================== -->
+<h2 id="basics">2. How the game works</h2>
+
+<h3 id="newgame">Starting a new game</h3>
+<p>The title screen offers NewGame, Load and Continue. Load and Continue can only be chosen when saved or suspended data exists. NewGame first asks which of the three files to save to.</p>
+<p>Warren, an astrologer, then gives you a tarot reading. You name the hero (up to 8 letters; the default is Tristan), answer six questions, and draw a single card. The reading decides the hero's starting stats, and also some of the volunteers who join the army at the start of chapter 2. After it, the scenario map titled "The Zenobian Age" appears.</p>
+<p>In chapters 1 and 2 the game offers seven "Game System Tips", short lessons on the basics. They are worth hearing once.</p>
+
+<h3 id="scenario">The scenario map and the chapters</h3>
+<p>The scenario map shows the areas you can play. Move the cursor to an area's marker and press A to start it; a chapter begins with a title card and opening scenes. Press B for a popup with four commands:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Command</th><th>What it does</th></tr></thead>
+<tbody>
+<tr><td>Organize</td><td>Arranges your units before you set out (see <a href="#units">units</a>).</td></tr>
+<tr><td>Monitor</td><td>Battle animations on or off, music on or off, sound effects on or off, and three steps each of message speed and game speed (see <a href="#time">real time</a>). The command bar has Monitor too.</td></tr>
+<tr><td>Data</td><td>Save and Load.</td></tr>
+<tr><td>Link</td><td>Battles and trades over a link cable. The player behaves as if no cable is connected, so this cannot be used here.</td></tr>
+</tbody></table></div>
+<div class="table-wrap"><table>
+<thead><tr><th>Chapter</th><th>Area on the scenario map</th><th>Title card</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Estrada's Manor</td><td>Quickening</td></tr>
+<tr><td>2</td><td>Gross Region</td><td>Those Who Hunger</td></tr>
+<tr><td>3</td><td>Satsu Peninsula</td><td>Those Who Believe</td></tr>
+<tr><td>4</td><td>Lichtfloss</td><td>Northern Kingdom</td></tr>
+<tr><td>5</td><td>Roden Region</td><td>The Dead</td></tr>
+<tr><td>6</td><td>Litt Island Waters</td><td>The Sorcerer</td></tr>
+<tr><td>7</td><td>Nessa Region</td><td>A Voice That Asks</td></tr>
+<tr><td>8</td><td>Norodom Region</td><td>What Desire Brings</td></tr>
+<tr><td>9</td><td>Megaholten</td><td>Resolve</td></tr>
+<tr><td>10</td><td>Shagall Marsh</td><td>The Dark Knight</td></tr>
+<tr><td>11</td><td>Lego Islands</td><td>Tears</td></tr>
+<tr><td>12</td><td>Am Sea of Trees</td><td>Silent Darkness&hellip;</td></tr>
+<tr><td>Final Chapter</td><td>Laika Lakeside</td><td>White Night</td></tr>
+<tr><td>Side area</td><td>Krono Mountains</td><td>Mountain Depths</td></tr>
+<tr><td>Side area</td><td>Ein Peninsula</td><td>Treasure</td></tr>
+<tr><td>Side area</td><td>Wind Dunes</td><td>Of Blood and Flesh</td></tr>
+<tr><td>Side area</td><td>Freia Isles</td><td>Samurai</td></tr>
+<tr><td>After the ending</td><td>Free Battle Area 1, 2 and 3</td><td>Free Battle Area</td></tr>
+</tbody></table></div>
+<p>You do not play every chapter. Chapters 8 and 9 are alternatives, and so are chapters 11 and 12; <a href="#routes">Routes and side areas</a> explains the choice. The side areas open only when you do certain things first.</p>
+
+<h3 id="time">Real time, pausing, day and night</h3>
+<p>On the map of a chapter, everything happens in real time: your units and the enemy's move at once, and time flows from morning to night and back. Press Option to stop time while you think, and Option again to let it run. Time also stops while a menu, a window or the movement flags are open, and during battles.</p>
+<p>How long a day lasts depends on the game speed set in Monitor: about 7 minutes of play at speed 1, a little under 5 minutes at speed 2 (the setting a new game starts with) and about 2.5 minutes at speed 3. Each new day you collect income and pay costs (see <a href="#money">money</a>). The colors of the map change with the hour. Some events happen only by day or only at night, and the items Scent of Night and Light's Whisper turn the time to night or day at once.</p>
+
+<h3 id="units">Units and leaders</h3>
+<p>Your volunteer army is made of units. A unit holds up to five characters, and a large character takes two places. The army can have up to 100 characters and up to 25 units. Characters who are in no unit wait in the stock.</p>
+<p>The first character of a unit is its leader. Not everyone can lead: the status screen shows <i>Leader: OK</i> or <i>Leader: No</i>. The leader of the first unit is the commander of the whole army (Estrada in chapter 1, the hero from chapter 2 on), and that leader cannot be changed.</p>
+<p>Within a unit, characters stand in a front row and a back row. Each class has one attack it uses from the front and another from the back; on the status screen, <i>F:</i> and <i>B:</i> show these attacks and how many times the character attacks with each.</p>
+<p>The <b>Organize</b> screen (from the scenario map popup, or from the command bar during a chapter) has these commands: Character (View status, Dismiss, Class change), Add character, Remove, Swap units, Formation, Change leader, and Items. During a chapter, units already in the field cannot be changed there; use the <b>Organize</b> command in the unit's own window instead, which offers Formation, Dismiss, Class change and, when the leader is not a story character, Change leader. Story characters cannot be dismissed.</p>
+
+<h3 id="hq">Headquarters and deploying units</h3>
+<p>Each chapter has a headquarters (HQ) where your army starts. In chapter 1 you have a single unit. From chapter 2 on, the command bar has <b>Deploy unit</b>, which sends a waiting unit out of the HQ. Deploying costs goth, and the game tells you the price first.</p>
+<p>When any unit except the first ends its move on the HQ, the game asks whether to recall it. The item Return Half also sends a unit back to the HQ at once.</p>
+
+<h3 id="moving">Moving units</h3>
+<p>Put the cursor on one of your units (or on the HQ) and press A. A small menu shows NEXT, the units standing there and the place itself. Choose a unit and press A to open its window, with these commands:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Command</th><th>What it does</th></tr></thead>
+<tbody>
+<tr><td>Move</td><td>Gives the unit its route.</td></tr>
+<tr><td>Tactics</td><td>Sets the tactics the unit uses in battle.</td></tr>
+<tr><td>Recruit</td><td>Hires new characters. In towns, from chapter 2 on (see <a href="#recruiting">recruiting</a> for one exception).</td></tr>
+<tr><td>Buy items</td><td>Only in the area's shop town.</td></tr>
+<tr><td>Rite of revival</td><td>Only in churches, when someone in the unit has fallen.</td></tr>
+<tr><td>Organize</td><td>Formation, Dismiss, Change leader and Class change for this unit.</td></tr>
+</tbody></table></div>
+<p>With Move you place up to three flags with A. Pressing A again on the last flag confirms the route (a third flag confirms it by itself); B removes the last flag. Units walk in straight lines from flag to flag, so use flags to steer around water; mountains can be crossed, but slowly. Holding B while you move the cursor makes it faster.</p>
+<p>Pressing A on empty ground opens the command bar: NEXT, Deploy unit (from chapter 2), Organize, Items, Tarot cards, Finances, Monitor and Suspend. NEXT lists your units and the known towns; pick one and the cursor jumps there, which is the quickest way to find a unit on the move.</p>
+
+<h3 id="towns">Towns, churches and hidden places</h3>
+<p>Towns and churches are strongholds. Send a unit into one to liberate it; places held by the enemy have to be won in battle first. Liberating a stronghold can bring information, items or a tarot card, and every liberated stronghold sends you money each day. Without money you cannot deploy units, so liberate as you go.</p>
+<p>When you liberate a place, the game offers to draw a tarot card. The card changes some of your characters' stats right away (a message says which), and you can keep it for battle. A unit standing in a stronghold slowly gets its HP back, and visiting a town again sometimes brings new information.</p>
+<p>Put the cursor on a town and choose the place icon to see its window: population, two ratings shown as LOW, MID or HIGH, and its daily income.</p>
+<h4>Shops</h4>
+<p>From chapter 2 on, each area has one shop town, where the unit window shows <b>Buy items</b>. Some of them are hidden towns.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Area</th><th>Shop town</th><th>Sells</th></tr></thead>
+<tbody>
+<tr><td>Gross Region</td><td>Leckart</td><td>Cure Potion, Cure Stone, Return Half, Tornado, All Summons</td></tr>
+<tr><td>Satsu Peninsula</td><td>Colomban</td><td>Cure Potion, Cure Stone, Soul Call, Joker Card, Deep Sea</td></tr>
+<tr><td>Lichtfloss</td><td>Linde (hidden)</td><td>Cure Potion, Cure Stone, Petro Breath, Soul Call, All Summons</td></tr>
+<tr><td>Roden Region</td><td>Isrand (hidden)</td><td>Cure Potion, Cure Stone, Return Half, Fireball, Light's Whisper</td></tr>
+<tr><td>Litt Island Waters</td><td>Kukrit</td><td>Cure Potion, Cure Stone, Cure Ankh, Soul Call, Plains</td></tr>
+<tr><td>Nessa Region</td><td>Ryuk (hidden)</td><td>Cure Potion, Cure Stone, Cure Ankh, Soul Call, Scent of Night</td></tr>
+<tr><td>Norodom Region</td><td>Forte (hidden)</td><td>Cure Stone, Cure Ankh, Soul Call, Blizzard, Love &amp; Peace</td></tr>
+<tr><td>Megaholten</td><td>Karas</td><td>Cure Stone, Cure Ankh, Forest, Joker Card, Crystal Ball</td></tr>
+<tr><td>Shagall Marsh</td><td>Dodongo</td><td>Cure Stone, Cure Ankh, Return Half, 7-League Boots, Lightning</td></tr>
+<tr><td>Lego Islands</td><td>Arik</td><td>Cure Stone, Cure Ankh, Return Half, Soul Call, Wasteland</td></tr>
+<tr><td>Am Sea of Trees</td><td>Kiteppe (hidden)</td><td>Cure Stone, Cure Ankh, Soul Call, Swamp, Scent of Night</td></tr>
+<tr><td>Laika Lakeside</td><td>Spelancas (hidden)</td><td>Cure Stone, Cure Ankh, Return Half, Nightmare, Joker Card</td></tr>
+<tr><td>Krono Mountains</td><td>Kaminol (hidden)</td><td>Cure Potion, Cure Stone, Gauge Up, Return Half, All Summons</td></tr>
+<tr><td>Ein Peninsula</td><td>Idemund</td><td>Cure Potion, Cure Stone, Soul Call, 7-League Boots, Light</td></tr>
+<tr><td>Wind Dunes</td><td>Tente</td><td>Cure Stone, Cure Ankh, Soul Call, Return Half, Gauge Down</td></tr>
+<tr><td>Freia Isles</td><td>Mowry (hidden)</td><td>Cure Stone, Cure Ankh, Soul Call, All Summons, Darkness</td></tr>
+<tr><td>Free Battle Area 1</td><td>Changikal</td><td>Charm, Mountains, Stronghold, All Summons, Love &amp; Peace</td></tr>
+<tr><td>Free Battle Area 2</td><td>Maranhao</td><td>Banish, Snowy Peaks, Snowfield, Chaos Up, Love &amp; Peace</td></tr>
+<tr><td>Free Battle Area 3</td><td>Gaziantep</td><td>Healing, Volcano, Cliffs, Desert, Chaos Down</td></tr>
+</tbody></table></div>
+<p>The shop closes after each purchase; choose Buy items again for more. The item Trade Ticket calls Jack, a merchant who comes wherever he is called and sells stat-raising items (Sword Symbol, Magus Paper, Speed Gear, Life Source, Vessel of Fate).</p>
+<h4 id="recruiting">Recruiting</h4>
+<p>From chapter 2 on, a unit standing in a town can <b>Recruit</b>. What you can hire depends on the class of the unit's leader (see <a href="#recruit">the recruit table</a>), and recruits arrive two levels below the leader. The unit needs room for the newcomer, and the army must have room too.</p>
+<p>A unit led by a Necromancer or a Lich can also recruit out in the field, away from towns and churches, although the game's help text says towns only.</p>
+<h4>Churches</h4>
+<p>A character whose HP falls to 0 can no longer fight. In a church, the unit window offers <b>Rite of revival</b>, which brings fallen characters back for a fee. The item Soul Call revives one character.</p>
+<h4>Hidden towns and churches</h4>
+<p>Many towns, and a few churches, are hidden. A hidden place appears when one of your units walks onto its spot, and the item Crystal Ball reveals hidden towns and churches. Villagers drop hints, such as an island of just the right size or a mountain road that ends for no reason. The island town of Orata in the Gross Region can be reached by a flying unit.</p>
+<details class="spoiler"><summary>List of hidden towns by area</summary>
+<div class="table-wrap"><table>
+<thead><tr><th>Area</th><th>Hidden towns</th><th>Hidden churches</th></tr></thead>
+<tbody>
+<tr><td>Estrada's Manor</td><td>Hind</td><td></td></tr>
+<tr><td>Gross Region</td><td>Orata, Kehm</td><td></td></tr>
+<tr><td>Satsu Peninsula</td><td>Parna, Ijiriko</td><td></td></tr>
+<tr><td>Lichtfloss</td><td>Heide, Satsurama, Linde</td><td></td></tr>
+<tr><td>Roden Region</td><td>Obhelmut, Isrand</td><td></td></tr>
+<tr><td>Litt Island Waters</td><td>Heidecker</td><td></td></tr>
+<tr><td>Nessa Region</td><td>Kashmiwar, Sagar, Hakatte, Ryuk, Gotore, Spewar</td><td></td></tr>
+<tr><td>Norodom Region</td><td>Kleber, Consana, Forte</td><td>2</td></tr>
+<tr><td>Megaholten</td><td>Gawafur, Shilda</td><td>2</td></tr>
+<tr><td>Shagall Marsh</td><td>Kabe, Bembega, Kurat</td><td></td></tr>
+<tr><td>Lego Islands</td><td>Kuriera, Iwo, Raoul, Portmo, Sietch, Gipis, Kushat, Muga</td><td>3</td></tr>
+<tr><td>Am Sea of Trees</td><td>Donoaki, Tomata, Mig, Kiteppe, Blanco, Tomi</td><td></td></tr>
+<tr><td>Laika Lakeside</td><td>Regond, Hamsgon, Spelancas, Clavino, Maiden, Ikron</td><td></td></tr>
+<tr><td>Krono Mountains</td><td>Kaminol</td><td></td></tr>
+<tr><td>Ein Peninsula</td><td>Kul, Polka</td><td></td></tr>
+<tr><td>Wind Dunes</td><td>Estable, Queenrock, Waltmood</td><td></td></tr>
+<tr><td>Freia Isles</td><td>Mowry, Katsura, Shijimi, Sakuri</td><td></td></tr>
+</tbody></table></div>
+</details>
+<h4>Buried treasure</h4>
+<p>Some spots on the map hide buried treasure; a unit walking over one finds it. The item Dowsing Rod uncovers one treasure. The item you get is picked at random among weapons, armor and accessories.</p>
+
+<h3 id="money">Money: income and expenses</h3>
+<p>The currency is goth. At the start of each new day the <b>Income &amp; Expenses</b> window shows the aid paid by your liberated strongholds, the deployment cost of your units in the field, the money carried over, and your total funds. <b>Finances</b> on the command bar shows the same forecast at any time. If you cannot pay, the game makes you recall characters from your deployed units; choosing a unit's leader recalls the whole unit.</p>
+<p>Clearing a chapter pays a bonus. Selling items and gifts from towns bring in more.</p>
+
+<h3 id="battles">Battles</h3>
+<p>When one of your units meets an enemy unit or neutral monsters on the map, a battle starts. You do not control each character: the fight plays out by itself, and each character attacks according to its class and row. What you choose is the unit's tactics:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Tactic</th><th>Effect</th></tr></thead>
+<tbody>
+<tr><td>Show guts!</td><td>Balanced tactics for offense and defense.</td></tr>
+<tr><td>Spread out!</td><td>Targets the characters with the most HP.</td></tr>
+<tr><td>Get the leader!</td><td>Targets the enemy leader.</td></tr>
+<tr><td>Finish them!</td><td>Targets the characters with the least HP.</td></tr>
+</tbody></table></div>
+<p>Set them with <b>Tactics</b> in the unit window, or during a battle. Press A in a battle to pause it and open the battle command bar: <b>Tarot cards</b> (use a card from your stock), <b>Tactics</b>, <b>Retreat</b> (pull the unit out of the fight), <b>Animation</b> (battle animations on or off), and, against neutral monsters, <b>Persuade</b>.</p>
+<p>Defeating the enemy leader wins the battle at once. If time runs out first, the result depends on the opponent. Against an enemy unit, the enemy is the winner and your unit is pushed back on the map. Against neutral monsters, the game judges how the fight went, and it can end in a draw.</p>
+<p>Characters gain experience in battle. Experience counts up to 100, and characters who reach it gain a level when the battle ends ("LEVEL UP!").</p>
+<p>If the leader of any unit but the first falls, that unit turns into a ghost and walks away. The game will not deploy it again while its leader cannot fight.</p>
+<h4>Neutral monsters and persuasion</h4>
+<p>On their way across the map, your units sometimes run into neutral monsters. Every area has them except Estrada's Manor (chapter 1) and the Nessa Region (chapter 7). The kind of monster depends on the terrain where the meeting happens. Outside the Free Battle Areas each kind has a fixed level, from 3 in the Gross Region up to 24 at Laika Lakeside. In the Free Battle Areas their level is the level of your unit's leader plus 6. The item Echo Chime calls one of the area's kinds at random, whatever the terrain.</p>
+<p>Persuade tries to win them over; your chance depends mostly on the charisma (CHA) and luck (LUK) of your leader against the monster's charisma. A persuaded monster joins your stock, so add it to a unit afterward with Organize.</p>
+
+<h3 id="tarot">Tarot cards</h3>
+<p>There are 22 tarot cards. You get them by liberating places (and from the Joker Card item), and you can keep up to 14 in stock. When your stock is full, the game asks whether to discard one to make room. Drawing the World card makes later tarot card effects apply to every deployed unit. In battle, a card from your stock does this:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Card</th><th>Effect in battle</th><th>Card</th><th>Effect in battle</th></tr></thead>
+<tbody>
+<tr><td>Magician</td><td>Fire magic damages the enemy.</td><td>Hanged Man</td><td>Lowers the enemy's defense.</td></tr>
+<tr><td>Priestess</td><td>Restores 50 HP to each of your characters.</td><td>Death</td><td>Slays weakened enemies.</td></tr>
+<tr><td>Empress</td><td>Fully restores your characters' HP.</td><td>Temperance</td><td>Cures ailments such as charm, stone and sleep.</td></tr>
+<tr><td>Emperor</td><td>Gives each of your characters one more attack.</td><td>Devil</td><td>A demon deals heavy damage.</td></tr>
+<tr><td>Hierophant</td><td>Puts the enemy to sleep.</td><td>Tower</td><td>An earthquake deals heavy damage.</td></tr>
+<tr><td>Lovers</td><td>Turns the enemies against each other.</td><td>Star</td><td>Raises your characters' AGI.</td></tr>
+<tr><td>Chariot</td><td>The hero Loki damages the enemy.</td><td>Moon</td><td>Swaps the front and back rows of the enemy.</td></tr>
+<tr><td>Strength</td><td>Raises your characters' defense.</td><td>Sun</td><td>Heavy damage to everyone with low ALI, friend or foe.</td></tr>
+<tr><td>Hermit</td><td>The sage Merlin damages the enemy.</td><td>Judgment</td><td>Holy light deals heavy damage to the enemy.</td></tr>
+<tr><td>Fortune</td><td>Drives off the enemy and escapes the battle.</td><td>Fool</td><td>Briefly drives off all enemies but the leader.</td></tr>
+<tr><td>Justice</td><td>A blizzard deals heavy damage.</td><td>World</td><td>Blocks enemy magic attacks.</td></tr>
+</tbody></table></div>
+
+<h3 id="items">Items</h3>
+<p><b>Items</b> on the command bar and Items on the Organize screen both offer Use item, Equip item, Remove item, Sell item, Discard item, Sort and Tidy up. Press Option on an item to read what it does. Each character can equip one item, and any class can equip any item. Your stock holds up to 60 different items, and up to 99 of each.</p>
+<p>Some items worth knowing:</p>
+<ul>
+<li>Hero's Shard raises a character's level by one. Life Source, Sword Symbol, Speed Gear, Magus Paper, Heart of Leo, Mirror of Heart and Vessel of Fate raise max HP, STR, AGI, INT, CHA, ALI and LUK by a few points.</li>
+<li>Chaos Up and Chaos Down raise or lower the Chaos Frame by 5.</li>
+<li>7-League Boots move a unit at once to a town you have liberated.</li>
+<li>Echo Chime calls neutral monsters to fight; Joker Card gives a random tarot card; Crystal Ball reveals hidden places; Dowsing Rod finds buried treasure.</li>
+<li>Items described as "Use in versus battles" work only in link-cable battles.</li>
+</ul>
+
+<h3 id="losing">How you lose</h3>
+<p>The game is over in two cases:</p>
+<ul>
+<li>The leader of your first unit falls in battle: Estrada in chapter 1, the hero after that.</li>
+<li>An enemy unit takes your headquarters.</li>
+</ul>
+<p>In some chapters enemy units march on your headquarters. Keep a strong unit there: a unit that loses a battle is pushed back, and an enemy that walks into an empty HQ takes it. Losing any other town to the enemy lowers your Chaos Frame by 5.</p>
+
+<h3 id="clearing">Clearing a chapter and going back</h3>
+<p>Each chapter has a goal, usually an enemy leader in a castle or town; the opening scenes tell you where. Reaching it ends the chapter. The "Congratulation!" screen shows your bonus money, and the scenario map opens the next area.</p>
+<p>Some areas you have cleared stay on the scenario map for a while, and you can go back to them to train, find hidden places or finish errands. In a cleared area there are no enemy units, no daily aid and no deployment cost, and the command bar gets <b>Return to map</b> to leave whenever you like.</p>
+
+<h3 id="chaos">The Chaos Frame and alignment</h3>
+<p>The Chaos Frame (0 to 100) is your reputation: it shows how much the people support what you do. The cheats menu calls it reputation. Your final score appears on the results screen after the ending. These things move it:</p>
+<ul>
+<li>Liberating a town. The change depends on the alignment of the unit that does it, compared with the town; a unit of low alignment lowers the Frame, and the leader's class matters too.</li>
+<li>Losing a town to the enemy: minus 5.</li>
+<li>Many answers and choices in conversations, and some purchases.</li>
+<li>Tarot cards when you draw them, and the items Chaos Up and Chaos Down.</li>
+</ul>
+<p>Alignment (ALI, 0 to 100) belongs to each character. It limits the classes a character can change to (see <a href="#cctable">the class table</a>), and the Sun card damages everyone with low alignment. Some conversation choices change the hero's alignment.</p>
+<p>The Chaos Frame and the hero's alignment decide several things, listed in the sections where they matter:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>What</th><th>Condition</th></tr></thead>
+<tbody>
+<tr><td>The king's request after chapter 6</td><td>Chaos Frame 65 or more</td></tr>
+<tr><td>Gross joins (chapter 8)</td><td>Chaos Frame below 55</td></tr>
+<tr><td>Kiros can join (chapter 10)</td><td>Hero's ALI below 60</td></tr>
+<tr><td>Aquarius leaves (chapter 12)</td><td>Hero's ALI below 39 and Chaos Frame below 49</td></tr>
+<tr><td>Lanselot and Warren join (after the ending)</td><td>Chaos Frame 60 or more and hero's ALI 50 or more</td></tr>
+<tr><td>Light Priest and Curse Priest (after the ending)</td><td>Chaos Frame 80 or more, or 20 or less</td></tr>
+<tr><td>Price of the Goddess Statue, the Silver Doll, rewards in the Wind Dunes</td><td>See <a href="#errands">key items and errands</a></td></tr>
+</tbody></table></div>
+
+<!-- ====================================================================== -->
+<h2 id="classes">3. Characters and class changes</h2>
+
+<h3 id="stats">Character stats</h3>
+<p>The status screen (Organize, Character, View status) shows a character's class, level (Lv), HP, and six stats: STR (strength), AGI (agility), INT (intelligence), CHA (charisma), ALI (alignment) and LUK (luck). It also shows the character's cost in goth, the experience needed for the next level, the front-row and back-row attacks, the movement type (MOVE) and the equipped item.</p>
+
+<h3 id="ccrules">How class changes work</h3>
+<p>Choose <b>Class change</b> on the Organize screen (Character, Class change) or in a unit's Organize command. Each member is marked OK! (can change class), UP OK! (can move up to a higher class) or BAD (no class available). Choose a member to see the classes open to them.</p>
+<p>A character can take a class when they meet its requirements: a minimum level, an alignment range and a minimum charisma. The tables below list them. Characters of the Fighter line can always go back to Fighter (except the Lich), and characters of the Amazon line to Amazon. Other changes back down a line still need the requirements of the class you change to. A unit leader can only change to a class that can lead. Story characters with classes of their own, such as the hero and Kain, have no class changes in this list.</p>
+
+<h3 id="cctable">Class change table</h3>
+<p>Requirements read: minimum level, alignment range, minimum charisma. "Any" means no limit.</p>
+<h4>Fighter line</h4>
+<div class="table-wrap"><table>
+<thead><tr><th>From</th><th>To</th><th>Level</th><th>ALI</th><th>CHA</th></tr></thead>
+<tbody>
+<tr><td rowspan="8">Fighter</td><td>Knight</td><td>5</td><td>50 to 100</td><td>50</td></tr>
+<tr><td>Berserker</td><td>6</td><td>0 to 49</td><td>50</td></tr>
+<tr><td>Samurai</td><td>7</td><td>50 to 100</td><td>50</td></tr>
+<tr><td>Ninja</td><td>6</td><td>0 to 49</td><td>any</td></tr>
+<tr><td>Beast Tamer</td><td>5</td><td>25 to 65</td><td>50</td></tr>
+<tr><td>Wizard</td><td>4</td><td>10 to 60</td><td>50</td></tr>
+<tr><td>Doll Master</td><td>5</td><td>30 to 70</td><td>50</td></tr>
+<tr><td>Ranger</td><td>8</td><td>50 to 100</td><td>60</td></tr>
+<tr><td rowspan="3">Knight</td><td>Paladin</td><td>15</td><td>70 to 100</td><td>60</td></tr>
+<tr><td>General</td><td>16</td><td>60 to 100</td><td>60</td></tr>
+<tr><td>Dragoon</td><td>15</td><td>70 to 100</td><td>60</td></tr>
+<tr><td>Berserker</td><td>Black Knight</td><td>16</td><td>0 to 30</td><td>60</td></tr>
+<tr><td>Samurai</td><td>Samurai Master</td><td>15</td><td>70 to 100</td><td>60</td></tr>
+<tr><td>Ninja</td><td>Ninja Master</td><td>15</td><td>0 to 30</td><td>60</td></tr>
+<tr><td>Beast Tamer</td><td>Beast Master</td><td>12</td><td>10 to 50</td><td>60</td></tr>
+<tr><td>Dragon Tamer</td><td>Dragon Master</td><td>20</td><td>40 to 60</td><td>65</td></tr>
+<tr><td>Doll Master</td><td>Enchanter</td><td>14</td><td>50 to 80</td><td>60</td></tr>
+<tr><td>Wizard</td><td>Goetic</td><td>10</td><td>10 to 35</td><td>60</td></tr>
+</tbody></table></div>
+<p>Dragon Tamer, Necromancer, Lich, Revenger and Arch Samurai are reached only with <a href="#ccitems">items</a>.</p>
+<h4>Amazon line</h4>
+<div class="table-wrap"><table>
+<thead><tr><th>From</th><th>To</th><th>Level</th><th>ALI</th><th>CHA</th></tr></thead>
+<tbody>
+<tr><td rowspan="3">Amazon</td><td>Valkyrie</td><td>5</td><td>35 to 100</td><td>50</td></tr>
+<tr><td>Witch</td><td>5</td><td>0 to 65</td><td>50</td></tr>
+<tr><td>Cleric</td><td>4</td><td>50 to 100</td><td>50</td></tr>
+<tr><td>Valkyrie</td><td>Freya</td><td>15</td><td>70 to 100</td><td>60</td></tr>
+<tr><td>Witch</td><td>Hagal</td><td>14</td><td>0 to 40</td><td>50</td></tr>
+<tr><td rowspan="2">Cleric</td><td>Priest</td><td>10</td><td>60 to 100</td><td>60</td></tr>
+<tr><td>Nereid</td><td>14</td><td>70 to 100</td><td>65</td></tr>
+<tr><td>Priest</td><td>Bishop</td><td>18</td><td>70 to 100</td><td>70</td></tr>
+</tbody></table></div>
+<p>Princess and Enigma Hunter are reached only with items.</p>
+<h4>Monsters and other classes</h4>
+<div class="table-wrap"><table>
+<thead><tr><th>From</th><th>To</th><th>Level</th><th>ALI</th><th>CHA</th></tr></thead>
+<tbody>
+<tr><td>Mermaid</td><td>Nixie</td><td>11</td><td>50 to 100</td><td>50</td></tr>
+<tr><td rowspan="3">Giant</td><td>Firbolg</td><td>10</td><td>50 to 80</td><td>any</td></tr>
+<tr><td>Titan</td><td>15</td><td>70 to 100</td><td>any</td></tr>
+<tr><td>Gigantes</td><td>8</td><td>0 to 40</td><td>any</td></tr>
+<tr><td>Hellhound</td><td>Cerberus</td><td>13</td><td>0 to 60</td><td>any</td></tr>
+<tr><td>Octopus</td><td>Kraken</td><td>12</td><td>55 to 100</td><td>any</td></tr>
+<tr><td rowspan="3">Dragon</td><td>Red Dragon</td><td>7</td><td>35 to 65</td><td>any</td></tr>
+<tr><td>Platinum Dragon</td><td>7</td><td>65 to 100</td><td>any</td></tr>
+<tr><td>Black Dragon</td><td>7</td><td>0 to 35</td><td>any</td></tr>
+<tr><td>Red Dragon</td><td>Salamander</td><td>16</td><td>35 to 65</td><td>any</td></tr>
+<tr><td>Salamander</td><td>Flarebrass</td><td>23</td><td>35 to 65</td><td>any</td></tr>
+<tr><td>Platinum Dragon</td><td>Bahamut</td><td>17</td><td>65 to 100</td><td>any</td></tr>
+<tr><td>Bahamut</td><td>Death Bahamut</td><td>24</td><td>65 to 100</td><td>any</td></tr>
+<tr><td>Black Dragon</td><td>Tiamat</td><td>15</td><td>0 to 35</td><td>any</td></tr>
+<tr><td rowspan="2">Hawkman</td><td>Vultan</td><td>10</td><td>45 to 100</td><td>50</td></tr>
+<tr><td>Raven</td><td>12</td><td>0 to 55</td><td>50</td></tr>
+<tr><td>Angel</td><td>Thrones</td><td>11</td><td>60 to 100</td><td>55</td></tr>
+<tr><td>Thrones</td><td>Seraphim</td><td>22</td><td>80 to 100</td><td>60</td></tr>
+<tr><td>Devil</td><td>Demon</td><td>10</td><td>0 to 40</td><td>50</td></tr>
+<tr><td>Demon</td><td>Satan</td><td>20</td><td>0 to 25</td><td>50</td></tr>
+<tr><td>Faerie</td><td>Pixie</td><td>10</td><td>30 to 70</td><td>any</td></tr>
+<tr><td>Pixie</td><td>Sylph</td><td>20</td><td>40 to 80</td><td>any</td></tr>
+<tr><td>Griffin</td><td>Cockatrice</td><td>9</td><td>0 to 60</td><td>any</td></tr>
+<tr><td>Wyrm</td><td>Wyvern</td><td>13</td><td>0 to 55</td><td>any</td></tr>
+<tr><td>Gungnir</td><td>Crescent</td><td>20</td><td>50 to 100</td><td>60</td></tr>
+<tr><td>Trooper</td><td>Silver Knight</td><td>20</td><td>50 to 100</td><td>60</td></tr>
+</tbody></table></div>
+<p>The classes in this table only move forward; none of them can change back.</p>
+
+<h3 id="ccitems">Items that change a class</h3>
+<p>Twelve items turn a character of one particular class into a special class. Use them with Use item on the character; the item is used up. They do not work on story characters (the ones the game does not let you dismiss). The new class's alignment range still applies; level and charisma do not matter.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Item</th><th>Use on</th><th>Becomes</th><th>Alignment needed</th></tr></thead>
+<tbody>
+<tr><td>Drago Stone</td><td>Beast Master</td><td>Dragon Tamer</td><td>any</td></tr>
+<tr><td>Necro Staff</td><td>Goetic</td><td>Necromancer</td><td>any</td></tr>
+<tr><td rowspan="2">Ring of Undeath</td><td>Necromancer</td><td>Lich</td><td>any</td></tr>
+<tr><td>Tiamat</td><td>Dragon Zombie</td><td>any</td></tr>
+<tr><td>Blood Spell</td><td>Knight</td><td>Vampire</td><td>any</td></tr>
+<tr><td>Dream Crown</td><td>Amazon</td><td>Princess</td><td>any</td></tr>
+<tr><td>Rotten Pumpkin</td><td>Pumpkinhead</td><td>Mad Halloween</td><td>any</td></tr>
+<tr><td>Black Brand</td><td>Black Knight</td><td>Revenger</td><td>15 or more</td></tr>
+<tr><td>Hard Bokken</td><td>Samurai Master</td><td>Arch Samurai</td><td>70 or more</td></tr>
+<tr><td>White Vow</td><td>Light Priest</td><td>Holy</td><td>90 or more</td></tr>
+<tr><td>Black Vow</td><td>Curse Priest</td><td>Exodus</td><td>10 or less</td></tr>
+<tr><td>Cat's Tongue</td><td>Firbolg</td><td>Troll</td><td>any</td></tr>
+<tr><td>Silver Cross</td><td>Amazon</td><td>Enigma Hunter</td><td>any</td></tr>
+</tbody></table></div>
+<p>Where some of them come from: the Ring of Undeath is the reward for clearing the Ein Peninsula. The hidden town of Waltmood in the Wind Dunes is held by a Talos. Defeat it before you clear the Wind Dunes, and the town gives you a Blood Spell, an Archangel Wing or a Dream Crown, depending on your Chaos Frame (below 40, 40 to 69, 70 or more). In the Free Battle Areas, defeating neutral monsters led by a Firbolg gives a Cat's Tongue (see <a href="#freebattle">Free Battle</a>). This guide does not cover where the others are found.</p>
+<p>A Lich can also change into a Skeleton through the normal class change list.</p>
+
+<h3 id="recruit">What each leader can recruit</h3>
+<p>In a town, Recruit offers classes that depend on the class of the unit's leader. Leaders of the classes not listed here recruit no one.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Leader's class</th><th>Can recruit</th></tr></thead>
+<tbody>
+<tr><td>Knight (also the hero as a Knight)</td><td>Fighter</td></tr>
+<tr><td>Paladin</td><td>Knight, Cleric</td></tr>
+<tr><td>General (also the hero as a General)</td><td>Knight, Samurai, Priest, Goetic, Mermaid</td></tr>
+<tr><td>Dragoon</td><td>Red Dragon, Platinum Dragon, Black Dragon, Giant</td></tr>
+<tr><td>Berserker</td><td>Fighter</td></tr>
+<tr><td>Black Knight</td><td>Berserker, Wizard</td></tr>
+<tr><td>Revenger</td><td>Black Knight, Goetic, Berserker</td></tr>
+<tr><td>Samurai</td><td>Fighter</td></tr>
+<tr><td>Samurai Master</td><td>Samurai, Ninja</td></tr>
+<tr><td>Arch Samurai</td><td>Samurai, Ninja, Fighter</td></tr>
+<tr><td>Ninja Master</td><td>Ninja</td></tr>
+<tr><td>Beast Tamer</td><td>Fighter, Hellhound</td></tr>
+<tr><td>Beast Master</td><td>Cerberus, Cockatrice, Wyrm</td></tr>
+<tr><td>Dragon Tamer</td><td>Dragon, Wyvern</td></tr>
+<tr><td>Dragon Master</td><td>Red Dragon, Platinum Dragon, Black Dragon</td></tr>
+<tr><td>Doll Master</td><td>Golem</td></tr>
+<tr><td>Enchanter</td><td>Stone Golem</td></tr>
+<tr><td>Wizard</td><td>Giant, Hellhound</td></tr>
+<tr><td>Goetic</td><td>Giant, Cerberus, Devil</td></tr>
+<tr><td>Necromancer</td><td>Skeleton, Ghost</td></tr>
+<tr><td>Lich</td><td>Skeleton Knight, Phantom</td></tr>
+<tr><td>Ranger</td><td>Fighter, Hellhound, Griffin</td></tr>
+<tr><td>Valkyrie</td><td>Amazon</td></tr>
+<tr><td>Freya</td><td>Valkyrie</td></tr>
+<tr><td>Witch</td><td>Hellhound</td></tr>
+<tr><td>Hagal</td><td>Firbolg, Bahamut, Pumpkinhead</td></tr>
+<tr><td>Cleric</td><td>Amazon</td></tr>
+<tr><td>Priest</td><td>Cleric, Angel</td></tr>
+<tr><td>Bishop</td><td>Knight, Priest, Thrones</td></tr>
+<tr><td>Nereid</td><td>Cleric, Amazon</td></tr>
+<tr><td>Princess</td><td>Angel, Faerie</td></tr>
+<tr><td>Enigma Hunter</td><td>Amazon, Faerie, Angel</td></tr>
+<tr><td>Mermaid, Nixie</td><td>Mermaid, Octopus</td></tr>
+<tr><td>Vampire, Coffin</td><td>Werewolf</td></tr>
+<tr><td>Vultan, Raven</td><td>Hawkman, Griffin</td></tr>
+<tr><td>Angel</td><td>Faerie</td></tr>
+<tr><td>Thrones</td><td>Angel, Faerie</td></tr>
+<tr><td>Seraphim</td><td>Thrones, Faerie</td></tr>
+<tr><td>Devil</td><td>Wizard</td></tr>
+<tr><td>Demon</td><td>Wizard, Devil</td></tr>
+<tr><td>Satan</td><td>Goetic, Demon</td></tr>
+<tr><td>Light Priest</td><td>Cleric, Faerie, Angel</td></tr>
+<tr><td>Holy</td><td>Priest, Pixie, Thrones</td></tr>
+<tr><td>Curse Priest</td><td>Hellhound, Griffin</td></tr>
+<tr><td>Exodus</td><td>Cerberus, Gigantes, Cockatrice</td></tr>
+<tr><td>Gungnir</td><td>Amazon</td></tr>
+<tr><td>Crescent</td><td>Valkyrie</td></tr>
+<tr><td>Trooper</td><td>Fighter</td></tr>
+<tr><td>Silver Knight</td><td>Knight, Priest, Thrones</td></tr>
+<tr><td>Lord (also the hero as a Lord)</td><td>Ranger, Bishop, Nereid, Trooper, Hawkman</td></tr>
+<tr><td>Witch (Deneb's class)</td><td>Mad Halloween, Cerberus</td></tr>
+</tbody></table></div>
+
+<h3 id="heroclass">The hero's class</h3>
+<p>The hero and Kain have classes of their own that the class change list never touches. The hero starts as a Fighter, becomes a Knight when Estrada knights him at the start of chapter 2, and becomes a General after the events in Estoa that lead into chapter 7. On the Megaholten route, the hero becomes a Lord at the start of chapter 12 if Yorkleif and Grant are both in the army.</p>
+
+<!-- ====================================================================== -->
+<h2 id="routes">4. Routes and side areas</h2>
+<p>This section tells you where the story branches and what each choice gives, without the story itself.</p>
+
+<h3>The order of the chapters</h3>
+<ol>
+<li>Chapters 1 to 6 come in a fixed order.</li>
+<li>After chapter 6, choose Lichtfloss on the scenario map. If your Chaos Frame is 65 or more, the king asks you to deal with giants on the Ein Peninsula.</li>
+<li>Then comes a visit to Estoa (Estrada's Manor), which opens chapter 7.</li>
+<li>After chapter 7, choose the Norodom Region (chapter 8) or Megaholten (chapter 9).</li>
+<li>Both routes pass through chapter 10, go on to chapter 11 or 12 depending on the route, and end in the Final Chapter.</li>
+</ol>
+
+<h3 id="kingsrequest">After chapter 6: the king's request</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>Choice</th><th>What happens</th></tr></thead>
+<tbody>
+<tr><td>Accept ("Leave it to us.")</td><td>Chaos Frame +3, hero's ALI +2. The Ein Peninsula opens; clearing it gives a Ring of Undeath and leads on to Estoa. The Ein Peninsula is open again after the ending.</td></tr>
+<tr><td>Decline ("We must hurry on...")</td><td>Chaos Frame -5. You go straight on to Estoa.</td></tr>
+<tr><td>Chaos Frame below 65</td><td>The king does not ask, and you go on to Estoa.</td></tr>
+</tbody></table></div>
+
+<h3 id="routechoice">After chapter 7: Norodom or Megaholten</h3>
+<p>After chapter 7 the scenario map shows both the Norodom Region and Megaholten. Whichever you clear first closes the other for good, so this is the main branch of the game.</p>
+<div class="table-wrap"><table>
+<thead><tr><th></th><th>Norodom route</th><th>Megaholten route</th></tr></thead>
+<tbody>
+<tr><td>Chapters</td><td>8 Norodom Region, 10 Shagall Marsh, 11 Lego Islands, Final Chapter</td><td>9 Megaholten, 10 Shagall Marsh, 12 Am Sea of Trees, Final Chapter</td></tr>
+<tr><td>Who can join</td><td>Orosov; Gross (Chaos Frame below 55)</td><td>Yorkleif; Grant (needs Yorkleif); after the ending: Lyon, Ashe, Deneb (with the Glass Pumpkin)</td></tr>
+<tr><td>Extras</td><td>The Freia Isles can be opened (from the Lego Islands)</td><td>The hero can become a Lord at the start of chapter 12 (if Yorkleif and Grant are in the army)</td></tr>
+<tr><td>Final battle</td><td>One set of questions and three endings</td><td>Another set of questions and three endings</td></tr>
+</tbody></table></div>
+<p>Both routes share one of their endings, so the game has five in all. Grant lives in Shagall Marsh, which both routes visit, but he joins only if Yorkleif is already in the army. Each route also has a character who may leave the army; the <a href="#recruits">spoiler note in section 5</a> says who and when.</p>
+
+<h3 id="sideareas">Opening the side areas</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>Side area</th><th>How it opens</th></tr></thead>
+<tbody>
+<tr><td>Krono Mountains</td><td>In chapter 3, visit both hidden towns of the Satsu Peninsula, Parna and Ijiriko, before you defeat the chapter's boss. If you miss this, the Krono Mountains never open.</td></tr>
+<tr><td>Ein Peninsula</td><td>Accept the king's request after chapter 6 (Chaos Frame 65 or more).</td></tr>
+<tr><td>Wind Dunes</td><td>In Shagall Marsh, the mayor of Netobi asks you to fetch a Rainbow Choker from a church on the Satsu Peninsula. Bring it back to Netobi.</td></tr>
+<tr><td>Freia Isles</td><td>Norodom route only. Get the Thunder Stone in the hidden town of Kehm (Gross Region), then trade it for a map in the town of Whitey (Lego Islands).</td></tr>
+</tbody></table></div>
+<p>An area you have cleared stays open long enough for most of these errands. The Gross Region and the Satsu Peninsula, for example, open again after chapter 7.</p>
+
+<h3 id="errands">Key items and errands</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>Item</th><th>Where you get it</th><th>What it is for</th></tr></thead>
+<tbody>
+<tr><td>Purified Ruby</td><td>The church in the Roden Region (chapter 5)</td><td>A barrier keeps you out of Brunn, the chapter's goal, until you have it.</td></tr>
+<tr><td>Goddess Statue</td><td>Sold in Orata (hidden island town, Gross Region) once someone has told you about it: in Consana (Norodom Region) or at a church in Shagall Marsh. The price falls as your Chaos Frame rises: 50,000 goth below 50, 30,000 below 65, 20,000 below 80, and 10,000 at 80 or more. In the hidden town of Gipis (Lego Islands), one is also for sale at 500,000.</td><td>Opens the barrier of the Church of Truth (hidden church, Norodom Region, so Norodom route only). A church in Shagall Marsh trades it for the holy sword Brynhild.</td></tr>
+<tr><td>Thunder Stone</td><td>Kehm (hidden town, Gross Region)</td><td>Trade it in Whitey (Lego Islands) for the map that opens the Freia Isles.</td></tr>
+<tr><td>Rainbow Choker</td><td>A church on the Satsu Peninsula, after the mayor of Netobi asks you</td><td>Bring it to Netobi: 30,000 goth, a Love &amp; Peace, and the Wind Dunes open.</td></tr>
+<tr><td>Silver Doll</td><td>Balzac (Estrada's Manor), when you come back after a church in the Nessa Region mentions it, with a Chaos Frame of 70 or more</td><td>Sell it in Gawafur (hidden town, Megaholten, so Megaholten route only) for 50,000 goth, or trade it for the Mail of Earth.</td></tr>
+<tr><td>White Cross</td><td>A church in Lichtfloss</td><td>During chapter 6, return it to the church on the north-east island of Litt Island Waters for the Kusanagi Blade.</td></tr>
+<tr><td>Silver Rod</td><td>Heidecker (hidden town, Litt Island Waters), during chapter 6</td><td>During chapter 6, the other church of Litt Island Waters purifies it into a Holy Rod.</td></tr>
+<tr><td>Bronze Maiden</td><td>Sold in Colomban (Satsu Peninsula): 1,000 goth with a Chaos Frame of 60 or more, otherwise 2,000</td><td>Buying it raises the Chaos Frame by 2.</td></tr>
+</tbody></table></div>
+
+<!-- ====================================================================== -->
+<h2 id="recruits">5. Story characters and how they join</h2>
+<p>Besides the characters you hire, named characters join along the way. Nearly all of them need a free place in the army when they offer to join; if the army is full, some come back later and some are lost for good. Keep a few places free.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Character</th><th>Where and when</th><th>Conditions</th></tr></thead>
+<tbody>
+<tr><td>Kain, Estrada</td><td>From the start</td><td></td></tr>
+<tr><td>Aquarius</td><td>Chapter 3, after the battle with the bandit boss of Lard</td><td>The army must have room. If it is full, she leaves and does not come back.</td></tr>
+<tr><td>Nana</td><td>Start of chapter 4</td><td>Joins the hero's unit by herself.</td></tr>
+<tr><td>Goldie</td><td>Chapter 7, the hidden town of Hakatte</td><td>Say yes to her favor and pay 10,000 goth. You get one conversation: refusing twice, or not having the money, loses her. Before chapter 7 is cleared.</td></tr>
+<tr><td>Orosov</td><td>Chapter 8 (Norodom route), the town of Haitel</td><td>Before chapter 8 is cleared. With Goldie in the unit, you see an extra scene.</td></tr>
+<tr><td>Gross</td><td>Chapter 8 (Norodom route), after the battle at Sict Prison</td><td>Chaos Frame below 55.</td></tr>
+<tr><td>Yorkleif</td><td>Chapter 9 (Megaholten route), the town of Wanick</td><td>If Kain is in the visiting unit, visit twice; otherwise answer yes to his question.</td></tr>
+<tr><td>Grant</td><td>Chapter 10, the town of Estedale</td><td>Yorkleif must be in the army.</td></tr>
+<tr><td>Kiros</td><td>Chapter 10, after the battle at Donant</td><td>Hero's ALI below 60. Choose "I'll spare your life." This costs 10 Chaos Frame and 10 of the hero's ALI.</td></tr>
+<tr><td>Birkin</td><td>Krono Mountains, after the battle at Urtomo</td><td>Aquarius must be in the unit that defeats him. By day he asks you to come back at night; you can fight him either way.</td></tr>
+<tr><td>Hayato</td><td>Freia Isles, the town of Breia</td><td>Hire him for 50,000 goth before you clear the Freia Isles. If you cannot pay, he waits for you.</td></tr>
+<tr><td>Lanselot</td><td>After the ending, the hidden town of Parna (Satsu Peninsula)</td><td>By day, Chaos Frame 60 or more, hero's ALI 50 or more.</td></tr>
+<tr><td>Gilbert</td><td>After the ending, the hidden town of Ryuk (Nessa Region)</td><td>Bring Yuria's Letter (see <a href="#freebattle">Free Battle</a>).</td></tr>
+<tr><td>Lyon</td><td>After the ending, the hidden town of Gawafur (Megaholten route only)</td><td>By day; he asks for 100,000 goth.</td></tr>
+<tr><td>Ashe</td><td>After the ending, the hidden town of Shilda (Megaholten route only)</td><td>By day.</td></tr>
+<tr><td>Deneb</td><td>After the ending, the hidden town of Tomi (Am Sea of Trees, Megaholten route only)</td><td>Bring the Glass Pumpkin. She can also be met in the Free Battle Areas.</td></tr>
+<tr><td>The Lord</td><td>After the ending, the hidden town of Kaminol (Krono Mountains)</td><td>Bring the Twinkle Star. He can also be met in the Free Battle Areas.</td></tr>
+<tr><td>Warren</td><td>After the ending, the hidden town of Estable (Wind Dunes)</td><td>After the Wind Dunes are cleared, at night, Chaos Frame 60 or more, hero's ALI 50 or more.</td></tr>
+<tr><td>Canopus, Ares</td><td>After the ending, the Free Battle Areas</td><td>Rare encounters; defeat their leader. Canopus joins only if Gilbert is in the army.</td></tr>
+<tr><td>Light Priest, Curse Priest</td><td>After the ending, two churches</td><td>See <a href="#date">the console date</a>.</td></tr>
+</tbody></table></div>
+<p>This guide could not find where the Glass Pumpkin and the Twinkle Star come from: no event in the one-player game hands them out. Deneb and the Lord are easier to get in the Free Battle Areas.</p>
+<p>Kazuma (chapter 3), Galan (chapter 4), Jenga (chapter 6), Dalam (chapter 9), Malenoa (chapter 11), Bergo (Freia Isles) and the Baron (Wind Dunes) are bosses and never join. When Kazuma invites you to join the bandits, accepting costs 5 Chaos Frame and 5 of the hero's ALI, and you have to come back and fight him anyway.</p>
+
+<details class="spoiler"><summary>Spoilers: characters who leave the army</summary>
+<p>Estrada leaves the army for good at the end of chapter 6. On the Norodom route, Orosov disappears at the start of chapter 11. On the Megaholten route, Aquarius leaves after the battle at Lek in chapter 12 if the hero's ALI is below 39 and the Chaos Frame is below 49.</p>
+<p>A character who leaves takes the equipped item along, and it is lost. Before these points, remove anything valuable from them.</p>
+</details>
+
+<!-- ====================================================================== -->
+<h2 id="endings">6. Spoilers: the final battle and the five endings</h2>
+<details class="spoiler"><summary>Open this section only if you want to know how the story can end</summary>
+<p>In the Final Chapter (Laika Lakeside), the Dark Knight Baldur waits at Orma. He speaks only to the hero's unit; if another unit gets there first, he sends it away. Before the battle he asks the hero questions, and your answers choose the ending. Which questions he asks depends on your route.</p>
+<h4>Norodom route</h4>
+<div class="table-wrap"><table>
+<thead><tr><th>Answers</th><th>Ending</th></tr></thead>
+<tbody>
+<tr><td>A ("You... have no right to ask!")</td><td>The hero disbands the army and sets out with Kain alone.</td></tr>
+<tr><td>B, then A ("...Yes... for the future!")</td><td>The hero goes home to Estoa and gives up fighting. Banya's words close the story.</td></tr>
+<tr><td>B, then B ("...No... I can't fight.")</td><td>The hero disappears, and his friends set out to look for him.</td></tr>
+</tbody></table></div>
+<h4>Megaholten route</h4>
+<div class="table-wrap"><table>
+<thead><tr><th>Answers</th><th>Ending</th></tr></thead>
+<tbody>
+<tr><td>A ("...I will protect it anyway.")</td><td>The hero sets off for Zeteginea in search of greater power, and Baldur's voice echoes after him.</td></tr>
+<tr><td>B, then A ("...I don't need your power!")</td><td>The hero vows to spend his life bringing down the Zeteginean Empire, with Kain at his side. Estrada's words close the story.</td></tr>
+<tr><td>B, then B ("...Yes... I'll follow darkness...")</td><td>The hero disbands the army and sets out with Kain alone.</td></tr>
+</tbody></table></div>
+<p>Every ending is followed by the staff roll and a results screen with your Chaos Frame and the number of days of your campaign.</p>
+</details>
+
+<!-- ====================================================================== -->
+<h2 id="postgame">7. After the ending</h2>
+<p>When the last scene of the ending is over, and before the staff roll starts, the game saves your finished campaign to the file you were playing. After the results screen the game returns to the title screen; choose Load and that file to continue. The scenario map now offers the three Free Battle Areas, and many areas you visited before are open again, depending on your route and choices.</p>
+
+<h3>Playing cleared areas</h3>
+<p>The areas you have cleared, and the Free Battle Areas, follow the rules of a cleared area: no enemy units, no daily aid, no deployment cost, and Return to map on the command bar. Neutral monsters still roam, so these areas are good for training. A side area that you opened but never cleared still plays as a normal chapter.</p>
+
+<h3 id="freebattle">The Free Battle Areas and win streaks</h3>
+<p>The three Free Battle Areas have no story events. Their shops sell items found in no other shop, such as Chaos Up and Chaos Down (see <a href="#towns">the shop table</a>). The game counts the battles you win there in a row. A fight with neutral monsters that you do not win, in any area, resets the count to zero; that includes a retreat and a draw. The count gives these rewards:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Battles won in a row</th><th>What happens</th></tr></thead>
+<tbody>
+<tr><td>10</td><td>If the 10th win is against ordinary neutral monsters and you defeat their leader, you receive Yuria's Letter (for Gilbert).</td></tr>
+<tr><td>20</td><td>The next encounter is a unit led by a Gungnir. Defeat its leader and a Gungnir joins you.</td></tr>
+<tr><td>30</td><td>The next encounter is a unit led by a Trooper. Defeat its leader and a Trooper joins you.</td></tr>
+<tr><td>40</td><td>The next encounter is the Lord (unless he is already in your army). Defeat him and he joins you.</td></tr>
+<tr><td>More than 30</td><td>Deneb may appear now and then. Defeat her and she joins you.</td></tr>
+<tr><td>Any other count</td><td>Canopus and Ares appear rarely. Defeat them and they join (Canopus only if Gilbert is in your army).</td></tr>
+</tbody></table></div>
+<p>The special units are met on the map like other neutral monsters, at random while your units travel, and their level follows the same rule (your leader's level plus 6). The Echo Chime calls only ordinary monsters. Special units appear only while your army has room for another character, so keep places free: if the army is full when the count is exactly 20, 30 or 40, an ordinary encounter takes the special one's place.</p>
+<p>Defeating the leader of ordinary neutral monsters led by a Firbolg in a Free Battle Area gives a Cat's Tongue. Of the three Free Battle Areas, only Area 2 has Firbolgs. They turn up there over shallow water (a flying unit can go there), or when an Echo Chime used there happens to call them.</p>
+<p>In Free Battle Area 1, the church in the north-west of the map gives the Bond to Future to a unit that contains the Lord, Lanselot, Warren, Gilbert and Canopus together. It is a battle item for link-cable battles.</p>
+
+<h3>The two date secrets</h3>
+<p>The game reads the console's clock once you have cleared the Final Chapter. On two dates of the year, a church offers Recruit, which churches never do otherwise:</p>
+<div class="table-wrap"><table>
+<thead><tr><th></th><th>Light Priest</th><th>Curse Priest</th></tr></thead>
+<tbody>
+<tr><td>Date</td><td>25 December</td><td>6 June</td></tr>
+<tr><td>Time of day</td><td>By day</td><td>At night</td></tr>
+<tr><td>Chaos Frame</td><td>80 or more</td><td>20 or less</td></tr>
+<tr><td>Area</td><td>Shagall Marsh (chapter 10)</td><td>Litt Island Waters (chapter 6)</td></tr>
+<tr><td>Church</td><td>The northernmost church on the map, west of the castle of Donant</td><td>The church on the island in the north-east of the map (the one that takes back the White Cross)</td></tr>
+</tbody></table></div>
+<p>Move a unit into that church and open its unit window: Recruit appears and offers the priest. Like any recruit, the priest costs goth, arrives two levels below the unit's leader, and needs room in the unit and in the army. A Light Priest can later become a Holy with the White Vow, and a Curse Priest an Exodus with the Black Vow (see <a href="#ccitems">class-change items</a>).</p>
+<p>With this player you do not have to wait for the real date: see <a href="#date">the console date</a>.</p>
+
+<!-- ====================================================================== -->
+<h2 id="extras">8. Chapter saves, cheats and the console date</h2>
+
+<h3 id="chaptersaves">Chapter saves</h3>
+<p>The <code>Chapter saves</code> folder next to <code>zenobia.exe</code> holds ready-made game saves: one at the start of each chapter, and one on each side of the choices that change the route. Use them to jump back to a part of the story you remember, or to try the other route. In each one the hero is named Tristan and the game is in file 1.</p>
+<ol>
+<li>Open your game in the player.</li>
+<li>Choose <b>File &gt; Import saved game</b> and pick a <code>.sav</code> file from the <code>Chapter saves</code> folder.</li>
+<li>The player copies your current saves to a backup file first (its name says "before import" and the date), then restarts the game at the title screen.</li>
+<li>Choose <b>Load</b> and file 1.</li>
+</ol>
+<p>Importing replaces all three of the game's save files and the suspend data, so the backup is how you get your own saves back: import the backup file the same way. The saves are in this player's own format; other emulators cannot read them.</p>
+<p>Each save holds the army of a test playthrough at that point, with the levels it earned. Most of that playthrough's battles were won quickly with a testing aid, so its army may be weaker than yours would be by then. The <a href="#cheats">cheats</a> can make up the difference.</p>
+<h4>The saves</h4>
+<!-- CHAPTER SAVES LIST -->
+
+<h3 id="cheats">Cheats</h3>
+<p>The Cheats menu changes the game you are playing. Each cheat applies once per click and stays within the limits the game itself uses.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Cheat</th><th>What it does</th></tr></thead>
+<tbody>
+<tr><td>Add 100,000 goth</td><td>Adds 100,000 goth. The game caps funds at 99,999,999.</td></tr>
+<tr><td>Heal every character</td><td>Restores every living character's HP to the maximum. Fallen characters stay fallen; revive them at a church.</td></tr>
+<tr><td>Level up after the next battle</td><td>Sets every character's experience to 99, so each one gains a level after their next battle. Stats grow as in normal play.</td></tr>
+<tr><td>Reputation +10</td><td>Raises the Chaos Frame by 10, up to 100.</td></tr>
+<tr><td>Reputation -10</td><td>Lowers the Chaos Frame by 10, down to 0.</td></tr>
+</tbody></table></div>
+<p>Use cheats on the map or in menus, not during a battle; they have not been tested in battle. They need a game in progress (a new game or a loaded one).</p>
+
+<h3 id="date">The console date</h3>
+<p>The Neo Geo Pocket Color has a clock, and the game uses it for one thing only: the <a href="#postgame">two date secrets</a> after the ending. By default the player gives the game your PC's date. <b>Options &gt; Console date</b> can set it to 25 December or 6 June instead, so you can meet the Light Priest or the Curse Priest on any day. The choice is kept in <code>zenobia.ini</code> until you change it back to The PC's date.</p>
+
+<!-- ====================================================================== -->
+<h2 id="about">9. About this guide</h2>
+<p>This is an unofficial fan guide for the English fan translation of <i>Densetsu no Ogre Battle Gaiden: Zenobia no Ouji</i> (Neo Geo Pocket Color, 2000). It is not affiliated with the owners of the game.</p>
+<p>The facts in it were checked against the game itself: its scripts and data tables, and test runs of the translated game. Rules that could not be confirmed are left out or marked as unconfirmed.</p>
+<p>Names and terms follow the translation. Characters and places that appear in the official English releases of the Ogre Battle series keep the names from those releases (for example Warren, Canopus, Lanselot, Gilbert, Lyon, Zenobia and Zeteginea); everything else is the translation's own choice.</p>
+
+</main>
+</body>
+</html>

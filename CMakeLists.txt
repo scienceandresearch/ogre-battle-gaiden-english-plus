@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(open_ogre_battle_gaiden C)
+project(ogre_battle_gaiden_english_plus C)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
@@ -23,6 +23,7 @@ set(NGP_CORE_SOURCES
     runtime/src/core/flash.c
     runtime/src/core/flashchip.c
     runtime/src/core/bios.c
+    runtime/src/core/cheats.c
     runtime/src/core/dispatch.c
     runtime/src/core/system.c
     runtime/src/core/png.c

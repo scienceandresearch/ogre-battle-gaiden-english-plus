@@ -7,6 +7,13 @@ form in the Ogre Battle series use that form; everything else is our own
 choice. Keep this file in sync when a term changes, and search all
 translation files for the old term.
 
+The official forms come from the English releases: Ogre Battle: The March of
+the Black Queen (SNES 1995, PSX 1997), Tactics Ogre: Let Us Cling Together
+(PSX 1998, PSP 2011) and Ogre Battle 64. The Ogre Battle Saga wiki lists them
+per release in each article's localization table. Where the releases differ,
+the note says which one we follow and what the others use. "Series name"
+means every release uses the same form.
+
 The first column gives the Hepburn romanization of the original term. The
 repository keeps no Japanese text; the Japanese source of every string is in
 the local localization database (`build/l10n/strings.csv`, generated from your
@@ -17,7 +24,7 @@ own copy of the game, see `docs/localization.md`).
 | Romanized | English | Notes |
 |---|---|---|
 | Torisutan | Tristan | Prince of Zenobia; default hero name (player can rename) |
-| Fikusu Torishutoramu | Fix Trishtram | the prince's true name (stage 0 reveal; Baldur and Orosov use it, Grant says "Lord Trishtram") |
+| Fikusu Torishutoramu | Pheryx Tristan | the prince's true name, as in Tactics Ogre: Let Us Cling Together (PSP), where he is "Pheryx Tristan Xenobia" (stage 0 reveal; Baldur and Orosov use it, Grant says "Lord Tristan") |
 | Wōren | Warren | Astrologer (series name) |
 | Esutorāda | Estrada | Leader of the volunteer army, the hero's mentor |
 | Kein | Kain | The hero's friend |
@@ -32,14 +39,15 @@ own copy of the game, see `docs/localization.md`).
 | Gurosu | Gross | Mercenary |
 | Daramu | Dalam | |
 | Kirosu | Kiros | Weretiger |
-| Āresu | Ares | |
+| Āresu | Ares | Series name (Ogre Battle) |
+| Raian | Lyon | Series name: Lyon the Beast King, a beast tamer in Ogre Battle |
 | Berugo | Bergo | |
 | Jakku | Jack | Jack-of-all-trades shopkeeper ("Nandemoya Jakku", "Jack's general store") |
 | Roki | Loki | Summoned hero (Chariot card) |
 | Mārin | Merlin | Summoned sage (Hermit card) |
 | Guran (ō) | King Gran | Series name |
-| Ransurotto | Lancelot | Series name |
-| Girubaruto | Gilbert | Series name (wyvern master) |
+| Ransurotto | Lanselot | Tactics Ogre: Let Us Cling Together (PSP), the release that gives "Pheryx Tristan"; the Atlus releases call him Lans (Lans Hamilton) |
+| Girubaruto | Gilbert | Atlus releases (wyvern master); the PSP Tactics Ogre calls him Gilbald |
 | Kanōpusu | Canopus | Series name |
 | Asshu | Ashe | Series name |
 | Denebu | Deneb | Series name (witch) |
@@ -53,8 +61,8 @@ own copy of the game, see `docs/localization.md`).
 
 | Romanized | English | Notes |
 |---|---|---|
-| Zenobia | Zenobia | Series name |
-| Zeteginea | Zeteginea | Series name (empire) |
+| Zenobia | Zenobia | Ogre Battle and the Atlus releases; the PSP Tactics Ogre spells it Xenobia |
+| Zeteginea | Zeteginea | the empire; Atlus releases (the PSP Tactics Ogre: Xytegenia) |
 | Esutoa | Estoa | |
 | Rihitofurosu | Lichtfloss | |
 | Roshuforu kyōkai | Roshfol Church | |

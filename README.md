@@ -1,10 +1,12 @@
-# Ogre Battle Gaiden: Prince of Zenobia (English)
+# Ogre Battle Gaiden: Prince of Zenobia, English Plus
 
 An English fan translation of *Densetsu no Ogre Battle Gaiden: Zenobia no Ouji*
-(Neo Geo Pocket Color, 2000), with a small Windows player so you can play it on
-a PC.
+(Neo Geo Pocket Color, 2000), plus extras: a small Windows player so you can
+play it on a PC, a player's guide, saved games that start you at any chapter,
+and a few conveniences such as cheats and continuing where you left off.
 
-This project contains no game data. To play, you need your own copy of the
+This project contains none of the game itself: no program code, text,
+graphics or sound. To play, you need your own copy of the
 original Japanese game as a ROM file, which is the game's data copied from the
 cartridge. That is a `.ngc` file (SHA-1
 `5ac794c0f125bfb97efe9cd06c2aca3afdf549ea`) or the `.zip` it came in. The
@@ -18,7 +20,7 @@ emulators and patching tools. [STATUS.md](STATUS.md) has the details.
 ## How to play
 
 Open the newest release on the
-[Releases page](https://github.com/scienceandresearch/open-ogre-battle-gaiden-zenobia/releases)
+[Releases page](https://github.com/scienceandresearch/ogre-battle-gaiden-english-plus/releases)
 and download the file whose name ends in `-win64.zip` (not the "Source code"
 files). On the repository's main page, the Releases link is in the right-hand
 column.
@@ -26,7 +28,7 @@ column.
 ### On Windows
 
 1. Extract the zip into a folder of its own (right-click it, then choose
-   *Extract All*), and open the `ogre-battle-gaiden-en-...` folder inside.
+   *Extract All*), and open the `ogre-battle-gaiden-english-plus-...` folder inside.
 2. Double-click `zenobia.exe`. The program is not signed, so Windows may show
    "Windows protected your PC". Click *More info*, then *Run anyway*.
 3. Choose your game file. It can be the `.ngc` file or the `.zip` it came in.
@@ -37,7 +39,7 @@ column.
 Make an English game file on your computer:
 
 1. Extract the zip (on a Mac, double-click it) and open the
-   `ogre-battle-gaiden-en-...` folder inside. Double-click
+   `ogre-battle-gaiden-english-plus-...` folder inside. Double-click
    `Patch your game.html`. It opens in your web browser.
 2. Click the box and choose your game file (a `.zip` works too).
 3. Click *Save the English game*. Your browser saves the file like any other
@@ -61,7 +63,7 @@ Set up the English fan translation of the Neo Geo Pocket Color game
 "Densetsu no Ogre Battle Gaiden: Zenobia no Ouji" for me.
 
 My game file: <full path to my .ngc file, or the .zip it came in>
-Download page: https://github.com/scienceandresearch/open-ogre-battle-gaiden-zenobia/releases
+Download page: https://github.com/scienceandresearch/ogre-battle-gaiden-english-plus/releases
 
 Rules:
 - Use only my own game file. If I did not say where it is, ask me.
@@ -74,7 +76,7 @@ Rules:
 Steps:
 1. From the newest release on the download page (a pre-release counts),
    download the file whose name ends in -win64.zip and extract it into a new
-   folder. The files are in the ogre-battle-gaiden-en-... folder inside it;
+   folder. The files are in the ogre-battle-gaiden-english-plus-... folder inside it;
    work there. If the page asks for a GitHub sign-in, ask me to download the
    zip and tell you where it is.
 2. Check my game file. The original is 2,097,152 bytes with SHA-1
@@ -133,13 +135,23 @@ are fixed.
 | Show the controls | F1 | |
 | Quit (writes the game save first) | Esc | |
 
-The File menu has Open game, Save English ROM and Exit, and the Help menu
-has Controls and About. The menu bar is hidden in full screen. From a command
-line, `zenobia.exe GAME.ngc --write-patched ogre_en.ngc` writes the English
-ROM (the game can also be a `.zip`), and `zenobia.exe --help` lists the other
-options. The player is a windowed program, so a command prompt does not wait
-for it: use `start /wait zenobia.exe ...` in cmd, or add `| Out-Null` in
-PowerShell.
+The menu bar has these commands and more (it is hidden in full screen):
+
+* File: Open game, Save English ROM, *Import saved game* (load one of the
+  chapter saves that come with the player), *Continue where I left off*, Exit.
+* Options: *Console date* (the game checks the date for two secrets after the
+  ending) and *When the player starts* (ask to continue where you left off,
+  always continue, or start at the title screen).
+* Cheats: add 100,000 goth, heal every character, level up after the next
+  battle, reputation +10 or -10.
+* Help: Controls, *Player's guide* (the guide that comes with the player),
+  About.
+
+From a command line, `zenobia.exe GAME.ngc --write-patched ogre_en.ngc`
+writes the English ROM (the game can also be a `.zip`), and
+`zenobia.exe --help` lists the other options. The player is a windowed
+program, so a command prompt does not wait for it: use
+`start /wait zenobia.exe ...` in cmd, or add `| Out-Null` in PowerShell.
 
 ## Other patching tools
 
@@ -171,12 +183,18 @@ The results go to `build/`: `ogre_en.ngc`, `ogre_en.bps`, `zenobia.exe` and
 `ngp_harness.exe`. To make the download package:
 
 ```
-python -m tools.release.package      # dist/ogre-battle-gaiden-en-<version>-win64.zip
+python -m tools.release.catalog      # chapter saves, build/catalog (needs the maintainer's test states)
+python -m tools.release.package      # dist/ogre-battle-gaiden-english-plus-<version>-win64.zip
 ```
 
-The package holds the player, the patch, the web patcher page, a README, the
-licenses and a pure-Python patch tool. Before writing it, the script checks
-that none of these files carries data from the game.
+Without those test states, run `python -m tools.release.package --no-catalog`
+to make the package without the chapter saves.
+
+The package holds the player, the patch, the web patcher page, the player's
+guide, the chapter saves, a README, the licenses and a pure-Python patch tool.
+Before writing it, the script checks that none of these files carries data
+from the game. The chapter saves are made from test states that exist only on
+the maintainer's PC (see [docs/testing.md](docs/testing.md)).
 [CONTRIBUTING.md](CONTRIBUTING.md) lists the tests and the rules for changes.
 
 ## What is in this repository
@@ -189,7 +207,7 @@ that none of these files carries data from the game.
 | `tools/` | Python tools: patch build, text and graphics pipelines, assembler and disassembler, release packaging |
 | `runtime/` | C sources of the emulator core, the Windows player and the headless test harness |
 | `third_party/` | The Z80 sound CPU emulator (MIT License, unmodified) |
-| `docs/` | Technical notes, the localization workflow, testing and the development history |
+| `docs/` | Technical notes, the localization workflow, testing, the sources behind the player's guide and the development history |
 | [STATUS.md](STATUS.md) | Where the project stands and what is left |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How to report problems and send changes |
 
@@ -219,7 +237,10 @@ graphics, text or sound from the game. The repository holds only original
 code, an original English translation, original fonts and original English
 lettering. The patch (`ogre_en.bps`) holds only the changes, and the build
 checks every literal run in it against the original game to make sure it
-contains no game data. You need your own copy of the original cartridge,
+contains no game data. The chapter saves in the download hold only saved
+progress (the army, money and chapters cleared), written by the game itself;
+the package script checks that they hold no text, graphics or code from the
+game. You need your own copy of the original cartridge,
 dumped by yourself. This project does not provide ROM files or say where to
 find them. Please do not ask for them, and do not share patched ROMs.
 

@@ -3,7 +3,7 @@
  * screenshots and memory dumps, and can trace executed code.
  *
  *   ngp_harness ROM [--frames N] [--out DIR] [--shot F,F,...] [--shot-every K]
- *               [--input "FRAME:BUTTONS:LEN;..."] [--tps 1|2] [--log N]
+ *               [--input "FRAME:BUTTONS:LEN;..."] [--tps 1|2] [--log N] [--date MM-DD]
  *               [--load-state FILE] [--save-state F FILE]
  *               [--poke ADDR=HEX[,ADDR=HEX...][@FRAME]]
  *               [--save FLASHFILE] [--no-flash-commands] [--dump-flash FILE]
@@ -21,8 +21,13 @@
  *                    memory before frame FRAME (default 0: after
  *                    --load-state); repeatable, e.g. --poke 5490=03.
  * --dump-flash FILE  the cartridge image as the game sees it after the run.
+ * --date MM-DD       console date reported by the BIOS clock (default: the
+ *                    PC's); the year and time of day stay the PC's.
+ * --cheat NAME[@FRAME]  one of the player's cheats (goth, heal, level, rep+,
+ *                    rep-; core/cheats.h) before FRAME; repeatable.
  */
 #include "../core/ngp.h"
+#include "../core/cheats.h"
 #include "../core/flashchip.h"
 #include "../core/png.h"
 #include "../core/state.h"
@@ -289,6 +294,45 @@ static int parse_poke(const char *spec)
     return 1;
 }
 
+/* --cheat NAME[@FRAME]: one of the player's cheats (cheats.h), applied before
+   FRAME like a poke. */
+typedef struct { int frame, id; } CheatAt;
+#define MAX_CHEATS 64
+static CheatAt s_cheats[MAX_CHEATS];
+static int s_ncheats;
+
+static int parse_cheat(const char *spec)
+{
+    char buf[64];
+    if (strlen(spec) >= sizeof(buf) || s_ncheats >= MAX_CHEATS) return 0;
+    strcpy(buf, spec);
+    int frame = 0;
+    char *at = strchr(buf, '@');
+    if (at) {
+        *at = 0;
+        char *end;
+        long f = strtol(at + 1, &end, 10);
+        if (end == at + 1 || *end || f < 0 || f > INT_MAX) return 0;
+        frame = (int)f;
+    }
+    int id = cheat_lookup(buf);
+    if (id < 0) return 0;
+    s_cheats[s_ncheats].frame = frame;
+    s_cheats[s_ncheats].id = id;
+    s_ncheats++;
+    return 1;
+}
+
+static void apply_cheats(int frame)
+{
+    for (int i = 0; i < s_ncheats; i++) {
+        if (s_cheats[i].frame != frame) continue;
+        int ok = cheat_apply(s_cheats[i].id);
+        fprintf(stderr, "cheat before frame %d: %s %s\n", frame, cheat_name(s_cheats[i].id),
+                ok ? "applied" : "not applied (no game in progress)");
+    }
+}
+
 static void apply_pokes(int frame)
 {
     for (int i = 0; i < s_npokes; i++) {
@@ -381,6 +425,19 @@ int main(int argc, char **argv)
         else if (!strcmp(argv[i], "--shot-every") && i + 1 < argc) shot_every = atoi(argv[++i]);
         else if (!strcmp(argv[i], "--input") && i + 1 < argc) parse_input(argv[++i]);
         else if (!strcmp(argv[i], "--tps") && i + 1 < argc) tps = atoi(argv[++i]);
+        else if (!strcmp(argv[i], "--cheat") && i + 1 < argc) {
+            if (!parse_cheat(argv[++i])) {
+                fprintf(stderr, "bad --cheat %s (want goth, heal, level, rep+ or rep-, optionally @FRAME)\n", argv[i]);
+                return 1;
+            }
+        }
+        else if (!strcmp(argv[i], "--date") && i + 1 < argc) {
+            if (sscanf(argv[++i], "%d-%d", &g_rtc_month, &g_rtc_day) != 2 ||
+                g_rtc_month < 1 || g_rtc_month > 12 || g_rtc_day < 1 || g_rtc_day > 31) {
+                fprintf(stderr, "bad --date %s (want MM-DD)\n", argv[i]);
+                return 1;
+            }
+        }
         else if (!strcmp(argv[i], "--log") && i + 1 < argc) g_log_level = atoi(argv[++i]);
         else if (!strcmp(argv[i], "--trace") && i + 1 < argc) trace = argv[++i];
         else if (!strcmp(argv[i], "--dump-ram") && i + 1 < argc) dump_ram = argv[++i];
@@ -437,6 +494,7 @@ int main(int argc, char **argv)
         if (s_pokes[i].frame > 0 && s_pokes[i].frame >= frames)
             fprintf(stderr, "warning: --poke at frame %d is never applied (%d frames run)\n", s_pokes[i].frame, frames);
     apply_pokes(0);   /* right after --load-state (also with --frames 0) */
+    apply_cheats(0);
     if (trace) {
         s_trace_bits = (uint8_t *)calloc(0x400000 / 8, 1);
         g_trace_hook = trace_pc;
@@ -454,6 +512,7 @@ int main(int argc, char **argv)
     for (int f = 0; f < frames; f++) {
         s_cur_frame = f;
         if (s_npokes && f > 0) apply_pokes(f);
+        if (s_ncheats && f > 0) apply_cheats(f);
         g_input_state = input_for(f);
         uint64_t prof_before = g_prof_states;
         ngp_run_frame();

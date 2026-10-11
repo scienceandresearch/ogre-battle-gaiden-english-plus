@@ -21,12 +21,17 @@ enum {
 #define CFG_MAX_KEYS 4
 #define CFG_PATH_MAX 2048
 
+/* [general] resume: what happens when the player starts with a game */
+enum { RESUME_ASK, RESUME_YES, RESUME_NO };
+
 typedef struct {
     int scale;                 /* window size multiple, 1..12 */
     int fullscreen;            /* start in borderless fullscreen */
     int integer_scaling;       /* whole-number zoom when resized */
     int volume;                /* 0..100 */
     int pause_when_inactive;
+    int rtc_month, rtc_day;    /* [general] console_date=MM-DD; 0 = the PC's date */
+    int resume;                /* [general] resume=ask|yes|no */
     uint8_t keys[ACT_COUNT][CFG_MAX_KEYS];
     int nkeys[ACT_COUNT];
     wchar_t last_rom[CFG_PATH_MAX];
@@ -37,6 +42,13 @@ const wchar_t *config_ini_path(void);
    the file was created. */
 int  config_load(Config *c);
 void config_set_last_rom(const wchar_t *rom_path);
+/* Stores [general] console_date (month 0 = the PC's date) and resume. */
+void config_set_console_date(int month, int day);
+void config_set_resume(int mode);
+/* "MM-DD" -> 1 with the month and day; "", "pc" -> 1 with 0, 0; else 0. */
+int  config_parse_date(const wchar_t *s, int *month, int *day);
+/* "ask", "yes", "no" -> RESUME_*; else -1. */
+int  config_parse_resume(const wchar_t *s);
 
 /* Parses "Enter, C" style key lists into virtual-key codes. Returns the
    number of keys, or -1 if a non-empty list contains no valid key. */

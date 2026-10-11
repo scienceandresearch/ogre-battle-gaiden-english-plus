@@ -56,8 +56,14 @@ and Ninja), Python 3, and your own copy of the game at `rom/baserom.ngc`
 ```
 build.bat                                     # build/zenobia.exe and build/ngp_harness.exe
 python -m tools.patch.build rom/baserom.ngc   # build/ogre_en.ngc, ogre_en.bps and ogre_en.sha1
-python -m tools.release.package               # the download package in dist/
+python -m tools.release.package --no-catalog  # the download package in dist/, without chapter saves
 ```
+
+The chapter saves come from test states that only the maintainer has, so
+leave them out with `--no-catalog` (docs/testing.md, "Chapter saves"). If you
+change the player's guide (`tools/release/guide.html`), update the matching
+row of [docs/guide-sources.md](docs/guide-sources.md), which records where
+each fact in it was checked.
 
 ## Testing
 

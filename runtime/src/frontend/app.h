@@ -30,6 +30,9 @@ typedef struct {
     int      log_level;          /* --log N (-1 = default) */
     wchar_t *bps_args[3];        /* --bps-apply SOURCE PATCH OUT */
     wchar_t *unzip_args[2];      /* --unzip ZIP OUT */
+    int      rtc_month, rtc_day; /* --date MM-DD: console date for this run (0 = settings) */
+    int      resume;             /* --resume ask|yes|no for this run (-1 = settings) */
+    wchar_t *import_save;        /* --import-save FILE: import a saved game, then start */
 } Options;
 
 /* Identifies, patches and (after asking when needed) accepts a ROM.

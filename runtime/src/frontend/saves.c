@@ -76,6 +76,35 @@ int saves_load_flash_file(const wchar_t *path)
     return result;
 }
 
+#define SAVE_FIRST_BLOCK 0x1B      /* the game's save blocks: 0x1B-0x1E (0x1B0000-0x1EFFFF) */
+#define SAVE_LAST_BLOCK  0x1E
+
+int saves_check_flash_file(const wchar_t *path)
+{
+    uint8_t *data = NULL;
+    size_t size = 0;
+    int e = zen_read_file(path, &data, &size, SAVE_MAX_SIZE);
+    if (e == ZEN_FILE_MISSING) return 0;
+    if (e != ZEN_FILE_OK) return -1;
+    int result = (size >= 8 && memcmp(data, SAVE_MAGIC, 8) == 0) ? 1 : -1;
+    size_t pos = 8;
+    int records = 0;
+    while (result == 1 && pos < size) {
+        if (size - pos < 8) { result = -1; break; }
+        const uint8_t *h = data + pos;
+        int chip = h[0], block = h[1];
+        uint32_t len = rd32le(h + 4), off, blen;
+        if (chip != 0 || block < SAVE_FIRST_BLOCK || block > SAVE_LAST_BLOCK) { result = -1; break; }
+        flash_block_range(block, &off, &blen);
+        if (len != blen || !g_rom || off + len > g_rom_size || size - pos - 8 < len) { result = -1; break; }
+        pos += 8 + (size_t)len;
+        records++;
+    }
+    if (result == 1 && records == 0) result = -1;
+    free(data);
+    return result;
+}
+
 static wchar_t *s_save_path;
 static int      s_pending;
 static double   s_first_write, s_last_write, s_retry_at;
@@ -244,6 +273,18 @@ int state_save(const wchar_t *path, const uint8_t rom_sha1[20])
     ok = zen_write_file_atomic(path, full, size + TRAILER_SIZE) == ZEN_FILE_OK;
     free(full);
     return ok ? STATE_OK : STATE_ERR_IO;
+}
+
+int state_matches_rom(const wchar_t *path, const uint8_t rom_sha1[20])
+{
+    uint8_t *data = NULL;
+    size_t size = 0;
+    if (!rom_sha1 || zen_read_file(path, &data, &size, STATE_MAX_SIZE) != ZEN_FILE_OK) return 0;
+    int ok = size >= 8 + TRAILER_SIZE && memcmp(data, STATE_MAGIC, 8) == 0 &&
+             memcmp(data + size - TRAILER_SIZE, TRAILER_MAGIC, 8) == 0 &&
+             memcmp(data + size - TRAILER_SIZE + 16, rom_sha1, 20) == 0;
+    free(data);
+    return ok;
 }
 
 int state_load(const wchar_t *path, const uint8_t rom_sha1[20], int allow_other_rom)

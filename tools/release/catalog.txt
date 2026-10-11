@@ -1,0 +1,36 @@
+# Chapter saves for the release package ("Chapter saves" folder next to
+# zenobia.exe). Made by `python -m tools.release.catalog` from the
+# maintainer's test states (build/states, machine-local) into build/catalog/.
+#
+# One entry per line: FILE NAME | STATE | INPUT | NOTE
+#   FILE NAME  the .sav name in the package
+#   STATE      a state in build/states (name without .state) or a path; it
+#              must show the scenario map with the popup open on Organize,
+#              unless INPUT gets there first
+#   INPUT      harness input run before the save, as INPUT@FRAMES (empty:
+#              none); the save itself is Data > Save > OK, run by the tool
+#   NOTE       what the save holds and what comes next (for the guide)
+#
+# Every save holds file 1 only, with the hero named Tristan. The states come
+# from real play (the only testing aid was enemy HP set to 1 when a battle
+# starts); see docs/workstreams/release.md, "Chapter saves".
+
+01 New game.sav | data-scenario_map_new | | The scenario map right after the opening; chapter 1 (Estrada's Manor) is next.
+02 After chapter 1.sav | progress-scenario_after_stage0_popup | | Chapter 1 cleared; chapter 2 (Gross Region) is next.
+03 After chapter 2.sav | progress-scenario_after_stage1_popup | | Chapter 2 cleared; chapter 3 (Satsu Peninsula) is next.
+04 After chapter 3.sav | r2-story-early-s2_cleared_scenario_map | | Chapter 3 cleared, Aquarius has joined; chapter 4 (Lichtfloss) is next, and the side area Krono Mountains is open.
+05 After chapter 4.sav | r2-story-early-s3_cleared_scenario_map | | Chapter 4 cleared; chapter 5 (Roden Region) is next.
+06 After chapter 5.sav | r2-story-early-s4_congratulation | 40:A:2@100 | Chapter 5 cleared; chapter 6 (Litt Island Waters) is next.
+07 After chapter 6.sav | r2-story-early-s5_cleared_scenario_map | | Chapter 6 cleared; next comes a return to Lichtfloss, where the king makes a request (with a Chaos Frame of 65 or more).
+07b Accepted the king's request (Ein Peninsula).sav | r2-story-early-s5after_A_scenario_ein_only | | The king's request accepted; only the side area Ein Peninsula is open.
+07c Declined the king's request (Estoa).sav | r2-story-early-s5after_B_scenario_estoa_only | | The king's request declined; only Estoa is open (Banya's letter), which then opens chapter 7 (Nessa Region).
+08 After chapter 7.sav | r2-story-early-s6_cleared_scenario_map | | Chapter 7 cleared, Goldie has joined. Next comes a choice of route: chapter 8 (Norodom Region) or chapter 9 (Megaholten); clearing one closes the other.
+
+# The two routes, from the same playthrough (states play-*, popup closed: B opens it)
+09 Norodom route, after chapter 8.sav | play-norodom-after-ch8 | 20:B:2@100 | Norodom route: chapter 8 cleared, Orosov has joined; chapter 10 (Shagall Marsh) is next. Megaholten is closed.
+10 Norodom route, after chapter 10.sav | play-norodom-after-ch10 | 20:B:2@100 | Norodom route: chapter 10 cleared; chapter 11 (Lego Islands) is next.
+11 Norodom route, after chapter 11.sav | play-norodom-after-ch11 | 20:B:2@100 | Norodom route: chapter 11 cleared; the Final Chapter (Laika Lakeside) is next, where your answers to Baldur choose the ending.
+12 Norodom route, after the ending.sav | play-norodom-postgame | 20:B:2@100 | The Norodom route finished, as the game saves it after the ending: the Free Battle Areas are open, and so are several areas you cleared before.
+13 Megaholten route, after chapter 9.sav | play-megaholten-after-ch9 | 20:B:2@100 | Megaholten route: chapter 9 cleared, Yorkleif has joined; chapter 10 (Shagall Marsh) is next. Norodom is closed.
+14 Megaholten route, after chapter 10.sav | play-megaholten-after-ch10 | 20:B:2@100 | Megaholten route: chapter 10 cleared, Grant has joined; chapter 12 (Am Sea of Trees) is next.
+15 Megaholten route, after chapter 12.sav | play-megaholten-after-ch12 | 20:B:2@100 | Megaholten route: chapter 12 cleared and the hero is now a Lord; the Final Chapter (Laika Lakeside) is next, where your answers to Baldur choose the ending.

@@ -88,6 +88,68 @@ relocated now, so the build's `--inplace` test option has nothing left to
 replace). Package rebuilt: 457,519 bytes, `release_test.py` 41/41,
 `test_package` 33/33.
 
+### 2026-10-10: official series names
+
+A comparison with another English patch of the game (lucdubois/zenobia-en,
+public v0.1, fixed-width text) led to a check of our names against the
+series' official English releases, using the localization tables of the Ogre
+Battle Saga wiki. Three names had no official form behind them and changed:
+the prince's true name "Fix Trishtram" is now "Pheryx Tristan" (Tactics Ogre
+PSP), "Lancelot" is "Lanselot" (Tactics Ogre PSP; Atlus: "Lans") and "Ryan"
+is "Lyon" (Ogre Battle). The glossary now names the source of each series
+name. Class names were left as they are: the official releases disagree with
+each other, and the wiki rarely gives the Japanese names needed to match them.
+The rebuild moved dialogue pages, so 54 test states saved mid-dialogue were
+re-pointed; all 389 run without CPU errors. Build `d5234b95`, every suite
+passes, dev package rebuilt (457,559 bytes).
+
+### 2026-10-10 to 10-11: English Plus
+
+The project became "Ogre Battle Gaiden English Plus": the translation, plus
+extras for players. The repository was renamed to
+`scienceandresearch/ogre-battle-gaiden-english-plus` (still private), and
+the package to `ogre-battle-gaiden-english-plus-<version>-win64.zip`.
+
+* Player: an Options menu (Console date: the PC's date, 25 December or 6
+  June, for the game's two date secrets after the ending; When the player
+  starts: ask, continue or title screen), a Cheats menu (100,000 goth, heal
+  everyone, level up after the next battle, reputation +10 / -10; the code
+  is in the core, `runtime/src/core/cheats.c`, so the harness has it too as
+  `--cheat`), File > Import saved game (checks the file, backs up the
+  current saves first) and File > Continue where I left off
+  (`states/resume.state`, written when the player quits). Tests:
+  `extras_test.py` 25/25 and, in the real window, `gui_extras_test.ps1`
+  28/28 (the older window scripts updated for the new menu bar and the
+  start-up question; all pass).
+* Chapter saves: `tools/release/catalog.py` makes cartridge saves from test
+  states through the game's own Data > Save, loads each back from the title
+  screen to compare it, and audits it for ROM data. The states come from a
+  playthrough (the only aid: enemy HP set to 1 when a battle starts) that
+  went on to both routes and through an ending: 17 saves, one at the start
+  of each chapter, both sides of the king's request, both routes up to the
+  Final Chapter, and the Norodom route after the ending. The playthrough
+  confirmed the guide's rules where it met them (Gross stays away at Chaos
+  Frame 55 or more, no question about Kiros at hero ALI 60 or more, Grant
+  only with Yorkleif, the hero a Lord in chapter 12 with both, Orosov gone
+  at the start of chapter 11).
+* Player's guide: `Player's Guide.html` in the package (Help > Player's
+  guide), written from the game's code, data and test runs, with the fan
+  wiki used only as leads; an 8-word overlap check against those wiki pages
+  found only the game's title. Every fact and its source is in
+  `docs/guide-sources.md`. The packager fills in the list of chapter saves
+  from `catalog.json`. Writing it corrected a few exploration notes (event
+  entry layout, a church index, the battle time-out rule, the game clock at
+  each speed) and added the recruit level and Necromancer/Lich recruiting.
+* Link-cable play (two-player battles, trading) was considered and left
+  out: it needs a second game running and a link protocol, for little gain
+  in a one-player game.
+
+Build `d5234b95` unchanged (rebuilt from the sources: same SHA-1). Every
+suite passes; `test_package` 46/46 (also without the maintainer's saves,
+using a made-up one). Dev package 522,468 bytes with 17 chapter saves. An
+audit of every new and changed file found no Japanese, no ROM data and no
+personal data.
+
 ## Save-safe layout (2026-10-09)
 
 Earlier builds put patch data in the game's save blocks. The game saves to

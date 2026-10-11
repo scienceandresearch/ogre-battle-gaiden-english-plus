@@ -1663,12 +1663,12 @@
 1654	D.Knight
 1655	Lord
 1656	Deneb
-1657	Lancelot
+1657	Lanselot
 1658	Warren
 1659	Gilbert
 1660	Canopus
 1661	Ashe
-1662	Ryan
+1662	Lyon
 1663	Ares
 1664	Galan
 1665	Estrada

@@ -38,7 +38,8 @@ pre-drawn Japanese labels (see Open issues).
   same shop routine. Jack sells Sword Symbol, Magus Paper, Speed Gear, Life
   Source, Vessel of Fate; the ticket is used up.
 * **Churches** ("Roshfol Church" for every church) are location indexes past
-  the last record (stage 0: index 5, tile (16,17), south-west of Estoa).
+  the last record (stage 0: index 4, after records 0-3; the map tiles mark
+  it with code 5, index + 1; tile (16,17), south-west of Estoa).
   Liberating one draws a tarot card. A unit standing in a church with a dead
   member gets the unit-window icon "Rite of Revival" (pre-drawn label; table
   entry 4, `0x2059F9`); the cost is 3 x the character's cost field (word at

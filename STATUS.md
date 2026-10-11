@@ -1,10 +1,11 @@
 # Project status
 
-_Last updated: 2026-10-10_
+_Last updated: 2026-10-11_
 
-This file tracks the English version of *Densetsu no Ogre Battle Gaiden:
-Zenobia no Ouji* (Neo Geo Pocket Color): where the project stands, what is
-left, and which decisions are still open. The development log is in
+This file tracks Ogre Battle Gaiden English Plus: the English version of
+*Densetsu no Ogre Battle Gaiden: Zenobia no Ouji* (Neo Geo Pocket Color),
+plus a Windows player with extras. It records where the project stands, what
+is left, and which decisions are still open. The development log is in
 [docs/history.md](docs/history.md).
 
 ## Where the project stands
@@ -25,19 +26,34 @@ pre-release on the project's private GitHub repository.
 * Players need no command line. The Windows player opens the game file or
   the zip it came in, and `Patch your game.html` in the package makes the
   English file in any web browser, offline.
+* The "plus": the package has a player's guide (`Player's Guide.html`, also
+  under Help in the player), ready-made chapter saves to import (one at the
+  start of each chapter and on each side of the route choices, from a test
+  playthrough), a Cheats menu (goth, healing, levels, reputation), a console
+  date setting for the game's two date secrets, and "continue where you left
+  off".
 * The repository and the package contain no data from the game. Players bring
   their own copy. The patch holds only the changes and is audited against the
   original.
 
 The current build turns the original (SHA-1
 `5ac794c0f125bfb97efe9cd06c2aca3afdf549ea`) into the English ROM with SHA-1
-`4fe9c5ffe335e028397a8503ee5d3a625607dc16`. The patch `ogre_en.bps` is
-133,251 bytes, and the package `ogre-battle-gaiden-en-0.1.0-dev+4fe9c5ff-win64.zip`
-is 457,519 bytes. Test results on this build: `release_test.py` 41/41,
-`zip_test.py` 59/59, `save_test.py` 27/27, `tools.gfx.test_all` 7 modules
-(105 tests), `test_tables` 18/18, `test_bps` 11/11, `test_webpatcher` 2/2,
-`test_package` 33/33, and `tools.text.check` confirms that each of the 1,570
-dialogue messages fits on one page.
+`d5234b95d12096c722c324d23e5e4fb227179eff`. The patch `ogre_en.bps` is
+133,249 bytes, and the package
+`ogre-battle-gaiden-english-plus-0.1.0-dev+d5234b95-win64.zip` is 522,468
+bytes with 17 chapter saves. Test results on this build: `release_test.py`
+41/41, `zip_test.py` 59/59, `save_test.py` 27/27, `extras_test.py` 25/25,
+`bps_test.py` 26/26, `tools.gfx.test_all` 7 modules (105 tests),
+`test_tables` 18/18, `test_bps` 11/11, `test_webpatcher` 2/2, `test_package`
+46/46, the assembler round trip (28,948 instructions, none failed), the six
+real-window scripts `gui_*.ps1` (121 checks, among them 28 for the new
+menus), and `tools.text.check` confirms that each of the 1,570 dialogue
+messages fits on one page. All 389 test states run on this build without CPU errors (54 of
+them were re-pointed to its dialogue pages).
+
+The names of characters who appear in the series' official English releases
+follow those releases (see "Open decisions"). The pre-release `v0.1.0-dev` on
+GitHub still carries the previous package (`+4fe9c5ff`).
 
 ## What is left before a public release
 
@@ -52,7 +68,10 @@ dialogue messages fits on one page.
 3. Optional work: a review of the translation by a second translator through
    the localization database ([docs/localization.md](docs/localization.md));
    the compact form of the menu labels' descenders; a harness check that
-   refuses save states made with another ROM, as the player already does.
+   refuses save states made with another ROM, as the player already does; a
+   check of the class names against the official releases (several classes
+   have different English names in Ogre Battle, Tactics Ogre and Ogre Battle
+   64, and matching them needs a reliable list of the Japanese names).
 
 ## Open decisions
 
@@ -81,6 +100,13 @@ change in a text file to revise.
   names. Full names appear everywhere else.
 * The staff roll opens with the English title instead of the original's
   romanized one.
+* Series names: characters who appear in the official English releases keep
+  those names (`translation/en/glossary.md` gives the source of each). Where
+  the releases differ, the prince's true name is "Pheryx Tristan" and
+  Ransurotto is "Lanselot", as in Tactics Ogre: Let Us Cling Together (PSP);
+  the Atlus releases call him "Lans". The Beast King is "Lyon", as in Ogre
+  Battle. Zenobia, Zeteginea and Gilbert follow the Atlus releases (the PSP
+  release has Xenobia, Xytegenia and Gilbald).
 * English that was already in the original art stays as it is:
   "Congratulation!", "NewGame", the "TAROT" frame header and "M-SHILD".
 
@@ -173,6 +199,19 @@ source, and requires the player's own copy of the game. No data from the game
 - [x] Title logo and warning window: original English art (faithful match)
 - [x] Survey of all other screens for baked-in Japanese (`gfx-survey.md`)
 
+### Extras (the "plus")
+- [x] Player menus: Options (console date, what happens at start), Cheats,
+      Help > Player's guide; File > Import saved game (with a backup first)
+      and Continue where I left off (`docs/workstreams/player.md`)
+- [x] Cheats in the core (`runtime/src/core/cheats.c`), also in the harness
+      (`--cheat`); console date override (`--date`) in both
+- [x] Chapter saves from a test playthrough (`tools/release/catalog.py`,
+      recipe `catalog.txt`), each loaded back and audited for ROM data
+- [x] Player's guide (`tools/release/guide.html`; every fact and its source in
+      `docs/guide-sources.md`); the save list is filled in by the packager
+- [ ] Link-cable features (two-player battles, trading): not planned; the
+      player behaves as if no cable is connected
+
 ### Testing / release
 - [x] Playthrough checkpoints (389 saved states across every stage, ending and
       system) + screenshot sweep reviewed by eye (final verification)
@@ -183,7 +222,8 @@ source, and requires the player's own copy of the game. No data from the game
       clean Windows PC (manual; owner)
 - [x] README, CONTRIBUTING, MIT license, third-party notices
 - [x] Offline web patcher `Patch your game.html` (`tools/release/webpatcher.py`)
-- [x] Release packaging (zip with zenobia.exe, ogre_en.bps, the web patcher and a README):
+- [x] Release packaging (zip with zenobia.exe, ogre_en.bps, the web patcher,
+      the player's guide, the chapter saves and a README):
       `python -m tools.release.package` (dev package works; a public release
       still needs the manual checks in `docs/workstreams/release.md`)
 
@@ -201,19 +241,24 @@ For maintainers and AI agents who pick the work up:
    open items) and add an entry to [docs/history.md](docs/history.md).
 
 The repository is
-`https://github.com/scienceandresearch/open-ogre-battle-gaiden-zenobia`
+`https://github.com/scienceandresearch/ogre-battle-gaiden-english-plus`
 (private, branch `main`); the pre-release `v0.1.0-dev` carries the package
 zip. `.gitattributes` stores text files with LF line endings, Windows
 checkouts get CRLF, and every tool accepts both. A fresh clone builds the
-identical English ROM and passes every test suite; the save and release tests
-also need the machine-local test states (see "Test states" in
-[docs/testing.md](docs/testing.md)).
+identical English ROM and passes every test suite; the save, release and
+extras tests and the chapter saves also need the machine-local test states
+(see "Test states" in [docs/testing.md](docs/testing.md)); without them,
+package with `--no-catalog`.
 
 Machine-local material on the maintainer's PC, never committed:
 
-* `build/states/`: about 390 test states. "Test states" in
-  [docs/testing.md](docs/testing.md) explains what to do with states from
-  older builds.
+* `build/states/`: about 400 test states, among them the `play-*` states of
+  the playthrough behind the chapter saves of chapters 8 to 12 and after the
+  ending. "Test states" in [docs/testing.md](docs/testing.md) explains what
+  to do with states from older builds. For the `d5234b95` build, 54 states were re-pointed with
+  `build/handoff/r3/relocate.py` and `relocate_inner.py` (the second one handles
+  states paused at a prompt); the originals are in
+  `build/states_before_d5234b95/`.
 * `build/handoff/`: the agents' briefing (`briefing.md`), every round's raw
   results (`r1_*_result.json`, `r2_*.json`, `r3_final.json`), the Codex title
   drafts and prompts (`codex-title/`), the play-test plan tools (`tplan/`),
@@ -241,7 +286,8 @@ Details are in [docs/engine-notes.md](docs/engine-notes.md).
   `0x200BEC` / `0x200B50` / `0x200B67` (English 8x8 font). The other hooks
   are in `patch/main.asm` and `patch/src/*.asm`.
 * Stage table `0x2261D9` (20 x 18 bytes: +0 event table, +10 map, +14 script);
-  each event table has one location list `[u16 offset][u8 loc id][u8 town]`.
+  the event entries sit before each location table, one per location r >= 1
+  at (table - 4r): `[u8 id][u8 hidden index][u16 handler offset]`.
 * Tarot answers are raw window text pointed to by `stv32 <ptr>, var 0x20`.
 
 Patch regions of the current build (`python -m tools.patch.layout

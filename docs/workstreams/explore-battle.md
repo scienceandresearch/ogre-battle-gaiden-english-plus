@@ -79,8 +79,12 @@ of war in my runs (seen by explore-progress), the battle Item command
   (fits).
 
 ### Results, defeat, retreat
-* Battles end when a leader dies or when time runs out. On time-out the side
-  that did better wins; the loser is pushed back on the map ("<leader>'s unit
+* Battles end when the enemy leader dies or when time runs out (the army
+  leader at 0 HP does not end a battle: `explore2-battle.md` "Results").
+  On time-out against an enemy unit the enemy wins while any of its members
+  stands; against neutral monsters the side that did better wins, or it is
+  a draw (corrected later; first noted here as "the side that did better
+  wins" for both). The loser is pushed back on the map ("<leader>'s unit
   has finished moving."). No experience numbers are shown; "LEVEL UP!"
   sprites appear at the end (also after a lost battle).
 * Enemy leader killed: "WINNERS" at once. Town: "The trade city of Gring has

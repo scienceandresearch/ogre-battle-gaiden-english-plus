@@ -53,7 +53,7 @@ hex digits of the English ROM's SHA-1, e.g. `0.1.0-dev+e63bffd1`.
   PRODUCTVERSION `0.1.0.0`; FileVersion/ProductVersion "0.1.0";
   FileDescription "Ogre Battle Gaiden: Prince of Zenobia (English)", the
   window title; ProductName "... - English fan translation"; CompanyName and
-  LegalCopyright "The open-ogre-battle-gaiden-zenobia contributors", MIT;
+  LegalCopyright "The ogre-battle-gaiden-english-plus contributors", MIT;
   OriginalFilename `zenobia.exe`; Comments: unofficial fan project, needs
   your own game). The version numbers come from CMake
   (`ZEN_VERSION_MAJOR/MINOR/PATCH`); without them the file stops with
@@ -102,9 +102,9 @@ the file).
 
 ### `python -m tools.release.package [--out dist] [--build build] [--rom rom/baserom.ngc] [--release]`
 
-Builds `OUT/ogre-battle-gaiden-en-<version>-win64.zip` from the build folder;
+Builds `OUT/ogre-battle-gaiden-english-plus-<version>-win64.zip` from the build folder;
 it never builds anything itself. The zip holds one folder,
-`ogre-battle-gaiden-en-<version>/`:
+`ogre-battle-gaiden-english-plus-<version>/`:
 
 | Entry | Source | Bytes (0.1.0-dev+e63bffd1) |
 |---|---|---|
@@ -129,8 +129,10 @@ Checks (all run; any problem refuses, exit 1, nothing written):
 | audit | `python -m tools.patch.bps audit ROM build/ogre_en.bps` fails |
 | patch | `ogre_en.bps` applied to the ROM does not give `ogre_en.ngc` |
 | exe | `zenobia.exe` is older than its sources: Ninja dry run (`ninja -C BUILD -n zenobia`, the Ninja recorded in `CMakeCache.txt`) when the build folder has `build.ninja`, else file times of its 53 sources (the C/RC files CMakeLists.txt lists for it and the core, the headers they include, the manifest, `VERSION`, the icon source, `mkicon.py`); also when its version resource is not `VERSION` or it imports the Visual C++ runtime DLLs. A missing icon is only a note. |
-| contents | a file looks like game data or local settings (`.ngc .ngp .npc .sav .state .ini .pdb .zip .7z .rar .gz`, a 2,097,152-byte file), a text file is not UTF-8 or holds Japanese, `README.txt` has an unfilled `@FIELD@` or does not name every packaged item |
-| rom-data | ROM data in a packaged file (below) |
+| contents | a file looks like game data or local settings (`.ngc .ngp .npc .sav .state .ini .pdb .zip .7z .rar .gz`, a 2,097,152-byte file), a text file is not UTF-8 or holds Japanese, `README.txt` has an unfilled `@FIELD@` or does not name every packaged item. The chapter saves (`Chapter saves/*.sav`) are the one exception, checked by `saves` instead |
+| saves | there are no chapter saves (`--catalog DIR`, default `BUILD/catalog`; `--no-catalog` leaves them out on purpose), `catalog.json` next to them does not describe each one, or a chapter save holds anything but file 1 (one 64 KB record of flash block 0x1C) or a run of 16 or more bytes, with at least 4 different values, from the original ROM (`catalog.audit`) |
+| guide | `tools/release/guide.html` is missing, or the packaged guide still has the `<!-- CHAPTER SAVES LIST -->` mark or does not name every chapter save |
+| rom-data | ROM data in a packaged file (below; the chapter saves are checked by `saves`) |
 | zip | the zip read back differs from the staged files; the extracted `patch-tools/apply.py` (run with `python -I`) does not make the English ROM or leaves files behind; with `--release`, a different zip of the same version exists |
 
 ROM-data scan (every packaged file except `ogre_en.bps`, which the audit
@@ -224,6 +226,36 @@ Content-Security-Policy (`default-src 'none'`) forbids every network access.
 * Later, when the repository is public, the same page can be served from
   GitHub Pages for a true "click here" link.
 
+### Chapter saves and the player's guide (2026-10-10)
+
+The package also holds `Player's Guide.html` (from `tools/release/guide.html`)
+and a `Chapter saves` folder: `About.txt` (`tools/release/catalog_about.txt`)
+and the saves from `build/catalog/`. `python -m tools.release.catalog` makes
+them from the recipe `tools/release/catalog.txt` (one machine-local state per
+save; see "Chapter saves" in [testing.md](../testing.md)): the hero is named
+Tristan, the game saves to file 1 through its own menu, the result is loaded
+back from the title screen in a fresh run and compared with the state, and
+it is audited. A save holds only the game's own record of the army, money
+and progress: the audit allows short matches with the ROM (a story
+character who has not grown yet has the 8 bytes of starting stats from the
+game's tables; zeros with one other value match by chance) and refuses any
+run of 16 or more bytes with at least 4 different values.
+
+The states come from real play (the only testing aid: enemy HP set to 1 when
+a battle starts). Branch points that players may want to jump to get a save
+on each side (the king's request after chapter 6: accepted, Ein Peninsula;
+declined, Estoa).
+
+The guide's list of saves is not written by hand: `catalog.py` also writes
+`catalog.json` (file name, note from the recipe, hero's level, number of
+characters, goth, Chaos Frame, chapters cleared and open, read from the
+game's RAM), and `package.py` puts a table made from it where the guide has
+`<!-- CHAPTER SAVES LIST -->` (with `--no-catalog`, a line saying the
+package has no chapter saves). Every fact in the guide and where it was
+checked is in [guide-sources.md](../guide-sources.md); the guide is our own
+text (an 8-word overlap check against the fan wiki pages used as leads
+found only the game's title).
+
 ### Other files
 
 * `tools/release/pe.py`: reads a PE file's resources (version information,
@@ -233,7 +265,7 @@ Content-Security-Policy (`default-src 'none'`) forbids every network access.
 ## How to test / reproduce
 
     build.bat                                         # zenobia.exe with version + icon
-    python -m tools.release.package                   # dist\ogre-battle-gaiden-en-<v>-win64.zip
+    python -m tools.release.package                   # dist\ogre-battle-gaiden-english-plus-<v>-win64.zip
     python -m tools.release.test_package --work NEW_EMPTY_DIR
     python -m tools.release.pe build\zenobia.exe      # version, icon sizes, imports
     python tools\release\mkicon.py assets\icon\zenobia.txt X.ico --preview X.png

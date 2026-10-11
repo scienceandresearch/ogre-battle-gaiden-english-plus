@@ -53,9 +53,11 @@ in stage 7, see below).
 * **Game time:** runs only in the normal map mode. It is paused while a
   menu, window or the flag cursor is open, and by Option (blinking "PAUSE"
   sprite, English art; Option again resumes). Clock: 32-bit value at
-  `0x6080` written every 4 frames by `0x2036B2`: byte 0 counts 179..0 (one
-  game hour = 180 ticks = 720 frames), byte 1 counts the hours down (23..0),
-  byte 2 the days. A day is 17,280 frames. The map palette changes through
+  `0x6080` updated by `0x2036B2`: byte 0 counts 179..0, byte 1 counts the
+  hours down (23..0), byte 2 the days. At game speed 2 (the new-game
+  setting) a tick takes 4 frames, so one game hour = 180 ticks = 720 frames
+  and a day is 17,280 frames; at speed 1 a game hour takes 1,080 frames, at
+  speed 3 360 (measured with the Monitor setting changed). The map palette changes through
   the day (normal, dusk, night, bright morning, orange evening); no text.
 * **New day:** when the hour counter wraps (frame ~11622 idling from
   `stage0_gameplay`) the "Income & Expenses" window (Aid / Deployment cost /

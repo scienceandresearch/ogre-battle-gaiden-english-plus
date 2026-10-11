@@ -3,19 +3,23 @@
     python -m tools.release.package [--out dist] [--build build]
                                     [--rom rom/baserom.ngc] [--release]
 
-Writes OUT/ogre-battle-gaiden-en-<version>-win64.zip from what the build
+Writes OUT/ogre-battle-gaiden-english-plus-<version>-win64.zip from what the build
 folder holds now; it never builds anything (run build.bat and
 python -m tools.patch.build rom/baserom.ngc first). <version> is the VERSION
 file (MAJOR.MINOR.PATCH); without --release, "-dev+" and the first 8 hex
 digits of the English ROM's SHA-1 are appended, e.g. 0.1.0-dev+e63bffd1.
 
-The zip holds one folder, ogre-battle-gaiden-en-<version>, with
+The zip holds one folder, ogre-battle-gaiden-english-plus-<version>, with
   README.txt                tools/release/README.txt, version/date/checksums filled in
   zenobia.exe               the player (build folder)
   ogre_en.bps, ogre_en.sha1 the patch and the English ROM's SHA-1 (build folder)
   LICENSE.txt, THIRD_PARTY_NOTICES.txt   from the repository root
   Patch your game.html      the one-file web patcher (tools/release/webpatcher.py):
                             choose your game in a browser, save the English ROM
+  Player's Guide.html       tools/release/guide.html, with the list of chapter
+                            saves filled in from CATALOG/catalog.json
+  Chapter saves/            the chapter saves made by tools/release/catalog.py
+                            (CATALOG, default BUILD/catalog) and About.txt
   patch-tools/              apply.py (tools/release/patch_tools_apply.py) and the
                             applier modules it imports, unchanged
 Text files get CRLF line ends; everything else is copied byte for byte.
@@ -41,7 +45,16 @@ It refuses (exit 1, nothing written) when
     a block of real ROM data is never let through window by window;
   * a file looks like game data (.ngc/.ngp/.npc/.sav/.state, a 2 MB file,
     zenobia.ini, .pdb), a text file holds Japanese, README.txt has an
-    unfilled @FIELD@ or does not name a packaged file;
+    unfilled @FIELD@ or does not name a packaged file. The one exception
+    is the chapter saves: .sav files in "Chapter saves/" that hold only
+    file 1 (flash block 0x1C) and pass the save audit of catalog.py (no run
+    of 16 or more bytes, with at least 4 different values, from the
+    original ROM); the 8-byte scan below does not apply to them, since a
+    save holds the game's own numbers (a character's starting stats, for
+    example, match the game's tables);
+  * there are no chapter saves (CATALOG missing or empty; --no-catalog
+    leaves the folder out on purpose), catalog.json does not describe each
+    of them, or the guide is missing or does not list them;
   * with --release, a different zip of the same version exists already.
 The zip is written to a temporary file, read back, extracted and its
 patch-tools applier run on the ROM (the result must have ogre_en.sha1's
@@ -56,6 +69,8 @@ classic zlib of 3.12), so the output names the zlib it used.
 import argparse
 import ast
 import hashlib
+import html
+import json
 import os
 import re
 import shutil
@@ -70,16 +85,23 @@ from collections import Counter
 
 from ..patch import bps
 from ..recomp.rom import EXPECTED_SHA1
+from . import catalog
 from . import pe as pefile
 from . import webpatcher
 
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-NAME = 'ogre-battle-gaiden-en'
+NAME = 'ogre-battle-gaiden-english-plus'
 PLATFORM = 'win64'
 ROM_SIZE = 2 * 1024 * 1024
 WINDOW = 8                      # same limit as the BPS audit (tools/patch/bps.py AUDIT_LIMIT)
 HEADER_END = 0x40               # cartridge header: licence string, entry point, ID, title
 README_TEMPLATE = 'tools/release/README.txt'
+GUIDE = 'tools/release/guide.html'
+GUIDE_NAME = "Player's Guide.html"
+CATALOG_NAME = 'Chapter saves'
+CATALOG_ABOUT = 'tools/release/catalog_about.txt'
+CATALOG_INFO = 'catalog.json'                   # written by catalog.py next to the saves
+GUIDE_SAVES_MARK = '<!-- CHAPTER SAVES LIST -->'
 LAUNCHER = 'tools/release/patch_tools_apply.py'
 APPLIER = 'tools/patch/apply.py'
 TEXT_DOCS = (('LICENSE', 'LICENSE.txt'), ('THIRD_PARTY_NOTICES.md', 'THIRD_PARTY_NOTICES.txt'))
@@ -351,8 +373,47 @@ def fill_template(text, fields):
     return text
 
 
-def stage(top, build_files, readme, repo=REPO, page=None):
-    """[(zip name, bytes or None for a folder, source description)] in zip order."""
+def catalog_files(catalog_dir):
+    """[(file name, bytes)] of the chapter saves in catalog_dir, sorted by name."""
+    if not catalog_dir or not os.path.isdir(catalog_dir):
+        return []
+    return [(f, read(os.path.join(catalog_dir, f))) for f in sorted(os.listdir(catalog_dir))
+            if f.lower().endswith('.sav')]
+
+
+def catalog_info(catalog_dir):
+    """{save file name: description} from CATALOG_INFO next to the saves, or None."""
+    path = os.path.join(catalog_dir, CATALOG_INFO) if catalog_dir else ''
+    if not os.path.isfile(path):
+        return None
+    try:
+        return {e['file']: e for e in json.loads(read(path).decode('utf-8'))}
+    except (ValueError, KeyError, TypeError):
+        return None
+
+
+def saves_table(saves, info):
+    """The guide's list of the chapter saves, as an HTML table."""
+    rows = ['<tr><td><code>%s</code></td><td>%s</td><td>%d</td><td>%d</td><td class="nowrap">%s</td><td>%d</td></tr>'
+            % (html.escape(name), html.escape(info[name]['note']), info[name]['hero_level'],
+               info[name]['characters'], format(info[name]['funds'], ','), info[name]['chaos_frame'])
+            for name, _ in saves]
+    return ('<div class="table-wrap"><table>\n<thead><tr><th>File</th><th>Where you are</th><th>Hero\'s level</th>'
+            '<th>Characters</th><th>Goth</th><th>Chaos Frame</th></tr></thead>\n<tbody>\n%s\n</tbody></table></div>'
+            % '\n'.join(rows))
+
+
+def guide_page(template, saves, info):
+    """The guide (bytes) with GUIDE_SAVES_MARK replaced by the list of saves, or by a
+    line saying the package has none."""
+    text = template.decode('utf-8')
+    block = saves_table(saves, info) if saves else '<p>This package has no chapter saves.</p>'
+    return text.replace(GUIDE_SAVES_MARK, block).encode('utf-8')
+
+
+def stage(top, build_files, readme, repo=REPO, page=None, saves=(), guide=None):
+    """[(zip name, bytes or None for a folder, source description)] in zip order.
+    guide is the page made by guide_page (None: no guide)."""
     exe, patch, sha1_text = build_files
     entries = [(top + '/', None, ''),
                (top + '/README.txt', crlf(readme), README_TEMPLATE),
@@ -361,6 +422,14 @@ def stage(top, build_files, readme, repo=REPO, page=None):
                (top + '/ogre_en.sha1', sha1_text, 'build')]
     if page is not None:
         entries.append((top + '/' + webpatcher.PAGE_NAME, page, webpatcher.TEMPLATE))
+    if guide is not None:
+        entries.append((top + '/' + GUIDE_NAME, crlf(guide), GUIDE))
+    if saves:
+        folder = top + '/' + CATALOG_NAME + '/'
+        entries.append((folder, None, ''))
+        entries.append((folder + 'About.txt', crlf(read(os.path.join(repo, CATALOG_ABOUT))), CATALOG_ABOUT))
+        for name, data in saves:
+            entries.append((folder + name, data, 'catalog'))
     for src, name in TEXT_DOCS:
         entries.append((top + '/' + name, crlf(read(os.path.join(repo, src))), src))
     tools = top + '/patch-tools/'
@@ -378,13 +447,60 @@ def stage(top, build_files, readme, repo=REPO, page=None):
     return entries
 
 
-def check_contents(rep, entries, top):
+def is_chapter_save(name, top):
+    return name.startswith(top + '/' + CATALOG_NAME + '/') and name.lower().endswith('.sav') and \
+        name.count('/') == 2
+
+
+def check_chapter_save(rom, data):
+    """'' if a chapter save is acceptable, else the reason."""
+    try:
+        recs = catalog.save_records(data)
+    except (catalog.CatalogError, struct.error) as e:
+        return str(e) or 'not a save file'
+    if [(c, b) for c, b, _ in recs] != [(0, catalog.FILE1_BLOCK)] or len(recs[0][2]) != 0x10000:
+        return 'it holds blocks %s, not file 1 only' % [(c, hex(b)) for c, b, _ in recs]
+    found = catalog.audit(rom, [r[2] for r in recs])
+    if found:
+        return 'it holds runs of the original ROM (save +%04X = ROM %06X)' % found[0]
+    return ''
+
+
+def check_contents(rep, entries, top, rom=None, described=True):
+    """described=False: catalog.json does not describe the saves (refused as
+    'saves' already), so the guide's list of them is not checked."""
     files = [(n, d) for n, d, _ in entries if d is not None]
     bad = []
+    saves = 0
     for name, data in files:
         base = name.rsplit('/', 1)[-1].lower()
+        if is_chapter_save(name, top) and rom is not None:
+            why = check_chapter_save(rom, data)
+            if why:
+                rep.fail('saves', '%s: %s' % (name, why))
+            else:
+                saves += 1
+            continue
         if base.endswith(FORBIDDEN_EXT) or base == 'zenobia.ini' or len(data) == ROM_SIZE:
             bad.append(name)
+    if saves:
+        rep.ok('saves', '%d chapter saves: file 1 only, no run of %d bytes from the original ROM'
+               % (saves, catalog.AUDIT_LIMIT))
+    guide = dict(files).get(top + '/' + GUIDE_NAME)
+    if guide is None:
+        rep.fail('guide', '%s is not in the package' % GUIDE_NAME)
+    else:
+        text = guide.decode('utf-8', 'replace')
+        names = [n.rsplit('/', 1)[-1] for n, _ in files if is_chapter_save(n, top)]
+        unlisted = [n for n in names if html.escape(n) not in text]
+        if GUIDE_SAVES_MARK in text:
+            rep.fail('guide', '%s still has the mark %s' % (GUIDE_NAME, GUIDE_SAVES_MARK))
+        elif not described:
+            pass
+        elif unlisted:
+            rep.fail('guide', '%s does not list %s' % (GUIDE_NAME, ', '.join(unlisted)))
+        else:
+            rep.ok('guide', '%s lists the %d chapter saves' % (GUIDE_NAME, len(names)))
     if bad:
         rep.fail('contents', 'files that look like game data or local settings: %s' % ', '.join(bad))
     japanese = []
@@ -567,7 +683,9 @@ def scan_rom_data(rom, files):
 
 
 def check_rom_data(rep, rom, entries):
-    files = [(n.split('/', 1)[1], d) for n, d, _ in entries if d is not None and not n.endswith('/ogre_en.bps')]
+    top = entries[0][0].rstrip('/')
+    files = [(n.split('/', 1)[1], d) for n, d, _ in entries
+             if d is not None and not n.endswith('/ogre_en.bps') and not is_chapter_save(n, top)]
     offending, allowed = scan_rom_data(rom, files)
     if offending:
         for name, off, n, roff in offending[:20]:
@@ -662,8 +780,12 @@ def main(argv=None):
                     help='the original ROM (default: rom/baserom.ngc)')
     ap.add_argument('--release', action='store_true',
                     help='a release: the version without the -dev+<ROM SHA-1> suffix')
+    ap.add_argument('--catalog', default=None,
+                    help='folder with the chapter saves (default: BUILD/catalog, made by tools.release.catalog)')
+    ap.add_argument('--no-catalog', action='store_true', help='leave the chapter saves out')
     args = ap.parse_args(argv)
     build, out_dir, rom_path = (os.path.abspath(p) for p in (args.build, args.out, args.rom))
+    catalog_dir = os.path.abspath(args.catalog) if args.catalog else os.path.join(build, 'catalog')
     paths = {k: os.path.join(build, k) for k in ('zenobia.exe', 'ogre_en.bps', 'ogre_en.sha1', 'ogre_en.ngc')}
     rep = Report()
     print('Release package: build %s, ROM %s' % (rel(build), rel(rom_path)))
@@ -732,17 +854,35 @@ def main(argv=None):
     full_version = package_version(version, english_sha1, args.release)
     top = '%s-%s' % (NAME, full_version)
     zip_name = '%s-%s.zip' % (top, PLATFORM)
+    saves = [] if args.no_catalog else catalog_files(catalog_dir)
+    if not saves and not args.no_catalog:
+        rep.fail('saves', 'no chapter saves in %s: run python -m tools.release.catalog (or pass --no-catalog)'
+                 % rel(catalog_dir))
+    info = catalog_info(catalog_dir) if saves else None
+    undescribed = [n for n, _ in saves if info is None or n not in info]
+    if undescribed:
+        rep.fail('saves', '%s in %s does not describe %s: run python -m tools.release.catalog again'
+                 % (CATALOG_INFO, rel(catalog_dir), ', '.join(undescribed)))
+    if not os.path.isfile(os.path.join(REPO, GUIDE)):
+        rep.fail('guide', '%s is missing' % GUIDE)
+        print('refused: %d problem(s): %s' % (len(rep.problems), ', '.join(c for c, _ in rep.problems)))
+        return 1
+    guide = guide_page(read(os.path.join(REPO, GUIDE)), [] if undescribed else saves, info)
     inputs = [paths['zenobia.exe'], paths['ogre_en.bps'], paths['ogre_en.sha1'], os.path.join(REPO, 'VERSION'),
               os.path.join(REPO, README_TEMPLATE), os.path.join(REPO, LAUNCHER),
-              os.path.join(REPO, webpatcher.TEMPLATE)]
+              os.path.join(REPO, webpatcher.TEMPLATE), os.path.join(REPO, GUIDE)]
     inputs += [os.path.join(REPO, s) for s, _ in TEXT_DOCS]
     inputs += [os.path.join(REPO, p) for p in import_closure(REPO, APPLIER)]
+    if saves:
+        inputs += [os.path.join(REPO, CATALOG_ABOUT)] + [os.path.join(catalog_dir, n) for n, _ in saves]
+        if info is not None:
+            inputs.append(os.path.join(catalog_dir, CATALOG_INFO))
     date_time, date = zip_time(inputs)
     template = read(os.path.join(REPO, README_TEMPLATE)).decode('utf-8')
     readme = fill_template(template, readme_fields(full_version, date, rom, english)).encode('utf-8')
     page = webpatcher.build(patch, english_sha1, full_version)
-    entries = stage(top, (exe, patch, sha1_text), readme, page=page)
-    check_contents(rep, entries, top)
+    entries = stage(top, (exe, patch, sha1_text), readme, page=page, saves=saves, guide=guide)
+    check_contents(rep, entries, top, rom=rom, described=not undescribed)
     check_rom_data(rep, rom, entries)
 
     final = os.path.join(out_dir, zip_name)

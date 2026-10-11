@@ -69,7 +69,14 @@ static const wchar_t k_default_ini[] =
     L"\r\n"
     L"[general]\r\n"
     L"; 1 = pause the game while the window is in the background.\r\n"
-    L"pause_when_inactive=0\r\n";
+    L"pause_when_inactive=0\r\n"
+    L"; The date the game sees, as MM-DD (for example 12-25), or empty for the\r\n"
+    L"; PC's date. The game checks it for two secrets after the ending (see the\r\n"
+    L"; Player's Guide). Also in the Options menu.\r\n"
+    L"console_date=\r\n"
+    L"; When the player starts: ask = offer to continue where you left off,\r\n"
+    L"; yes = continue without asking, no = start at the title screen.\r\n"
+    L"resume=ask\r\n";
 
 typedef struct { const wchar_t *name; uint8_t vk; } KeyName;
 
@@ -216,10 +223,62 @@ int config_load(Config *c)
         c->nkeys[a] = n < 0 ? 0 : n;
     }
     GetPrivateProfileStringW(L"rom", L"last", L"", c->last_rom, CFG_PATH_MAX, ini);
+
+    GetPrivateProfileStringW(L"general", L"console_date", L"", buf, (DWORD)(sizeof(buf) / sizeof(buf[0])), ini);
+    if (!config_parse_date(buf, &c->rtc_month, &c->rtc_day)) {
+        zen_logf("zenobia.ini: console_date is not MM-DD, using the PC's date\n");
+        c->rtc_month = c->rtc_day = 0;
+    }
+    GetPrivateProfileStringW(L"general", L"resume", L"ask", buf, (DWORD)(sizeof(buf) / sizeof(buf[0])), ini);
+    c->resume = config_parse_resume(buf);
+    if (c->resume < 0) {
+        zen_logf("zenobia.ini: resume is not ask, yes or no, using ask\n");
+        c->resume = RESUME_ASK;
+    }
     return created;
 }
 
 void config_set_last_rom(const wchar_t *rom_path)
 {
     WritePrivateProfileStringW(L"rom", L"last", rom_path ? rom_path : L"", config_ini_path());
+}
+
+int config_parse_date(const wchar_t *s, int *month, int *day)
+{
+    while (*s == L' ') s++;
+    if (!*s || !_wcsicmp(s, L"pc")) {
+        *month = *day = 0;
+        return 1;
+    }
+    int m = 0, d = 0;
+    wchar_t extra = 0;
+    if (swscanf(s, L"%d-%d%lc", &m, &d, &extra) != 2) return 0;
+    static const int days[12] = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    if (m < 1 || m > 12 || d < 1 || d > days[m - 1]) return 0;
+    *month = m;
+    *day = d;
+    return 1;
+}
+
+int config_parse_resume(const wchar_t *s)
+{
+    while (*s == L' ') s++;
+    if (!_wcsicmp(s, L"ask")) return RESUME_ASK;
+    if (!_wcsicmp(s, L"yes")) return RESUME_YES;
+    if (!_wcsicmp(s, L"no")) return RESUME_NO;
+    return -1;
+}
+
+void config_set_console_date(int month, int day)
+{
+    wchar_t v[16];
+    if (month >= 1 && month <= 12 && day >= 1 && day <= 31) swprintf(v, 16, L"%02d-%02d", month, day);
+    else v[0] = 0;
+    WritePrivateProfileStringW(L"general", L"console_date", v, config_ini_path());
+}
+
+void config_set_resume(int mode)
+{
+    WritePrivateProfileStringW(L"general", L"resume",
+                               mode == RESUME_YES ? L"yes" : mode == RESUME_NO ? L"no" : L"ask", config_ini_path());
 }

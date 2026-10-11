@@ -49,6 +49,7 @@ These run the built programs, so build first. Use a new, empty folder for
 python runtime/src/core/tests/save_test.py --harness build/ngp_harness.exe --rom build/ogre_en.ngc --states build/states --work NEW_DIR
 python runtime/src/frontend/tests/release_test.py --exe build/zenobia.exe --patch build/ogre_en.bps --rom rom/baserom.ngc --english build/ogre_en.ngc --harness build/ngp_harness.exe --save-state build/states/data-popup_save_prompt.state --work NEW_DIR
 python runtime/src/frontend/tests/zip_test.py --exe build/zenobia.exe --rom rom/baserom.ngc --patch build/ogre_en.bps --english build/ogre_en.ngc --work NEW_DIR
+python runtime/src/frontend/tests/extras_test.py --exe build/zenobia.exe --rom rom/baserom.ngc --english build/ogre_en.ngc --harness build/ngp_harness.exe --states build/states --work NEW_DIR
 python runtime/src/frontend/tests/bps_test.py build/zenobia.exe WORKDIR [REPO_ROOT]
 bash runtime/src/frontend/tests/rom_test.sh ZENOBIA_EXE JAPANESE_ROM PATCH ENGLISH_ROM WORKDIR
 bash runtime/src/frontend/tests/state_test.sh ZENOBIA_EXE HARNESS_EXE ENGLISH_ROM JAPANESE_ROM WORKDIR
@@ -59,13 +60,38 @@ bash runtime/src/frontend/tests/state_test.sh ZENOBIA_EXE HARNESS_EXE ENGLISH_RO
 `build/states/`. A fresh clone has none of them: "Useful states" below shows
 how to reach `stage0_selected`, and
 [explore-data.md](workstreams/explore-data.md) gives the inputs for the other
-two.
+two. `extras_test.py` (console date, continuing where you left off, importing
+a saved game, the cheats) also loads `r2-story-early-s6_cleared_scenario_map`
+and `battle-gring_fight_banner`.
 
 The PowerShell scripts `gui_*.ps1` in the same folder drive the player's real
 window with key presses (window size, full screen, menus, dialogs, saving) and
 open real windows for up to a minute. Each one explains its parameters in its
 first lines. Run them from a copy of `zenobia.exe` in a scratch folder,
 because the player writes saves, states and `zenobia.ini` next to itself.
+
+## Chapter saves
+
+```
+python -m tools.release.catalog    # build/catalog/*.sav and catalog.json, from tools/release/catalog.txt
+```
+
+The recipe `tools/release/catalog.txt` names one machine-local state per
+save. For each, the tool names the hero Tristan, saves through the game's own
+menu (scenario map popup: Data > Save > OK), loads the result from the title
+screen in a fresh run and compares the army, funds, cleared chapters and
+name, and checks that the save holds file 1 only and no run of 16 or more
+bytes (with at least 4 different values) from the original game. It writes
+nothing unless every save passes. The package takes the saves from
+`build/catalog/`.
+
+The saves of chapters 8 to 12 and after the ending come from one playthrough
+that went on from `r2-story-early-s6_cleared_scenario_map` to both routes:
+the `play-norodom-*` and `play-megaholten-*` states (scenario map with the
+popup closed, so their recipe lines press B first). The same playthrough
+left `play-norodom-final-before-baldur` (the hero's unit about 70 frames
+before it reaches Orma in the Final Chapter; the HQ is under attack, so
+move on quickly). Its only aid was enemy HP set to 1 when a battle starts.
 
 ## Text and localization tools
 
@@ -93,7 +119,8 @@ buttons are U D L R A B and O (Option).
 To reach the HQ status screen from power-on, accepting the default name
 (about 9,000 frames), press A every 40 frames from frame 700 and Option at
 frame 900: `--input "700:A:2;740:A:2;...;8980:A:2;900:O:2"`. From there, B
-backs out to the scenario map. This command prints that list:
+three times (about 200 frames apart) reaches the scenario map with its popup
+open on Organize; a fourth B closes the popup. This command prints that list:
 `python -c "print(';'.join('%d:A:2' % f for f in range(700, 9000, 40)) + ';900:O:2')"`.
 
 The harness has no help text; these are all of its options (frame lists
@@ -111,6 +138,10 @@ are comma-separated, addresses hex):
   after `--load-state`; `--save FILE` keeps the cartridge save in the same
   `.sav` format as the player (saving, Suspend and Continue work);
   `--no-flash-commands`; `--dump-flash FILE`.
+* The player's extras: `--cheat NAME[@FRAME]` applies one of the player's
+  cheats (`goth`, `heal`, `level`, `rep+`, `rep-`; `runtime/src/core/cheats.h`),
+  repeatable; `--date MM-DD` sets the date the BIOS clock reports (the year
+  and time of day stay the PC's).
 
 Graphics checks: `python -m tools.gfx.harness run|poke|diff|sheet` and
 `python -m tools.gfx.vram render|bytes|map|find|queue`. `tools.gfx.harness

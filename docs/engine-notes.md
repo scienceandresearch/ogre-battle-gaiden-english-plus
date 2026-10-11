@@ -54,13 +54,20 @@ Reverse-engineering notes for the supported dump
 
 * Stage table at `0x2261D9`: 20 records of 18 bytes. +0 (24-bit) event table,
   +10 (24-bit) map data, +14 (24-bit) stage script.
-* Each event table holds one location list: 4-byte entries
-  `[u16 handler offset][u8 location id][u8 town id or 0]`, offsets relative
-  to the stage script, 0 = no event. Location ids are global and consecutive
-  across stages (stage 0: 01-04, stage 1: 05-0C, ..., stage 19: E2-EA); the
-  first id of a stage (the start location) usually has no handler. The list
-  is followed by one more entry with an unrelated id and a zero last byte:
-  the stage's main event handler.
+* The event entries sit just before the stage's location table and are
+  read backwards: for location r >= 1 (records and churches alike) the 4
+  bytes at (location table - 4r) are `[u8 id][u8 hidden index][u16 handler
+  offset]` (`0x2035C1` -> `0x20317D`, `ld.l XWA, (-XIZ:4)`). The handler
+  offset is relative to the stage script, 0 = no event. A nonzero hidden
+  index n hides the place until a unit finds it (bit n-1 of the bitmap at
+  `0x5432`). The ids are global and consecutive, counting down within a
+  stage (stage 0: 03-00, stage 1: 0C-04, stage 2: 15-0D, stage 3: 1E-16).
+  Location 0, the start, has no entry. Example, stage 0: Balzac (r = 1)
+  has handler `0x04F3` (the Balzac bandits), Hind (r = 3) hidden index 1,
+  the church (r = 4) handler `0x0C8D`. (These entries were first read one
+  entry off, as `[u16 handler][u8 id][u8 town id]` followed by a "main
+  event handler" with an unrelated id; that handler is location 1's, and
+  the "unrelated id" is the location table's count byte.)
 * A location handler typically looks like `bflag2 stage, skip` /
   `bflag flag, skip` / `pcall 0x204033` / `pcall <portrait>` / messages /
   `setflag flag` / `ret`.

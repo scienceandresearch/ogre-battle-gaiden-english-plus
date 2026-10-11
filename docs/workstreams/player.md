@@ -204,8 +204,36 @@ and are unchanged.
 | Show the controls (Help > Controls) | F1 | |
 | Quit, writing the cartridge save first (File > Exit) | Esc | |
 
-Ctrl+O, Ctrl+S and F1 are fixed; the others can be changed in `zenobia.ini`.
+Ctrl+O, Ctrl+S, F1 and Alt+Enter are fixed; the other keys can be changed in
+`zenobia.ini` (the fullscreen key there is F11).
 The File > Exit item shows the first key bound to `quit`.
+
+Menus: File (Open game, Save English ROM, Import saved game, Continue where I
+left off, Exit), Options (Console date: the PC's date, 25 December, 6 June;
+When the player starts: ask to continue, continue, start at the title
+screen), Cheats (`runtime/src/core/cheats.h`: +100,000 goth, heal every
+character, level up after the next battle, reputation +10 / -10), Help
+(Controls, Player's guide, About).
+
+* Import saved game: picks a `.sav` (the dialog opens in `Chapter saves`
+  next to `zenobia.exe` when it exists), checks it (`saves_check_flash_file`:
+  "NGPFLSH1", complete records, flash blocks 0x1B-0x1E only), flushes the
+  current save, copies the current save file to
+  `saves\<name> (before import YYYY-MM-DD HH-MM-SS).sav`, writes the imported
+  file in its place and reloads the game (title screen; Load, file 1).
+* Continue where I left off: quitting writes `states\resume.state` (the
+  normal state format with the ROM's SHA-1); the next start with the same
+  ROM asks to continue (`[general] resume=ask`), continues (`yes`) or does
+  nothing (`no`). Runs without a window user (`--exit-after`, tests) neither
+  write nor load it unless `--resume` is given.
+* Console date: `g_rtc_month` / `g_rtc_day` in the core replace the date the
+  BIOS RTCGET call reports (year and time of day stay the PC's). The game
+  reads the clock only for two post-game recruits (code at `0x204EA9`: 25
+  December and 6 June).
+* Player's guide: opens `Player's Guide.html` next to `zenobia.exe` in the
+  default browser.
+* Cheats need a game in progress (`cheat_game_ready`: a plausible character
+  list); they change RAM once, inside the game's own limits.
 
 ### Files the player creates (all next to `zenobia.exe`)
 
@@ -216,7 +244,9 @@ The File > Exit item shows the first key bound to `quit`.
   (`A`-`Z`, `0`-`9`, `F1`-`F24`, `Up`, `Enter`, `Space`, `Tab`, `Escape`,
   `Shift`, `LCtrl`, `Numpad0`, `Comma`...) or virtual-key codes (`65`, `0x41`),
   several per action separated by commas, empty = disabled; `[rom] last`;
-  `[general] pause_when_inactive` (default 0). Delete it to restore defaults.
+  `[general] pause_when_inactive` (default 0), `console_date` (`MM-DD`, empty
+  = the PC's date), `resume` (`ask`, `yes`, `no`; default `ask`). Delete it to
+  restore defaults.
 * `saves\<ROM file name>.sav`: the cartridge save (the game's own Save and
   Suspend), written about 2 s after the game saves and on exit. For a zip,
   the name of the game file inside it (folders in the zip and characters
@@ -224,16 +254,21 @@ The File > Exit item shows the first key bound to `quit`.
   file is kept as `.sav.bak` once per session. A damaged file is reported,
   only its complete records are loaded, and it is copied to `.bak` before the
   game saves again.
+* `saves\<ROM file name> (before import YYYY-MM-DD HH-MM-SS).sav`: the save
+  as it was before File > Import saved game replaced it.
 * `states\slot0.state` ... `slot9.state`: save states (shared by all ROMs; a
   state from a different ROM or patch version asks before loading). Note: when
   run from `build\`, these land in `build\states\` next to the agents' harness
   states (different names).
+* `states\resume.state`: the session at the last quit (Continue where I left
+  off).
 
 ### Command line
 
 ```
 zenobia [ROM] [--patch FILE] [--untranslated] [--console] [--log N]
         [--exit-after SECONDS] [--png FILE] [--png-scale N] [--no-flash-commands]
+        [--date MM-DD] [--resume ask|yes|no] [--import-save FILE]
 zenobia ROM --write-patched OUT [--patch FILE]
 zenobia --selftest ROM [--patch FILE] [--frames N] [--input "F:BUTTONS:LEN;..."]
         [--png OUT.png] [--png-scale N] [--save FLASHFILE] [--untranslated]
@@ -263,6 +298,12 @@ in `--selftest`). Exit codes: 0 ok, 1 usage, 2 ROM unreadable (also a zip
 that cannot be used), 3 ROM refused (or patch unusable), 4 a state operation
 failed, 5 write failed, 6 PNG failed, 7 cartridge save failed, 10+n BPS
 error n, 30+n zip error n (`--unzip`).
+
+`--date MM-DD` sets the console date for this run (window and selftest),
+`--resume` the start behaviour for this run (also without a window), and
+`--import-save FILE` imports a saved game before playing (no questions; exit
+7 if the file is refused). `runtime/src/frontend/tests/extras_test.py` covers
+the three, and the cheats through the harness.
 
 Test hook: the environment variable `ZENOBIA_XINPUT="name.dll[,name.dll]"`
 replaces the XInput DLL names tried (still from System32 only); a name that
@@ -523,6 +564,23 @@ core's own save checks are `runtime/src/core/tests/save_test.py`, see
   21/21 on a renamed copy (client 640x608, F11 / Alt+Enter restore the same
   window), `gui_dialog_test.ps1` 14/14, `gui_misc_test.ps1` 9/9 (1084
   frames in 6 s), `gui_save_test.ps1` 12/12.
+* With the extras (2026-10-11): `gui_extras_test.ps1 -AppDir DIR -ExeName
+  NEW_NAME.exe -Rom JP_ROM -State GAME_STATE -Save CHAPTER_SAVE -Out DIR`
+  (new, real windows, about 40 s): the menu bar File, Options, Cheats, Help
+  and the Options and Cheats items; the check marks and `zenobia.ini`
+  values of Console date and When the player starts; without a game in
+  progress the cheats, Continue where I left off and (with no guide next to
+  the exe) Help > Player's guide explain themselves; a game in progress
+  loaded with F9 and paused takes each cheat (title messages, then a state
+  saved with F5 holds +100,000 goth, the same reputation after +10 and -10,
+  and experience 99); quitting writes `states\resume.state`; the next start
+  asks and Yes continues; File > Continue asks first; File > Import saved
+  game opens in `Chapter saves`, asks, replaces the save, keeps the old one
+  as "(before import ...)" and restarts: 28/28. `gui_menu_test.ps1` now
+  expects the new menu bar and `gui_dialog_test.ps1` writes `resume=no`
+  first (their restarts must not meet the question): 37/37 and 14/14;
+  `gui_misc_test.ps1` 9/9, `gui_save_test.ps1` 12/12, `gui_test.ps1` 21/21
+  on a renamed copy.
 * In-game save headless: `zenobia.exe --selftest ROM --load-state
   build\states\data-popup_save_prompt.state --input "10:A:2" --frames 600 --png
   S.png --save S.sav` shows "Save complete." and writes the flash file;

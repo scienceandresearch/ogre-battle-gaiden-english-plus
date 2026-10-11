@@ -208,6 +208,10 @@ void    bios_build_image(void);
 void    bios_boot(void);                 /* set up state as if the BIOS just launched the cart */
 int     bios_hle_call(uint32_t pc);      /* execute HLE routine at BIOS address; returns 1 if handled */
 void    bios_vblank_hook(void);
+/* Console date for RTCGET: month 1-12 and day 1-31 replace the host clock's
+   date (its year and time of day are kept); 0 = the host clock's date. This
+   game reads the clock only for two post-game recruits (25 December, 6 June). */
+extern int g_rtc_month, g_rtc_day;
 
 /* input */
 extern uint8_t g_input_state;   /* bit0 up,1 down,2 left,3 right,4 A,5 B,6 option */

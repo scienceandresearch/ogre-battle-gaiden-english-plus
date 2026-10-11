@@ -145,6 +145,8 @@ void bios_vblank_hook(void)
     g_lowmem[0x6F82] = g_input_state;
 }
 
+int g_rtc_month, g_rtc_day;
+
 static void call_rtcget(void)
 {
     uint32_t dst = XHL3 & 0xFFFFFF;
@@ -155,6 +157,18 @@ static void call_rtcget(void)
 #else
     localtime_r(&now, &tmv);
 #endif
+    if (g_rtc_month >= 1 && g_rtc_month <= 12 && g_rtc_day >= 1 && g_rtc_day <= 31) {
+        /* the chosen date in the host's year; mktime gives its weekday */
+        struct tm d = tmv;
+        d.tm_mon = g_rtc_month - 1;
+        d.tm_mday = g_rtc_day;
+        d.tm_isdst = -1;
+        if (mktime(&d) != (time_t)-1 && d.tm_mon == g_rtc_month - 1 && d.tm_mday == g_rtc_day) {
+            tmv.tm_mon = d.tm_mon;
+            tmv.tm_mday = d.tm_mday;
+            tmv.tm_wday = d.tm_wday;
+        }
+    }
     int year = tmv.tm_year % 100;
     if (dst < 0xC000) {
         mem_write8(dst + 0, bcd(year));

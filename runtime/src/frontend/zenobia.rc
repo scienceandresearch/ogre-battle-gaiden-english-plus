@@ -42,11 +42,11 @@ BEGIN
     BEGIN
         BLOCK "040904B0"
         BEGIN
-            VALUE "CompanyName",      "The open-ogre-battle-gaiden-zenobia contributors"
+            VALUE "CompanyName",      "The ogre-battle-gaiden-english-plus contributors"
             VALUE "FileDescription",  "Ogre Battle Gaiden: Prince of Zenobia (English)"
             VALUE "FileVersion",      ZEN_VERSION_STR
             VALUE "InternalName",     "zenobia"
-            VALUE "LegalCopyright",   "Copyright (c) 2026 The open-ogre-battle-gaiden-zenobia contributors. MIT License."
+            VALUE "LegalCopyright",   "Copyright (c) 2026 The ogre-battle-gaiden-english-plus contributors. MIT License."
             VALUE "OriginalFilename", "zenobia.exe"
             VALUE "ProductName",      "Ogre Battle Gaiden: Prince of Zenobia - English fan translation"
             VALUE "ProductVersion",   ZEN_VERSION_STR
