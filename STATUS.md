@@ -40,7 +40,7 @@ The current build turns the original (SHA-1
 `5ac794c0f125bfb97efe9cd06c2aca3afdf549ea`) into the English ROM with SHA-1
 `d5234b95d12096c722c324d23e5e4fb227179eff`. The patch `ogre_en.bps` is
 133,249 bytes, and the package
-`ogre-battle-gaiden-english-plus-0.1.0-dev+d5234b95-win64.zip` is 522,468
+`ogre-battle-gaiden-english-plus-0.1.0-dev+d5234b95-win64.zip` is 522,523
 bytes with 17 chapter saves. Test results on this build: `release_test.py`
 41/41, `zip_test.py` 59/59, `save_test.py` 27/27, `extras_test.py` 25/25,
 `bps_test.py` 26/26, `tools.gfx.test_all` 7 modules (105 tests),

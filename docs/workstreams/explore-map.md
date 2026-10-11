@@ -98,7 +98,10 @@ in stage 7, see below).
 * **Deploy** (stage 1+, when units are waiting): command bar icon 2
   (pre-drawn Japanese label "deploy unit") opens the UNIT list (number,
   leader, move type); A asks "Deploying costs N goth. Is that OK?", Yes puts
-  the unit on the HQ.
+  the unit on the HQ. At most seven player units are on the map at once:
+  the deploy routine `0x206F8D` takes the first free 8-byte map slot from
+  `0x6106`, and player units use the seven slots below `0x613E` (added
+  2026-10-11; a playthrough with seven units out had no Deploy icon).
 * **Tarot stock:** sorted card numbers at `0x5406` (14 slots, `0x5413` != 0
   means full). Keep = No: no message. Full stock (test state): "Your tarot
   stock is full. Discard one?" -> TAROT list -> "Is that all right?" ->

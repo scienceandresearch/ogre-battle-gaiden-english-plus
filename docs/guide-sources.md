@@ -165,6 +165,7 @@ and `cards.txt`. `0x5490` holds stage index + 1: Exp (states
 |---|---|
 | Single unit in chapter 1. | State `stage0_gameplay` (units = 1). |
 | Deploy unit from chapter 2; costs goth; price asked first. | Tr `script.txt:430-433` (Tips 5, chapter 2), `ui.txt:525-526` ("Deploying costs N goth. Is that OK?"); `explore-map.md` "Deploy (stage 1+)". |
+| At most seven of your units on the map at once, the first included; with seven out, no Deploy unit. | ROM `0x206F8D` (deploy: takes the first free 8-byte map slot from `0x6106`; player units use the seven slots below `0x613E`, the slots from there on are handled differently). Exp: the playthrough behind the chapter saves (2026-10-11) had no Deploy unit icon on the command bar with seven units out, in chapters 10 and 12 of the Megaholten route. Whether a unit numbered 8 or higher can go out while fewer than seven are on the map was not tried; the guide does not say. |
 | Any unit except the first is asked about recall when it ends its move on the HQ. | `explore-map.md` "Recall to HQ" (`0x20833B`); Tr `ui.txt:486-490`. |
 | Return Half sends a unit back to HQ. | Tr `tables/items.txt:207` (item 9 description). |
 

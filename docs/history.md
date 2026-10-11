@@ -146,7 +146,7 @@ the package to `ogre-battle-gaiden-english-plus-<version>-win64.zip`.
 
 Build `d5234b95` unchanged (rebuilt from the sources: same SHA-1). Every
 suite passes; `test_package` 46/46 (also without the maintainer's saves,
-using a made-up one). Dev package 522,468 bytes with 17 chapter saves. An
+using a made-up one). Dev package 522,523 bytes with 17 chapter saves. An
 audit of every new and changed file found no Japanese, no ROM data and no
 personal data.
 
