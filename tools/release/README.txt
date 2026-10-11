@@ -12,6 +12,12 @@ This download contains none of the game itself: no text, graphics, sound or
 program code. The English patch and the player need your own copy of the
 original Japanese game.
 
+How it was made: the English text, the player and the tools were written
+with Claude, an AI model by Anthropic, directed by the project's maintainer
+(scienceandresearch). The same AI and automated tests checked the
+translation in the game; no human translator has reviewed it yet.
+Corrections are welcome (see "Known issues").
+
 
 Quick start
 -----------
@@ -48,7 +54,7 @@ Contents
   Chapter saves             saved games that start you at a chapter (see
                             "Chapter saves" below)
   Patch your game.html      makes the English game file in your web browser
-  ogre_en.bps               the English patch (BPS format), for patching tools
+  ogre_en.bps               the English patch (BPS), for patching tools
   ogre_en.sha1              SHA-1 of the English ROM that the patch makes
   README.txt                this file
   LICENSE.txt               the license of this project (MIT)
@@ -59,9 +65,9 @@ Contents
 What you need
 -------------
 Your own copy of this game, as a "ROM" file dumped from the original
-cartridge:
+cartridge (the first line is its name in the No-Intro list):
 
-  Densetsu no Ogre Battle Gaiden: Zenobia no Ouji (Japan)
+  Densetsu no Ogre Battle Gaiden - Zenobia no Ouji (Japan)
   Neo Geo Pocket Color
   Size:   @ORIGINAL_SIZE@ bytes
   CRC32:  @ORIGINAL_CRC32@
@@ -69,8 +75,9 @@ cartridge:
   SHA-1:  @ORIGINAL_SHA1@
 
 The file name and extension (.ngc, .ngp) do not matter, and a .zip that
-contains the file works too. The patching tools refuse other dumps, other
-revisions and files that were already patched; the player asks before it runs
+contains the file works too. The patch page, Floating IPS and the Python
+tool refuse other dumps, other revisions and files that were already
+patched, and ROM Patcher JS warns about them; the player asks before it runs
 such a file as it is. This project does not provide the game.
 
 
@@ -235,9 +242,11 @@ any modern web browser on Windows, macOS and Linux, accepts the game as a
 .ngc file or inside a .zip, checks that it is the right game, and saves
 "Ogre Battle Gaiden - Prince of Zenobia (English).ngc".
 
-ogre_en.bps is the same patch for patching tools. All of these tools check
-the original first and refuse a different file; never force them to apply
-the patch anyway.
+ogre_en.bps is the same patch for patching tools. Flips, the Python tool and
+the player check the original first and refuse a different file; never
+force them to apply the patch anyway. ROM Patcher JS only warns: if it shows
+"Source ROM checksum mismatch", your file is a different one and the result
+will not work.
 
 Floating IPS (Flips), Windows and Linux:
   Start Flips, click "Apply Patch", choose ogre_en.bps, then your original
@@ -248,9 +257,9 @@ Floating IPS (Flips), Windows and Linux:
 
 ROM Patcher JS (any web browser; the files stay on your computer):
   Choose your original game file as "ROM file" (a .zip works too), check
-  that the CRC32 and SHA-1 it shows are the ones in "What you need", choose
-  ogre_en.bps as "Patch file" and click "Apply patch". The browser saves the
-  English ROM.
+  that the CRC32 and SHA-1 it shows are the ones in "What you need" (stop
+  if it says "Source ROM checksum mismatch"), choose ogre_en.bps as "Patch
+  file" and click "Apply patch". The browser saves the English ROM.
 
 Python (Windows, Linux or macOS; Python 3.7 or newer, nothing to install),
 in this folder:
@@ -287,8 +296,13 @@ Known issues
     hide untranslated or cut-off text. Please report any you find at
     https://github.com/scienceandresearch/ogre-battle-gaiden-english-plus/issues
     with a screenshot and where in the game it appears.
-  - So far the English ROM has been tested only with this project's own
-    player.
+  - Besides this project's player, the English ROM was tested in two other
+    emulators: Beetle NeoPop (Mednafen's Neo Geo Pocket emulator; the
+    opening, the first chapter with a battle, saving and loading) and RACE
+    (the opening, saving and loading). Other emulators and flash carts have
+    not been tested.
+  - The translation was made with an AI model and has not been reviewed by
+    a human translator yet.
   - zenobia.exe is not signed, so SmartScreen asks before the first start.
 
 
@@ -308,5 +322,6 @@ takes everything else from your own copy of the game. The chapter saves
 hold only saved progress. Please do not ask for or share ROM files, and do
 not distribute patched ROMs: share this package instead.
 
-Translation, player and tools: the ogre-battle-gaiden-english-plus
-contributors. Thanks to the creators of the original game.
+Project lead: scienceandresearch. Translation, player and tools: written
+with Claude (Anthropic's AI model) under the project lead's direction.
+Thanks to the creators of the original game.

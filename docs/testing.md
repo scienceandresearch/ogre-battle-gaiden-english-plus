@@ -70,6 +70,13 @@ open real windows for up to a minute. Each one explains its parameters in its
 first lines. Run them from a copy of `zenobia.exe` in a scratch folder,
 because the player writes saves, states and `zenobia.ini` next to itself.
 
+Other emulators: `python -m tools.release.lrhost CORE.dll ROM --frames N
+--input ... --shot ... --out DIR` runs the English ROM in a libretro core
+(Beetle NeoPop, RACE) without a window, with the harness's input format and
+PNG frames at 160x152. Bring your own core. "Checks in other emulators" in
+[release.md](workstreams/release.md) lists the cores and the input routes
+used for 1.0.0.
+
 ## Chapter saves
 
 ```

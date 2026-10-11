@@ -12,10 +12,17 @@ cartridge. That is a `.ngc` file (SHA-1
 `5ac794c0f125bfb97efe9cd06c2aca3afdf549ea`) or the `.zip` it came in. The
 player and the patch page check the file for you.
 
-Version 0.1.0-dev is a complete development build. All of the game's text and
+Version 1.0.0 is the first public release. All of the game's text and
 pre-drawn graphics are in English, and every stage and ending has been checked
-in play. Before a public release it still needs a few manual checks with other
-emulators and patching tools. [STATUS.md](STATUS.md) has the details.
+in play. [STATUS.md](STATUS.md) has the details.
+
+The English text, the player and the tools were written with Claude, an AI
+model by Anthropic, directed by the project's maintainer. The same AI and
+automated tests checked the translation in the game: the dialogue of every
+stage on screen in context, every text against the size of its window, and
+character names against the series' official English releases. No human
+translator has reviewed it yet. Corrections are welcome (see
+[Helping with the translation](#helping-with-the-translation)).
 
 ## How to play
 
@@ -46,8 +53,9 @@ Make an English game file on your computer:
    download, usually in your Downloads folder.
 
 Open that file in a Neo Geo Pocket Color emulator, or copy it to a flash
-cart. So far the English file has been tested only with this project's own
-player. The page works offline and uploads nothing. On Windows the player can
+cart. Besides this project's player, the English file has been tested in the
+Beetle NeoPop (Mednafen) and RACE emulators; flash carts have not been
+tested. The page works offline and uploads nothing. On Windows the player can
 make the same file: choose *File > Save English ROM...* (Ctrl+S). Neither way
 changes your original file.
 
@@ -74,11 +82,9 @@ Rules:
 - Ask me before installing anything.
 
 Steps:
-1. From the newest release on the download page (a pre-release counts),
-   download the file whose name ends in -win64.zip and extract it into a new
-   folder. The files are in the ogre-battle-gaiden-english-plus-... folder inside it;
-   work there. If the page asks for a GitHub sign-in, ask me to download the
-   zip and tell you where it is.
+1. From the newest release on the download page, download the file whose
+   name ends in -win64.zip and extract it into a new folder. The files are in
+   the ogre-battle-gaiden-english-plus-... folder inside it; work there.
 2. Check my game file. The original is 2,097,152 bytes with SHA-1
    5ac794c0f125bfb97efe9cd06c2aca3afdf549ea. If it is a .zip, check the .ngc
    file inside. If the SHA-1 is different, stop and tell me, because the
@@ -92,8 +98,8 @@ Steps:
      zenobia.exe "<my game file>" --write-patched "<same output path>"
    Then check that the new file's SHA-1 matches the one in ogre_en.sha1.
 4. Tell me where the English file is. It is meant for Neo Geo Pocket Color
-   emulators and flash carts (so far it has been tested only with the
-   project's own player). On Windows I can also double-click zenobia.exe in
+   emulators and flash carts (it has been tested in the Beetle NeoPop and
+   RACE emulators). On Windows I can also double-click zenobia.exe in
    that folder and choose my original game file; the player translates the
    game as it loads, and F1 shows the controls.
 ```
@@ -157,8 +163,10 @@ program, so a command prompt does not wait for it: use
 
 `Patch your game.html` is the easiest way to make the English file. The
 release also has the patch as `ogre_en.bps`, for BPS patching tools such as
-Floating IPS or ROM Patcher JS in a web browser (not yet tested with them).
-With Python:
+Floating IPS or ROM Patcher JS in a web browser (both tested with it).
+Floating IPS refuses a file that is not the original; ROM Patcher JS only
+shows "Source ROM checksum mismatch", and the file it makes then will not
+work. With Python:
 
 ```
 python patch-tools/apply.py your_game.ngc        # in the extracted release folder
@@ -213,12 +221,25 @@ the maintainer's PC (see [docs/testing.md](docs/testing.md)).
 
 ## Helping with the translation
 
-The English text is in `translation/en/`. [docs/localization.md](docs/localization.md)
-explains how to export every string with its Japanese original into a
-spreadsheet for review, and how to bring a reviewer's suggestions back in.
+The English text is in `translation/en/`. It was made with an AI model, so a
+review by someone who reads Japanese is the most useful help right now, and
+an English proofread of `translation/en/script.txt` helps too.
+[docs/localization.md](docs/localization.md) explains how to export every
+string with its Japanese original into a spreadsheet for review, and how to
+bring a reviewer's suggestions back in.
 [docs/engine-notes.md](docs/engine-notes.md) describes how the game works
 inside. If you find untranslated or cut-off text, please open an issue with a
 screenshot and say where in the game it appears.
+
+## Credits
+
+* Project lead: scienceandresearch.
+* Translation, patch code, player and tools: written with Claude (Anthropic's
+  AI model) under the project lead's direction.
+* The Z80 sound CPU emulator is by Nicolas Allemand, and the CPU instruction
+  timings come from MAME (Wilbert Pol); see
+  [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+* Thanks to the creators of the original game.
 
 ## License and legal
 

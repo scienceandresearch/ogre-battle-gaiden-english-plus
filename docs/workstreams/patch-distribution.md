@@ -216,8 +216,10 @@ You need your own copy of the original game:
 | SHA-1 | `5ac794c0f125bfb97efe9cd06c2aca3afdf549ea` |
 
 The file name and extension (`.ngc`, `.ngp`) do not matter. The patch stores
-the CRC32 of the original and of the result, so all tools below refuse a
-different ROM; never force them to apply it anyway.
+the CRC32 of the original and of the result. Floating IPS and the Python
+applier refuse a different ROM; never force them to apply it anyway. ROM
+Patcher JS only warns ("Source ROM checksum mismatch") and by default still
+writes a broken file.
 
 **Floating IPS (Flips), Windows/Linux.** GUI: start Flips, click
 "Apply Patch", choose `ogre_en.bps`, then the original ROM, then where to save
@@ -229,9 +231,10 @@ Do not use its option to ignore checksums.
 
 **ROM Patcher JS (any browser).** Open ROM Patcher JS (marcrobledo.com,
 RomPatcher.js), choose the original ROM as "ROM file" (a .zip works too), check
-that the CRC32 / SHA-1 it shows match the table above, choose `ogre_en.bps` as
-"Patch file" and click "Apply patch"; the browser saves the English ROM. The
-files are processed locally in the browser.
+that the CRC32 / SHA-1 it shows match the table above (stop if it says
+"Source ROM checksum mismatch"), choose `ogre_en.bps` as "Patch file" and
+click "Apply patch"; the browser saves the English ROM. The files are
+processed locally in the browser.
 
 **Python (this repository, or the release zip if it includes the `tools`
 folder; Python 3.7+, no extra packages).**
@@ -330,11 +333,11 @@ file.
    the current layout blocks 28 and 30 hold patch text and tables, so old
    saves would put old patch data back into a newer version. Fix it before
    the first public release; the build warns until then.
-2. Flips and ROM Patcher JS were not run here (no third-party downloads in
-   this project). The patch uses only plain BPS: empty metadata, numbers of at
+2. Resolved (2026-10-11): Floating IPS v198 and ROM Patcher JS v3.2.1 both
+   make the English ROM from this patch (details in `release.md`, "Release
+   checklist"). The patch uses only plain BPS: empty metadata, numbers of at
    most 4 bytes, TargetCopy that may overlap the bytes it writes (both tools
-   copy byte by byte, as the specification requires). Check by hand before a
-   release (release check 5).
+   copy byte by byte, as the specification requires).
 3. The patched ROM's SHA-1 changes whenever the translation changes; a release
    must quote the SHA-1 of the build it ships.
 4. Resolved in the integration pass: `bps_apply` with `max_target = 0` now
@@ -355,5 +358,4 @@ file.
   package"; README with the checksums filled in) and refuses any file that
   looks like a ROM. The license is decided (MIT); the README text for the
   release still has to be written (`player.md` has the player steps).
-* Manual check with Flips and ROM Patcher JS.
 * Optionally put a version string in the patch metadata (kept empty for now).

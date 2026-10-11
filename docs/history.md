@@ -161,6 +161,48 @@ Dev package rebuilt (522,622 bytes, SHA-256 `3bbd03eb...`); `test_package`
 `v0.1.0-dev` now carries this package, with new release notes, in place of
 the old `+4fe9c5ff` one. Its tag still points to an older commit.
 
+### 2026-10-11: release 1.0.0 prepared
+
+The owner asked for everything the patch sites require before announcing.
+Their rules (checked on the sites the same day) ask for a public direct
+download, a readme as its own file, the ROM's database name and a hash, named
+credits, clean screenshots at native resolution, and an honest account of
+machine translation. Done:
+
+* Checks outside the project's own emulator, on the unchanged patch: Floating
+  IPS v198 and ROM Patcher JS v3.2.1 (its patching library in Node.js) make
+  the English ROM; Floating IPS refuses the English ROM and a changed
+  original, while ROM Patcher JS only warns ("Source ROM checksum mismatch")
+  and by default still writes a broken file. The English ROM ran in the
+  libretro cores Beetle NeoPop and RACE through the new off-screen host
+  `tools/release/lrhost.py`: the opening and tarot reading in both, chapter 1
+  with its dialogue, the church event and the battle at Gring in Beetle
+  NeoPop, and in both a game saved through the Data menu loads after the
+  emulator restarts. The console language setting changes nothing.
+* Readmes: the No-Intro name ("Densetsu no Ogre Battle Gaiden - Zenobia no
+  Ouji (Japan)", checked against the No-Intro list: same SHA-1), credits
+  (project lead scienceandresearch; written with Claude), a plain statement
+  that the text was made with an AI model and not yet reviewed by a human
+  translator, the tested emulators, and ROM Patcher JS's warning. The
+  sentence that every patching tool refuses a wrong file was wrong for ROM
+  Patcher JS and is fixed.
+* A test file in `zip_test.py` was named after a ROM site; it is now
+  `Website.url`.
+* `VERSION` 1.0.0; release package
+  `ogre-battle-gaiden-english-plus-1.0.0-win64.zip` (522,001 bytes, SHA-256
+  `9db5bdf6...`). Extracted with Expand-Archive: `release_test.py` 41/41,
+  `bps_test.py` 26/26 and its `patch-tools/apply.py` gives `d5234b95...`;
+  also `extras_test.py` 25/25, `save_test.py` 27/27, `zip_test.py` 59/59,
+  `test_package` 46/46, `test_bps` 11/11, `tools.gfx.test_all`,
+  `test_tables` 18/18 and `test_webpatcher` 2/2.
+* A full-history scan before going public (all 8 commits, 319 file
+  versions): no ROM data, no personal data; the only Japanese is the kana
+  table in `tools/text/charmap.py`.
+
+Screenshots, release notes and the texts for each site are machine-local in
+`build/handoff/outreach/`. Nothing is public yet: making the repository
+public and publishing the release wait for the owner's go-ahead.
+
 ## Save-safe layout (2026-10-09)
 
 Earlier builds put patch data in the game's save blocks. The game saves to

@@ -9,7 +9,21 @@ the zip may contain data from the game.
 
 ## State
 
-Current package (2026-10-11, English Plus: the complete build plus the
+Release package 1.0.0 (2026-10-11, made with `--release`; not published
+yet): `dist\ogre-battle-gaiden-english-plus-1.0.0-win64.zip`, 522,001 bytes,
+39 entries, SHA-256
+`9db5bdf657ea8b0d334ee6ee505c4fc2c20a7fde6455775ea94aad1ed8f18621`, SHA-1
+`46b8121d324043b135ec87b04a7adb694a5b1a63`, English ROM SHA-1 `d5234b95...`
+(the same patch as the package below, byte for byte). Checklist steps 1 to 6
+and 8 are done (results in "Release checklist"); step 7, a clean Windows PC,
+is left for the owner. Publishing (public repository, release `v1.0.0` with
+the zip and `README.txt` as separate files) waits for the owner's go-ahead;
+the release notes and the texts for the patch sites are machine-local in
+`build/handoff/outreach/`. A change before publishing means deleting this zip
+and packaging again (`--release` refuses to replace a different zip of the
+same version); after publishing, raise `VERSION` instead.
+
+Previous package (2026-10-11, English Plus: the complete build plus the
 player's guide, 17 chapter saves and the player's extras):
 `dist\ogre-battle-gaiden-english-plus-0.1.0-dev+d5234b95-win64.zip`, 522,622
 bytes, 39 entries (33 files, 6 folders), SHA-256
@@ -20,8 +34,7 @@ reproduces `ogre_en.sha1`; `test_package` 46/46. Its `zenobia.exe` and
 `ogre_en.bps` are the files that passed `release_test.py` 41/41. Since
 2026-10-11 it is the asset of the GitHub pre-release `v0.1.0-dev`, with
 release notes written for it; the release's tag still points to an older
-commit. Still not a public release: the manual checklist steps 6-8 (Flips,
-ROM Patcher JS, a clean PC, another emulator) remain for the owner.
+commit. It was a development build for the private repository only.
 
 Earlier package (2026-10-10, complete build with the web patcher and the
 reworded READMEs, asset of the pre-release until 2026-10-11):
@@ -51,7 +64,7 @@ another emulator), and the pre-drawn Japanese graphics are still in the game.
 
 ### VERSION
 
-`VERSION` (repository root) holds `MAJOR.MINOR.PATCH`, now `0.1.0`. It goes
+`VERSION` (repository root) holds `MAJOR.MINOR.PATCH`, now `1.0.0`. It goes
 into the version resource of `zenobia.exe` (CMake reads it; a change
 reconfigures and relinks) and into the package name. Packages are dev builds
 unless made with `--release`: their version gets `-dev+` and the first 8
@@ -331,19 +344,80 @@ the same 18 entries byte for byte):
    `release_test.py` on the extracted `zenobia.exe` and `ogre_en.bps` (as in
    "How to test", 40 checks) and `python patch-tools/apply.py ORIGINAL` in
    it ("matches ogre_en.sha1").
-6. By hand, not automated here (no third-party downloads in this project):
-   apply `ogre_en.bps` to a copy of the original with Floating IPS (GUI and
-   `flips --apply`) and with ROM Patcher JS in a browser; the SHA-1 of each
-   result (`certutil -hashfile FILE SHA1`) must equal `ogre_en.sha1`, and
-   both tools must refuse the English ROM and a changed copy of the
-   original.
+6. With third-party tools the project does not ship (fetch them from their
+   own release pages, outside the repository): apply `ogre_en.bps` to a copy
+   of the original with Floating IPS (`flips --apply`, or its GUI) and with
+   ROM Patcher JS; the SHA-1 of each result (`certutil -hashfile FILE SHA1`)
+   must equal `ogre_en.sha1`. Floating IPS must refuse the English ROM and a
+   changed copy of the original; ROM Patcher JS must show "Source ROM
+   checksum mismatch" for them (it does not refuse by default).
 7. By hand on a clean Windows 10/11 PC or account: Explorer shows the icon
-   and, under Properties > Details, file version 0.1.0.0 / product version
-   0.1.0; SmartScreen asks once ("More info", "Run anyway"); choose the ROM,
-   play a few minutes, save in the game, quit, start again, load.
-8. Play the English ROM in an established emulator (STATUS checklist).
-9. Publish the zip with its SHA-256 and release notes: version, date, the
-   English ROM's SHA-1, known issues. Never rebuild a published version.
+   and, under Properties > Details, the file and product version of
+   `VERSION`; SmartScreen asks once ("More info", "Run anyway"); choose the
+   ROM, play a few minutes, save in the game, quit, start again, load.
+8. Play the English ROM in established emulators: `tools/release/lrhost.py`
+   with libretro cores (below), or by hand.
+9. Publish the zip and its `README.txt` (as a separate file, for the patch
+   sites' readme fields) with the SHA-256 and release notes: version, date,
+   the English ROM's SHA-1, known issues. Never rebuild a published version.
+
+Results for 1.0.0 (2026-10-11): steps 1 to 5 as in "State". Step 6:
+Floating IPS v198 (Windows build from its GitHub releases) `flips --apply
+ogre_en.bps original.ngc out.ngc` printed "The patch was applied
+successfully!" and gave `d5234b95...`; the English ROM and a copy of the
+original with one byte changed were refused ("This patch is not intended for
+this ROM. Expected checksum EEEEFD6A, got ..."), exit 1, no file. The GUI was
+not tried. ROM Patcher JS v3.2.1: its patching library (`RomPatcher.js`,
+the BPS module and `BinFile.js`, identical on its master branch, which the
+web page runs) was driven from Node.js the way the page drives it: the
+original gives `d5234b95...`; for the English ROM and the changed copy the
+page's check reports "Source ROM checksum mismatch", and with the page's
+default setting (`requireValidation` false) it still writes a file
+(SHA-1 `5fa3f6ed...` and `42b66c61...`); with validation on it refuses
+("Invalid input ROM checksum"). The web page itself was not opened. Step 8:
+below. Step 7 is left for the owner; the player imports only USER32, GDI32,
+WINMM, COMDLG32, SHELL32, ole32 and KERNEL32.
+
+### Checks in other emulators (`tools/release/lrhost.py`)
+
+`python -m tools.release.lrhost CORE.dll ROM --frames N --input ... --shot
+... --out DIR` runs a libretro core without a window: scripted input in the
+harness's `F:BTN:LEN` form, PNG frames at 160x152, contact sheets
+(`--sheet`), save states (`--save-state F:FILE`, `--load-state`), core
+options (`--opt KEY=VALUE`). The core writes the cartridge save into the
+save folder when it closes (`.flash` for Beetle NeoPop, `.ngf` for RACE),
+so a second run with the same `--save-dir` is a restart. Cores used for
+1.0.0: Beetle NeoPop v1.29.0.0 a50d5ac and RACE v2.16 c7810dd, from the
+libretro buildbot's nightly Windows x86_64 builds of 2026-10-11 (kept in
+`build/emu-check/cores/`, machine-local). A run of 9,300 frames takes a few
+seconds.
+
+Routes that worked in Beetle NeoPop (frame numbers from the run's start):
+
+* Power-on to the HQ status screen: A every 40 frames from 700 to 8980 and
+  Option at 900 (as in `testing.md`; it types "AAAAAAAA" as the hero's name).
+  To keep the default name Tristan instead, stop the A presses at the name
+  screen ("But first, tell me your name...": A, then Option jumps to END,
+  then A).
+* From the status screen: B at 10, 210, 410 and 610 closes the map popup;
+  then L for 22 frames, U for 8 and A select "The Zenobian Age" stage
+  (chapter card "Chapter 1 / Quickening"); A every 40 frames reads the
+  opening; answer "Hear it again?" with B.
+* Stage 0, as in `explore-map.md`: A on HQ, R, A opens the unit window
+  (Move); A shows the flag cursor; `10:L:27;41:D:24;69:D:2;90:A:2;120:A:2`
+  sends the unit to Roshfol Church (liberated, tarot draw, the priest's
+  question); from the church, A, R, A, A and then
+  `10:D:49;63:D:3;90:A:2;120:A:2` reach Gring ("encountered an enemy
+  unit"), and A every 120 frames plays the talk and the battle ("FIGHT IT
+  OUT!", the tarot menu, "WINNERS").
+* Saving: on the scenario map B opens the popup, R twice reaches Data, A
+  Save, A "OK:A NO:B", A "Save complete.". After a restart, A at 700 skips
+  the intro; the title menu starts on Load when a save exists; A, A loads.
+
+RACE runs at a different speed, so the same frame numbers land elsewhere
+(from its HQ status screen the popup opens after the second B); check the
+frames and adjust. With `--opt ngp_language=japanese` Beetle NeoPop gives
+the same frames as with English.
 
 ## Open issues
 
@@ -371,6 +445,9 @@ the same 18 entries byte for byte):
 8. Without a Ninja build folder the exe check uses file times and cannot see
    changes to `CMakeLists.txt`.
 9. "Known issues" in the README is written by hand for each release.
+10. ROM Patcher JS does not refuse a wrong ROM by default: it shows "Source
+    ROM checksum mismatch" and still writes a broken file. Both readmes tell
+    players to stop when they see that message.
 
 ## Next steps
 
@@ -381,5 +458,5 @@ the same 18 entries byte for byte):
   checklist; README.md "Building from source" can add the package command;
   `.gitignore` could list `dist/` (only zips land there, which `*.zip`
   already ignores).
-* Before the first public release: checklist steps 6-8, the graphics work,
-  then `--release`.
+* 1.0.0: the owner's go-ahead to make the repository public and publish the
+  release (step 9); step 7 on a clean PC when one is at hand.

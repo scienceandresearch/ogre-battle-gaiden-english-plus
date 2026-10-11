@@ -372,7 +372,7 @@ def main():
         name = 'zlib_%s.zip' % label.split()[0]
         write(name, build_zip([(b'game.ngc', rom, 8, raw_deflate(rom, level, strategy), 0)]))
         ok_cases.append(('raw deflate, %s' % label, W(name), 'game.ngc'))
-    write('with_url.zip', build_zip([(b'CDRomance.url', b'[InternetShortcut]\r\nURL=x\r\n', 0,
+    write('with_url.zip', build_zip([(b'Website.url', b'[InternetShortcut]\r\nURL=x\r\n', 0,
                                       b'[InternetShortcut]\r\nURL=x\r\n', 0),
                                      (b'Densetsu no Ogre Battle (Japan).ngc', rom, 8, raw_deflate(rom), 0)]))
     ok_cases.append(('another file next to the game', W('with_url.zip'), 'Densetsu no Ogre Battle (Japan).ngc'))

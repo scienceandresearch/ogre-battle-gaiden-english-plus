@@ -10,8 +10,10 @@ is left, and which decisions are still open. The development log is in
 
 ## Where the project stands
 
-Version 0.1.0-dev is a complete development build, published as a
-pre-release on the project's private GitHub repository.
+Version 1.0.0, the first public release, is built and tested. It waits for
+the owner's go-ahead to make the repository public and publish it; until
+then the private repository's pre-release `v0.1.0-dev` carries the previous
+development package.
 
 * Everything the game shows is in English: all 1,570 dialogue messages, every
   menu and system message, all names and places, and every pre-drawn graphic
@@ -39,40 +41,62 @@ pre-release on the project's private GitHub repository.
 The current build turns the original (SHA-1
 `5ac794c0f125bfb97efe9cd06c2aca3afdf549ea`) into the English ROM with SHA-1
 `d5234b95d12096c722c324d23e5e4fb227179eff`. The patch `ogre_en.bps` is
-133,249 bytes, and the package
-`ogre-battle-gaiden-english-plus-0.1.0-dev+d5234b95-win64.zip` is 522,622
-bytes with 17 chapter saves. Test results on this build: `release_test.py`
-41/41, `zip_test.py` 59/59, `save_test.py` 27/27, `extras_test.py` 25/25,
+133,249 bytes, and the release package
+`ogre-battle-gaiden-english-plus-1.0.0-win64.zip` is 522,001 bytes with 17
+chapter saves (SHA-256
+`9db5bdf657ea8b0d334ee6ee505c4fc2c20a7fde6455775ea94aad1ed8f18621`). Test
+results on this build: `release_test.py` 41/41 on the files extracted from
+the zip, `zip_test.py` 59/59, `save_test.py` 27/27, `extras_test.py` 25/25,
 `bps_test.py` 26/26, `tools.gfx.test_all` 7 modules (105 tests),
 `test_tables` 18/18, `test_bps` 11/11, `test_webpatcher` 2/2, `test_package`
 46/46, the assembler round trip (28,948 instructions, none failed), the six
 real-window scripts `gui_*.ps1` (121 checks, among them 28 for the new
-menus), and `tools.text.check` confirms that each of the 1,570 dialogue
-messages fits on one page. All 389 test states run on this build without CPU
-errors (54 of them were re-pointed to its dialogue pages).
+menus; run on the 0.1.0 player, whose code 1.0.0 shares), and
+`tools.text.check` confirms that each of the 1,570 dialogue messages fits on
+one page. All 389 test states run on this build without CPU errors (54 of
+them were re-pointed to its dialogue pages).
+
+Checks outside the project's own emulator (2026-10-11, on this patch):
+Floating IPS v198 (`flips --apply`) and ROM Patcher JS v3.2.1 (its patching
+library, which the web page uses, run in Node.js) both make the English ROM
+with the right SHA-1. Floating IPS refuses the English ROM and a changed
+original; ROM Patcher JS shows "Source ROM checksum mismatch" for them but
+by default still writes a (broken) file, and the readmes say so. In the
+libretro cores Beetle NeoPop (Mednafen) and RACE, run off-screen with
+`tools/release/lrhost.py`, the English ROM plays the opening, the name
+entry and the tarot reading; in Beetle NeoPop also chapter 1 with its
+dialogue, the church event and the battle at Gring; in both, a save made in
+the game loads after the emulator restarts. Beetle NeoPop gives the same
+frames with the console language set to Japanese or English.
 
 The names of characters who appear in the series' official English releases
-follow those releases (see "Open decisions"). The pre-release `v0.1.0-dev` on
-GitHub carries this package (since 2026-10-11); its tag still points to an
-older commit.
+follow those releases (see "Open decisions").
+
+The readmes say how the translation was made: the English text, the player
+and the tools were written with Claude (Anthropic's AI model), directed by
+the project lead (scienceandresearch), and no human translator has reviewed
+the translation yet.
 
 ## What is left before a public release
 
-1. Manual checks that cannot be automated here (steps 6 to 8 of the checklist
-   in [docs/workstreams/release.md](docs/workstreams/release.md)): apply
-   `ogre_en.bps` with Floating IPS and with ROM Patcher JS, run the package on
-   a clean Windows 10 or 11 PC, and play the English ROM in an established
-   emulator. Then build the public package with
-   `python -m tools.release.package --release`. After that, the repository can
-   be shared by inviting collaborators or by making it public.
-2. The open decisions below.
-3. Optional work: a review of the translation by a second translator through
-   the localization database ([docs/localization.md](docs/localization.md));
-   the compact form of the menu labels' descenders; a harness check that
-   refuses save states made with another ROM, as the player already does; a
-   check of the class names against the official releases (several classes
-   have different English names in Ogre Battle, Tactics Ogre and Ogre Battle
-   64, and matching them needs a reliable list of the Japanese names).
+1. The owner's go-ahead for the public steps: make the repository public,
+   delete the pre-release `v0.1.0-dev` and its tag (it points to an older
+   commit), and publish `v1.0.0` with the zip and its `README.txt` as
+   separate files (release notes and the submission texts for the patch
+   sites are in `build/handoff/outreach/`, machine-local).
+2. One manual check that cannot be done here: run the package on a clean
+   Windows 10 or 11 PC (step 7 of the checklist in
+   [docs/workstreams/release.md](docs/workstreams/release.md)). The player
+   imports only DLLs that ship with Windows.
+3. The open decisions below.
+4. Optional work: a review of the translation by a human translator through
+   the localization database ([docs/localization.md](docs/localization.md)),
+   which the patch sites and players will value most; the compact form of
+   the menu labels' descenders; a harness check that refuses save states made
+   with another ROM, as the player already does; a check of the class names
+   against the official releases (several classes have different English
+   names in Ogre Battle, Tactics Ogre and Ogre Battle 64, and matching them
+   needs a reliable list of the Japanese names).
 
 ## Open decisions
 
@@ -129,7 +153,8 @@ source, and requires the player's own copy of the game. No data from the game
 
 1. Translation patch (phase 1, done): `tools/patch/build.py` makes the English
    ROM from the original. It is meant for existing emulators and flash
-   carts; so far it has been tested only in the project's own player.
+   carts; besides the project's own player it has been tested in Beetle
+   NeoPop and RACE (flash carts not tested).
 2. Standalone player (phase 2, done for Windows): the project's own emulator
    core in `runtime/`, which is also the test harness, with a Win32 player
    that applies the patch when it loads the game. An SDL port for other
@@ -218,15 +243,18 @@ source, and requires the player's own copy of the game. No data from the game
       system) + screenshot sweep reviewed by eye (final verification)
 - [x] Untranslated-text detection: harness text logs + l10n export rows;
       layout checks in the build (widths, lines, cells, Yes/No rule)
-- [ ] Verify the patched ROM in an established emulator (manual; owner)
-- [ ] Apply the patch with Floating IPS and ROM Patcher JS, run the package on a
-      clean Windows PC (manual; owner)
+- [x] Verify the patched ROM in established emulators: Beetle NeoPop and RACE
+      through `tools/release/lrhost.py` (2026-10-11)
+- [x] Apply the patch with Floating IPS v198 and ROM Patcher JS v3.2.1
+      (2026-10-11)
+- [ ] Run the package on a clean Windows PC (manual; owner)
 - [x] README, CONTRIBUTING, MIT license, third-party notices
 - [x] Offline web patcher `Patch your game.html` (`tools/release/webpatcher.py`)
 - [x] Release packaging (zip with zenobia.exe, ogre_en.bps, the web patcher,
       the player's guide, the chapter saves and a README):
-      `python -m tools.release.package` (dev package works; a public release
-      still needs the manual checks in `docs/workstreams/release.md`)
+      `python -m tools.release.package`; the 1.0.0 package was made with
+      `--release` and passed checklist steps 1 to 6 and 8 in
+      `docs/workstreams/release.md`
 
 ## Resuming work
 
@@ -243,8 +271,8 @@ For maintainers and AI agents who pick the work up:
 
 The repository is
 `https://github.com/scienceandresearch/ogre-battle-gaiden-english-plus`
-(private, branch `main`); the pre-release `v0.1.0-dev` carries the package
-zip. `.gitattributes` stores text files with LF line endings, Windows
+(private, branch `main`); the pre-release `v0.1.0-dev` carries the previous
+package zip, and the 1.0.0 zip is in `dist/` until it is published. `.gitattributes` stores text files with LF line endings, Windows
 checkouts get CRLF, and every tool accepts both. A fresh clone builds the
 identical English ROM and passes every test suite. The save, release and
 extras tests and the chapter saves also need the machine-local test states
