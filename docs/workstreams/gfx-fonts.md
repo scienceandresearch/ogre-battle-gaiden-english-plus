@@ -42,7 +42,7 @@ passed:
   letters and digits come from the round-1 cards prototype; the punctuation
   and symbols were added in round 2. Nothing is traced or copied from the
   game's art or from another font.
-* Licence: MIT (the project licence). The owner may also dedicate the font to
+* License: MIT (the project license). The owner may also dedicate the font to
   CC0, like `vwf8.txt`.
 * The glyphs are grouped in sections (capitals, lower case, digits,
   punctuation), each introduced by a comment line.
@@ -104,7 +104,7 @@ Widths (the advance is width + 1 for every glyph except `SPACE`):
   * `I` has serifs, and `J` has a top bar.
   * `1` has a flag and a base, so `I`, `l` and `1` stay distinct.
   * `l` has a small foot to the right.
-  * `a` is double-storey and `g` single-storey.
+  * `a` is double-story and `g` single-story.
   * The review found no letter or digit that reads poorly with either
     outline, so none was changed.
 * **Dots.** `.` and the dots of `: ; ! ?` are single pixels.
@@ -122,7 +122,7 @@ Widths (the advance is width + 1 for every glyph except `SPACE`):
   The gaps stay visible after outlining: two outline pixels separate each
   dot. Three typed periods (`...`) give `#.#.#` (5 px). The ellipsis lines of
   the intro have a lot of room.
-* **Hyphen and maths.** The hyphen is 4 px on row 5. `+` and `=` are centred
+* **Hyphen and math symbols.** The hyphen is 4 px on row 5. `+` and `=` are centered
   on row 5, and `~` sits on rows 4-5.
 * **Brackets and slash.** `( ) [ ]` span all 11 rows. `/` is a regular
   2-rows-per-column staircase over rows 0-9.
@@ -269,7 +269,7 @@ Cross-checks, run when `tools/gfx/textart.py` had just landed:
   * the intro in 144 x 16 with `top=3`;
   * the cards in 160 x 16 with `top=2`;
   * the subtitle in 140 px.
-* The 15 intro bitmaps from `render_box` (8-neighbour outline, centred) are
+* The 15 intro bitmaps from `render_box` (8-neighbor outline, centered) are
   byte-identical to those of the scratch ROM used in the harness check.
 
 `tools/gfx/font.py` has no command line, so `python -m tools.gfx.font` does
@@ -303,14 +303,14 @@ Results:
 
 ### How to add a glyph
 
-1. **Pick the name.**
+1. Pick the name.
    * Use the character itself, or one of the word names (`SPACE`,
      `ELLIPSIS`, `LQUOTE`).
    * A new word name also needs an entry in `ALIASES` in
      `tools/gfx/font.py` (owned by `gfx-lib`).
    * Keep the set equal to `vwf8.txt`: a character that graphics text may
      use belongs in both fonts.
-2. **Draw it** in the right section of `assets/font/title16.txt`:
+2. Draw it in the right section of `assets/font/title16.txt`:
    * write `@NAME`, then exactly 11 rows of `#` and `.`, all the same width;
    * keep to the metrics above: capitals rows 0-8, x-height rows 3-8,
      descenders rows 9-10;
@@ -319,16 +319,16 @@ Results:
      adds the 1-px gap;
    * give `advance=N` only for spacing glyphs;
    * draw it yourself: never trace the game's art or another font.
-3. **Comments** start with `# `. A comment line must never consist of `#`
+3. Comments start with `# `. A comment line must never consist of `#`
    and `.` only: the parsers would read it as a glyph row.
-4. **Check the file.**
+4. Check the file.
    * `load_font` must load it, and `t16.py check` must pass.
    * Run `t16.py measure`, or `textart.measure`, on every text that uses the
      glyph.
-   * Look at the glyph in a zoom (`t16.py zoom`) in the 4- and 8-neighbour
-     styles, next to its usual neighbours. The outlines of neighbouring
-     glyphs merge, so 1-px counters and gaps turn into outline colour.
-5. **Rebuild** the affected targets and review their previews.
+   * Look at the glyph in a zoom (`t16.py zoom`) in the 4- and 8-neighbor
+     styles, next to its usual neighbors. The outlines of neighboring
+     glyphs merge, so 1-px counters and gaps turn into outline color.
+5. Rebuild the affected targets and review their previews.
 
 ## Open issues
 
@@ -340,10 +340,10 @@ Results:
   * a `SPACE` advance of 3 saves 1 px per space (word gap 4 px);
   * the intro's relocated mode allows a re-split.
 * **Outline style per target.** The font is drawn for any of three styles:
-  * 4-neighbour outline, like the original card art;
-  * 8-neighbour outline: bolder, and the better choice for the intro over
+  * 4-neighbor outline, like the original card art;
+  * 8-neighbor outline: bolder, and the better choice for the intro over
     bright clouds (the scratch `intro16.py` uses it);
-  * 8-neighbour with the diagonal-only pixels in colour 2 (light blue on the
+  * 8-neighbor with the diagonal-only pixels in color 2 (light blue on the
     card palette): a softer edge.
 
   The choice is a style constant of `gfx-cards`, `gfx-intro` and

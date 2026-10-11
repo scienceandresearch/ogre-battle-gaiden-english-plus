@@ -51,7 +51,7 @@ one-line fix that was verified in a scratch test ROM (Open issues 2 and 3).
   variable-width names and fixed-cell prices (10 x the item record's price),
   Option on a list entry shows the item description, quantity prompt (Down =
   +1, Up = -1, Left = +10, Right = -10), "8400 goth. / Is that OK?" + Yes/No,
-  funds deducted, the shop closes after each purchase (original behaviour).
+  funds deducted, the shop closes after each purchase (original behavior).
   "You don't have enough funds / to buy this item." and "Your item stock is
   full. / You can't buy any more." fit.
 * All 20 shop lists (shop number at `0x61D9` patched in the Leckart unit
@@ -106,7 +106,7 @@ works silently; on a living member: "It can't be used / on this character."
 * The lists overflow for long names (Open issues 3, 4); the status panes too
   (Open issue 5).
 * Class change by item (Drago Stone on a Beast Master): silent, the item is
-  used up (original behaviour). Equipment has no class restriction.
+  used up (original behavior). Equipment has no class restriction.
 * The class-change items check the target class's level and alignment
   range but never its minimum CHA: at `0x2165FA`-`0x2165FF` the code loads
   (`ld.b A, (XDE)`) where a compare belongs, and the following `jrl C`
@@ -205,7 +205,7 @@ Helpers in `scratch\r2-systems\` (scratch, not committed):
 * `run.py NAME STATE FRAMES INPUT [--every K] [--shots F,..] [--save F NAME]
   [--patch A=HEX|stock=ID:Q,..|funds=N|tarot=N,..] [--ram] [--rom PATH]
   [--ja] [--nolog]`: runs the harness, writes `build/textlogs/
-  r2-systems-NAME.txt`, frames and a labelled `sheet.png` in `runs/NAME/`,
+  r2-systems-NAME.txt`, frames and a labeled `sheet.png` in `runs/NAME/`,
   prints the decoded log (remapped ROM strings shown in English).
 * `mkstate.py IN OUT patches...` (test states `r2-systems-test-OUT`),
   `view.py RUN F,F x0 y0 x1 y1` (crops), `desc_run.py` (item help),

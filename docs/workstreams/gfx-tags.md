@@ -9,7 +9,7 @@ art, changing only the lettering:
 * the "deployed" tag on the organize status pane of a unit that is deployed
   on the stage map (seen in every stage);
 * the paralysis label that a battle shows over each combatant hit by a
-  paralysing attack.
+  paralyzing attack.
 
 Both are replaced in place: no hooks, no new ROM, no palette writes. Round 2
 wave 2, task `gfx2-tags`.
@@ -19,7 +19,7 @@ wave 2, task `gfx2-tags`.
 Done (2026-10-10, round 2 wave 2, after review fix round 1). The target
 `tags` of the graphics build (`tools/gfx/tags.py`, sources
 `translation/en/tags.txt` and `assets/gfx/tags/caps6.txt`) writes
-**FIELDED** (both copies of the deployed tag) and **STUN** in place.
+FIELDED (both copies of the deployed tag) and STUN in place.
 `FULL_BUILD = False` until the verify step enables all targets together;
 `python -m tools.gfx.apply IN OUT --target tags` runs it.
 
@@ -56,25 +56,25 @@ refuses wider words, and the build-time check also covers the margins.
 `0x5B`-`0x5F` of the organize sheet `0x214450`; VRAM tiles `0x13B`-`0x13F`),
 and an identical copy at `0x2E736A` (the link-battle copy of the sheet,
 `0x2E6DBA`). Shown as sprites at x 8-47, y 54 of the status pane, sprite
-palette 8 (colour 1 white, colour 2 blue, colour 3 near black). The art:
+palette 8 (color 1 white, color 2 blue, color 3 near black). The art:
 
 * columns 0-3 and 36-39 transparent;
-* a box at x 4-35, rows 0-7: a 1-px border in colour 3, a fill in colour 2
+* a box at x 4-35, rows 0-7: a 1-px border in color 3, a fill in color 2
   (the same blue as the pane, so the box reads as a dark frame);
-* four glyphs in colour 1 with 1-px strokes, on rows 1-6 (the whole interior
+* four glyphs in color 1 with 1-px strokes, on rows 1-6 (the whole interior
   height), ink at x 8-31;
-* every ink pixel has a 1-px **shadow on its right** in colour 3 (checked:
+* every ink pixel has a 1-px shadow on its right in color 3 (checked:
   every dark interior pixel is right of an ink pixel and nothing else);
   there is no shadow below or to the left; the last shadow is at x 32;
 * so the lettering's area is x 8-32, rows 1-6, and the blue fill shows on
   both sides of it: 3 columns at x 5-7 and 2 at x 33-34.
 
 **Paralysis label.** 2 sprite tiles, 16 x 8 px, 32 bytes at `0x2FE5ED`, VRAM
-tiles `0x2D`-`0x2E`, sprite palette 15 (palette data `0x2FE325`: colour 1
-light grey, colour 2 orange, colour 3 near black). The art uses colours 1
-and 3 only: two glyphs and an exclamation mark in colour 1, mostly 2-px
+tiles `0x2D`-`0x2E`, sprite palette 15 (palette data `0x2FE325`: color 1
+light gray, color 2 orange, color 3 near black). The art uses colors 1
+and 3 only: two glyphs and an exclamation mark in color 1, mostly 2-px
 strokes, ink on rows 1-6 and x 1-14 (41 pixels), with a 1-px outline over the
-**8 neighbours** in colour 3 (two more outline pixels at the bottom right),
+8 neighbors in color 3 (two more outline pixels at the bottom right),
 transparent background.
 
 ### Wording
@@ -125,9 +125,9 @@ Compact capitals, our own design (MIT; the owner may dedicate it to CC0 like
 * 6 rows (the original glyphs' height on both tags), 1-px strokes, no
   descenders; 31 glyphs: A-Z, `! ? - .` and `SPACE` (1 px, advance 2, so
   the word gap is 3 px against 1 px between letters);
-* widths: most letters 3 px, I 1 px, **L 2 px** (so that FIELDED is exactly
+* widths: most letters 3 px, I 1 px, L 2 px (so that FIELDED is exactly
   24 px, the deployed tag's lettering width), M and W 5 px;
-* **N is an arch** (top row `##.`): a 3-px N with its diagonal in the middle
+* N is an arch (top row `##.`): a 3-px N with its diagonal in the middle
   column looks like a 3-px M ("ON MAP" read as "OM MAP", "STUN" as "STUM");
   a 4-px N reads best but would make STUN 16 px and cut both outline columns
   of the paralysis label;
@@ -139,25 +139,25 @@ move to `assets/font/` if another target needs it.
 
 ### Style (constants in `tools/gfx/tags.py`)
 
-* **Deployed:** the box is generated (border colour 3, fill colour 2, x 4-35,
-  rows 0-7; transparent outside). The word's ink (colour 1) goes on rows 1-6
+* **Deployed:** the box is generated (border color 3, fill color 2, x 4-35,
+  rows 0-7; transparent outside). The word's ink (color 1) goes on rows 1-6
   inside the original lettering's area, ink at x 8-31 (`LETTER_X0`,
-  `LETTER_X1`; at most 24 px, `FitError` above), centred there with
-  `x = 8 + (24 - width) // 2`; then each ink pixel whose right neighbour is
-  not ink gets colour 3 there, so the last shadow is at x 32 at most
+  `LETTER_X1`; at most 24 px, `FitError` above), centered there with
+  `x = 8 + (24 - width) // 2`; then each ink pixel whose right neighbor is
+  not ink gets color 3 there, so the last shadow is at x 32 at most
   (`SHADOW_X`). The blue columns x 5-7 and 33-34 stay as in the original.
   FIELDED (24 px) lands exactly where the original's lettering is.
 * **Paralysis:** `textart.render` with `Style(ink=1, outline=3,
   outline8=True)`; glyph row 0 on row 1 (rings on rows 0 and 7); the ink is
-  centred in 16 px with left bias, `x = (16 - width) // 2`; rings outside the
+  centered in 16 px with left bias, `x = (16 - width) // 2`; rings outside the
   16 px are cut. STUN (15 px) starts at x 0, so the outline column left of
   the S is cut: 2 ink pixels of the S (its left edge) touch the background;
   everything else is outlined as in the original.
 * **Build-time check:** `build(ctx)` decodes the ROM's tag at both addresses
   and refuses to build unless every pixel outside the lettering area (x 8-32,
   rows 1-6) equals ours: the box, the blue margins x 5-7 and 33-34 and the
-  transparent columns. So only the lettering can change, and a wrong address
-  or box constant is an error, not silent damage.
+  transparent columns. So only the lettering can change, and the build fails
+  on a wrong address or box constant.
 * Writes: `0x214A00` (80 bytes), `0x2E736A` (the same 80 bytes), `0x2FE5ED`
   (32 bytes); 97 bytes differ from the original. Ranges are declared in
   `Result.allow`; no asm, no sub-region (`TARGETS['tags'] = None`).
@@ -232,7 +232,7 @@ Acceptance on each frame with a tag: `harness diff ref.png t.png 16 55 40
 * **STUN's outline is open at the S's left edge** (2 pixels): STUN needs 17
   px with a full outline. It shows over light terrain (the labels at x 36,
   y 20 in the neutral and Kazuma battles). Only 14-px words (HALT, ZAP!)
-  close the outline, and they read worse. Accepted as inherent.
+  close the outline, and they read worse, so the gap stays.
 * **Wording.** FIELDED fits the original lettering exactly but is not the
   game's "deploy"; ON MAP (23 px) is the other candidate that keeps the
   margins. The owner may pick either (one line in `tags.txt`).

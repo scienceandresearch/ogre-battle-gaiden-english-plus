@@ -40,7 +40,7 @@ The current build turns the original (SHA-1
 `5ac794c0f125bfb97efe9cd06c2aca3afdf549ea`) into the English ROM with SHA-1
 `d5234b95d12096c722c324d23e5e4fb227179eff`. The patch `ogre_en.bps` is
 133,249 bytes, and the package
-`ogre-battle-gaiden-english-plus-0.1.0-dev+d5234b95-win64.zip` is 522,523
+`ogre-battle-gaiden-english-plus-0.1.0-dev+d5234b95-win64.zip` is 522,622
 bytes with 17 chapter saves. Test results on this build: `release_test.py`
 41/41, `zip_test.py` 59/59, `save_test.py` 27/27, `extras_test.py` 25/25,
 `bps_test.py` 26/26, `tools.gfx.test_all` 7 modules (105 tests),
@@ -48,12 +48,13 @@ bytes with 17 chapter saves. Test results on this build: `release_test.py`
 46/46, the assembler round trip (28,948 instructions, none failed), the six
 real-window scripts `gui_*.ps1` (121 checks, among them 28 for the new
 menus), and `tools.text.check` confirms that each of the 1,570 dialogue
-messages fits on one page. All 389 test states run on this build without CPU errors (54 of
-them were re-pointed to its dialogue pages).
+messages fits on one page. All 389 test states run on this build without CPU
+errors (54 of them were re-pointed to its dialogue pages).
 
 The names of characters who appear in the series' official English releases
 follow those releases (see "Open decisions"). The pre-release `v0.1.0-dev` on
-GitHub still carries the previous package (`+4fe9c5ff`).
+GitHub carries this package (since 2026-10-11); its tag still points to an
+older commit.
 
 ## What is left before a public release
 
@@ -245,7 +246,7 @@ The repository is
 (private, branch `main`); the pre-release `v0.1.0-dev` carries the package
 zip. `.gitattributes` stores text files with LF line endings, Windows
 checkouts get CRLF, and every tool accepts both. A fresh clone builds the
-identical English ROM and passes every test suite; the save, release and
+identical English ROM and passes every test suite. The save, release and
 extras tests and the chapter saves also need the machine-local test states
 (see "Test states" in [docs/testing.md](docs/testing.md)); without them,
 package with `--no-catalog`.
@@ -255,9 +256,9 @@ Machine-local material on the maintainer's PC, never committed:
 * `build/states/`: about 400 test states, among them the `play-*` states of
   the playthrough behind the chapter saves of chapters 8 to 12 and after the
   ending. "Test states" in [docs/testing.md](docs/testing.md) explains what
-  to do with states from older builds. For the `d5234b95` build, 54 states were re-pointed with
-  `build/handoff/r3/relocate.py` and `relocate_inner.py` (the second one handles
-  states paused at a prompt); the originals are in
+  to do with states from older builds. For the `d5234b95` build, 54 states
+  were re-pointed with `build/handoff/r3/relocate.py` and `relocate_inner.py`
+  (the second one handles states paused at a prompt); the originals are in
   `build/states_before_d5234b95/`.
 * `build/handoff/`: the agents' briefing (`briefing.md`), every round's raw
   results (`r1_*_result.json`, `r2_*.json`, `r3_final.json`), the Codex title

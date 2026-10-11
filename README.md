@@ -165,7 +165,7 @@ python patch-tools/apply.py your_game.ngc        # in the extracted release fold
 python -m tools.patch.apply your_game.ngc build/ogre_en.bps -o ogre_en.ngc   # in this repository
 ```
 
-Both check your file before patching and check the result afterwards.
+Both check your file before patching and check the result afterward.
 
 ## Building from source
 

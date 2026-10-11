@@ -9,17 +9,27 @@ the zip may contain data from the game.
 
 ## State
 
-Current package (2026-10-10, complete build: every text and every pre-drawn
-graphic in English; with the web patcher and the reworded READMEs):
-`dist\ogre-battle-gaiden-en-0.1.0-dev+4fe9c5ff-win64.zip`, 457,519 bytes,
-19 entries, SHA-256
-`25dcba326a9c2c2aab50f9ea5601d1daf4337c500d0cd72e97912ae3d1c70297`, English
-ROM SHA-1 `4fe9c5ffe335e028397a8503ee5d3a625607dc16`, patch 133,251 bytes.
-Unzipped, it passes `release_test.py` 41/41, and its `patch-tools/apply.py`
-reproduces `ogre_en.sha1`; `test_package` 33/33, `test_webpatcher` 2/2. It is
-the asset of the GitHub pre-release `v0.1.0-dev`. Older packages were
-deleted. Still not a public release: the manual checklist steps 6-8 (Flips,
+Current package (2026-10-11, English Plus: the complete build plus the
+player's guide, 17 chapter saves and the player's extras):
+`dist\ogre-battle-gaiden-english-plus-0.1.0-dev+d5234b95-win64.zip`, 522,622
+bytes, 39 entries (33 files, 6 folders), SHA-256
+`3bbd03ebdd5aa969f775dc11d716f36825381c3e7feaabd5fcd58018227acd5d`, English
+ROM SHA-1 `d5234b95d12096c722c324d23e5e4fb227179eff`, patch 133,249 bytes.
+The packager read it back and extracted it, and its `patch-tools/apply.py`
+reproduces `ogre_en.sha1`; `test_package` 46/46. Its `zenobia.exe` and
+`ogre_en.bps` are the files that passed `release_test.py` 41/41. Since
+2026-10-11 it is the asset of the GitHub pre-release `v0.1.0-dev`, with
+release notes written for it; the release's tag still points to an older
+commit. Still not a public release: the manual checklist steps 6-8 (Flips,
 ROM Patcher JS, a clean PC, another emulator) remain for the owner.
+
+Earlier package (2026-10-10, complete build with the web patcher and the
+reworded READMEs, asset of the pre-release until 2026-10-11):
+`ogre-battle-gaiden-en-0.1.0-dev+4fe9c5ff-win64.zip`, 457,519 bytes, 19
+entries, SHA-256
+`25dcba326a9c2c2aab50f9ea5601d1daf4337c500d0cd72e97912ae3d1c70297`, English
+ROM SHA-1 `4fe9c5ffe335e028397a8503ee5d3a625607dc16`, patch 133,251 bytes;
+`release_test.py` 41/41, `test_package` 33/33, `test_webpatcher` 2/2.
 
 Earlier package of the same build (before the web patcher): 313,994 bytes,
 18 entries, SHA-256
@@ -91,7 +101,7 @@ without smoothing so that high-DPI screens show sharp pixels.
 
 `mkicon.py` (standard library only; `python tools/release/mkicon.py SRC
 OUT.ico [--preview PNG]` or `python -m tools.release.mkicon ...`) checks the
-source (row lengths, unknown characters, colours, square sizes, whole
+source (row lengths, unknown characters, colors, square sizes, whole
 multiples; errors name file and line, exit 1, no .ico written) and writes
 the 16/32/48 images as 32-bit BGRA bitmaps with an AND mask and the larger
 ones as PNG, through a temporary file. Output: 17,443 bytes, deterministic.
@@ -150,8 +160,8 @@ each piece must pass the same test. The allowed kinds:
   amount, with at most 2 breaks (needs 4 units or more), e.g. "UVWXYZ" then
   zeros, or a table of 32-bit indexes;
 * header: occurs in the ROM only in 0x00-0x3F. `zenobia.exe` holds the
-  cartridge licence string and the 12-character header title
-  (`romload.c` compares them to recognise the game), and `LICENSE` /
+  cartridge license string and the 12-character header title
+  (`romload.c` compares them to recognize the game), and `LICENSE` /
   `THIRD_PARTY_NOTICES` contain the English word "COPYRIGHT ", which the
   header starts with.
 
@@ -161,7 +171,7 @@ through only when it is itself almost empty or a counting/run pattern:
 random 16-, 32- and 64-byte blocks of the game's data are found 86%, 94% and
 96% of the time. (A first, per-window version of the rule let 34% of the
 game's windows through one by one and missed 5.75% of random 64-byte
-blocks, including low-colour graphics; the test suite now has such a block.)
+blocks, including low-color graphics; the test suite now has such a block.)
 
 Deterministic: fixed entry order, MS-DOS attributes (0x20 files, 0x10
 folders), every entry dated with the newest input file's time in UTC, or
@@ -181,7 +191,7 @@ player's error messages); controls; saves, save states and `zenobia.ini`;
 moving to another PC or version; command line; the patch with other
 emulators (Floating IPS, ROM Patcher JS, `python patch-tools/apply.py`,
 `--write-patched`), checking the English ROM's SHA-1/CRC32; known issues;
-licence and credits. Fields: `@VERSION@ @DATE@ @ORIGINAL_SIZE@
+license and credits. Fields: `@VERSION@ @DATE@ @ORIGINAL_SIZE@
 @ORIGINAL_CRC32@ @ORIGINAL_MD5@ @ORIGINAL_SHA1@ @ENGLISH_SHA1@
 @ENGLISH_CRC32@`.
 
@@ -208,7 +218,7 @@ click "Save the English game". The page reads stored and deflate zips
 checks the original's SHA-1, applies the built-in BPS patch with its own
 applier (CRC32 of source, target and patch), checks the result's SHA-1, and
 saves `Ogre Battle Gaiden - Prince of Zenobia (English).ngc`; an English ROM
-is recognised, anything else gets a plain explanation. Its
+is recognized, anything else gets a plain explanation. Its
 Content-Security-Policy (`default-src 'none'`) forbids every network access.
 
 * Template `tools/release/patcher.html` (all code ours, ASCII);
@@ -219,7 +229,7 @@ Content-Security-Policy (`default-src 'none'`) forbids every network access.
 * `python -m tools.release.test_webpatcher [rom/baserom.ngc]` runs the
   page's own script in Node (same browser APIs): the plain ROM, a stored
   and a deflate zip and an over-dump all give the English ROM's SHA-1; an
-  English ROM is recognised; a changed ROM, a damaged zip, a
+  English ROM is recognized; a changed ROM, a damaged zip, a
   password-protected zip and a `.7z` are refused with their messages; plus
   static checks (no URLs, CSP present, every field filled). Checked by hand
   in Chrome too (zip chosen, "This is the right game", Save enabled).

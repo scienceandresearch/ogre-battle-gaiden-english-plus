@@ -6,15 +6,15 @@ Reverse-engineering notes for the supported dump
 
 ## Hardware / boot
 
-* Header: entry point `0x200040`, catalog `0x0085`, colour mode.
+* Header: entry point `0x200040`, catalog `0x0085`, color mode.
 * The game uses the BIOS through a trampoline at `0x366CC9`: `ldf 3`, function
   number in `RW3`, then `call (0xFFFE00 + 4*RW3)`. Functions used: SHUTDOWN (0),
   RTCGET (2, buffer `0x4578`), INTLVSET (4), and the link-cable COM functions
   (0x10-0x19). Interrupt handlers are installed in the BIOS user vector table
   (`0x6FB8 + 4*n`): VBlank at `0x6FCC`, DMA-end handlers at `0x6FF0/0x6FF4`.
 * Timer 0 is clocked by HBlank and used with micro-DMA for raster effects.
-* The background colour register `0x8118` is written with mode `0b00`; the game
-  expects the background colour to be used anyway (only bit 6 disables it).
+* The background color register `0x8118` is written with mode `0b00`; the game
+  expects the background color to be used anyway (only bit 6 disables it).
 
 ## Main loop and tasks
 
@@ -110,7 +110,7 @@ Reverse-engineering notes for the supported dump
 ## Text
 
 * 1-byte encoding; the 8x8 2bpp font is at `0x200C79 + 16*code`
-  (strokes colour 1, background colour 2). `tools/text/charmap.py` has the
+  (strokes color 1, background color 2). `tools/text/charmap.py` has the
   table: digits `0x02`, A-Z `0x0C`, hiragana `0x26`, katakana `0x76`,
   punctuation `0xC6`-`0xDC`.
 * Controls in message strings: `0x00` new line, `0x01` space, `0xDD` insert the
@@ -183,7 +183,7 @@ Reverse-engineering notes for the supported dump
 * NEXT menu CITY list: composer `0x204C68` builds 4 lines from the location
   table (`0x608E`): the 8-cell name, then "  S" when record byte +9 is
   nonzero, then `00 01 00`; a mask byte after the `00 00` is read by the
-  recolour loop below. Town visibility bits are around `0x5432` (testing:
+  recolor loop below. Town visibility bits are around `0x5432` (testing:
   `0x5432`-`0x5439` = `0xFF` shows every town). The patch draws the list with
   the VWF and full names (`city_name` in `patch/src/textfix.asm`). The UNIT
   tab's list (composer `0x20D610`, called at `0x204A1F`, drawn at map
@@ -233,7 +233,7 @@ above):
 * System messages: code stores a string pointer in task field +32 (script
   var `0x20`) and calls `0x203FEF`/`0x202FA1`, which draws it straight from
   ROM with `0x200BAC` (yes/no prompt from `0x2030F5`).
-* Many screens compose text in the RAM buffer `0x6000` with bespoke code,
+* Many screens compose text in the RAM buffer `0x6000` with their own code,
   often copying fragments with fixed lengths (e.g. `ld XIY, 0x208864` /
   `ld BC, 0x16`), and fixed-width name tables (`0x20F0E7`, `0x20F134`,
   `0x20F21A`, terrain `0x2C82B2`, ...). Help texts use a 16-bit offset table

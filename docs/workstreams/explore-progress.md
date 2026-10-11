@@ -58,7 +58,7 @@ location tables (`x*8`, `y*8` map pixels).
 
 * Church west of Estoa and the hidden town Hind (16,18 tiles) are optional.
 * Gring (map pixel 132,272): bandit unit, challenge, battle; winning liberates
-  Gring, then villagers, rumour about Balzac, tips 3 (unlocks Balzac).
+  Gring, then villagers, rumor about Balzac, tips 3 (unlocks Balzac).
 * Balzac (284,376): before Gring the bandits send the unit away; after it,
   challenge and battle (the starting unit loses without help; the Justice
   tarot card wins it); thanks, "Cure Potion", tips 4, Estrada's speech,
@@ -118,7 +118,7 @@ in `0x45CC` and enter `0x2A2F0C` (staff roll script `0x2A3077`).
 * Finding a walking unit: A (small menu or command bar), A on NEXT, Down, A:
   the cursor jumps to the unit.
 * Deploying (stage 1+): cursor off the HQ, A (command bar), Right, A (UNIT
-  list), A, A (Yes to the cost) - `10:U:12;40:A:2;80:R:2;140:A:2;220:A:2;340:A:2`.
+  list), A, A (Yes to the cost): `10:U:12;40:A:2;80:R:2;140:A:2;220:A:2;340:A:2`.
 * Encounter messages: **A starts the battle; B dismisses the message and
   pauses the game** ("PAUSE" blinks, nothing happens). Other messages: A or B.
 * Game clock: 32-bit at `0x6080` (from the explore-map notes); it stops while

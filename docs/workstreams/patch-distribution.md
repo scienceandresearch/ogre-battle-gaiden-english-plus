@@ -19,7 +19,7 @@ real patch and all 28 test vectors exactly like `tools/patch/bps.py`, and a
 release folder with only `zenobia.exe` + `ogre_en.bps` plays the original ROM
 (`player.md`, "Release package"; `runtime/src/frontend/tests/release_test.py`).
 
-**Not releasable yet:** the English ROM keeps data in the game's save blocks
+Not releasable yet: the English ROM keeps data in the game's save blocks
 (open issue 1). The BPS step now reports this on every build with a `WARNING:
 the patch puts data in the game's save blocks` line. Also not done: a
 packaging script and a manual check with Flips / ROM Patcher JS (see Next
@@ -78,7 +78,8 @@ so these change with it):
   flags 18 literal runs of 8 to 19 bytes (original instructions at 0x200829
   that the hook code at 0x37021F repeats, parts of the in-place text area near
   0x299471, a few font bytes), the build step stops and no `.bps`/`.sha1` is
-  left behind. So the copies matter: these bytes are referenced, not shipped.
+  left behind. With the search on, the patch copies these bytes from the
+  player's original ROM instead of storing them.
 * Decoder (`parse`, `apply`): validates the signature, patch CRC, every number
   (truncation, values above 64 bits), sizes (limit 256 MiB), metadata bounds,
   every action's bounds (SourceRead within the source, TargetRead within the
@@ -316,7 +317,7 @@ the previous build (18:58) byte for byte; the build at 19:50 picked up a
 translation change made by another agent meanwhile (UI text one byte
 shorter), hence the new numbers in "State".
 
-`build/` is git-ignored, so the patch is a build artefact, not a repository
+`build/` is git-ignored, so the patch is a build artifact, not a repository
 file.
 
 ## Open issues

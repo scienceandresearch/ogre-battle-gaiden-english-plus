@@ -34,7 +34,7 @@ own copy of the game, see `docs/localization.md`).
 | Jenga | Jenga | Bandit-backed sorcerer (stage 5 boss) |
 | Kazuma | Kazuma | Samurai bandit boss |
 | Garan | Galan | Beast tamer |
-| Barudoru | Baldur | Main antagonist ("saviour from the dark world") |
+| Barudoru | Baldur | Main antagonist ("savior from the dark world") |
 | Marenoa | Malenoa | Nixie |
 | Gurosu | Gross | Mercenary |
 | Daramu | Dalam | |
@@ -135,6 +135,6 @@ own copy of the game, see `docs/localization.md`).
   `tables/classes_short.txt`) for the 8-10-cell fields only, in the CamelCase
   abbreviation style of the attack names ("CurePotn", "SamuMst"); their file
   headers list the fixed abbreviations. Full names everywhere else.
-* Text drawn into graphics (menu labels, chapter cards, intro, title) uses
-  the same terms; its sources are `labels.txt`, `cards.txt`, `intro.txt` and
-  `title.txt` in this folder once the graphics work lands.
+* Text drawn into graphics (menu labels, chapter cards, intro, title, status
+  tags) uses the same terms; its sources are `labels.txt`, `cards.txt`,
+  `intro.txt`, `title.txt` and `tags.txt` in this folder.

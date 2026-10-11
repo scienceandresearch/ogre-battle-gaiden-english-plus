@@ -5,8 +5,8 @@ changes are all welcome.
 
 ## Rules for every change
 
-These apply to people and AI agents alike. The first one is what keeps the
-project legal to share.
+These apply to people and AI agents alike. The first one keeps the project
+legal to share.
 
 * Never commit data from the game. That means no ROM or part of one, no
   Japanese text from the game (also not in comments, notes or commit

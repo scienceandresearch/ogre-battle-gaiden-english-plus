@@ -6,7 +6,7 @@ Replace every pre-drawn Japanese menu/command label (graphics, not font
 text) with English that looks like the original art: the labels under the
 icons of the stage map command bar, the unit window, the item commands, the
 organize screen, the in-battle command bar and the link-cable menus. Round 1
-found and analysed them; round 2 (wave 2, task `gfx-labels`) built the
+found and analyzed them; round 2 (wave 2, task `gfx-labels`) built the
 target.
 
 ## State
@@ -28,7 +28,7 @@ labels in place; label 23 (NEXT, English in the original) keeps its art.
 * Side-by-side sheets (original against English, 1x and 3x) of every label,
   static and in the game, were reviewed.
 * Review round 1 (2026-10-09) passed every faithfulness and functional item
-  and asked for one change: the preview colours in `labels.py` were the
+  and asked for one change: the preview colors in `labels.py` were the
   game's sprite palette 0, against `gfx-pipeline.md` 1.1. They are now our
   own (previews only; the ROM output is unchanged, SHA-1 of the test ROM
   identical). `test_labels` now also checks that labels 04 and 20 equal the
@@ -41,12 +41,12 @@ labels in place; label 23 (NEXT, English in the original) keeps its art.
 
 ### One label system for every icon menu (round 1)
 
-* All icon-menu labels are **sprites**: 8 sprites in a row, 64 x 8 px,
-  centred on the screen (sprites at x = 48..111, y = 88). The icons are
+* All icon-menu labels are sprites: 8 sprites in a row, 64 x 8 px,
+  centered on the screen (sprites at x = 48..111, y = 88). The icons are
   background tiles on scroll plane 1 (2 x 2 tiles each) and contain no
   Japanese (pictograms; a few carry Latin letters: NEXT, ON, OFF, VS, 1, 2,
   P).
-* Label graphics: **45 labels, uncompressed**, 8 tiles = 128 bytes each, at
+* Label graphics: 45 labels, uncompressed, 8 tiles = 128 bytes each, at
   ROM `0x218112 + 128 * n` (n = 0x00..0x2C). The block ends at `0x219791`;
   code follows at `0x219792` (tarot stock routines), so writes must stay
   inside the block.
@@ -88,7 +88,7 @@ labels in place; label 23 (NEXT, English in the original) keeps its art.
 * Icon bar builder `0x21719E` (XWA = descriptor; it installs the VBlank
   continuation `0x2171B4`): descriptor = `[u16 centre map address][u16
   first tile]` then 2-byte entries `[map attribute high byte][icon id]`;
-  the word at `0x4592` is the mask of entries shown, the bar is centred on
+  the word at `0x4592` is the mask of entries shown, the bar is centered on
   their count. A menu's label table has one byte per descriptor entry, same
   index. Command bar mask (`0x2046B0`): base `0x00ED`; index 1 (Deploy
   unit) is added when `(0x61CE) < 7` and `(0x61CE) != (0x4693)`, index 4
@@ -124,17 +124,17 @@ Transfer, Class change, as the unit allows).
 
 Measured on the 45 original labels (`decode`, local only):
 
-* Colours: 0 transparent, 1 the strokes (white in every palette seen), 3 the
-  outline (near black). Colour 2 occurs in 55 pixels of 18 labels (small
+* Colors: 0 transparent, 1 the strokes (white in every palette seen), 3 the
+  outline (near black). Color 2 occurs in 55 pixels of 18 labels (small
   marks inside glyphs) and differs between screens (sprite palette 0 on the
-  map, palette 13 in battle), so the English uses colours 1 and 3 only.
+  map, palette 13 in battle), so the English uses colors 1 and 3 only.
 * Glyphs: 1-px strokes on rows 1-6 in every label (6 px high); the outline
   takes rows 0-7.
-* Outline: 1 px. Every 4-neighbour of the ink is outline (7,393 of 7,394
-  pixels), and 86% of the diagonal-only neighbours too (2,638 of 3,070; the
-  open ones are hand-trimmed corners, most often on row 7): an 8-neighbour
+* Outline: 1 px. Every 4-neighbor of the ink is outline (7,393 of 7,394
+  pixels), and 86% of the diagonal-only neighbors too (2,638 of 3,070; the
+  open ones are hand-trimmed corners, most often on row 7): an 8-neighbor
   outline.
-* Placement: centred in the 64-px strip; an odd spare pixel mostly goes to
+* Placement: centered in the 64-px strip; an odd spare pixel mostly goes to
   the right (x = (64 - width) // 2); the widest labels fill x 0-63.
 
 ### The target (round 2)
@@ -147,8 +147,8 @@ Measured on the 45 original labels (`decode`, local only):
 
 * **Style** (constants in `labels.py`): `vwf8` glyph shapes (the game's
   English font: capitals on rows 1-6 like the original glyphs, x-height rows
-  3-6), ink colour 1, a 1-px 8-neighbour outline in colour 3, transparent
-  background, centred with `x = (64 - width) // 2`, glyph row 0 on strip row
+  3-6), ink color 1, a 1-px 8-neighbor outline in color 3, transparent
+  background, centered with `x = (64 - width) // 2`, glyph row 0 on strip row
   0. No bold: the original strokes are 1 px, and bold would not fit.
 * **Output:** 8 tiles per label, left to right, no deduplication, at
   `0x218112 + 128 * n`; two in-place writes (labels 00-22 and 24-2C,
@@ -164,9 +164,9 @@ Measured on the 45 original labels (`decode`, local only):
 * **Previews** (`build/gfx/labels/`, never committed): `preview.png` (the 45
   labels as built, 4x, numbered), `compare_x1.png` and `compare_x3.png`
   (original | English for every label). Written by every build of the
-  target. Their colours are our own (white ink, black outline, colour 2 light
+  target. Their colors are our own (white ink, black outline, color 2 light
   violet, a green background), not the game's palettes: the sheets show the
-  shapes, and the harness screenshots show the real colours.
+  shapes, and the harness screenshots show the real colors.
 
 ### English wording
 

@@ -237,7 +237,7 @@ workstream: `scratchpad\battle\gfx\*.png`.
   `0x45D9` = 1 in a state does not work: normal battle setup clears it at
   `0x2C5EE2`); the two link strings above need a code-level check after
   they are added, or a two-instance link emulation.
-* Key text logs: `battle-gbat1` (whole Gring battle), `battle-bcmdR` /
+* Main text logs: `battle-gbat1` (whole Gring battle), `battle-bcmdR` /
   `battle-bhelp` (command bar + help), `battle-btac` (tactics), `battle-btarot`
   (tarot list), `battle-banimoff`, `battle-brun`, `battle-boss3` (boss lost),
   `battle-boss6` (boss won, level-up), `battle-lead1` (game over),

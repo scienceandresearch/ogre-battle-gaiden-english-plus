@@ -154,10 +154,10 @@ your own saved games to a backup file first (in the saves folder, named
 "... (before import <date and time>).sav"), then restarts the game at the
 title screen. Choose Load there, then file 1.
 
-The saves come from a real play of the game. The only help used was that
-battles ended quickly, so the army's levels may be a little lower than in
-a careful play. They hold only the game's progress (the army, money and
-chapters cleared), saved by the game itself.
+The saves come from a test playthrough. Most of its battles were won
+quickly with a testing aid, so the army's levels may be a little lower than
+yours would be at that point. The saves hold only the game's progress (the
+army, money and chapters cleared), saved by the game itself.
 
 
 Cheats
@@ -169,7 +169,7 @@ The Cheats menu changes the game being played:
                                     their next battle, as in normal play
   Reputation +10 / Reputation -10   the Chaos Frame, from 0 to 100
 Use them on the map or in a menu, not during a battle. An in-game save
-afterwards keeps the change.
+afterward keeps the change.
 
 
 Continue where you left off, and the console date
@@ -258,7 +258,7 @@ in this folder:
   (python3 instead of python on Linux and macOS). This uses the ogre_en.bps
   of this folder and writes ogre_en.ngc next to the original (-o OUT.ngc
   chooses another name). It checks the original's SHA-1 before patching and
-  the result afterwards.
+  the result afterward.
 
 The player: File > Save English ROM... (Ctrl+S), or from a command line
   zenobia.exe "original.ngc" --write-patched ogre_en.ngc

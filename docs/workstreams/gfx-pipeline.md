@@ -15,14 +15,14 @@ file of the framework tasks (`gfx-lib`, `gfx-build`, `gfx-verify`).
 
 ## State
 
-**Done (2026-10-10).** Round 2 built `tools/gfx/` (library, build
+Done (2026-10-10). Round 2 built `tools/gfx/` (library, build
 integration, five targets: labels, intro, cards, title, tags), every target
 passed an independent side-by-side faithful-match review, and gfx-verify
 enabled all five in the full build (see "Build integration (as built)",
 "Library (as built)" and "Verification" at the end of this file; per-target
 notes in `gfx-*.md`). The sections below are the round-1 design, kept as the
 contract; where the build differs, the as-built sections and the target notes
-win (for example, the intro uses `title16` with a 4-neighbour outline, like
+win (for example, the intro uses `title16` with a 4-neighbor outline, like
 the original lettering).
 
 Design done (2026-10-09, round 1). It is based on the four investigations
@@ -32,7 +32,7 @@ Design done (2026-10-09, round 1). It is based on the four investigations
 Checked for this design (scratch folder `gfx-pipeline\`, stable harness
 snapshot, round-1 prototype ROMs):
 
-* **The acceptance checks in section 5 work.**
+* The acceptance checks in section 5 work.
   * Labels: the 128 bytes of label sprite tiles in VRAM equal the ROM label
     named by the VBlank queue, on the command bar, unit window, item commands,
     organize screen (both bars) and in-battle bar. Every pixel outside the
@@ -45,20 +45,20 @@ snapshot, round-1 prototype ROMs):
     1200, 2400, 3600 and 4800.
   * Cards: with RAM poked to story chapter 4 and area chapter 6, the screens
     differ from the unmodified build only in rows 8-13.
-* **The larger display font fits the intro in place.** The 11-row font of
+* The larger display font fits the intro in place. The 11-row font of
   the cards prototype, with draft punctuation added, fits all 15 intro lines
   in place: the widest is 143 of 144 px with the outline. A scratch ROM runs
   the whole crawl correctly with it. So the bigger font does not force the
   relocated layout that the intro notes expected.
-* **The save blocks.** The save slot table at `0x29A66E` uses flash blocks
+* Save blocks: the save slot table at `0x29A66E` uses flash blocks
   0x1B-0x1E, which are `0x3B0000`-`0x3EFFFF` (see `explore-data.md`). The
   region suggested for graphics, `0x3E8000`-`0x3EFFFF`, lies inside the block
   of save file 3. Graphics therefore go elsewhere (section 4.1).
-* **No compressed formats in the targets.** The script VM's graphics opcodes
+* The targets use no compressed formats. The script VM's graphics opcodes
   copy raw data. The handlers are `gfx26`/`gfx28` (palettes, through
   `0x200B33`), `gfx2a`/`gfx2c` (tiles, through `0x200B37`) and `gfxfe` (maps,
   through `0x2009F1`).
-* **Free space in the current English build.** Patch code `0x370000` (1.4 KB),
+* Free space in the current English build: patch code `0x370000` (1.4 KB),
   font `0x378000` (6.2 KB), remap table `0x37C000` (3.0 KB), dialogue
   `0x380000`-`0x397A37` (94.6 KB), UI text and locations `0x3C0000` (15.0 KB),
   tables `0x3E0000` (28.4 KB). The last two are in save blocks.
@@ -68,7 +68,7 @@ snapshot, round-1 prototype ROMs):
 | Target | Source we commit | Font | Written to | Hooks | New ROM |
 |---|---|---|---|---|---|
 | Menu labels | `translation/en/labels.txt` | `vwf8` | in place: 45 x 128 bytes at `0x218112` | none | none |
-| Intro narration | `translation/en/intro.txt` | `title16` (as built: 4-neighbour outline) | in place: 15 x 576 bytes at `0x290F5D` | none; relocated mode: 3 operands | none; relocated mode: up to 16 KB |
+| Intro narration | `translation/en/intro.txt` | `title16` (as built: 4-neighbor outline) | in place: 15 x 576 bytes at `0x290F5D` | none; relocated mode: 3 operands | none; relocated mode: up to 16 KB |
 | Chapter cards | `translation/en/cards.txt` | `title16` | one record per card (map + tiles) | 2 hooks, 3 routines | about 18 KB (24 KB reserved) |
 | Title logo, warning window | `translation/en/title.txt`, `assets/font/logo19.txt` (optional `assets/gfx/title/*.txt`) | `logo19`, `title16`, `vwf8` | in place: pool tiles, maps rows 7-12, window rows 1-3, palettes, one sprite count | none | none (16 KB reserved for a fallback) |
 
@@ -83,9 +83,9 @@ snapshot, round-1 prototype ROMs):
 * Text sources only, as UTF-8 `.txt`: fonts, text-art images, English text,
   and style constants in the target's Python module. No binary art goes in the
   repository. PNG is only an import and preview format.
-* The colours are ours. Source palettes hold RGB values that we choose. Where
+* The colors are ours. Source palettes hold RGB values that we choose. Where
   a palette entry is shared with original art that stays on screen, the source
-  says `keep`, and the build uses the ROM value at build time. No colour
+  says `keep`, and the build uses the ROM value at build time. No color
   values are copied from the ROM into the repository.
 * Anything that is decoded from the ROM or drawn over ROM art stays in
   `build/` or a scratch folder. That covers decoded originals, design
@@ -107,7 +107,7 @@ All fonts use the existing `vwf8.txt` syntax:
   to width + 1.
 * A line that starts with `#` is a comment, unless it holds only `#` and `.`
   (then it is a glyph row).
-* New fonts are original designs for this project, under the project licence
+* New fonts are original designs for this project, under the project license
   (MIT). The owner may also dedicate them to CC0, like `vwf8.txt`.
 * Glyph names are single characters, plus `SPACE`, `ELLIPSIS` (the ellipsis
   character) and `LQUOTE` (opening double quote). `"` is the closing double
@@ -166,16 +166,16 @@ title task chooses hand-made layers. Format:
     @data
     ....YYYY....   (one line per pixel row: 48 lines of 160 characters here)
 
-In memory, a pixel is 0 (transparent) or `4 * slot + colour`, where slot is
-the palette's position in the file and colour is 1-3. `python -m
+In memory, a pixel is 0 (transparent) or `4 * slot + colour`, where `slot` is
+the palette's position in the file and `colour` is 1-3. `python -m
 tools.gfx.image import IN.png OUT.txt --like SPEC.txt` converts an indexed or
-RGB PNG that uses exactly the declared colours. `export` writes a preview PNG.
+RGB PNG that uses exactly the declared colors. `export` writes a preview PNG.
 
-#### 1.5 Style and colours (in code)
+#### 1.5 Style and colors (in code)
 
 Each target module keeps its style as constants:
 
-* font, outline (4 or 8 neighbours), bold, colour indices, alignment;
+* font, outline (4 or 8 neighbors), bold, color indices, alignment;
 * for the title, its palettes (our RGB values, or `keep`).
 
 Changing the look is a code change in the target module and needs no new
@@ -187,16 +187,16 @@ asset format.
 
 * **Tile:** 8x8 pixels, 2 bits per pixel, 16 bytes. Each row is a
   little-endian word with the leftmost pixel in bits 15-14
-  (`tools/common/tiles.py`). Colour 0 is transparent on planes and sprites.
+  (`tools/common/tiles.py`). Color 0 is transparent on planes and sprites.
   There are 512 tiles at VRAM `0xA000`.
 * **Plane maps:** 32x32 entries, plane 1 at `0x9000` and plane 2 at
   `0x9800`. An entry is 16 bits little endian: bits 0-8 tile, bits 9-12
   palette, bit 14 vertical flip, bit 15 horizontal flip.
 * **Map block** (script op `gfxfe`, routine `0x2009F1`): `[w][h]`, then `w*h`
   entries, copied row by row into the 32-wide plane.
-* **Palettes:** 16 palettes x 4 colours per layer. Sprites start at `0x8200`,
-  plane 1 at `0x8280`, plane 2 at `0x8300`; the background colour is at
-  `0x83E0`. A colour is a 12-bit word `0x0BGR`. We convert from RGB with
+* **Palettes:** 16 palettes x 4 colors per layer. Sprites start at `0x8200`,
+  plane 1 at `0x8280`, plane 2 at `0x8300`; the background color is at
+  `0x83E0`. A color is a 12-bit word `0x0BGR`. We convert from RGB with
   round(v * 15 / 255) per channel; previews use v4 * 17.
 * **Sprite list** (`anim`): a count byte, then 5-byte records `[tile bits
   0-7][bit 0 = tile bit 8, bit 7 = H flip, bit 6 = V flip][x][y][palette]`.
@@ -205,12 +205,12 @@ asset format.
 
 1. **Text to ink.** Look up each character's glyph, advance the pen (plus
    optional extra spacing), and build the ink mask.
-2. **Style.** Colour the ink with one index, a per-glyph-row list (a vertical
+2. **Style.** Color the ink with one index, a per-glyph-row list (a vertical
    gradient) or a repeating pattern. Then apply the options: bold (1 px wider
    to the right; dots and quote marks doubled but kept apart), a 1-px outline
-   ring (4 or 8 neighbours), and extra glow rings. The renderer can return
+   ring (4 or 8 neighbors), and extra glow rings. The renderer can return
    only the ink or only the rings, for two-layer art.
-3. **Box.** Place the result in a fixed box (left, centre or right). If it
+3. **Box.** Place the result in a fixed box (left, center or right). If it
    does not fit, raise `FitError` with the text and its width.
 4. **Layer bitmap.** Each pixel is 0 or `4 * slot + colour`.
 5. **Cells.** Cut the bitmap on the target's cell grid.
@@ -299,7 +299,7 @@ folder. Chunks must land on `0xFF` bytes of IN, and IN is never modified.
 [rom/baserom.ngc]` runs every `tools/gfx/test_*.py`.
 
 The build must keep working while target modules are still missing (wave 1):
-the registry then simply has nothing to run.
+the registry then has nothing to run.
 
 Changes to `tools/patch/build.py`, `patch/main.asm` and the region table are
 covered in section 4.
@@ -358,7 +358,7 @@ opcode copies raw data. If the survey finds a compressed format, add
 * Library tests:
   * fonts: `vwf8` loads; its widths match the advances that `tools/text/fontc`
     compiles;
-  * outline rings (4 and 8 neighbours) and bold on synthetic glyphs; box
+  * outline rings (4 and 8 neighbors) and bold on synthetic glyphs; box
     alignment and `FitError`;
   * text-art errors: unknown character, palette `keep`, wrong size;
   * `TileBank` deduplication with flips; map-entry bits; `gfxfe_block`.
@@ -507,10 +507,10 @@ title prototype passed the audit.
 
 **Title logo and warning window:** in place, no hooks. Writes:
 
-* **Palettes:** plane 2 at `0x28D277 + 8p` (p = 0, 1, 5, 6; colour 3 of
+* **Palettes:** plane 2 at `0x28D277 + 8p` (p = 0, 1, 5, 6; color 3 of
   palette 5 is `keep` because flag tile `0x148` uses it), and plane 1 at
   `0x28D2AF + 8p` (p = 0, 1). The fade-in reads the plane-1 values from ROM,
-  so it follows our colours.
+  so it follows our colors.
 * **Tiles** at `0x28D307 + 16N`, only for the 207 pool tiles:
   * the old logo tiles `0x001`-`0x04B` except `0x00B`, `0x04C`-`0x061`,
     `0x076`-`0x0B3`;
@@ -605,7 +605,7 @@ byte test and the preview sheet cover them.
 * At frame 6450 the title screen is shown.
 * Skip: with `--frames 1100 --input "1000:A:2" --shot 1080`, the screen is
   identical to `ref`.
-* Review the contact sheet for legibility and centring.
+* Review the contact sheet for legibility and centering.
 
 **Cards.** For each chapter 1-20 and both sets, run `python -m
 tools.gfx.harness poke S\stage0_selected.state st.state 5490=<ch>
@@ -684,14 +684,14 @@ All under `scratchpad\gfx-pipeline\`:
     possible, and let the tool report the budget.
   * The fallback is the relocated package (16 KB reserved).
 * **Palettes (title).** Each 8x8 cell can use one palette per plane.
-  * Front: fire or white, 3 colours each.
-  * Back: palettes 0, 1, 6 and 5 (colour 3 kept), 3 colours each.
+  * Front: fire or white, 3 colors each.
+  * Back: palettes 0, 1, 6 and 5 (color 3 kept), 3 colors each.
   * The fire/white split must fall between cells. GAIDEN starts on a cell
     boundary, so no fill sprites are needed.
   * The front palettes flash white during the fade-in; the back palettes do
     not fade.
-* **Palettes (labels).** Colour 2 differs between screens (sprite palette 0
-  against 13 in battle), so labels use colours 1 and 3 only.
+* **Palettes (labels).** Color 2 differs between screens (sprite palette 0
+  against 13 in battle), so labels use colors 1 and 3 only.
 * **Width limits.**
   * Labels: 64 px with outline. The widest proposals are 61-63 px.
   * Intro lines: 144 px. With `title16` the widest is 143 px, a 1-px margin.
@@ -722,7 +722,7 @@ All under `scratchpad\gfx-pipeline\`:
 * **Shared files.** Only `gfx-build` edits `tools/patch/build.py` and
   `patch/main.asm`. Target tasks plug in through the registry and generated
   include, so they never touch shared files. If another workflow also fixes
-  the save-block layout, it must be serialised with `gfx-build`.
+  the save-block layout, it must be serialized with `gfx-build`.
 * **Reachability.**
   * The link-cable menus need a partner; static checks only.
   * In the harness, which ignores flash commands, the warning window needs
@@ -733,7 +733,7 @@ All under `scratchpad\gfx-pipeline\`:
   * `poke` depends on the state-file layout; it checks the size.
 * **In-place overlaps.** Graphics phase 2 runs last and refuses ranges that
   any other writer changed. A future hook inside a graphics range would show
-  up as a build error, not as silent corruption.
+  up as a build error.
 * **Survey.** Unknown Japanese graphics remain, for example the "deployed" tag
   on the stage organize panel (`explore-organize.md`, `explore-towns.md`) and
   possibly the ending or game over. Some of these may be native-loaded or
@@ -742,7 +742,7 @@ All under `scratchpad\gfx-pipeline\`:
 ### 7. Decisions for the owner
 
 Resolved in round 2 (provisional choices, built; see STATUS.md): intro in
-`title16` with a 4-neighbour outline like the original; title Layout B ("THE
+`title16` with a 4-neighbor outline like the original; title Layout B ("THE
 LEGEND OF" kicker, because the original logo has that phrase) with GAIDEN;
 labels "Finances", "Tactics", "Rite of revival" (the tips line quotes it the
 same way), "Add character" / "Remove", NEXT art kept; chapter 6 area "Litt
@@ -751,7 +751,7 @@ Island Waters" everywhere, "White Night". All follow-ups in item 5 are done
 `tools/text/gfxtext.py`, harness `--poke`, flash emulation in the core). The
 original round-1 questions follow for reference.
 
-1. **Intro style.** Choose `title16` with an 8-neighbour outline (the
+1. **Intro style.** Choose `title16` with an 8-neighbor outline (the
    recommendation: closer to the original size, matches the cards, in place)
    or bold `vwf8` (heavier, smaller). Comparison:
    `scratchpad\gfx-pipeline\intro_vwf8bold_vs_title16_f1200.png`.
@@ -802,7 +802,7 @@ their ROM-derived parts into the repository.
    * Implements section 3.1 and the library part of 3.6.
    * Its output must match the scratch prototypes byte for byte with the same
      parameters: `labelgen.py` (labels), `narrlib.py` (intro, bold `vwf8`,
-     8-neighbour outline) and `cards.py` (cards).
+     8-neighbor outline) and `cards.py` (cards).
    * Art: none.
 2. **`gfx-build`: integration and save-safe layout.**
    * Owns `tools/gfx/__init__.py`, `target.py`, `build.py`, `romio.py`,
@@ -864,7 +864,7 @@ their ROM-derived parts into the repository.
    * Inputs: `gfx-labels.md` (format, label tables, wording), scratch
      `gfxlabels\labelgen.py`, and `gfx-pipeline\labelcheck.py` (check
      prototype).
-   * Art: 45 labels of 8 tiles each (64x8 px), colours 1 and 3, with the
+   * Art: 45 labels of 8 tiles each (64x8 px), colors 1 and 3, with the
      wording table of `gfx-labels.md` and the decisions in section 7.
    * Acceptance: the label recipes; `test_labels` passes; the preview sheet
      has been reviewed.
@@ -874,7 +874,7 @@ their ROM-derived parts into the repository.
    * Inputs: `gfx-intro-narration.md`; scratch `gfx-intro\narrlib.py`,
      `narr_render.py`, `build_extended.py`, `sim_crawl.py` and
      `narr_en_v3.txt`; `gfx-pipeline\introcheck.py` and `intro16.py`.
-   * Art: 15 lines of 36 tiles each (144x16 px), colours 1 and 3, with the
+   * Art: 15 lines of 36 tiles each (144x16 px), colors 1 and 3, with the
      text of `gfx-intro-narration.md`.
    * Provide both modes.
    * Acceptance:
@@ -891,7 +891,7 @@ their ROM-derived parts into the repository.
      `buildtest.py`; `gfx-pipeline\poke.py`.
    * Art: 36 distinct cards, each at most 20x6 cells (screen rows 8-13), with
      the heading band in rows 8-9 and title bands in rows 10-13. The largest
-     card is about 62 tiles. Colours 1 and 3. Text as in
+     card is about 62 tiles. Colors 1 and 3. Text as in
      `gfx-chapter-cards.md`.
    * Acceptance: the cards recipe for all 40 combinations; `test_cards`
      passes; data fits `GFX_CARDS`.
@@ -907,7 +907,7 @@ their ROM-derived parts into the repository.
        fire (letter bodies about 7x19 px at y 66-84, from x 2) and GAIDEN in
        white (from x 104, on a cell boundary);
      * back layer 20x6 cells: a 3-px outline and glow around the main title,
-       plus PRINCE OF ZENOBIA in `title16` capitals (palette 5, centred, y
+       plus PRINCE OF ZENOBIA in `title16` capitals (palette 5, centered, y
        91-99);
      * at most 201 tiles for both layers;
      * window: "The suspend data will be erased." / "Is that OK?" / "Yes" at
@@ -1179,12 +1179,12 @@ Files: `tools/gfx/font.py`, `textart.py`, `image.py`, `tiles.py`, and the tests 
 **textart.py**
 
 * `Style(ink=1, outline=3, outline8=True, bold=False, glow=(), rows=None, pattern=None, spacing=0)`
-  * An immutable namedtuple. `_replace()` normalises like the constructor. `Style.rings` gives the ring colours.
+  * An immutable namedtuple. `_replace()` normalizes like the constructor. `Style.rings` gives the ring colors.
   * `outline`: None or 0 means no ring. `glow` gives rings 2..k. Glow without an outline makes ring 1 an empty, transparent gap.
-  * `rows`: exactly `font.height` colours (ValueError otherwise).
-  * `pattern`: rows of colours repeated over the ink. A flat list of numbers means one colour per pixel row. It is anchored at the pen origin of the first glyph and at glyph row 0, so it does not depend on where the text is placed. `rows` and `pattern` exclude each other.
-  * `bold`: every glyph with ink gets 1 px wider (each ink pixel also inks its right neighbour; advance + 1). The marks in `BOLD_MARKS` (ELLIPSIS, LQUOTE, `"`) instead double each ink pixel and keep the gaps (advance = new width + 1). This is exactly narrlib's rule. Glyphs without ink (SPACE) are unchanged.
-  * Rings grow from the whole line with 4 or 8 neighbours, and each ring grows from the previous one. Ink always wins over a neighbour's ring.
+  * `rows`: exactly `font.height` colors (ValueError otherwise).
+  * `pattern`: rows of colors repeated over the ink. A flat list of numbers means one color per pixel row. It is anchored at the pen origin of the first glyph and at glyph row 0, so it does not depend on where the text is placed. `rows` and `pattern` exclude each other.
+  * `bold`: every glyph with ink gets 1 px wider (each ink pixel also inks its right neighbor; advance + 1). The marks in `BOLD_MARKS` (ELLIPSIS, LQUOTE, `"`) instead double each ink pixel and keep the gaps (advance = new width + 1). This is exactly narrlib's rule. Glyphs without ink (SPACE) are unchanged.
+  * Rings grow from the whole line with 4 or 8 neighbors, and each ring grows from the previous one. Ink always wins over a neighbor's ring.
 * `measure(font, text, style=None) -> int`: the rendered width, rings included. It is 0 for text without ink.
 * `render(font, text, style=None, part='all'|'ink'|'rings') -> Bitmap`
   * Horizontally tight: from the leftmost to the rightmost ink, plus the rings.
@@ -1194,7 +1194,7 @@ Files: `tools/gfx/font.py`, `textart.py`, `image.py`, `tiles.py`, and the tests 
   * `align`: 'left', 'center' (x = (w - width) // 2, the prototypes' left bias) or 'right'.
   * `top`: the box row of glyph row 0; the rings extend above it.
   * `FitError(text, width, limit)` (a ValueError) when the width is more than w, and also when ink rows fall outside the box. Rings may be clipped, at the top and bottom only.
-  * Extensions to the design: the `part` keyword, and `top=None`, which centres the text box vertically.
+  * Extensions to the design: the `part` keyword, and `top=None`, which centers the text box vertically.
 * Deviation, horizontal origin:
   * labelgen.py and cards.py measured from the pen origin; the library measures from the leftmost ink, as narrlib.py does.
   * The two agree for every vwf8 glyph and every prototype title16 glyph, since all of them except SPACE have ink in column 0.
@@ -1203,7 +1203,7 @@ Files: `tools/gfx/font.py`, `textart.py`, `image.py`, `tiles.py`, and the tests 
 **image.py**
 
 * `Bitmap(w, h, px)`
-  * Pixels are a flat row-major list; a list of rows is also accepted. Each pixel is 0 or 4 * slot + colour.
+  * Pixels are a flat row-major list; a list of rows is also accepted. Each pixel is 0 or 4 * slot + color.
   * Methods: `get`, `set`, `row`, `rows`, `copy`, `crop`, `paste` (every pixel, clipped), `blit` (non-zero pixels only), `bbox`, `values`, and equality.
 * Text-art loading and saving:
   * `load_textart(path) -> (Bitmap, [PaletteBinding])`.
@@ -1211,7 +1211,7 @@ Files: `tools/gfx/font.py`, `textart.py`, `image.py`, `tiles.py`, and the tests 
   * `format_textart` and `save_textart(path, bitmap, palettes, chars=None, comments=())`. Output is deterministic, with LF line ends. Default characters are '.' for 0, then 1-9, A-Z and a-z by pixel value.
 * `PaletteBinding(name, plane, number, colors)`
   * `colors` holds 3 entries, each (r, g, b), or None for keep.
-  * `.words()` gives the colour words (None for keep).
+  * `.words()` gives the color words (None for keep).
   * The slot is the binding's position in the list.
 * Format: that of section 1.4, plus:
   * several @chars lines;
@@ -1222,18 +1222,18 @@ Files: `tools/gfx/font.py`, `textart.py`, `image.py`, `tiles.py`, and the tests 
 * `TextArtError` reports file:line for:
   * an unknown character (with x and y);
   * a wrong size (row length, too few rows, too many rows);
-  * a bad colour, or an unknown palette or colour in @chars;
+  * a bad color, or an unknown palette or color in @chars;
   * duplicates, and a missing @size or @data.
 * Previews:
   * `save_png(path, bitmap, rgb=None, scale=1)`.
   * `preview_rgb(palettes, transparent=#FF00FF, keep=None)` builds the rgb table.
   * Keep entries use the override in `keep` ({'NAME.K': rgb}) if there is one. Otherwise they use `keep_placeholder(v)` = (0, 255, 255 - v), which is distinct for each pixel value, so a preview can be imported again.
 * `import_png(path, palettes, transparent=#FF00FF, keep=None, cell=8)`
-  * Exact colours only; the error names the colour and the pixel.
+  * Exact colors only; the error names the color and the pixel.
   * Alpha 0 is transparent, and a partly transparent pixel is an error.
-  * A colour shared by several palettes is resolved per 8x8 cell, counted from the image origin: the cell takes the lowest slot that has all of its colours, then that slot's lowest colour index. This is the rule of proto_logo.py's convert_layer. A cell whose colours share no palette is an error. `cell=None` resolves per pixel.
-  * Reads indexed and truecolour PNGs. A truecolour PNG may carry a PLTE chunk; it is handled correctly.
-* Colours: `rgb_to_ngp(rgb or '#RRGGBB')`, `ngp_to_rgb(word)`, `parse_rgb`, `format_rgb`.
+  * A color shared by several palettes is resolved per 8x8 cell, counted from the image origin: the cell takes the lowest slot that has all of its colors, then that slot's lowest color index. This is the rule of proto_logo.py's convert_layer. A cell whose colors share no palette is an error. `cell=None` resolves per pixel.
+  * Reads indexed and truecolor PNGs. A truecolor PNG may carry a PLTE chunk; it is handled correctly.
+* Colors: `rgb_to_ngp(rgb or '#RRGGBB')`, `ngp_to_rgb(word)`, `parse_rgb`, `format_rgb`.
 * Command line:
   * `python -m tools.gfx.image import IN.png OUT.txt --like SPEC.txt [--keep NAME.K=#RRGGBB] [--transparent #RRGGBB] [--cell N]` (N = 0 resolves per pixel);
   * `python -m tools.gfx.image export IN.txt OUT.png [--scale N] [--keep ...]`.
@@ -1241,12 +1241,12 @@ Files: `tools/gfx/font.py`, `textart.py`, `image.py`, `tiles.py`, and the tests 
 **tiles.py**
 
 * `cells(bitmap, cols=None, rows=None)` returns a flat row-major list of `Cell`. A Cell is a tuple of 8 tuples with `.col` and `.row`. The bitmap must be exactly cols x rows cells.
-* `cell_slot(cell)` returns the slot, or None for an empty cell. `PaletteError` names the cell (col, row) for mixed slots, or for a pixel whose colour bits are 0 (such as 4).
-* `encode_cell(cell)` returns 16 bytes through `encode_tile_2bpp` (colour = pixel & 3). `flip_cell(cell, h, v)` mirrors a cell.
+* `cell_slot(cell)` returns the slot, or None for an empty cell. `PaletteError` names the cell (col, row) for mixed slots, or for a pixel whose color bits are 0 (such as 4).
+* `encode_cell(cell)` returns 16 bytes through `encode_tile_2bpp` (color = pixel & 3). `flip_cell(cell, h, v)` mirrors a cell.
 * `TileBank(pool, flips=False)`
   * `.add(cell) -> (tile, hflip, vflip)` looks for an exact match, then H, V and HV, the title prototype's order. A new tile takes the next pool number.
   * `.tiles` (16-byte tiles) and `.used` (their numbers) are in allocation order. Also `.remaining`, `.blob()` and `len()`.
-  * The same colours in different slots share one tile.
+  * The same colors in different slots share one tile.
   * `BudgetError` names the pool size and the cell.
   * Blank cells are not special: the target maps them to entry 0 or a blank tile before calling `add`.
 * `map_entry(tile, pal=0, hflip=False, vflip=False)`.
@@ -1269,7 +1269,7 @@ Files: `tools/gfx/font.py`, `textart.py`, `image.py`, `tiles.py`, and the tests 
   * map entries are `map_entry(tile, number, h, v)`; write the tiles with `zip(bank.used, bank.tiles)`.
 * Warning window text:
   * the number of cells comes from the sum of the glyph advances;
-  * on a background bitmap of colour 2, blit `render_box(vwf8, text, Style(outline=None), n * 8, 8, 'left', 0)`.
+  * on a background bitmap of color 2, blit `render_box(vwf8, text, Style(outline=None), n * 8, 8, 'left', 0)`.
 
 **Cross-check results** (a machine-local scratch script that reads the round-1 prototypes and, for the title, the base ROM)
 
@@ -1381,7 +1381,7 @@ change these lines.
   (`wav\harness_wav.c`, built against `build\ngp_core.lib`). It recorded
   `stage0_selected` for 960 frames, with no input and with A at frame 120.
   * Main RAM is identical at all 240 sampled frames.
-  * The audio differs in 0.18 % of the samples (0.02 % with A), from frame 406
+  * The audio differs in 0.18% of the samples (0.02% with A), from frame 406
     on, in bursts of 1-9 samples (at most 0.19 ms).
   * In every 100-ms window the best alignment is at lag 0. So the music is the
     same, and single sound-register writes only take effect a few samples
@@ -1398,7 +1398,7 @@ the right:
 * `labels.png`: all 45 labels in the game, 3x;
 * `intro.png`: the 15 line boxes, cut from the same crawl frames, 3x;
 * `cards.png`: all 40 cards (story and area sets), screen rows 56-119, 2x;
-* `title.png`: the title, PRESS A BUTTON, the fade-in (white flash and colours),
+* `title.png`: the title, PRESS A BUTTON, the fade-in (white flash and colors),
   the menu, the warning window (No, Yes, and the fade-out after Yes), plus the
   logo band at 3x;
 * `tags.png`: the deployed tag in three contexts and the paralysis labels in

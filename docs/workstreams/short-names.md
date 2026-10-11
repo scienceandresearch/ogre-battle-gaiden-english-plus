@@ -42,7 +42,7 @@ Load sites that keep the full names:
 
 ### Decisions
 
-* **One item copy for both fields (8 letters)**, not a 10-letter list copy
+* One item copy for both fields (8 letters), not a 10-letter list copy
   plus an 8-letter status copy: both fields then show the same name, and the
   Items list keeps the original layout (name, at least two blank cells, a
   two-digit quantity). Stacks go up to 99 (`cp 0x63` when adding at
@@ -50,7 +50,7 @@ Load sites that keep the full names:
   two-digit quantity. Every entry of the status copy needs 8 letters anyway
   (`maxlen` applies to all its texts), so a second file would only add about
   120 alternative spellings.
-* **The link screens read the short tables too** (integration check). In
+* The link screens read the short tables too (integration check). In
   the original every item, class and character name has at most 8 cells,
   and the link screens are fixed fields sized for that: the link overview
   prints the item at column 10 (`0x2E372E`, map `0x9294`) and the
@@ -61,7 +61,7 @@ Load sites that keep the full names:
   and the link message "<item> was received." (`0x2E4D1A`), so that message
   shows the short item name too (a 20-byte buffer would fit the full name;
   see Open issues). The class message `2E4B84` keeps the full name.
-* **Dark Knight** (story character, entry 1654) is `D.Knight` in the name
+* Dark Knight (story character, entry 1654) is `D.Knight` in the name
   fields; dialogue keeps "the Dark Knight".
 * Both Lycanthrope classes (39, 41) are `Lycan`; the original gives them the
   same name too.
@@ -311,7 +311,7 @@ the main table, which is unchanged (same address, same bytes).
 * Not seen in play (need a link partner or debug code): the link overview
   and versus item list (checked in the code, see Decisions) and the battle
   class picker `2C803A` / `2C8103`. All of them read the short tables.
-* The 26 *related* names are judgement calls (no shorter form of the same
+* The 26 *related* names are judgment calls (no shorter form of the same
   name exists); a reviewer may prefer others. The localization database
   shows the Japanese source of each.
 * Harness observation: turning a page of the Items list makes the game write

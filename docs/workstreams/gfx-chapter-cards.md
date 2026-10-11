@@ -14,8 +14,8 @@ Done (2026-10-09, round 2 wave 2, task `gfx-cards`), revised 2026-10-10
 after the review (fix round 1). All 40 cards (36 records: chapters 18-20
 share one card in each set) show English, drawn from
 `translation/en/cards.txt` in `assets/font/title16.txt` with the original
-lettering's colours, outline, rows and centring, and **inside the original
-lettering block** (12 x 4 cells at plane-1 column 4, row 8 = screen x 32-127,
+lettering's colors, outline, rows and centering, and inside the original
+lettering block (12 x 4 cells at plane-1 column 4, row 8 = screen x 32-127,
 y 64-95). The target is `tools/gfx/cards.py` (with `FULL_BUILD = False`; the
 verify step enables all targets together), `patch/src/cards.asm` and
 `tools/gfx/test_cards.py`.
@@ -67,14 +67,14 @@ Fix round 1 (the review's required changes and suggestions):
   copies `0xB40` words (360 tiles) of the sheet to VRAM `0xA440` (tiles
   `0x44`-`0x1AB`) with `0x200B37` (a direct `ldir.w`, or queued for the VBlank
   copy at `0x400E` by `0x200194` when the display is on).
-* Palettes: the text palette (4 colours at `0x29EF02`: transparent, white,
+* Palettes: the text palette (4 colors at `0x29EF02`: transparent, white,
   light blue, dark blue) goes to RAM `0x60E2`; the emblem palette `0x29EEF2`
-  (grey) or `0x29EEFA` (gold) to RAM `0x60EA`, gold when the byte at
+  (gray) or `0x29EEFA` (gold) to RAM `0x60EA`, gold when the byte at
   `0x29EE8D + chapter` is 1 (chapters 14-17).
 * Script at `0x29ED39`: plane palettes black, emblem tiles (`gfx2a 0x29EF0A
   -> 0xA000`, tiles 0-0x43), emblem map (`gfxfe 0x2A1E4A -> 0x9800`, 20x19,
   plane 2), display on, emblem fade-in, then at `0x29EDD4` `gfxfe 0x6080,
-  0x9208` draws the text layout on **plane 1 at column 4, row 8** (plane 1 is
+  0x9208` draws the text layout on plane 1 at column 4, row 8 (plane 1 is
   in front), text fade-in (about 60 frames), final palette (`gfx26 0x60E2 ->
   0x8280` at `0x29EE2A`), hold 180 frames, fade-out. A/B (bit 4 of
   `0x201B37`) skips ahead; every path goes through the one `gfxfe` at
@@ -93,10 +93,10 @@ Fix round 1 (the review's required changes and suggestions):
 
 | Address | Size | Content |
 |---|---|---|
-| `0x29EE8E` | 20 | emblem palette flag per chapter (0 grey, 1 gold, 2 free battle) |
+| `0x29EE8E` | 20 | emblem palette flag per chapter (0 gray, 1 gold, 2 free battle) |
 | `0x29EEA2` | 40 | story layout table: 20 u16 offsets from the table start |
 | `0x29EECA` | 40 | area layout table: 20 u16 offsets |
-| `0x29EEF2` | 8 | emblem palette, grey |
+| `0x29EEF2` | 8 | emblem palette, gray |
 | `0x29EEFA` | 8 | emblem palette, gold |
 | `0x29EF02` | 8 | text palette |
 | `0x29EF0A` | 0x440 | emblem tiles (68 tiles, VRAM 0x00-0x43; no text in it) |
@@ -123,15 +123,15 @@ From `python -m tools.gfx.cards decode` and the 40 harness screenshots
   heading (screen rows 8-9) has its ink in band rows 2-12 and its outline in
   rows 1-13; a title line (rows 10-11) has its ink in rows 4-14 and its
   outline in rows 3-15. Cards 14-20 and the area cards leave rows 8-9 empty.
-* **Colours.** Ink colour 1 (white) in 1-px strokes, outline colour 3 (dark
-  blue), plane-1 palette 0 = the text palette. Colour 2 (light blue) marks a
+* **Colors.** Ink color 1 (white) in 1-px strokes, outline color 3 (dark
+  blue), plane-1 palette 0 = the text palette. Color 2 (light blue) marks a
   few stroke joins only: 0-21 pixels per card, mostly in the heading glyphs.
-* **Outline.** 1 px. About 95 % of the outline pixels touch the ink on one of
-  4 sides (a 4-neighbour ring); the rest close the square corners at the ends
+* **Outline.** 1 px. About 95% of the outline pixels touch the ink on one of
+  4 sides (a 4-neighbor ring); the rest close the square corners at the ends
   of horizontal strokes. The ring has gaps on the diagonals elsewhere.
 * **Numbers.** The chapter numbers in the heading have 2-px strokes (about
   10 px tall); the other heading glyphs and all titles have 1-px strokes.
-* **Centring.** Lines are centred in the 96-px block, which is centred on
+* **Centering.** Lines are centered in the 96-px block, which is centered on
   the screen; the heading is 44 px (36 px for the final chapter).
 * **Punctuation.** None of the original titles ends in an ellipsis glyph;
   chapters 3, 12 and 16 trail off through their grammar (a dangling
@@ -222,7 +222,7 @@ Silence…" is 99 px (97 with three periods). Restoring a spec wording that
 is wider than 96 px, or chapter 12's second line, would break the owner's
 bounds rule; it needs the owner's explicit approval and a change of
 `MAX_LINE` / `MAX_TITLES` / `BANDS` in `cards.py` (the earlier version
-centred such lines over the black background and put a second title line in
+centered such lines over the black background and put a second title line in
 rows 12-13).
 
 Typography: the two trailing titles end in the font's ellipsis glyph (three
@@ -234,9 +234,9 @@ periods (dots 1 px apart).
 Constants in `tools/gfx/cards.py`:
 
 * `STYLE = Style(ink=1, outline=3, outline8=False)`: white ink, 1-px
-  dark-blue outline grown to 4 neighbours. An 8-neighbour outline was
+  dark-blue outline grown to 4 neighbors. An 8-neighbor outline was
   compared on all cards: it fills every diagonal and looks heavier than the
-  original, whose ring is 4-neighbour except at horizontal stroke ends.
+  original, whose ring is 4-neighbor except at horizontal stroke ends.
 * `BAND_TOPS = (2, 4)`: glyph row 0 on row 2 of the heading band and on
   row 4 of the title band. The 11-row `title16` glyph box (capitals rows 0-8,
   descenders 9-10) then covers exactly the original ink rows (2-12 and
@@ -250,14 +250,14 @@ Constants in `tools/gfx/cards.py`:
   breaks stay clear (compared side by side with the 5-px gap); the lines are
   more compact, like the dense original lettering, and 4 lines that were
   1-2 px too wide fit the block.
-* Lines are centred on the screen, `x = (160 - width) // 2`, which equals
-  the original's left-biased centring in its block. Plane-1 palette 0 (the
-  text palette) is not written; colour 2 is not used.
+* Lines are centered on the screen, `x = (160 - width) // 2`, which equals
+  the original's left-biased centering in its block. Plane-1 palette 0 (the
+  text palette) is not written; color 2 is not used.
 * `ORIG_BLOCK = (4, 8, 12, 4)`, `MAX_LINE = 96`, `MAX_TITLES = 1`: the
   lettering stays in the original block.
 
 Result, against the original (`compare_*` sheets of the recipe): same block,
-rows, colours, outline and centre; the numbers stand out as in the
+rows, colors, outline and center; the numbers stand out as in the
 original. The difference that comes from the English itself: lower-case
 letters have a 6-px x-height against the 11-px kana and kanji, so the lines
 look lighter.
@@ -284,7 +284,7 @@ look lighter.
   seen) shows chapter 1's card instead of reading past the tables.
 * `card_load` (hook 1) does what the old code did, in the same order: it
   copies the card's original layout record (`0x31` words) to RAM `0x6080`
-  (nothing reads it any more, but the RAM stays as the original leaves it),
+  (nothing reads it anymore, but the RAM stays as the original leaves it),
   then loads `0xB40` words to VRAM `0xA440` with the game's copy `0x200B37`:
   first the card's own tiles, then the rest of the original sheet. So the
   copy is as long as the old one and every other tile is the original's.
@@ -408,7 +408,7 @@ the constants at the top of `cards.py`.
   "Wording decisions"); the orchestrator lists them in `STATUS.md`.
 * Sound timing: the sound CPU's work RAM differs at some frames (a phase
   difference, see "Verification"); to be confirmed by ear in the player.
-* The original's colour-2 pixels at a few stroke joins have no English
+* The original's color-2 pixels at a few stroke joins have no English
   counterpart (the font has 1-px strokes without joins to soften); the
   review agreed that none is needed.
 * `cards.txt` is not yet in the localization export (`tools/text/l10n.py`).

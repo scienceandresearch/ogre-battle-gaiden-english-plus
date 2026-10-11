@@ -428,6 +428,7 @@ and `cards.txt`. `0x5490` holds stage index + 1: Exp (states
 | Unofficial fan guide, not affiliated. | Code (player) `gui.c` `show_about` ("Not affiliated with the owners of the game."); Earlier check. |
 | Game: Densetsu no Ogre Battle Gaiden: Zenobia no Ouji, Neo Geo Pocket Color, 2000. | Code (player) `gui.c` `show_about` ("(Neo Geo Pocket Color, 2000)"). |
 | Names follow the translation and the official English releases where they exist (Warren, Canopus, Lanselot, Gilbert, Lyon, Zenobia, Zeteginea). | Tr `glossary.md` "People" and "Places". |
+| Facts checked against the game's scripts, data tables and test runs; rules that could not be confirmed are left out or given only in general terms; the guide sources (this file, linked on GitHub) give the source of each fact. | This file: every row names its source, and the section below lists what was left out or kept vague. |
 
 ---
 

@@ -67,7 +67,7 @@ added the `--save` overwrite note to open issue 4 and open issues 5 and 6.
    complete at once, so the game's read-back verify passes. Programs and
    erases go through `flash_write_block`/`flash_erase_block`, which record
    the block for the save file. On by default (`g_flash_commands = true`);
-   `false` restores the old behaviour (writes logged and ignored, "Could not
+   `false` restores the old behavior (writes logged and ignored, "Could not
    save."). The chip returns to read mode at `ngp_reset` and when a state is
    loaded. Statistics: `flashchip_programs()`, `flashchip_erases()`,
    `flashchip_block_erases(chip, block)`. `g_flash_command_hook` stays as an
@@ -93,7 +93,7 @@ added the `--save` overwrite note to open issue 4 and open issues 5 and 6.
      `0x8000-0xBFFF`; the I/O registers `0x00-0xFF` are not read from that
      array. Bad specs exit 1; a FRAME beyond `--frames` gives a warning.
      Each poke is printed to stderr when applied.
-   * `--no-flash-commands`: the old behaviour.
+   * `--no-flash-commands`: the old behavior.
    * `--dump-flash FILE`: the cartridge image as the game sees it after the
      run (same size as the ROM file), to compare with the ROM.
    * `--save FILE`: loaded before `--load-state` (a damaged file is reported:
@@ -108,7 +108,7 @@ added the `--save` overwrite note to open issue 4 and open issues 5 and 6.
    workaround is gone (`flashchip_install`, `flashchip_set_rom_size`,
    `flashchip_fix_bios_info` and the frontend `flashchip.c/.h` removed;
    `rom_install` sets `g_rom_data_size`). `--no-flash-commands` now works in
-   the window mode too (it was selftest only). The `.sav` behaviour and the
+   the window mode too (it was selftest only). The `.sav` behavior and the
    44-byte state trailer (with the chip's command state) are unchanged; a
    state load that the core rejects now also restores the chip's command
    state. `CMakeLists.txt`: `flashchip.c` moved from the `zenobia` target to
@@ -182,7 +182,7 @@ states from `build\states`):
   complete.". The game writes during frames 13-16. With
   `--no-flash-commands`: "Could not save.", no file.
 * Load: `H ROM --save S.sav --input "300:A:2;400:A:2;500:A:2" --frames 700`
-  -> the title cursor starts on Load (greyed out without the file); add
+  -> the title cursor starts on Load (grayed out without the file); add
   `;720:A:2;850:A:2` and `--frames 1000` -> DATA LOAD, then the saved game
   on "The Zenobian Age" map.
 * Saving again from the map popup needs three presses (A clears "Save

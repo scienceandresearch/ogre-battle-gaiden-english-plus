@@ -115,7 +115,8 @@ say which load sites read the copy instead.
 Give `strings.csv` to the reviewer. They fill in, per row:
 
 * `suggested_english`: a better translation (leave empty to keep the current one);
-* `reviewer_comment`: anything to note: nuance, tone, terminology, questions;
+* `reviewer_comment`: anything worth noting, such as nuance, tone, terminology
+  or questions;
 * `reviewer`: their name or initials.
 
 Keep `{XX}` codes (raw bytes such as `{00}` = new line), `[NAME]`, `[NUM]`

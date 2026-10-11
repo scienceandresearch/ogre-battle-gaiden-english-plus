@@ -150,6 +150,17 @@ using a made-up one). Dev package 522,523 bytes with 17 chapter saves. An
 audit of every new and changed file found no Japanese, no ROM data and no
 personal data.
 
+### 2026-10-11: wording review and pre-release update
+
+Every document had another pass with the humanizer rules (plain wording,
+American spelling, no decorative bold); the edits are small and change no
+facts. The package README now describes the chapter saves the way the guide
+does, and the guide's "About" section links to `docs/guide-sources.md`.
+Dev package rebuilt (522,622 bytes, SHA-256 `3bbd03eb...`); `test_package`
+46/46, `tools.gfx.test_all` and `test_tables` pass. The pre-release
+`v0.1.0-dev` now carries this package, with new release notes, in place of
+the old `+4fe9c5ff` one. Its tag still points to an older commit.
+
 ## Save-safe layout (2026-10-09)
 
 Earlier builds put patch data in the game's save blocks. The game saves to
@@ -258,24 +269,27 @@ actually drawn).
 
 ## Earlier in session 3
 
-All verified in the harness unless noted: * Location names: 207 names, town
-window (VWF name), liberated / discovered / lost messages
-(`patch/src/locname.asm`). * Composed messages (`patch/src/msgcompose.asm`,
-`msg_*` in `ui.txt`): "<leader>'s unit has finished moving / to headquarters?
-/ encountered ...", found item / treasure / spoils / obtained / gave up / drew
-the card (quoted names), revive and deploy costs, shop price, class change,
-stat changes from tarot cards (with "point"/"points"), stock label. Checked by
-test builds that run the patched code and log the result; the real-game window
-position of each is still to be seen in play. * Move types
-(`patch/src/movetype.asm`): up to 7 letters on the status screen and unit
-window; 5-letter short forms in the deploy list. * Finance window, organize
-top bar, quantity prompt, Suspend prompt, item-use and search messages, Jack's
-shop line, Data submenu (Save/Load), Link submenu labels, stage names on the
-scenario map (VWF, padded with `fill=10`), link-battle settings (labels,
-values, overview, terrain and time choices, round headers, results), battle
-terrain names (`0x2C82A9`). * Fixes: `ui_lookup` now masks the pointer's top
-byte (popup tables keep flags there, so those strings were never remapped);
-the assembler gave `(REG+)` destinations a 1-byte step.
+All verified in the harness unless noted:
+
+* Location names: 207 names, town window (VWF name), liberated / discovered /
+  lost messages (`patch/src/locname.asm`).
+* Composed messages (`patch/src/msgcompose.asm`, `msg_*` in `ui.txt`):
+  "<leader>'s unit has finished moving / to headquarters? / encountered ...",
+  found item / treasure / spoils / obtained / gave up / drew the card (quoted
+  names), revive and deploy costs, shop price, class change, stat changes
+  from tarot cards (with "point"/"points"), stock label. Checked by test
+  builds that run the patched code and log the result; the real-game window
+  position of each is still to be seen in play.
+* Move types (`patch/src/movetype.asm`): up to 7 letters on the status screen
+  and unit window; 5-letter short forms in the deploy list.
+* Finance window, organize top bar, quantity prompt, Suspend prompt, item-use
+  and search messages, Jack's shop line, Data submenu (Save/Load), Link
+  submenu labels, stage names on the scenario map (VWF, padded with
+  `fill=10`), link-battle settings (labels, values, overview, terrain and time
+  choices, round headers, results), battle terrain names (`0x2C82A9`).
+* Fixes: `ui_lookup` now masks the pointer's top byte (popup tables keep flags
+  there, so those strings were never remapped); the assembler gave `(REG+)`
+  destinations a 1-byte step.
 
 ## Open at the end of round 1
 
@@ -331,8 +345,8 @@ States also keep the video memory of the build they were saved with (e.g.
 
 ## Ease of use and sharing (2026-10-10)
 
-No command line needed. The player opens the game as `.ngc` or straight from
-the `.zip` it came in (own zip/inflate reader,
+Players need no command line. The player opens the game as `.ngc` or
+straight from the `.zip` it came in (own zip/inflate reader,
 `runtime/src/frontend/zipread.c`), and has a menu bar with File > Save English
 ROM... (Ctrl+S) for other emulators. The package also holds `Patch your
 game.html`: a one-file, offline web patcher (choose the game or its zip, click

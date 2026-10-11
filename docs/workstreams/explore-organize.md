@@ -30,7 +30,7 @@ command bar's "Organize screen" (A on empty ground, 2nd icon, A) open the same s
 * Top bar: "Unit / Char / Funds" = number of units, of characters, funds.
 * Top-level icon menu (Left/Right wrap, Option = help, A = enter, B = back):
   1. Character -> submenu View status / Dismiss / Class change.
-  2. Add character -- only when characters are in the stock (in no unit); the menu is
+  2. Add character, shown only when characters are in the stock (in no unit); the menu is
      built when the screen opens. Choose a unit (Left/Right: units and the stock),
      or a stock character who can lead to form a new unit, then the characters to add
      and their places; a full unit asks "This unit will be formed. Is that all right?".
@@ -96,7 +96,7 @@ command bar's "Organize screen" (A on empty ground, 2nd icon, A) open the same s
    (pointer in task var 0x20) which prints with `0x200B72` (caller `0x213495`) at map
    `0x9382`: 18 cells x 3 lines; with a Yes/No prompt only 2 lines are free. The remap
    hook for `0x200B72` ignores the VWF flag, so `sysmsg` lines over 18 letters run over
-   the right frame and off screen, often losing the key word ("A large character / be
+   the right frame and off screen, often losing an important word ("A large character / be
    added to this un..."). The same strings are shown by the window renderer elsewhere
    (unit window, map), so 18 fixed cells per line works for both. List and suggested
    English in "Open issues".

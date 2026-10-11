@@ -19,7 +19,7 @@ the Visual C++ Redistributable. Wrong ROMs, missing or damaged patches and
 archives get clear messages. `runtime/src/frontend/tests/release_test.py`
 repeats all of this in one command (40 checks, all pass).
 
-Saving is release-ready since round 2 (2026-10-09): the patch keeps the
+Saving has been release-ready since round 2 (2026-10-09): the patch keeps the
 game's save blocks blank (`tools/patch/layout.py`; former open issue 1) and
 the emulation core itself now emulates the flash chip and reports the right
 chip size to the game (`core.md`; former open issues 2 and 3). 19 saves to
@@ -287,20 +287,20 @@ damaged data, 40 CRC32 mismatch, 41 out of memory), 2 when the file cannot
 be opened or is not a zip; it is also the test hook for the zip reader.
 
 `--no-flash-commands` (window and selftest) makes the core ignore the game's
-flash chip commands, the old behaviour: in-game saving then fails ("Could not
+flash chip commands, the old behavior: in-game saving then fails ("Could not
 save."). `--console` shows core log messages (attaches to the calling console or opens
 one; Ctrl+C or closing that console quits normally, saving first). Without it
 a window start never attaches to a console. `--exit-after` runs the real
 window and audio for that many seconds, then quits cleanly (flushes the save,
 writes `--png`, prints statistics to stderr; no dialogs: questions get their
-default answer, except that an unrecognised ROM runs as is with a warning, as
+default answer, except that an unrecognized ROM runs as is with a warning, as
 in `--selftest`). Exit codes: 0 ok, 1 usage, 2 ROM unreadable (also a zip
 that cannot be used), 3 ROM refused (or patch unusable), 4 a state operation
 failed, 5 write failed, 6 PNG failed, 7 cartridge save failed, 10+n BPS
 error n, 30+n zip error n (`--unzip`).
 
 `--date MM-DD` sets the console date for this run (window and selftest),
-`--resume` the start behaviour for this run (also without a window), and
+`--resume` the start behavior for this run (also without a window), and
 `--import-save FILE` imports a saved game before playing (no questions; exit
 7 if the file is refused). `runtime/src/frontend/tests/extras_test.py` covers
 the three, and the cheats through the harness.
@@ -328,18 +328,18 @@ captures its output; from PowerShell pipe it (`| Out-Host`) or use
     per-monitor DPI (keeps whole-number zoom across DPI changes), keeps running
     while the window is dragged, keeps the display awake while playing,
     pause when inactive, status messages in the title bar.
-  * `video.c` GDI `StretchDIBits` (COLORONCOLOR = nearest neighbour),
+  * `video.c` GDI `StretchDIBits` (COLORONCOLOR = nearest neighbor),
     whole-number zoom or aspect fit, black borders, hint screen without ROM.
   * `audio.c` waveOut on its own thread: 4 x 10 ms device buffers, ring buffer
     (playback starts at 40 ms, trimmed above 100 ms, empty ring padded with a
     short fade), DC blocker, volume; muted while paused / fast-forwarding.
   * `input.c` key bindings (left/right modifiers), XInput 1.4 / 9.1.0 / 1.3
     from System32 only, empty pad slots polled every 2 s, opposite directions
-    cancelled; `ZENOBIA_XINPUT` test hook.
+    canceled; `ZENOBIA_XINPUT` test hook.
   * `config.c` `zenobia.ini` (UTF-16 with BOM, Win32 profile API so comments
     survive), key-name parser.
   * `romload.c` SHA-1/CRC32 identification, patch search (`--patch`, next to
-    the exe, next to the ROM), in-memory patching, diagnosis of unrecognised
+    the exe, next to the ROM), in-memory patching, diagnosis of unrecognized
     files (archive, no SNK header, another game by header title/ID, wrong
     size, already patched, other dump), loads the image exactly like
     `ngp_load_rom` (2 MB buffer, 0xFF fill), keeps a pristine copy.
@@ -381,7 +381,7 @@ captures its output; from PowerShell pipe it (`| Out-Host`) or use
   erases fill a block with FF, both through `flash_write_block` /
   `flash_erase_block`, so the blocks reach the save file. Verified: Data ->
   Save shows "Save complete.", the save file holds block 28, and after a
-  restart the title menu offers Load (greyed out without the file).
+  restart the title menu offers Load (grayed out without the file).
 * BIOS chip size (round 1: a player fix-up; round 2: the core). The HLE BIOS
   stored chip size code 1 (4 Mbit) at `0x6C58`. The game's erase routine
   picks the block address from a per-size table (`0x36700E`: 11, 19 or 35
@@ -396,7 +396,7 @@ captures its output; from PowerShell pipe it (`| Out-Host`) or use
   `romload.c` use the core (`g_flash_commands`, `flashchip_state` for the
   state trailer, `g_rom_data_size`, `flash_mark_changed_blocks`);
   `--no-flash-commands` also in the window mode; a state load the core
-  rejects also restores the chip's command state. Behaviour otherwise
+  rejects also restores the chip's command state. Behavior otherwise
   unchanged (all regression scripts below pass; the player and the harness
   give byte-identical pictures and save files for the same run).
 * Zip files and the menu bar (2026-10-10, task player-zip):
@@ -437,12 +437,12 @@ captures its output; from PowerShell pipe it (`| Out-Host`) or use
   * A truncated or damaged save file was loaded partially (the core's
     `flash_load_save` returns success after a short read) with no warning:
     now checked record by record, reported, and never applied half.
-  * Messages for unrecognised files said only "not the ROM this player
+  * Messages for unrecognized files said only "not the ROM this player
     expects"; they now say what the file most likely is. `--write-patched`
     with a wrong ROM printed "running it as is" before refusing; it now
     prints the reason and "nothing written".
   * `ogre_en.bps` next to the ROM is used when there is none next to the exe.
-  * `.zip`/`.7z`/`.rar`/`.gz` files are recognised and refused with
+  * `.zip`/`.7z`/`.rar`/`.gz` files are recognized and refused with
     "extract the ROM first" (`.zip` files are opened since 2026-10-10).
   * `bps_apply` with `max_target = 0` could try to allocate the size a
     damaged header declares: now limited to 256 MiB.
@@ -451,7 +451,8 @@ captures its output; from PowerShell pipe it (`| Out-Host`) or use
 
 Build: `build.bat`; patch: `python -m tools.patch.build rom/baserom.ngc`.
 
-**Release end-to-end test** (one command, about 20 s, opens a window twice):
+The release end-to-end test is one command (about 20 s; it opens a window
+twice):
 
     python runtime/src/frontend/tests/release_test.py --exe build/zenobia.exe
         --patch build/ogre_en.bps --rom rom/baserom.ngc --english build/ogre_en.ngc
@@ -470,7 +471,7 @@ DLLs imported; the original ROM patched in memory gives the image SHA-1 of
 another game / not a ROM (headless: warned with the reason and run as is;
 `--write-patched`: refused with the reason); a `.zip` of the ROM opens and
 gives the English image, a `.7z` is refused; missing patch
-(names both places looked at); English ROM without the patch (recognised as
+(names both places looked at); English ROM without the patch (recognized as
 patched); patch next to the ROM used; damaged and truncated patch refused;
 in-game save from `data-popup_save_prompt` (4096 bytes programmed, file holds
 block 28); next start with that file: title menu offers Load, Load -> file 1
@@ -584,7 +585,7 @@ core's own save checks are `runtime/src/core/tests/save_test.py`, see
 * In-game save headless: `zenobia.exe --selftest ROM --load-state
   build\states\data-popup_save_prompt.state --input "10:A:2" --frames 600 --png
   S.png --save S.sav` shows "Save complete." and writes the flash file;
-  `--no-flash-commands` reproduces the old behaviour ("Could not save."). The
+  `--no-flash-commands` reproduces the old behavior ("Could not save."). The
   harness gives the same pictures in both modes.
 * Repeated saves: `--load-state build\states\data-popup_save_prompt.state
   --input` `10:A:2` plus `c:A:2;c+100:A:2;c+200:A:2` for c = 400, 800, ...

@@ -8,7 +8,7 @@ screen before it (publisher logo, notices), work out where they are stored and h
 they are loaded, and replace them with English drawn as original pixel art (our own
 lettering) that matches the original very closely: same place and size, the
 original palettes, the same outline, glow, shading and texture, and everything else
-on the screen unchanged. Round 1 analysed the screen and planned the replacement;
+on the screen unchanged. Round 1 analyzed the screen and planned the replacement;
 round 2 (wave 2, task `gfx-title`) built the target, then revised it after review.
 
 ## State
@@ -96,18 +96,18 @@ the original logo, nothing else):
 |---|---|---|---|---|
 | Kicker | "Legend of", the first part of the big title | THE LEGEND OF | fill x 5-72, y 57-61 (map row 7, left of the arm); outline from y 56 | fire fill (brighter shares), black outline, glow (none above: the band's top) |
 | Main title, fire part | "Ogre Battle" | OGRE BATTLE | fill x 5-99, y 65-83; outline 84, glow 85-86 | mottled fire fill (plane-1 palette 0), black outline and cyan/blue glow (plane-2 palette 0) |
-| Main title, white part | "side story" | GAIDEN | fill x 104-155, y 65-83 (from a cell boundary) | white/grey fill (plane-1 palette 1), same outline and glow; only the G's outline under the thumb |
+| Main title, white part | "side story" | GAIDEN | fill x 104-155, y 65-83 (from a cell boundary) | white/gray fill (plane-1 palette 1), same outline and glow; only the G's outline under the thumb |
 | Subtitle | "Prince of Zenobia" | PRINCE OF ZENOBIA | letters x 22-137, y 89-97; outline x 21-138, y 88-98; row 87 empty | thin italic amber letters with a brown outline (plane-2 palette 5) |
-| Warning window | "The suspend data will be erased. Is that all right?" + yes/no | The suspend data will be erased. / Is that OK? / Yes / No | interior rows 1-3, Yes at column 6, No at column 12 | the window's own colours (plane-1 palette 3), vwf8 |
+| Warning window | "The suspend data will be erased. Is that all right?" + yes/no | The suspend data will be erased. / Is that OK? / Yes / No | interior rows 1-3, Yes at column 6, No at column 12 | the window's own colors (plane-1 palette 3), vwf8 |
 
-All palettes are `keep`: the art uses the original colours by index (colour 1-3 of
+All palettes are `keep`: the art uses the original colors by index (color 1-3 of
 the palettes above), and nothing is written to the palettes. The main title's fill
 is in the original's rows (65-83, the outline on 84, the glow on 85-86, row 87
 empty), the subtitle letters in exactly the original's rows 89-97. The English
 line is 1 px further out on each side than the original (fill x 5-155 against
 6-154, glow x 2-157 against 3-156). The subtitle is wider than the original's (x
 37-124), because the English text has 15 letters against 7 characters; it stays
-centred.
+centered.
 
 Files (all text, all ours):
 
@@ -130,7 +130,7 @@ checks that the committed layers are exactly the draft.
 How the style rules reproduce the original treatment (measured on the original
 package in a scratch analysis; the rules are constants in `title.py`):
 
-* **Outline.** Every 4-neighbour of the fill is black (the original: 865 of 871).
+* **Outline.** Every 4-neighbor of the fill is black (the original: 865 of 871).
   The original also fills about a quarter of the outer diagonal corners and most
   pixels between two diagonal fill pixels (a step of a slanted edge: 28 of 36)
   with black; the draft fills all steps and a quarter of the corners (chosen by a
@@ -144,18 +144,18 @@ package in a scratch analysis; the rules are constants in `title.py`):
   ring 3, with a few ring-4 pixels. Strength is smooth value noise, so blue and
   cyan come in patches as in the original. Glow only in map rows 7-10 above y 87,
   never in reserved cells, nothing but the outline under the fist's thumb.
-* **Fire fill.** Smooth value noise with colours by share: dark red 48%,
+* **Fire fill.** Smooth value noise with colors by share: dark red 48%,
   orange-red 39%, yellow 13% (the original: 48 / 40 / 12), a little brighter
   inside the strokes, darker on the edges (right and bottom more) and on the first
-  and last rows, as the original. Neighbour correlation 0.49 (the original 0.43).
+  and last rows, as the original. Neighbor correlation 0.49 (the original 0.43).
   The kicker uses the same palette with brighter shares (25 / 45 / 30) and no
   darker edges, so that its 5-px letters read at 1x.
-* **White fill.** Grey 42%, white 36%, light grey 22% (the original 44 / 34 / 22),
-  greyer towards the right and bottom edges, whiter towards the left and top,
+* **White fill.** Gray 42%, white 36%, light gray 22% (the original 44 / 34 / 22),
+  grayer toward the right and bottom edges, whiter toward the left and top,
   mixed as in the original rather than a hard bevel.
 * **Subtitle.** 1-px amber strokes (the original's strokes are 1 px) with a brown
-  outline on the 4 neighbours and on diagonal steps and some outer corners (the
-  original: 281 of 283 4-neighbours brown, 6 of 6 steps, about a quarter of the
+  outline on the 4 neighbors and on diagonal steps and some outer corners (the
+  original: 281 of 283 4-neighbors brown, 6 of 6 steps, about a quarter of the
   outer corners), italic like the original's lettering, 9 rows tall like its amber
   rows.
 * **Cells.** One palette per 8x8 cell and plane: the fire/white split falls on the
@@ -189,7 +189,7 @@ cells, 108 back cells), window 29 of 29.
 
 | Screen | When | Japanese? |
 |---|---|---|
-| Notice "for colour hardware only" | only on a monochrome system: boot code at `0x28C695` compares the BIOS system-type byte `0x6F91` with `0x10` and runs `0x28C76A` instead of the logo | font text drawn by the window renderer from `0x28C7C3`; already in `ui.txt` (`@28C7C3`), checked on screen in English with a scratch ROM that forces the branch |
+| Notice "for color hardware only" | only on a monochrome system: boot code at `0x28C695` compares the BIOS system-type byte `0x6F91` with `0x10` and runs `0x28C76A` instead of the logo | font text drawn by the window renderer from `0x28C7C3`; already in `ui.txt` (`@28C7C3`), checked on screen in English with a scratch ROM that forces the branch |
 | Publisher logo on white | frames 0-150 from power-on (`0x28C7E8`) | no: word mark, registered sign and web address in Latin letters |
 | Black | frames 150-300 | nothing drawn |
 | Cloud intro with narration | from frame 300 | yes, pre-drawn: workstream "intro narration" |
@@ -207,8 +207,8 @@ line are pre-drawn in English already.
    It has two layers:
    * outline layer on scroll plane 2 (behind): black outline with a cyan and blue
      glow, plane-2 palette 0, tiles `0x001`-`0x04B`;
-   * fill layer on scroll plane 1 (in front): mottled fire colours (yellow,
-     orange-red, dark red; plane-1 palette 0) for the series name, and white-grey
+   * fill layer on scroll plane 1 (in front): mottled fire colors (yellow,
+     orange-red, dark red; plane-1 palette 0) for the series name, and white-gray
      (plane-1 palette 1) for the last two characters ("side story"). Tiles
      `0x076`-`0x0B1`, rows 8-10. Two sprites (tiles `0x0B2`/`0x0B3`, sprite
      palette 2, the last two records of the flag sprite list) add fire pixels
@@ -238,8 +238,8 @@ same-size replacement can be written in place.
 
 | Address | Size | Content |
 |---|---|---|
-| `0x28CBC6` | 2 | background colour (dark blue) |
-| `0x28D277` | 56 | plane-2 palettes 0-6 (4 colours each) |
+| `0x28CBC6` | 2 | background color (dark blue) |
+| `0x28D277` | 56 | plane-2 palettes 0-6 (4 colors each) |
 | `0x28D2AF` | 32 | plane-1 palettes 0-3 |
 | `0x28D2CF` | 56 | sprite palettes 0-6 |
 | `0x28D307` | 0x2000 | 512 tiles (all of character RAM), tile N at `0x28D307 + 16*N`; tile 0 is blank |
@@ -262,7 +262,7 @@ Formats:
   horizontal/vertical flip][x][y][palette]` after a count byte. The loader adds
   the origin set by the script (`pos16`: low byte x, high byte y) and ORs the
   priority bits `0x18`. Lower-numbered sprites win where sprites overlap.
-* Palettes: 12-bit colours `0x0BGR`, 4 per palette, colour 0 transparent.
+* Palettes: 12-bit colors `0x0BGR`, 4 per palette, color 0 transparent.
 
 Loader (every reference to the package is in the title code in bank 0x28):
 * Script at `0x28CBC8` (entered at `0x28C8DA` with the screen off):
@@ -287,17 +287,17 @@ Loader (every reference to the package is in the title code in bank 0x28):
 * Nothing else writes tiles while the title is up: the harness write watch shows
   the one block copy at frames 736-737, then only menu label redraws.
 
-### Space, colours and tile budget (round 1)
+### Space, colors and tile budget (round 1)
 
 Canvas: the full width, map rows 7-12 (x 0-159, y 56-103), as two layers. The
 menu begins at row 13 (y 104), and "PRESS A BUTTON" is at y 106-113.
 * Front layer (plane 1, in front): each 8x8 cell uses one palette. Palette 0
-  (fire: yellow, orange-red, dark red) or palette 1 (white, light grey, grey).
+  (fire: yellow, orange-red, dark red) or palette 1 (white, light gray, gray).
   Palettes 2-3 belong to the flag highlights and the warning window.
 * Back layer (plane 2, behind): each cell uses one of palette 0 (blue, cyan,
   black: the outline and glow), palette 5 (brown, amber, near-black: the
   subtitle), or palettes 1 and 6 (loaded but unused on this screen). Palette 5's
-  colour 3 also colours one solid square of the flag (tile `0x148`).
+  color 3 also colors one solid square of the flag (tile `0x148`).
 * Reserved cells (keep the original entries): row 7 (y 56-63), columns 11 and
   13-15 (x 88-95 and 104-127), in both planes. They hold arm artwork.
 * The arm and fist sprites are drawn in front of everything. They cover about
@@ -320,8 +320,8 @@ menu begins at row 13 (y 104), and "PRESS A BUTTON" is at y 106-113.
   col)`) and the plane-2 map (`0x28F889 + ...`), and window rows 1-3
   (`0x28F7BF + ...`). Reserved cells are not written.
 * Palettes: none written (all `keep`). The ranges for plane-2 palettes 0, 1, 5
-  (colours 1-2) and 6 and plane-1 palettes 0-1 are declared, so own colours remain
-  possible; plane-2 palette 5 colour 3 is never writable (the flag uses it).
+  (colors 1-2) and 6 and plane-1 palettes 0-1 are declared, so own colors remain
+  possible; plane-2 palette 5 color 3 is never writable (the flag uses it).
 * Sprites: the count byte at `0x28F307` goes from 50 to 48 (drops the two old fill
   sprites).
 * No new ROM: `0x3B0000`-`0x3EFFFF` holds the game's save blocks. The fallback (a

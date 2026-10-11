@@ -19,12 +19,12 @@ Japanese blocks are four new targets:
 | # | Target | Players see it? | Size | Path | Priority |
 |---|---|---|---|---|---|
 | 1 | "Deployed" tag on the organize status pane | yes, every stage | 5 tiles, 40x8 px | in place, 2 x 80 bytes, no hooks | high |
-| 2 | "Paralysed!" hit-reaction label in battle | yes, when a paralysing attack hits | 2 tiles, 16x8 px | in place, 32 bytes, no hooks | medium |
+| 2 | "Paralyzed!" hit-reaction label in battle | yes, when a paralyzing attack hits | 2 tiles, 16x8 px | in place, 32 bytes, no hooks | medium |
 | 3 | Ending epilogue text, 5 endings, 87 lines | no: its display code has no reference | 87 x 32 tiles | in place, only if restored | low (owner decision) |
 | 4 | Text screen in the boot bank | no: its loader has no reference | 144 tiles | none | none |
 
 No compressed graphics exist: every loader copies raw 2bpp tiles, raw map
-entries or raw colour words.
+entries or raw color words.
 
 ## Done
 
@@ -66,12 +66,12 @@ entries or raw colour words.
    its source and size pass ("dest set at run time"). RAM sources are counted
    separately as dynamic.
 6. **Renders** (local only, `build/gfx/inventory/`):
-   * a grey sheet per block;
+   * a gray sheet per block;
    * map blocks drawn with the tiles and palettes of their script run, else of the
      loads stored nearest in ROM (a guess, checked in the harness where it
      mattered);
    * sprite lists that have a `tile` base (for example the game-over art);
-   * 27 labelled contact sheets.
+   * 27 labeled contact sheets.
 7. **Classes.** The `CLASSES` table in the module holds the verdict per block
    (address and English description). A block missing from it prints as
    `unclassified`.
@@ -229,7 +229,7 @@ Each row matches the blocks whose start address lies in the range. This is the
 | `0x2FB269`-`0x2FB2A8` | 1 | 64 | english | battle label R-AGAIN |
 | `0x2FB39D`-`0x2FB3DC` | 1 | 64 | english | battle label DEF DOWN |
 | `0x2FB4BC`-`0x2FB4FB` | 1 | 64 | english | battle label DEF UP! |
-| `0x2FE5ED`-`0x2FE60C` | 1 | 32 | japanese | battle hit-reaction label meaning "paralysed!" (target 2) |
+| `0x2FE5ED`-`0x2FE60C` | 1 | 32 | japanese | battle hit-reaction label meaning "paralyzed!" (target 2) |
 | `0x3206A9`-`0x3206C8` | 1 | 32 | none | battle hit-reaction marks !? |
 | `0x2E8000`-`0x35BFFF` (other blocks) | 497 | 224,464 | none | battle animation frames and spell effects |
 | `0x35C000`-`0x35E6FF` | 111 | 7,872 | none | small unit sprites (4-6 tiles each) |
@@ -260,17 +260,17 @@ Total: 834 blocks; no block is `unclear`.
     (5 sprites, tiles +0..+4 at dx 0..32 step 8), `tile 0x13B`, `pal 8`,
     `attr 0x10`;
   * native code at `0x213AD9`-`0x213AE9` decides when it runs.
-* **Colours:** sprite palette 8 on this screen holds colour 1 white, colour 2
-  blue and colour 3 near black.
+* **Colors:** sprite palette 8 on this screen holds color 1 white, color 2
+  blue and color 3 near black.
 * **Original layout:** a 32x8 box at x 4-35 of the 40-px strip, with a 1-px
   near-black border and a blue fill. Inside are four white glyphs with a dark
   outline. Strip columns 0-3 and 36-39 are transparent.
 * **Space:** 40x8 px (5 tiles), in place. Nothing next to the strip is free, and
   nothing more is needed.
-* **English (proposal):** **Deployed**, 37 px in `vwf8`, 39 px with a 1-px
-  8-neighbour outline.
-  * Draw it like the menu labels: colour 1 ink and colour 3 outline on a
-    transparent background, centred in 40x8. The pane behind it is blue, so it
+* **English (proposal):** Deployed, 37 px in `vwf8`, 39 px with a 1-px
+  8-neighbor outline.
+  * Draw it like the menu labels: color 1 ink and color 3 outline on a
+    transparent background, centered in 40x8. The pane behind it is blue, so it
     reads well without a box.
   * The descenders of p and y use row 7, as in the menu labels.
   * Alternative with a box: a 40x8 box (border on columns 0 and 39, 38-px
@@ -295,15 +295,15 @@ Total: 834 blocks; no block is `unclear`.
     `--input "10:D:10;40:A:2;90:R:2;130:A:2;230:A:2;290:A:2;370:R:2" --frames 460`
     (unit 1 from frame 300, unit 2 from frame 380).
 
-### Target 2: the "paralysed!" hit-reaction label (battle)
+### Target 2: the "paralyzed!" hit-reaction label (battle)
 
 * **Meaning:** "paralysis!": two characters and an exclamation mark.
-* **Where it shows:** above every combatant that a paralysing effect hits. Sprite
+* **Where it shows:** above every combatant that a paralyzing effect hits. Sprite
   list `0x2FE0D0` has 2 records: tiles `0x2D`/`0x2E` at dx -8/0, dy -28,
   palette 15. Native code `0x2CB91D` (sprite callback `0x2CB959`) places them.
 * **Storage:** ROM `0x2FE5ED`-`0x2FE60C`, 32 bytes: 2 uncompressed tiles. The
-  palette is at `0x2FE325` (4 words). On screen the label uses only colours 1
-  (light grey) and 3 (near black), on a transparent background. Its strokes are
+  palette is at `0x2FE325` (4 words). On screen the label uses only colors 1
+  (light gray) and 3 (near black), on a transparent background. Its strokes are
   2 px wide.
 * **Loader:**
   * script `0x2CBE94`: `gfx26 0x2FE325, 3, 0x8278` (sprite palette 15) at
@@ -327,10 +327,10 @@ Total: 834 blocks; no block is `unclear`.
   * A normal battle writes VRAM tiles `0x2F`-`0x30` with other graphics (write
     watch, Gring battle), so the label cannot simply grow.
   * A 24-px label would need a free tile, a relocated 3-record sprite list and
-    four operand hooks. That is not recommended.
-* **English (proposal):** **STUN**, as 16x8 pixel art: a 1-px outline column,
+    four operand hooks, so it is not recommended.
+* **English (proposal):** STUN, as 16x8 pixel art: a 1-px outline column,
   then four 3-px capitals separated by 1-px outline columns. Text 5 rows high
-  (rows 1-5) with an outline above and below, colours 1 and 3, transparent
+  (rows 1-5) with an outline above and below, colors 1 and 3, transparent
   background.
   * No English word fits in `vwf8`: Zap! is 19 px and Stun! 23 px with the
     outline.
@@ -446,7 +446,7 @@ queue, `0x200B42` for direct copies) it found these tile writers:
 * `0x2CB876`: a battle mask (AND);
 * `0x3700C8`-`0x37010D`: the patch's VWF renderer.
 
-None of them is a decompressor. No codec is needed.
+None of them is a decompressor, so no codec is needed.
 
 ## How to test / reproduce
 

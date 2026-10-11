@@ -193,7 +193,7 @@ Saved states (`build\states\`), with how they were made:
 | `map-s1_orata_discovered` | `map-s1_june_flag` | `10:L:160;174:L:2;180:D:123;307:D:3;340:A:2;370:A:2`, save at 2885 (Orata discovered) |
 | `map-test-tarotfull` | `map-church_liberated` | **test state**: tarot stock filled (`5406` = 14 cards) |
 | `map-test-luck` | `map-flagcursor` | **test state**: Estrada's LUK = 100 |
-| `map-test-enemymove` | `progress-stage1_dakatsu_liberated` | **test state**: stage 1 enemy behaviour bytes `65C9`/`65D1`/`65D9` = 0x7F |
+| `map-test-enemymove` | `progress-stage1_dakatsu_liberated` | **test state**: stage 1 enemy behavior bytes `65C9`/`65D1`/`65D9` = 0x7F |
 
 ## Open issues
 
@@ -256,13 +256,13 @@ Saved states (`build\states\`), with how they were made:
   `0x546E` (bit 0 set after stage 0), `0x546A` went 1 -> 2 after stage 0
   (stage progress of some kind), bflag/setflag use `0x543E`; a cleared stage
   cannot be replayed from the scenario map. Patching `0x546A` = 8 or 14 and
-  `0x546E` = 0x7F in `map-scenario_after0` only brought up markers labelled
+  `0x546E` = 0x7F in `map-scenario_after0` only brought up markers labeled
   "Gross Region", "Satsu Peninsula" and "Lichtfloss" (labels 1, 2, 4), so the
   scenario progression is not a simple stage counter; reaching stage 7 needs
   real play (progress workstream) or a better understanding of these
   variables.
-* Enemy movement: enemy behaviour records (8 bytes) are at
-  `0x65C8`-`0x6607`; in stage 1 all three have behaviour byte +1 = 0
+* Enemy movement: enemy behavior records (8 bytes) are at
+  `0x65C8`-`0x6607`; in stage 1 all three have behavior byte +1 = 0
   (stationary). The step routine `0x209A11` changes a record's state at
   random when +1 is non-zero; the map loop goes to `0x20A358` ("has fallen
   to the enemy") when it reports a capture. Setting +1 = 0x7F on the stage 1

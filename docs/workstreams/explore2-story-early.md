@@ -194,8 +194,8 @@ messages and prompts do.
    `10:A:2;60:A:2;120:A:2;180:R:2`).
 4. **Wording** (English as shown today; all fit one page; widths checked with
    `fit.py`):
-   * `0x266E70` "[NAME]: Huh? Who are you?" - the prince saw Nana in the
-     throne room a moment earlier and Kain names her next; -> "[NAME]: Huh?
+   * `0x266E70` "[NAME]: Huh? Who are you?" (the prince saw Nana in the
+     throne room a moment earlier and Kain names her next) -> "[NAME]: Huh?
      Aren't you...?"
    * `0x26876F` (Kukrit, shown while Jenga is alive) "Did Jenga mean to make
      himself king or something? What was he going to do with all that

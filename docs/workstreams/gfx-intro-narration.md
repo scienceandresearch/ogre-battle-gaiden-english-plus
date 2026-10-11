@@ -28,7 +28,7 @@ tools.gfx.apply ... --target intro` runs it.
 | relocated mode, 17 lines in 4 paragraphs: table, map and extra lines in `GFX_INTRO`, three operand hooks | yes: 4,673 bytes at `0x3A6000`-`0x3A7240`, hooks `0x28D0A3`, `0x28D0B7`, `0x28D0E2` |
 | `check`: slots `0 1 2 3 -` / `5 6 2 3 4` / `10 11 7 8 9` / `10 11 12 13 14` at 1200 / 2400 / 3600 / 4800 | yes; all 20 crawl dumps (300-6000) agree with the table |
 | frame 6450 shows the title screen | yes, identical to the snapshot |
-| contact sheet: legibility and centring | reviewed |
+| contact sheet: legibility and centering | reviewed |
 | skip (`1000:A:2`, shot 1080) identical to the snapshot | yes (0 pixels) |
 | relocated test ROM: 17 lines, no slot reused while visible, ends on the title | yes (70 dumps, one every 100 frames); the title is identical to the snapshot's at the same phase, 949 frames later |
 | owner's graphics rule: identical outside the replaced lettering | 0 differing pixels outside the line boxes in 78 frames (every 300 frames from 0 to 6450, and every 4-6 frames around the start and the end fade) |
@@ -50,17 +50,17 @@ The 15 original lines were decoded locally (never committed) and measured
 
 | Property | Original | English (`intro.py`) |
 |---|---|---|
-| colours | 0 transparent, 1 white strokes, 3 blue outline; colour 2 unused | the same indices; the palette at `0x290F55` is kept (no palette write) |
+| colors | 0 transparent, 1 white strokes, 3 blue outline; color 2 unused | the same indices; the palette at `0x290F55` is kept (no palette write) |
 | rows of the 144 x 16 line | ink rows 4-14 in every line, outline rows 3-15 | `title16` glyph row 0 on line row 4 (`TOP`): ink rows 4-14 (4-12 without descenders), outline rows 3-15 |
-| outline | 1 px on the 4 orthogonal neighbours: 2,193 of the 2,357 positions that touch the ink only diagonally are empty; the other 164 are scattered single pixels | exactly the 4-neighbour ring (`Style(ink=1, outline=3, outline8=False)`) |
+| outline | 1 px on the 4 orthogonal neighbors: 2,193 of the 2,357 positions that touch the ink only diagonally are empty; the other 164 are scattered single pixels | exactly the 4-neighbor ring (`Style(ink=1, outline=3, outline8=False)`) |
 | strokes | 1 px (74-90 % of horizontal ink runs are 1 px) | 1 px (80-84 %) |
 | letter height | 11 rows (full-height glyphs) | capitals 9 rows, x-height 6, descenders 2 (11 rows in all) |
-| horizontal placement | each line centred in 144 px (centres 70.5-72.0) | centred (`render_box`, left-biased by half a pixel: centres 71.0-71.5) |
+| horizontal placement | each line centered in 144 px (centers 70.5-72.0) | centered (`render_box`, left-biased by half a pixel: centers 71.0-71.5) |
 | shadow, glow, texture | none (flat white) | none |
 
-Round 1 recommended an 8-neighbour outline for legibility over bright
+Round 1 recommended an 8-neighbor outline for legibility over bright
 clouds. Next to the original it is visibly heavier, so the target uses the
-original's 4-neighbour ring; in the harness the English reads as well over
+original's 4-neighbor ring; in the harness the English reads as well over
 the clouds as the original lettering does. `STYLE` in `intro.py` is the one
 place to change it. The round-2 font notes (`gfx-fonts.md`) put glyph row 0
 on line row 3; the target uses row 4, the rows of the original lettering.
@@ -148,7 +148,7 @@ both as straight ticks).
   line next to its English line), `final\screens\` (the same frames of the
   reference and the English run side by side, 1x and 3x), `sheet_t.png` /
   `sheet_ref.png` (contact sheets), `style\style_cmp_3x.png` (the 4- and
-  8-neighbour outlines next to the original).
+  8-neighbor outlines next to the original).
 
 Display timing found while writing `check`: the picture of a frame shows the
 crawl position of two updates earlier than var 0x20 in the dump of the same
@@ -158,7 +158,7 @@ scroll register, because their map rows are overwritten 256 px later.
 
 ### Round 1: what the screen is
 
-Not separate pages: one slow vertical **text crawl**. After the SNK logo (crawl
+The narration is one slow vertical text crawl. After the SNK logo (crawl
 position 0 at frame ~294 from power-on) white lines with a blue outline scroll
 upward over a static cloud picture, inside a window 160 x 104 px (screen rows
 24-127; rows above and below are black). 15 lines in three paragraphs
@@ -173,11 +173,11 @@ after a while on the title screen.
 
 | What | Address | Size | Format |
 |---|---|---|---|
-| Text palette (scroll plane 1, palette 0) | `0x290F55` | 8 bytes | 4 colour words: transparent, white (strokes), light blue (unused), blue (outline) |
+| Text palette (scroll plane 1, palette 0) | `0x290F55` | 8 bytes | 4 color words: transparent, white (strokes), light blue (unused), blue (outline) |
 | Line bitmaps | `0x290F5D` + `0x240 * n`, n = 0..14 | 15 x 576 bytes (`0x290F5D`-`0x29311C`) | uncompressed 2bpp tiles; each line is 144 x 16 px = 36 tiles: tiles 0-17 top row, 18-35 bottom row (left to right) |
 | Line table | `0x28D1EA` | 15 x 7 bytes + end mark `FFFF` (to `0x28D254`) | `[u16 scroll trigger][u16 VRAM dest][u24 ROM source]` |
 | Narration tile map | `0x293DDD` | 74 rows x 20 entries x 2 bytes (2,960 bytes, to `0x29496C`) | one map row per 8 px of scroll; columns 0 and 19 blank (tile 0), columns 1-18 = the 18 tiles of a line's top or bottom row; palette 0, no flips |
-| Cloud palettes | `0x29311D` | 16 bytes | 2 palettes for plane 2; word 0 (dark blue sky) is also copied to the background colour `0x83E0` |
+| Cloud palettes | `0x29311D` | 16 bytes | 2 palettes for plane 2; word 0 (dark blue sky) is also copied to the background color `0x83E0` |
 | Cloud tiles | `0x29312D` | 203 tiles (3,248 bytes) | raw, to VRAM tiles `0xB5`-`0x17F` (two copies: 100 + 103 tiles) |
 | Cloud map | `0x29496D` | 2-byte header (20 columns, 19 rows) + 380 entries | plane 2 at `0x9800`, static; no text in the clouds |
 
@@ -281,13 +281,13 @@ Review sheets (local only; they show the original lettering):
 
 Scratch tools (`r2-gfx2-intro\`): `analyze_orig.py` and `style_stats.py`
 (measurements of the original lettering and of ours), `style_cmp.py` (4- and
-8-neighbour outlines next to the original), `pairs.py` (side-by-side screens
+8-neighbor outlines next to the original), `pairs.py` (side-by-side screens
 of two runs), `zoom.py`, `diagpat.py`, `reloc17.txt`.
 
 ## Open issues
 
-* **Owner review.** The style follows the original (4-neighbour outline); the
-  8-neighbour alternative is one constant (`STYLE`) and can be compared in
+* **Owner review.** The style follows the original (4-neighbor outline); the
+  8-neighbor alternative is one constant (`STYLE`) and can be compared in
   `style\style_cmp_3x.png`. The wording is the round-1 draft.
 * **Width margin.** Line 1 is 143 of 144 px. A longer wording needs a re-split;
   if the structure then differs from 6/6/3, the relocated layout takes over

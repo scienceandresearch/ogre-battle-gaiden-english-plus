@@ -20,7 +20,7 @@ also stopped by the session's tool permission checks (see Next steps).
 Checked in the harness (English build, text logs in `build/textlogs/data-*.txt`):
 * Power-on: SNK logo, intro narration (pre-drawn, covered by gfx-intro-narration),
   title menu (NewGame / Load / Continue are pre-drawn English; Load and Continue
-  are greyed out and cannot be selected while there is no save or suspend data).
+  are grayed out and cannot be selected while there is no save or suspend data).
 * NewGame: "Choose where to save." and the file list (3 x "NOTHING"); B goes back
   to "PRESS A BUTTON". Choosing a file starts Warren's opening.
 * Name entry: all three grid pages (ABC, abc, 123), END, the confirmation with an
@@ -85,30 +85,30 @@ flash blocks the game wrote, so a flash file survives loading older states.
 States (all in `build/states/`, English build) and how to go on from them:
 * `title_menu` (shared): A at frame 60 = NewGame ("Choose where to save."), A at
   200 = file list.
-* `data-newgame_file_list` - NewGame file list. Down moves, B returns to the
+* `data-newgame_file_list`: NewGame file list. Down moves, B returns to the
   title, A on a file starts the opening.
-* `data-opening_start` - Warren's first line, right after choosing file 1.
+* `data-opening_start`: Warren's first line, right after choosing file 1.
   From `data-newgame_file_list`: `20:A:2` then A every 40 frames from 160 reaches
   the name entry at frame 522.
-* `data-name_entry_fresh` - name entry, default name, nothing typed. Option
+* `data-name_entry_fresh`: name entry, default name, nothing typed. Option
   jumps to END; Up/Down move in the mode column (ABC / abc / 123 / END); A on a
   mode switches the grid page; the game asks "Is this name OK?" by itself after
   the 8th letter. `10:O:2;50:A:2;120:A:2` = END, Yes.
-* `data-tarot_reading_start` - just after confirming the name. A every 40
+* `data-tarot_reading_start`: just after confirming the name. A every 40
   frames from frame 20 reaches the scenario map at about frame 4980. Which 6
   questions are asked depends on input timing (not on the clock): A every 40
   frames from 20 gives `0x2997C9`, `0x299A1A`, `0x299768`, `0x299839`,
   `0x299E76`, `0x299EDD`.
-* `data-scenario_map_new` - scenario map just after the opening, popup open on
+* `data-scenario_map_new`: scenario map just after the opening, popup open on
   Organize. `20:R:2;50:R:2;90:A:2` = Data; then `150:A:2` = Save ("OK:A NO:B"),
   or `150:R:2;200:A:2` = Load (DATA LOAD screen; B returns). `20:R:2;80:A:2` =
   Monitor panel.
-* `data-popup_save_prompt` - the "OK:A  NO:B" bar of Data -> Save. A tries to
+* `data-popup_save_prompt`: the "OK:A  NO:B" bar of Data -> Save. A tries to
   save (fails in our runtime; watch with `--watch W:205555-205555 --watch
   W:3C0000-3CFFFF --watch-log FILE`).
-* `data-popup_monitor` - Monitor panel, cursor on the first row. Option shows
+* `data-popup_monitor`: Monitor panel, cursor on the first row. Option shows
   the row's help in the bottom bar, B closes it, Down moves to the next row.
-* `data-cmdbar_suspend` - stage 0 command bar with the cursor on Suspend
+* `data-cmdbar_suspend`: stage 0 command bar with the cursor on Suspend
   (from `stage0_gameplay`: `10:L:5;21:D:15;46:A:2` then Right six times, 30
   frames apart). A = prompt, A = Yes; the game then shows both notes and stays
   on the second one (the suspend write to `0x3B0000` failed).
@@ -153,9 +153,9 @@ States (all in `build/states/`, English build) and how to go on from them:
    `tools/text/encoding_en.py`), or composing "1:". List composed in RAM
    `0x60B6`, drawn through `0x202FB0`. The DATA LOAD screen uses "1 :Lv-" and
    is fine.
-7. DATA LOAD screen (no saves): multicoloured sprite fragments under the header
+7. DATA LOAD screen (no saves): multicolored sprite fragments under the header
    and under each "n :Lv- NOTHING" bar. Not compared with the original ROM yet;
-   may be the original's behaviour with empty slots.
+   may be the original's behavior with empty slots.
 8. Not reachable here: the monochrome-system notice (`0x28C7C3`, shown only on a
    black-and-white Neo Geo Pocket; check near `0x28C7A0`), game over (stage 0
    enemies never reached the HQ in 12,000 frames; losing the hero needs a battle

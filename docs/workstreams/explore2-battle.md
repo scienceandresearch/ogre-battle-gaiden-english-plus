@@ -115,7 +115,7 @@ DRAW / time-out win, members and the army leader at 0 HP, a unit leader lost
   `0x5509` wins for us, equal = DRAW). Draw and time-out win were reached
   with patched end-of-battle states; all three labels are original English
   in fixed cells.
-* "LEVEL UP!" sprites over each character that levelled (EXP is byte +16 of
+* "LEVEL UP!" sprites over each character that leveled (EXP is byte +16 of
   the character record; 0x60 + a won battle levels up), then the town
   message.
 * Members at 1 HP: the HP panel's right column sits at the screen edge
@@ -179,7 +179,7 @@ States (`build\states\`, local):
 | `r2-battle-test-elem-e1x0`..`e1x4` | magic classes with the target element forced (battle frame 60) |
 | `r2-battle-test-boss-<name>` | post-battle event armed, only the Tower card (input as in `bossrun.py`; names in `scratchpad\r2-battle\boss_list.txt`, plus `bs03` = Galan) |
 
-Key logs: `r2-battle-s01`..`s11`, `l01`..`l09`, `e*`, `x1` (attack names),
+Main logs: `r2-battle-s01`..`s11`, `l01`..`l09`, `e*`, `x1` (attack names),
 `tu01`..`tu22` (tarot use), `th1`/`th2` (tarot help), `tac1`, `anim1`,
 `run1`, `neu1`..`neu3`, `draw1`, `towin1`, `lvl2`, `lead3`, `ghost1`,
 `bs*` (boss events).
