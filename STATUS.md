@@ -10,10 +10,10 @@ is left, and which decisions are still open. The development log is in
 
 ## Where the project stands
 
-Version 1.0.0, the first public release, is built and tested. It waits for
-the owner's go-ahead to make the repository public and publish it; until
-then the private repository's pre-release `v0.1.0-dev` carries the previous
-development package.
+Version 1.0.0, the first public release, was published on 2026-10-11: the
+repository is public and the release `v1.0.0` carries the zip and its
+`README.txt` as separate downloads. The development pre-release `v0.1.0-dev`
+and its tag were removed.
 
 * Everything the game shows is in English: all 1,570 dialogue messages, every
   menu and system message, all names and places, and every pre-drawn graphic
@@ -77,13 +77,14 @@ and the tools were written with Claude (Anthropic's AI model), directed by
 the project lead (scienceandresearch), and no human translator has reviewed
 the translation yet.
 
-## What is left before a public release
+## What is left
 
-1. The owner's go-ahead for the public steps: make the repository public,
-   delete the pre-release `v0.1.0-dev` and its tag (it points to an older
-   commit), and publish `v1.0.0` with the zip and its `README.txt` as
-   separate files (release notes and the submission texts for the patch
-   sites are in `build/handoff/outreach/`, machine-local).
+1. Announcing it: submissions to Romhacking.net, Romhack Plaza and the
+   Freeplay Tech forum need the owner's accounts (signed in, the forms can be
+   filled from the texts in `build/handoff/outreach/submissions.md`,
+   machine-local); the news tips follow once the Romhacking.net entry is
+   live. Romhack.ing blocks downloads of machine-translated patches, so ask
+   there first.
 2. One manual check that cannot be done here: run the package on a clean
    Windows 10 or 11 PC (step 7 of the checklist in
    [docs/workstreams/release.md](docs/workstreams/release.md)). The player
@@ -271,8 +272,9 @@ For maintainers and AI agents who pick the work up:
 
 The repository is
 `https://github.com/scienceandresearch/ogre-battle-gaiden-english-plus`
-(private, branch `main`); the pre-release `v0.1.0-dev` carries the previous
-package zip, and the 1.0.0 zip is in `dist/` until it is published. `.gitattributes` stores text files with LF line endings, Windows
+(public, branch `main`); the release `v1.0.0` carries the package zip and
+its `README.txt`. Never rebuild a published version: raise `VERSION` for the
+next one. `.gitattributes` stores text files with LF line endings, Windows
 checkouts get CRLF, and every tool accepts both. A fresh clone builds the
 identical English ROM and passes every test suite. The save, release and
 extras tests and the chapter saves also need the machine-local test states

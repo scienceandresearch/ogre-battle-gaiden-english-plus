@@ -9,19 +9,17 @@ the zip may contain data from the game.
 
 ## State
 
-Release package 1.0.0 (2026-10-11, made with `--release`; not published
-yet): `dist\ogre-battle-gaiden-english-plus-1.0.0-win64.zip`, 522,001 bytes,
+Release package 1.0.0 (2026-10-11, made with `--release`; published the
+same day as release `v1.0.0`, tag at `315e67d`, with `README.txt` as a
+second asset): `dist\ogre-battle-gaiden-english-plus-1.0.0-win64.zip`, 522,001 bytes,
 39 entries, SHA-256
 `9db5bdf657ea8b0d334ee6ee505c4fc2c20a7fde6455775ea94aad1ed8f18621`, SHA-1
 `46b8121d324043b135ec87b04a7adb694a5b1a63`, English ROM SHA-1 `d5234b95...`
 (the same patch as the package below, byte for byte). Checklist steps 1 to 6
 and 8 are done (results in "Release checklist"); step 7, a clean Windows PC,
-is left for the owner. Publishing (public repository, release `v1.0.0` with
-the zip and `README.txt` as separate files) waits for the owner's go-ahead;
-the release notes and the texts for the patch sites are machine-local in
-`build/handoff/outreach/`. A change before publishing means deleting this zip
-and packaging again (`--release` refuses to replace a different zip of the
-same version); after publishing, raise `VERSION` instead.
+is left for the owner. The release notes and the texts for the patch sites
+are machine-local in `build/handoff/outreach/`. 1.0.0 is published, so any
+change now needs a new `VERSION`.
 
 Previous package (2026-10-11, English Plus: the complete build plus the
 player's guide, 17 chapter saves and the player's extras):
@@ -458,5 +456,4 @@ the same frames as with English.
   checklist; README.md "Building from source" can add the package command;
   `.gitignore` could list `dist/` (only zips land there, which `*.zip`
   already ignores).
-* 1.0.0: the owner's go-ahead to make the repository public and publish the
-  release (step 9); step 7 on a clean PC when one is at hand.
+* 1.0.0 is published; step 7 on a clean PC when one is at hand.

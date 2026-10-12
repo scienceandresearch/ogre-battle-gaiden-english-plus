@@ -200,8 +200,15 @@ machine translation. Done:
   table in `tools/text/charmap.py`.
 
 Screenshots, release notes and the texts for each site are machine-local in
-`build/handoff/outreach/`. Nothing is public yet: making the repository
-public and publishing the release wait for the owner's go-ahead.
+`build/handoff/outreach/`.
+
+Published the same day, with the owner's go-ahead: the pre-release
+`v0.1.0-dev` and its tag were deleted, the release `v1.0.0` (tag at
+`315e67d`) carries the zip and `README.txt`, and the repository is public.
+Checked without a login: the repository and release pages answer, the zip
+downloads with SHA-256 `9db5bdf6...` and the readme is byte for byte the
+packaged one. The submissions to the patch sites wait for the owner's
+accounts.
 
 ## Save-safe layout (2026-10-09)
 
