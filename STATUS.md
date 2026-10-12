@@ -79,10 +79,10 @@ the translation yet.
 
 ## What is left
 
-1. Announcing it: submissions to Romhacking.net, Romhack Plaza and the
-   Freeplay Tech forum need the owner's accounts (signed in, the forms can be
-   filled from the texts in `build/handoff/outreach/submissions.md`,
-   machine-local); the news tips follow once the Romhacking.net entry is
+1. Announcing it: the Romhacking.net entry was submitted on 2026-10-11 and
+   waits for the site's approval. Romhack Plaza and the Freeplay Tech forum
+   follow (texts in `build/handoff/outreach/submissions.md`, machine-local),
+   then the Romhacking.net news post and the news tips once the entry is
    live. Romhack.ing blocks downloads of machine-translated patches, so ask
    there first.
 2. One manual check that cannot be done here: run the package on a clean
